@@ -5,7 +5,7 @@ import Testing
 
 struct ClaudeCLIScopedWeeklyUsageTests {
     @Test
-    func `CLI usage surfaces Fable scoped weekly limit`() async throws {
+    func CLI_usage_surfaces_Fable_scoped_weekly_limit() async throws {
         let cliUsage = """
         Settings  Status  Config  Usage  Stats
 
@@ -50,7 +50,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `scoped weekly panel does not become all models weekly usage`() throws {
+    func scoped_weekly_panel_does_not_become_all_models_weekly_usage() throws {
         let cliUsage = """
         Current session
         9% used
@@ -67,7 +67,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `compact scoped weekly label is parsed`() throws {
+    func compact_scoped_weekly_label_is_parsed() throws {
         let snapshot = try ClaudeStatusProbe.parse(text: """
         Current session
         9% used
@@ -81,7 +81,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `overlapping scoped model names do not cross panel boundaries`() throws {
+    func overlapping_scoped_model_names_do_not_cross_panel_boundaries() throws {
         let snapshot = try ClaudeStatusProbe.parse(text: """
         Current session
         9% used
@@ -98,7 +98,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `informational Sonnet prose does not duplicate a scoped limit`() throws {
+    func informational_Sonnet_prose_does_not_duplicate_a_scoped_limit() throws {
         let snapshot = try ClaudeStatusProbe.parse(text: """
         Current session
         9% used
@@ -118,7 +118,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `Sonnet prefixed scoped model does not become legacy quota`() throws {
+    func Sonnet_prefixed_scoped_model_does_not_become_legacy_quota() throws {
         let snapshot = try ClaudeStatusProbe.parse(text: """
         Current session
         9% used
@@ -136,7 +136,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `later complete scoped panel replaces partial redraw`() throws {
+    func later_complete_scoped_panel_replaces_partial_redraw() throws {
         let spacer = Array(repeating: "rendering", count: 14).joined(separator: "\n")
         let cliUsage = """
         Current session
@@ -162,7 +162,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `incomplete scoped panel stops at session redraw`() throws {
+    func incomplete_scoped_panel_stops_at_session_redraw() throws {
         let cliUsage = """
         Current week (Fable)
         rendering
@@ -182,7 +182,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `incomplete all models panel does not consume scoped percentage`() throws {
+    func incomplete_all_models_panel_does_not_consume_scoped_percentage() throws {
         let cliUsage = """
         Current session
         9% used
@@ -202,7 +202,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `incomplete Opus panel does not consume prefixed scoped percentage`() throws {
+    func incomplete_Opus_panel_does_not_consume_prefixed_scoped_percentage() throws {
         let cliUsage = """
         Current session
         9% used
@@ -225,7 +225,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `later complete scoped panel replaces earlier complete value`() throws {
+    func later_complete_scoped_panel_replaces_earlier_complete_value() throws {
         let cliUsage = """
         Current session
         9% used
@@ -248,7 +248,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `web extra windows merge with CLI scoped weekly limits`() throws {
+    func web_extra_windows_merge_with_CLI_scoped_weekly_limits() throws {
         let fable = NamedRateWindow(
             id: "claude-weekly-scoped-fable",
             title: "Fable only",
@@ -286,7 +286,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `same title web limits keep distinct stable IDs`() {
+    func same_title_web_limits_keep_distinct_stable_IDs() {
         let webLimits = ["first-id", "second-id"].map { id in
             NamedRateWindow(
                 id: "claude-weekly-scoped-\(id)",
@@ -309,7 +309,7 @@ struct ClaudeCLIScopedWeeklyUsageTests {
     }
 
     @Test
-    func `ambiguous same title web limits survive CLI merge`() {
+    func ambiguous_same_title_web_limits_survive_CLI_merge() {
         let cli = NamedRateWindow(
             id: "claude-weekly-scoped-example-model",
             title: "Example Model only",

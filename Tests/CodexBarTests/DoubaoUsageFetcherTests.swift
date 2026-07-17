@@ -4,7 +4,7 @@ import Testing
 
 struct DoubaoUsageSnapshotTests {
     @Test
-    func `normal usage with both headers present and non-empty reports correct percent`() {
+    func normal_usage_with_both_headers_present_and_non_empty_reports_correct_percent() {
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 750,
             limitRequests: 1000,
@@ -17,7 +17,7 @@ struct DoubaoUsageSnapshotTests {
     }
 
     @Test
-    func `boundary normal usage at near-full reports correct percent`() {
+    func boundary_normal_usage_at_near_full_reports_correct_percent() {
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 1,
             limitRequests: 1000,
@@ -30,7 +30,7 @@ struct DoubaoUsageSnapshotTests {
     }
 
     @Test
-    func `unreliable headers omit the request limit window`() {
+    func unreliable_headers_omit_the_request_limit_window() {
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 0,
             limitRequests: 1000,
@@ -44,7 +44,7 @@ struct DoubaoUsageSnapshotTests {
     }
 
     @Test
-    func `explicit rate limit with zero remaining reports exhausted quota`() {
+    func explicit_rate_limit_with_zero_remaining_reports_exhausted_quota() {
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 0,
             limitRequests: 1000,
@@ -57,7 +57,7 @@ struct DoubaoUsageSnapshotTests {
     }
 
     @Test
-    func `both headers missing but key valid omit the request limit window`() {
+    func both_headers_missing_but_key_valid_omit_the_request_limit_window() {
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 0,
             limitRequests: 0,
@@ -70,7 +70,7 @@ struct DoubaoUsageSnapshotTests {
     }
 
     @Test
-    func `invalid key with no headers reports No usage data`() {
+    func invalid_key_with_no_headers_reports_No_usage_data() {
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 0,
             limitRequests: 0,
@@ -83,7 +83,7 @@ struct DoubaoUsageSnapshotTests {
     }
 
     @Test
-    func `provider identity is correctly tagged as doubao`() {
+    func provider_identity_is_correctly_tagged_as_doubao() {
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 500,
             limitRequests: 1000,
@@ -98,7 +98,7 @@ struct DoubaoUsageSnapshotTests {
 
 struct DoubaoUsageFetcherTests {
     @Test
-    func `coding plan response maps session weekly and monthly windows`() throws {
+    func coding_plan_response_maps_session_weekly_and_monthly_windows() throws {
         let data = Data(
             """
             {
@@ -136,7 +136,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `coding plan response ignores missing reset sentinels`() throws {
+    func coding_plan_response_ignores_missing_reset_sentinels() throws {
         let fallbackUpdatedAt = Date(timeIntervalSince1970: 42)
         let data = Data(
             """
@@ -165,7 +165,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `coding plan fetch signs volcengine request`() async throws {
+    func coding_plan_fetch_signs_volcengine_request() async throws {
         let transport = DoubaoScriptedTransport(results: [
             .rawResponse(
                 statusCode: 200,
@@ -207,7 +207,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `coding plan fetch surfaces volcengine access denied error`() async {
+    func coding_plan_fetch_surfaces_volcengine_access_denied_error() async {
         let transport = DoubaoScriptedTransport(results: [
             .rawResponse(
                 statusCode: 403,
@@ -229,22 +229,26 @@ struct DoubaoUsageFetcherTests {
             secretAccessKey: "secret",
             region: "cn-beijing")
 
-        await #expect {
+        do {
             _ = try await DoubaoUsageFetcher.fetchCodingPlanUsage(
                 credentials: credentials,
                 session: transport,
                 date: Date(timeIntervalSince1970: 1_781_654_400))
-        } throws: { error in
-            guard case let DoubaoUsageError.apiError(code, message) = error else { return false }
-            return code == 403
-                && message.contains("AccessDenied")
-                && message.contains("ark:GetCodingPlanUsage")
-                && !message.contains("bytes")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let DoubaoUsageError.apiError(code, message) = error else { return false }
+                return code == 403
+                    && message.contains("AccessDenied")
+                    && message.contains("ark:GetCodingPlanUsage")
+                    && !message.contains("bytes")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `repeated successful zero remaining responses omit unknown request limit`() async throws {
+    func repeated_successful_zero_remaining_responses_omit_unknown_request_limit() async throws {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 200, limit: 1000, remaining: 0),
             .response(statusCode: 200, limit: 1000, remaining: 0),
@@ -259,7 +263,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `successful final request followed by rate limit reports exhausted quota`() async throws {
+    func successful_final_request_followed_by_rate_limit_reports_exhausted_quota() async throws {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 200, limit: 1000, remaining: 0),
             .response(statusCode: 429, limit: 1000, remaining: 0),
@@ -274,7 +278,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `headerless rate limit confirmation preserves exhausted quota`() async throws {
+    func headerless_rate_limit_confirmation_preserves_exhausted_quota() async throws {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 200, limit: 1000, remaining: 0),
             .response(statusCode: 429, limit: nil, remaining: nil),
@@ -289,7 +293,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `rate limit with request limit header reports exhausted quota`() async throws {
+    func rate_limit_with_request_limit_header_reports_exhausted_quota() async throws {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 429, limit: 1000, remaining: nil),
         ])
@@ -303,7 +307,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `bare rate limit omits unknown request limit`() async throws {
+    func bare_rate_limit_omits_unknown_request_limit() async throws {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 429, limit: nil, remaining: nil),
         ])
@@ -317,7 +321,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `failed zero remaining confirmation preserves exhausted quota`() async throws {
+    func failed_zero_remaining_confirmation_preserves_exhausted_quota() async throws {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 200, limit: 1000, remaining: 0),
             .failure(URLError(.timedOut)),
@@ -332,7 +336,7 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `task cancellation during confirmation propagates`() async {
+    func task_cancellation_during_confirmation_propagates() async {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 200, limit: 1000, remaining: 0),
             .cancellation,
@@ -345,16 +349,20 @@ struct DoubaoUsageFetcherTests {
     }
 
     @Test
-    func `url cancellation during confirmation propagates`() async {
+    func url_cancellation_during_confirmation_propagates() async {
         let transport = DoubaoScriptedTransport(results: [
             .response(statusCode: 200, limit: 1000, remaining: 0),
             .failure(URLError(.cancelled)),
         ])
 
-        await #expect {
+        do {
             _ = try await DoubaoUsageFetcher.fetchUsage(apiKey: "test-key", session: transport)
-        } throws: { error in
-            (error as? URLError)?.code == .cancelled
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                (error as? URLError)?.code == .cancelled
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
         #expect(await transport.requestCount() == 2)
     }

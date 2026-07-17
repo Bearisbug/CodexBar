@@ -6,7 +6,7 @@ import Testing
 
 struct MenuCardModelCodexProjectionTests {
     @Test
-    func `codex weekly lane derives pace from its visible window`() throws {
+    func codex_weekly_lane_derives_pace_from_its_visible_window() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -68,7 +68,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `codex weekly lane includes workday markers when workDaysPerWeek is set`() throws {
+    func codex_weekly_lane_includes_workday_markers_when_workDaysPerWeek_is_set() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -135,7 +135,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `codex weekly lane keeps workday and quota warning markers separate`() throws {
+    func codex_weekly_lane_keeps_workday_and_quota_warning_markers_separate() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -199,7 +199,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `codex weekly lane workday markers not inverted by usageBarsShowUsed`() throws {
+    func codex_weekly_lane_workday_markers_not_inverted_by_usageBarsShowUsed() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -263,7 +263,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `codex plan only snapshot shows limits unavailable placeholder`() throws {
+    func codex_plan_only_snapshot_shows_limits_unavailable_placeholder() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -306,7 +306,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `codex plan only snapshot keeps actionable refresh errors visible`() throws {
+    func codex_plan_only_snapshot_keeps_actionable_refresh_errors_visible() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -348,7 +348,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `codex account fallback shows limits unavailable instead of no limits error`() throws {
+    func codex_account_fallback_shows_limits_unavailable_instead_of_no_limits_error() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.codex])
 
@@ -380,7 +380,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `codex no account fallback keeps no limits error visible`() throws {
+    func codex_no_account_fallback_keeps_no_limits_error_visible() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.codex])
 
@@ -410,7 +410,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `builds metrics using used percent when enabled`() throws {
+    func builds_metrics_using_used_percent_when_enabled() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
@@ -485,7 +485,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `shows code review metric when dashboard present`() throws {
+    func shows_code_review_metric_when_dashboard_present() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
@@ -551,7 +551,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `uses semantic codex lanes when weekly duration drifts`() throws {
+    func uses_semantic_codex_lanes_when_weekly_duration_drifts() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
@@ -610,7 +610,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `renders codex spark as a named extra metric after the core lanes`() throws {
+    func renders_codex_spark_as_a_named_extra_metric_after_the_core_lanes() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -707,7 +707,7 @@ struct MenuCardModelCodexProjectionTests {
     }
 
     @Test
-    func `hides codex credits when disabled`() throws {
+    func hides_codex_credits_when_disabled() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
@@ -761,7 +761,7 @@ struct MenuCardModelCodexProjectionTests {
 
 struct MenuCardModelCodexSparkVisibilityTests {
     @Test
-    func `codex spark visibility hides only spark metrics`() throws {
+    func codex_spark_visibility_hides_only_spark_metrics() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(

@@ -5,7 +5,7 @@ import Testing
 
 struct GeminiMenuCardTests {
     @Test
-    func `gemini plan preserves upstream acronym casing`() throws {
+    func gemini_plan_preserves_upstream_acronym_casing() throws {
         let identity = ProviderIdentitySnapshot(
             providerID: .gemini,
             accountEmail: nil,
@@ -43,7 +43,7 @@ struct GeminiMenuCardTests {
     }
 
     @Test
-    func `gemini model uses flash lite title for tertiary metric`() throws {
+    func gemini_model_uses_flash_lite_title_for_tertiary_metric() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .gemini,

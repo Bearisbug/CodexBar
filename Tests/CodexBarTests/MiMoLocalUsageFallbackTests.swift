@@ -4,7 +4,7 @@ import Testing
 
 struct MiMoLocalUsageFallbackTests {
     @Test
-    func `returns nil when cache file is missing`() {
+    func returns_nil_when_cache_file_is_missing() {
         let snap = MiMoLocalUsageFallback.snapshot(
             cachePath: "/nonexistent/path/that/should/never/exist.json",
             now: Date())
@@ -12,7 +12,7 @@ struct MiMoLocalUsageFallbackTests {
     }
 
     @Test
-    func `returns nil when cache file is malformed JSON`() throws {
+    func returns_nil_when_cache_file_is_malformed_JSON() throws {
         let dir = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-fallback-test-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -25,7 +25,7 @@ struct MiMoLocalUsageFallbackTests {
     }
 
     @Test
-    func `returns nil when cache schema is incomplete`() throws {
+    func returns_nil_when_cache_schema_is_incomplete() throws {
         let dir = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-fallback-test-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -38,7 +38,7 @@ struct MiMoLocalUsageFallbackTests {
     }
 
     @Test
-    func `parses all token buckets without fabricating a quota window`() throws {
+    func parses_all_token_buckets_without_fabricating_a_quota_window() throws {
         let dir = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-fallback-test-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -91,7 +91,7 @@ struct MiMoLocalUsageFallbackTests {
     }
 
     @Test
-    func `idle week keeps local accounting in the plan summary`() throws {
+    func idle_week_keeps_local_accounting_in_the_plan_summary() throws {
         let dir = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-fallback-test-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -121,7 +121,7 @@ struct MiMoLocalUsageFallbackTests {
     }
 
     @Test
-    func `stale summary preserves compact casing through usage projection`() throws {
+    func stale_summary_preserves_compact_casing_through_usage_projection() throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-07-07T10:00:00Z"))
         let snap = try self.makeSnapshot(updatedAt: "2026-06-03T10:00:00.000000+00:00", now: now)
         let plan = try #require(snap.planCode)
@@ -131,7 +131,7 @@ struct MiMoLocalUsageFallbackTests {
     }
 
     @Test
-    func `stale boundary is exclusive and future timestamps stay fresh`() throws {
+    func stale_boundary_is_exclusive_and_future_timestamps_stay_fresh() throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-07-07T10:00:00Z"))
         let base = "Local · 1.5k total · 42 sessions"
         let cases = [
@@ -147,7 +147,7 @@ struct MiMoLocalUsageFallbackTests {
     }
 
     @Test
-    func `missing or invalid timestamp uses stale file modification date`() throws {
+    func missing_or_invalid_timestamp_uses_stale_file_modification_date() throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-07-07T10:00:00Z"))
         let oldModificationDate = now.addingTimeInterval(-2 * 24 * 60 * 60)
 

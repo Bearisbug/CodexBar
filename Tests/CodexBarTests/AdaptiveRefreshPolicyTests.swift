@@ -18,7 +18,7 @@ struct AdaptiveRefreshPolicyTests {
     }
 
     @Test(arguments: [ProcessInfo.ThermalState.nominal, .fair])
-    func `app adapter maps nominal and fair thermal states to unconstrained`(
+    func app_adapter_maps_nominal_and_fair_thermal_states_to_unconstrained(
         thermalState: ProcessInfo.ThermalState)
     {
         let decision = self.decision(lowPowerModeEnabled: false, thermalState: thermalState)
@@ -27,7 +27,7 @@ struct AdaptiveRefreshPolicyTests {
     }
 
     @Test(arguments: [ProcessInfo.ThermalState.serious, .critical])
-    func `app adapter maps serious and critical thermal states to constrained`(
+    func app_adapter_maps_serious_and_critical_thermal_states_to_constrained(
         thermalState: ProcessInfo.ThermalState)
     {
         let decision = self.decision(lowPowerModeEnabled: false, thermalState: thermalState)
@@ -36,14 +36,14 @@ struct AdaptiveRefreshPolicyTests {
     }
 
     @Test
-    func `app adapter preserves low power precedence`() {
+    func app_adapter_preserves_low_power_precedence() {
         let decision = self.decision(lowPowerModeEnabled: true, thermalState: .nominal)
         #expect(decision.reason == .constrained)
         #expect(decision.delay == .seconds(30 * 60))
     }
 
     @Test
-    func `app adapter forwards timestamps and nil history`() {
+    func app_adapter_forwards_timestamps_and_nil_history() {
         let warm = self.decision(
             ageSeconds: 301,
             lowPowerModeEnabled: false,

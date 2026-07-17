@@ -4,7 +4,7 @@ import Testing
 
 struct Sub2APIUsageFetcherTests {
     @Test
-    func `parses quota limited key usage`() throws {
+    func parses_quota_limited_key_usage() throws {
         let json = """
         {
           "mode": "quota_limited",
@@ -84,7 +84,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `parses subscription usage windows`() throws {
+    func parses_subscription_usage_windows() throws {
         let json = """
         {
           "mode": "unrestricted",
@@ -119,7 +119,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `preserves authoritative subscription windows when daily usage differs`() throws {
+    func preserves_authoritative_subscription_windows_when_daily_usage_differs() throws {
         let json = """
         {
           "mode": "unrestricted",
@@ -150,7 +150,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `does not reinterpret subscription windows as local calendar periods`() throws {
+    func does_not_reinterpret_subscription_windows_as_local_calendar_periods() throws {
         let json = """
         {
           "mode": "unrestricted",
@@ -183,7 +183,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `parses unrestricted wallet balance`() throws {
+    func parses_unrestricted_wallet_balance() throws {
         let json = """
         {
           "mode": "unrestricted",
@@ -207,7 +207,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `usage URL accepts root versioned and complete URLs`() throws {
+    func usage_URL_accepts_root_versioned_and_complete_URLs() throws {
         #expect(
             try Sub2APIUsageFetcher
                 ._usageURLForTesting(baseURL: #require(URL(string: "https://api.example.com")))
@@ -223,7 +223,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `fetch sends bearer API key`() async throws {
+    func fetch_sends_bearer_API_key() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let requestURL = try #require(request.url)
             #expect(requestURL.path == "/v1/usage")
@@ -249,7 +249,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `fetch enforces total request deadline`() async throws {
+    func fetch_enforces_total_request_deadline() async throws {
         let transport = ProviderHTTPTransportHandler { _ in
             try await Task.sleep(for: .seconds(60))
             throw URLError(.unknown)
@@ -265,7 +265,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `fetch rejects invalid key in successful response`() async throws {
+    func fetch_rejects_invalid_key_in_successful_response() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let requestURL = try #require(request.url)
             let response = try #require(HTTPURLResponse(
@@ -285,7 +285,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `settings allow HTTPS and loopback HTTP only`() {
+    func settings_allow_HTTPS_and_loopback_HTTP_only() {
         #expect(Sub2APISettingsReader.baseURL(environment: [
             Sub2APISettingsReader.baseURLEnvironmentKey: "https://api.example.com",
         ]) != nil)
@@ -307,7 +307,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `provider config projects API key and base URL`() {
+    func provider_config_projects_API_key_and_base_URL() {
         let config = ProviderConfig(
             id: .sub2api,
             apiKey: "sk-fallback",
@@ -323,7 +323,7 @@ struct Sub2APIUsageFetcherTests {
     }
 
     @Test
-    func `supports labeled group API key accounts`() throws {
+    func supports_labeled_group_API_key_accounts() throws {
         let support = try #require(TokenAccountSupportCatalog.support(for: .sub2api))
         #expect(support.title == "Group API keys")
         #expect(TokenAccountSupportCatalog.envOverride(for: .sub2api, token: "sk-claude") == [

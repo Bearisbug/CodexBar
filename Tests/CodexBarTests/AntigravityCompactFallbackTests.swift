@@ -4,7 +4,7 @@ import Testing
 
 struct AntigravityCompactFallbackTests {
     @Test
-    func `model quota reset proximity does not imply window duration`() throws {
+    func model_quota_reset_proximity_does_not_imply_window_duration() throws {
         let resetTime = Date().addingTimeInterval(2 * 60 * 60)
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
@@ -25,7 +25,7 @@ struct AntigravityCompactFallbackTests {
     }
 
     @Test
-    func `local unclassified model remains available as compact fallback`() throws {
+    func local_unclassified_model_remains_available_as_compact_fallback() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -50,7 +50,7 @@ struct AntigravityCompactFallbackTests {
     }
 
     @Test
-    func `remote unclassified model remains detail only`() throws {
+    func remote_unclassified_model_remains_detail_only() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -72,7 +72,7 @@ struct AntigravityCompactFallbackTests {
     }
 
     @Test
-    func `fully unused local model remains available as compact fallback`() throws {
+    func fully_unused_local_model_remains_available_as_compact_fallback() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(

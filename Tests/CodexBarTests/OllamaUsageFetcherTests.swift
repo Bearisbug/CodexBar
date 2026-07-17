@@ -7,35 +7,35 @@ import SweetCookieKit
 
 struct OllamaUsageFetcherTests {
     @Test
-    func `session authentication errors point to current recovery page`() {
+    func session_authentication_errors_point_to_current_recovery_page() {
         #expect(OllamaUsageError.notLoggedIn.errorDescription?.contains("https://ollama.com/signin") == true)
         #expect(OllamaUsageError.invalidCredentials.errorDescription?.contains("https://ollama.com/signin") == true)
         #expect(OllamaUsageError.noSessionCookie.errorDescription?.contains("https://ollama.com/signin") == true)
     }
 
     @Test
-    func `attaches cookie for ollama hosts`() {
+    func attaches_cookie_for_ollama_hosts() {
         #expect(OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "https://ollama.com/settings")))
         #expect(OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "https://www.ollama.com")))
         #expect(OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "https://app.ollama.com/path")))
     }
 
     @Test
-    func `rejects non ollama hosts`() {
+    func rejects_non_ollama_hosts() {
         #expect(!OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "https://example.com")))
         #expect(!OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "https://ollama.com.evil.com")))
         #expect(!OllamaUsageFetcher.shouldAttachCookie(to: nil))
     }
 
     @Test
-    func `rejects non https ollama urls`() {
+    func rejects_non_https_ollama_urls() {
         #expect(!OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "http://ollama.com/settings")))
         #expect(!OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "http://www.ollama.com")))
         #expect(!OllamaUsageFetcher.shouldAttachCookie(to: URL(string: "http://app.ollama.com/path")))
     }
 
     @Test
-    func `recognizes current ollama sign in redirects`() {
+    func recognizes_current_ollama_sign_in_redirects() {
         #expect(OllamaUsageFetcher.isSignInRedirect(URL(string: "https://ollama.com/signin")))
         #expect(OllamaUsageFetcher.isSignInRedirect(URL(
             string: "https://api.workos.com/user_management/authorize?client_id=test")))
@@ -56,7 +56,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `manual mode without valid header throws no session cookie`() {
+    func manual_mode_without_valid_header_throws_no_session_cookie() {
         do {
             _ = try OllamaUsageFetcher.resolveManualCookieHeader(
                 override: nil,
@@ -70,7 +70,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `auto mode without header does not force manual error`() throws {
+    func auto_mode_without_header_does_not_force_manual_error() throws {
         let resolved = try OllamaUsageFetcher.resolveManualCookieHeader(
             override: nil,
             manualCookieMode: false)
@@ -78,7 +78,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `manual mode without recognized session cookie throws no session cookie`() {
+    func manual_mode_without_recognized_session_cookie_throws_no_session_cookie() {
         do {
             _ = try OllamaUsageFetcher.resolveManualCookieHeader(
                 override: "analytics_session_id=noise; theme=dark",
@@ -92,7 +92,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `manual mode with recognized session cookie accepts header`() throws {
+    func manual_mode_with_recognized_session_cookie_accepts_header() throws {
         let resolved = try OllamaUsageFetcher.resolveManualCookieHeader(
             override: "next-auth.session-token.0=abc; theme=dark",
             manualCookieMode: true)
@@ -100,7 +100,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `manual mode accepts secure session cookie header`() throws {
+    func manual_mode_accepts_secure_session_cookie_header() throws {
         let resolved = try OllamaUsageFetcher.resolveManualCookieHeader(
             override: "__Secure-session=abc; theme=dark",
             manualCookieMode: true)
@@ -108,7 +108,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `manual mode accepts workos session cookie header`() throws {
+    func manual_mode_accepts_workos_session_cookie_header() throws {
         let resolved = try OllamaUsageFetcher.resolveManualCookieHeader(
             override: "wos-session=abc; theme=dark",
             manualCookieMode: true)
@@ -116,7 +116,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `retry policy retries only for auth errors`() {
+    func retry_policy_retries_only_for_auth_errors() {
         #expect(OllamaUsageFetcher.shouldRetryWithNextCookieCandidate(after: OllamaUsageError.invalidCredentials))
         #expect(OllamaUsageFetcher.shouldRetryWithNextCookieCandidate(after: OllamaUsageError.notLoggedIn))
         #expect(OllamaUsageFetcher.shouldRetryWithNextCookieCandidate(
@@ -130,13 +130,13 @@ struct OllamaUsageFetcherTests {
 
     #if os(macOS)
     @Test
-    func `cookie importer defaults to chrome first`() {
+    func cookie_importer_defaults_to_chrome_first() {
         #expect(OllamaCookieImporter.defaultPreferredBrowsers == [.chrome])
         #expect(OllamaCookieImporter.defaultAllowFallbackBrowsers)
     }
 
     @Test
-    func `cookie access errors map only unambiguous recovery paths`() {
+    func cookie_access_errors_map_only_unambiguous_recovery_paths() {
         let safari = OllamaCookieImporter.accessError(from: BrowserCookieError.accessDenied(
             browser: .safari,
             details: "Enable Full Disk Access."))
@@ -161,7 +161,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie cooldown maps only the browser that was denied`() {
+    func cookie_cooldown_maps_only_the_browser_that_was_denied() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
         let now = Date(timeIntervalSince1970: 1000)
@@ -184,7 +184,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `disabled Keychain access maps to browser recovery hint`() {
+    func disabled_Keychain_access_maps_to_browser_recovery_hint() {
         KeychainAccessGate.withTaskOverrideForTesting(true) {
             let error = OllamaCookieImporter.suppressedAccessError(for: .brave)
             guard case let .browserCookieDecryptionDisabled(browserName) = error else {
@@ -196,7 +196,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `manual refresh bypasses browser denial cooldown`() async {
+    func manual_refresh_bypasses_browser_denial_cooldown() async {
         await BrowserCookieAccessGate.withDeniedBrowsersForTesting([.brave]) {
             KeychainAccessGate.withTaskOverrideForTesting(false) {
                 BrowserCookieAccessGate.withExplicitRetry {
@@ -214,7 +214,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector skips session like noise and finds recognized cookie`() throws {
+    func cookie_selector_skips_session_like_noise_and_finds_recognized_cookie() throws {
         let first = OllamaCookieImporter.SessionInfo(
             cookies: [Self.makeCookie(name: "analytics_session_id", value: "noise")],
             sourceLabel: "Profile A")
@@ -227,7 +227,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector throws when no recognized session cookie exists`() {
+    func cookie_selector_throws_when_no_recognized_session_cookie_exists() {
         let candidates = [
             OllamaCookieImporter.SessionInfo(
                 cookies: [Self.makeCookie(name: "analytics_session_id", value: "noise")],
@@ -248,7 +248,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector accepts chunked next auth session token cookie`() throws {
+    func cookie_selector_accepts_chunked_next_auth_session_token_cookie() throws {
         let candidate = OllamaCookieImporter.SessionInfo(
             cookies: [Self.makeCookie(name: "next-auth.session-token.0", value: "chunk0")],
             sourceLabel: "Profile C")
@@ -258,7 +258,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector accepts secure session cookie`() throws {
+    func cookie_selector_accepts_secure_session_cookie() throws {
         let candidate = OllamaCookieImporter.SessionInfo(
             cookies: [Self.makeCookie(name: "__Secure-session", value: "auth")],
             sourceLabel: "Profile D")
@@ -268,7 +268,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector accepts workos session cookie`() throws {
+    func cookie_selector_accepts_workos_session_cookie() throws {
         let candidate = OllamaCookieImporter.SessionInfo(
             cookies: [Self.makeCookie(name: "wos-session", value: "auth")],
             sourceLabel: "WorkOS Profile")
@@ -278,7 +278,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector keeps recognized candidates in order`() throws {
+    func cookie_selector_keeps_recognized_candidates_in_order() throws {
         let first = OllamaCookieImporter.SessionInfo(
             cookies: [Self.makeCookie(name: "session", value: "stale")],
             sourceLabel: "Chrome Profile A")
@@ -294,7 +294,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector does not fallback when fallback disabled`() {
+    func cookie_selector_does_not_fallback_when_fallback_disabled() {
         let preferred = [
             OllamaCookieImporter.SessionInfo(
                 cookies: [Self.makeCookie(name: "analytics_session_id", value: "noise")],
@@ -320,7 +320,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector falls back to non chrome candidate when fallback enabled`() throws {
+    func cookie_selector_falls_back_to_non_chrome_candidate_when_fallback_enabled() throws {
         let preferred = [
             OllamaCookieImporter.SessionInfo(
                 cookies: [Self.makeCookie(name: "analytics_session_id", value: "noise")],
@@ -340,7 +340,7 @@ struct OllamaUsageFetcherTests {
     }
 
     @Test
-    func `cookie selector can fall back to comet secure session cookie`() throws {
+    func cookie_selector_can_fall_back_to_comet_secure_session_cookie() throws {
         let fallback = [
             OllamaCookieImporter.SessionInfo(
                 cookies: [Self.makeCookie(name: "__Secure-session", value: "auth")],

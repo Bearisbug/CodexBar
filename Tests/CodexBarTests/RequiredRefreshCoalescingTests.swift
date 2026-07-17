@@ -5,7 +5,7 @@ import Testing
 
 extension CodexBackgroundRefreshCoalescingTests {
     @Test
-    func `required refresh requests during a pass share one follow-up`() async throws {
+    func required_refresh_requests_during_a_pass_share_one_follow_up() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-required-refresh-follow-up")
         settings.statusChecksEnabled = false
@@ -81,7 +81,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced dashboard refresh stops a queued stale scheduler before it starts`() async throws {
+    func forced_dashboard_refresh_stops_a_queued_stale_scheduler_before_it_starts() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-forced-dashboard-prestart-cancellation")
         settings.statusChecksEnabled = false
@@ -149,7 +149,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced dashboard enrichment supersedes weaker background request`() async throws {
+    func forced_dashboard_enrichment_supersedes_weaker_background_request() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-forced-dashboard-supersedes-background")
         settings.statusChecksEnabled = false
@@ -238,7 +238,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `account scoped refresh supersedes weaker background dashboard request`() async throws {
+    func account_scoped_refresh_supersedes_weaker_background_dashboard_request() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-account-dashboard-supersedes-background")
         settings.statusChecksEnabled = false
@@ -321,7 +321,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced background refresh detaches stale dashboard before its tail`() async throws {
+    func forced_background_refresh_detaches_stale_dashboard_before_its_tail() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-forced-dashboard-detaches-account")
         settings.statusChecksEnabled = false
@@ -397,7 +397,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced token tail excludes periodic token sequence`() async throws {
+    func forced_token_tail_excludes_periodic_token_sequence() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-forced-token-excludes-timer")
         settings.statusChecksEnabled = false
@@ -440,7 +440,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced enrichment excludes timer after token child completes`() async throws {
+    func forced_enrichment_excludes_timer_after_token_child_completes() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-forced-tail-excludes-token-timer")
         settings.statusChecksEnabled = false

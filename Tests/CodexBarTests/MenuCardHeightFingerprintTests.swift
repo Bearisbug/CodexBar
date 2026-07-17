@@ -4,7 +4,7 @@ import Testing
 
 struct MenuCardHeightFingerprintTests {
     @Test
-    func `height fingerprint does not retain raw text fields`() {
+    func height_fingerprint_does_not_retain_raw_text_fields() {
         let model = Self.model()
 
         let fingerprint = model.heightFingerprint(section: "card")
@@ -16,7 +16,7 @@ struct MenuCardHeightFingerprintTests {
     }
 
     @Test
-    func `height fingerprint field distinguishes nil from empty string`() {
+    func height_fingerprint_field_distinguishes_nil_from_empty_string() {
         let nilField = UsageMenuCardView.Model.heightFingerprintField("storage", nil)
         let emptyField = UsageMenuCardView.Model.heightFingerprintField("storage", "")
 
@@ -24,7 +24,7 @@ struct MenuCardHeightFingerprintTests {
     }
 
     @Test
-    func `height fingerprint keeps cheap metric percent identity`() {
+    func height_fingerprint_keeps_cheap_metric_percent_identity() {
         let left = Self.model(percent: 42, percentStyle: .left).heightFingerprint(section: "card")
         let used = Self.model(percent: 42, percentStyle: .used).heightFingerprint(section: "card")
         let changedPercent = Self.model(percent: 43, percentStyle: .left).heightFingerprint(section: "card")
@@ -34,7 +34,7 @@ struct MenuCardHeightFingerprintTests {
     }
 
     @Test
-    func `height fingerprint tracks reset-credit inventory shape`() {
+    func height_fingerprint_tracks_reset_credit_inventory_shape() {
         let one = Self.model(resetCredits: CodexResetCreditsPresentation(
             text: "1 available",
             items: [.init(expiryText: "Expires in 1d", compactExpiryText: "1d")]))

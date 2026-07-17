@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct LaunchAtLoginManagerTests {
     @Test
-    func `set enabled skips registration when service is already enabled`() {
+    func set_enabled_skips_registration_when_service_is_already_enabled() {
         var registerCalls = 0
         var unregisterCalls = 0
 
@@ -20,7 +20,7 @@ struct LaunchAtLoginManagerTests {
     }
 
     @Test
-    func `set enabled registers when service is not registered`() {
+    func set_enabled_registers_when_service_is_not_registered() {
         var registerCalls = 0
         var unregisterCalls = 0
 
@@ -35,7 +35,7 @@ struct LaunchAtLoginManagerTests {
     }
 
     @Test
-    func `set enabled skips registration when service requires approval`() {
+    func set_enabled_skips_registration_when_service_requires_approval() {
         var registerCalls = 0
         var unregisterCalls = 0
 
@@ -50,7 +50,7 @@ struct LaunchAtLoginManagerTests {
     }
 
     @Test
-    func `set enabled registers when service is not found`() {
+    func set_enabled_registers_when_service_is_not_found() {
         var registerCalls = 0
         var unregisterCalls = 0
 
@@ -65,7 +65,7 @@ struct LaunchAtLoginManagerTests {
     }
 
     @Test
-    func `set disabled unregisters when service is enabled`() {
+    func set_disabled_unregisters_when_service_is_enabled() {
         var registerCalls = 0
         var unregisterCalls = 0
 
@@ -80,7 +80,7 @@ struct LaunchAtLoginManagerTests {
     }
 
     @Test
-    func `set disabled unregisters when service requires approval`() {
+    func set_disabled_unregisters_when_service_requires_approval() {
         var registerCalls = 0
         var unregisterCalls = 0
 
@@ -95,7 +95,7 @@ struct LaunchAtLoginManagerTests {
     }
 
     @Test
-    func `set disabled skips unregister when service is not registered`() {
+    func set_disabled_skips_unregister_when_service_is_not_registered() {
         var registerCalls = 0
         var unregisterCalls = 0
 
@@ -110,7 +110,7 @@ struct LaunchAtLoginManagerTests {
     }
 
     @Test
-    func `set disabled skips unregister when service is not found`() {
+    func set_disabled_skips_unregister_when_service_is_not_found() {
         var registerCalls = 0
         var unregisterCalls = 0
 

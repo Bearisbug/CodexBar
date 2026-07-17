@@ -21,7 +21,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `settings store discovers configured codex profile homes`() throws {
+    func settings_store_discovers_configured_codex_profile_homes() throws {
         let suite = "CodexProfileHomeAccountTests-discovery"
         let settings = try Self.makeSettings(suite: suite)
         let missingLiveHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -66,7 +66,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `provider registry scopes selected codex profile home`() throws {
+    func provider_registry_scopes_selected_codex_profile_home() throws {
         let suite = "CodexProfileHomeAccountTests-routing"
         let settings = try Self.makeSettings(suite: suite)
         let profileHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -96,7 +96,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `removed profile home falls back without routing stale path`() throws {
+    func removed_profile_home_falls_back_without_routing_stale_path() throws {
         let suite = "CodexProfileHomeAccountTests-stale-routing"
         let settings = try Self.makeSettings(suite: suite)
         let missingLiveHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -137,7 +137,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `external config removal immediately invalidates profile routing caches`() throws {
+    func external_config_removal_immediately_invalidates_profile_routing_caches() throws {
         let suite = "CodexProfileHomeAccountTests-external-removal"
         let settings = try Self.makeSettings(suite: suite)
         let missingLiveHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -190,7 +190,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `relative profile homes are ignored by app routing`() throws {
+    func relative_profile_homes_are_ignored_by_app_routing() throws {
         let settings = try Self.makeSettings(suite: "CodexProfileHomeAccountTests-relative")
         settings.updateProviderConfig(provider: .codex) { entry in
             entry.codexProfileHomePaths = ["relative-codex-home", "~someone/.codex"]
@@ -211,7 +211,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `unreadable configured profile home remains selected and routed`() throws {
+    func unreadable_configured_profile_home_remains_selected_and_routed() throws {
         let suite = "CodexProfileHomeAccountTests-unreadable-routing"
         let settings = try Self.makeSettings(suite: suite)
         let missingLiveHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -247,7 +247,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `profile without verified email refuses open A I cookie import`() async throws {
+    func profile_without_verified_email_refuses_open_A_I_cookie_import() async throws {
         let suite = "CodexProfileHomeAccountTests-missing-web-email"
         let settings = try Self.makeSettings(suite: suite)
         let missingLiveHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -292,7 +292,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `profile home matching live home resolves to visible live account`() throws {
+    func profile_home_matching_live_home_resolves_to_visible_live_account() throws {
         let suite = "CodexProfileHomeAccountTests-live-duplicate"
         let settings = try Self.makeSettings(suite: suite)
         let liveHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -322,7 +322,7 @@ struct CodexProfileHomeAccountTests {
 
     @Test
     @MainActor
-    func `profile home matching managed home resolves to visible managed account`() throws {
+    func profile_home_matching_managed_home_resolves_to_visible_managed_account() throws {
         let suite = "CodexProfileHomeAccountTests-managed-duplicate"
         let settings = try Self.makeSettings(suite: suite)
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(

@@ -4,21 +4,21 @@ import Testing
 
 struct FactorySettingsReaderTests {
     @Test
-    func `reads FACTORY_API_KEY from environment`() {
+    func reads_FACTORY_API_KEY_from_environment() {
         let key = FactorySettingsReader.apiKey(
             environment: [FactorySettingsReader.apiTokenKey: "  fk-env-key  "])
         #expect(key == "fk-env-key")
     }
 
     @Test
-    func `strips quotes from environment API key`() {
+    func strips_quotes_from_environment_API_key() {
         let key = FactorySettingsReader.apiKey(
             environment: [FactorySettingsReader.apiTokenKey: "\"fk-quoted\""])
         #expect(key == "fk-quoted")
     }
 
     @Test
-    func `falls back to factory dot env file`() throws {
+    func falls_back_to_factory_dot_env_file() throws {
         let home = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-factory-home-\(UUID().uuidString)", isDirectory: true)
         let factoryDir = home.appendingPathComponent(".factory", isDirectory: true)
@@ -34,7 +34,7 @@ struct FactorySettingsReaderTests {
     }
 
     @Test
-    func `environment wins over factory dot env`() throws {
+    func environment_wins_over_factory_dot_env() throws {
         let home = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-factory-home-\(UUID().uuidString)", isDirectory: true)
         let factoryDir = home.appendingPathComponent(".factory", isDirectory: true)
@@ -53,13 +53,13 @@ struct FactorySettingsReaderTests {
     }
 
     @Test
-    func `skips dotenv when HOME is absent`() {
+    func skips_dotenv_when_HOME_is_absent() {
         let key = FactorySettingsReader.apiKey(environment: [:])
         #expect(key == nil)
     }
 
     @Test
-    func `parses factory dotenv variants`() {
+    func parses_factory_dotenv_variants() {
         #expect(
             FactorySettingsReader.parseFactoryAPIKey(fromDotEnv: "FACTORY_API_KEY=fk-plain") == "fk-plain")
         #expect(
@@ -106,14 +106,14 @@ struct FactoryAPIFetchStrategyTests {
     }
 
     @Test
-    func `descriptor prefers api then web in auto mode`() async {
+    func descriptor_prefers_api_then_web_in_auto_mode() async {
         let strategies = await FactoryProviderDescriptor.descriptor.fetchPlan.pipeline
             .resolveStrategies(self.makeContext(sourceMode: .auto))
         #expect(strategies.map(\.id) == ["factory.api", "factory.web"])
     }
 
     @Test
-    func `legacy cli source aliases auto strategies`() async {
+    func legacy_cli_source_aliases_auto_strategies() async {
         let modes = FactoryProviderDescriptor.descriptor.fetchPlan.sourceModes
         #expect(modes.contains(.cli))
         #expect(modes.contains(.api))
@@ -128,7 +128,7 @@ struct FactoryAPIFetchStrategyTests {
     }
 
     @Test
-    func `descriptor isolates api and web source modes`() async {
+    func descriptor_isolates_api_and_web_source_modes() async {
         let api = await FactoryProviderDescriptor.descriptor.fetchPlan.pipeline
             .resolveStrategies(self.makeContext(sourceMode: .api))
         let web = await FactoryProviderDescriptor.descriptor.fetchPlan.pipeline
@@ -138,19 +138,19 @@ struct FactoryAPIFetchStrategyTests {
     }
 
     @Test
-    func `api strategy available in api mode without key`() async {
+    func api_strategy_available_in_api_mode_without_key() async {
         let strategy = FactoryAPIFetchStrategy()
         #expect(await strategy.isAvailable(self.makeContext(sourceMode: .api)))
     }
 
     @Test
-    func `api strategy skipped in auto mode without key`() async {
+    func api_strategy_skipped_in_auto_mode_without_key() async {
         let strategy = FactoryAPIFetchStrategy()
         #expect(await !strategy.isAvailable(self.makeContext(sourceMode: .auto)))
     }
 
     @Test
-    func `api strategy available in auto mode when key present`() async {
+    func api_strategy_available_in_auto_mode_when_key_present() async {
         let strategy = FactoryAPIFetchStrategy()
         let context = self.makeContext(
             env: [FactorySettingsReader.apiTokenKey: "fk-test"],
@@ -159,7 +159,7 @@ struct FactoryAPIFetchStrategyTests {
     }
 
     @Test
-    func `api strategy falls back in auto and cli but not explicit api mode`() {
+    func api_strategy_falls_back_in_auto_and_cli_but_not_explicit_api_mode() {
         let strategy = FactoryAPIFetchStrategy()
         #expect(strategy.shouldFallback(
             on: FactoryStatusProbeError.unauthorizedAPIKey,
@@ -173,7 +173,7 @@ struct FactoryAPIFetchStrategyTests {
     }
 
     @Test
-    func `api strategy surfaces missing key in api mode`() async {
+    func api_strategy_surfaces_missing_key_in_api_mode() async {
         let strategy = FactoryAPIFetchStrategy()
         do {
             _ = try await strategy.fetch(self.makeContext(env: [:], sourceMode: .api))
@@ -188,7 +188,7 @@ struct FactoryAPIFetchStrategyTests {
 
 struct FactoryAPIKeyProbeFetchTests {
     @Test
-    func `fetch with api key uses bearer billing limits path`() async throws {
+    func fetch_with_api_key_uses_bearer_billing_limits_path() async throws {
         let transport = FactoryAPIKeyStubTransport()
         transport.handler = { request in
             guard let url = request.url else { throw URLError(.badURL) }
@@ -252,7 +252,7 @@ struct FactoryAPIKeyProbeFetchTests {
     }
 
     @Test
-    func `fetch with api key maps 401 to notLoggedIn for strategy remapping`() async {
+    func fetch_with_api_key_maps_401_to_notLoggedIn_for_strategy_remapping() async {
         let transport = FactoryAPIKeyStubTransport()
         transport.handler = { request in
             guard let url = request.url else { throw URLError(.badURL) }
@@ -282,7 +282,7 @@ struct FactoryAPIKeyProbeFetchTests {
     }
 
     @Test
-    func `preserves api host 401 over app host 404 for unauthorized mapping`() async {
+    func preserves_api_host_401_over_app_host_404_for_unauthorized_mapping() async {
         let transport = FactoryAPIKeyStubTransport()
         transport.handler = { request in
             guard let url = request.url else { throw URLError(.badURL) }
@@ -315,7 +315,7 @@ struct FactoryAPIKeyProbeFetchTests {
     }
 
     @Test
-    func `preserves api host 403 over app host 404 for unauthorized mapping`() async {
+    func preserves_api_host_403_over_app_host_404_for_unauthorized_mapping() async {
         let transport = FactoryAPIKeyStubTransport()
         transport.handler = { request in
             guard let url = request.url else { throw URLError(.badURL) }
@@ -353,7 +353,7 @@ struct FactoryAPIKeyProbeFetchTests {
     }
 
     @Test
-    func `api strategy falls back on recoverable api failures in auto mode`() {
+    func api_strategy_falls_back_on_recoverable_api_failures_in_auto_mode() {
         let strategy = FactoryAPIFetchStrategy()
         let autoContext = ProviderFetchContext(
             runtime: .cli,
@@ -404,7 +404,7 @@ struct FactoryAPIKeyProbeFetchTests {
     }
 
     @Test
-    func `empty api key throws missingAPIKey`() async {
+    func empty_api_key_throws_missingAPIKey() async {
         let probe = FactoryStatusProbe(
             browserDetection: BrowserDetection(cacheTTL: 0),
             transport: FactoryAPIKeyStubTransport())

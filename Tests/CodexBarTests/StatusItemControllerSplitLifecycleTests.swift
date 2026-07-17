@@ -66,7 +66,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `provider config notifications relay background work impact between settings stores`() {
+    func provider_config_notifications_relay_background_work_impact_between_settings_stores() {
         self.disableMenuCardsForTesting()
         let sourceSettings = self.makeSettings()
         let controllerSettings = self.makeSettings()
@@ -102,7 +102,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `merged mode removes split provider status items`() throws {
+    func merged_mode_removes_split_provider_status_items() throws {
         let (settings, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -119,7 +119,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `removing split provider status items clears all menu lifecycle state`() throws {
+    func removing_split_provider_status_items_clears_all_menu_lifecycle_state() throws {
         let (settings, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -176,7 +176,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `menu bar icons stay appkit hosted`() throws {
+    func menu_bar_icons_stay_appkit_hosted() throws {
         let (settings, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -193,7 +193,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status items publish stable manager identity`() throws {
+    func status_items_publish_stable_manager_identity() throws {
         let (_, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -212,14 +212,14 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item identity returns stable autosave names`() {
+    func status_item_identity_returns_stable_autosave_names() {
         #expect(StatusItemController.StatusItemIdentity.merged.autosaveName == "codexbar-merged")
         #expect(StatusItemController.StatusItemIdentity.provider(.codex).autosaveName == "codexbar-codex")
         #expect(StatusItemController.StatusItemIdentity.provider(.claude).autosaveName == "codexbar-claude")
     }
 
     @Test
-    func `status item placement preflight leaves fresh install placement unset`() throws {
+    func status_item_placement_preflight_leaves_fresh_install_placement_unset() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-missing-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -232,7 +232,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight preserves missing new key when legacy item placement exists`() throws {
+    func status_item_placement_preflight_preserves_missing_new_key_when_legacy_item_placement_exists() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-legacy-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -250,7 +250,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight clears suspicious matching legacy placement`() throws {
+    func status_item_placement_preflight_clears_suspicious_matching_legacy_placement() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-legacy-high-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -269,7 +269,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight preserves missing new key when mixed legacy placements exist`() throws {
+    func status_item_placement_preflight_preserves_missing_new_key_when_mixed_legacy_placements_exist() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-legacy-mixed-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -289,7 +289,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight clears provider matching suspicious legacy placement`() throws {
+    func status_item_placement_preflight_clears_provider_matching_suspicious_legacy_placement() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-provider-mixed-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -310,7 +310,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight leaves provider key unset when only merged legacy placement exists`() throws {
+    func status_item_placement_preflight_leaves_provider_key_unset_when_only_merged_legacy_placement_exists() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-provider-single-legacy-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -328,7 +328,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight preserves provider key with matching legacy placement`() throws {
+    func status_item_placement_preflight_preserves_provider_key_with_matching_legacy_placement() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-provider-matching-legacy-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -348,7 +348,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight clears suspicious high position`() throws {
+    func status_item_placement_preflight_clears_suspicious_high_position() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-high-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -365,7 +365,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight clears old forced zero position`() throws {
+    func status_item_placement_preflight_clears_old_forced_zero_position() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-zero-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -379,7 +379,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight clears malformed position`() throws {
+    func status_item_placement_preflight_clears_malformed_position() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-malformed-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -393,7 +393,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight preserves reasonable position`() throws {
+    func status_item_placement_preflight_preserves_reasonable_position() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-preserve-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -407,7 +407,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item placement preflight preserves large display position`() throws {
+    func status_item_placement_preflight_preserves_large_display_position() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-placement-preserve-large-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -424,7 +424,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item defaults repair removes stale hidden Control Center keys once`() throws {
+    func status_item_defaults_repair_removes_stale_hidden_Control_Center_keys_once() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-repair-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -456,7 +456,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `status item visibility default distinguishes enabled disabled and unset`() throws {
+    func status_item_visibility_default_distinguishes_enabled_disabled_and_unset() throws {
         let suite = "StatusItemControllerSplitLifecycleTests-visibility-default-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -476,7 +476,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `non destructive visibility refresh preserves split provider status items`() throws {
+    func non_destructive_visibility_refresh_preserves_split_provider_status_items() throws {
         let (_, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -496,7 +496,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `non destructive visibility refresh preserves merged status item`() throws {
+    func non_destructive_visibility_refresh_preserves_merged_status_item() throws {
         let (settings, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -514,7 +514,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `recreation produces immediately healthy snapshots for synchronous guidance check`() throws {
+    func recreation_produces_immediately_healthy_snapshots_for_synchronous_guidance_check() throws {
         // verifyScreenChangeRecoveryIfNeeded does a synchronous re-check immediately after
         // the single recreation to decide whether to show macOS 26 Allow-in-Menu-Bar guidance.
         // AppKit must materialise the button and window before returning from
@@ -532,7 +532,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `visibility recovery recreates split provider status items`() throws {
+    func visibility_recovery_recreates_split_provider_status_items() throws {
         let (_, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -546,7 +546,7 @@ struct StatusItemControllerSplitLifecycleTests {
     }
 
     @Test
-    func `visibility recovery renders replacement merged status item`() throws {
+    func visibility_recovery_renders_replacement_merged_status_item() throws {
         let (settings, controller) = try self.makeSplitController()
         defer { controller.releaseStatusItemsForTesting() }
 

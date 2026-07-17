@@ -4,7 +4,7 @@ import Testing
 
 struct CodexAdditionalRateLimitsTests {
     @Test
-    func `maps additional spark limit into a named extra rate window`() throws {
+    func maps_additional_spark_limit_into_a_named_extra_rate_window() throws {
         let json = """
         {
           "plan_type": "pro",
@@ -73,7 +73,7 @@ struct CodexAdditionalRateLimitsTests {
     }
 
     @Test
-    func `keeps valid spark window when an additional limit sibling is malformed`() throws {
+    func keeps_valid_spark_window_when_an_additional_limit_sibling_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -112,7 +112,7 @@ struct CodexAdditionalRateLimitsTests {
     }
 
     @Test
-    func `keeps primary usage when every additional limit element is malformed`() throws {
+    func keeps_primary_usage_when_every_additional_limit_element_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -133,7 +133,7 @@ struct CodexAdditionalRateLimitsTests {
     }
 
     @Test
-    func `omits extra rate windows when additional limits are absent`() throws {
+    func omits_extra_rate_windows_when_additional_limits_are_absent() throws {
         let json = """
         {
           "rate_limit": {
@@ -157,7 +157,7 @@ struct CodexAdditionalRateLimitsTests {
     }
 
     @Test
-    func `tolerates malformed additional limits while keeping primary window`() throws {
+    func tolerates_malformed_additional_limits_while_keeping_primary_window() throws {
         let json = """
         {
           "rate_limit": {
@@ -182,7 +182,7 @@ struct CodexAdditionalRateLimitsTests {
     }
 
     @Test
-    func `skips additional limits without a usable window`() throws {
+    func skips_additional_limits_without_a_usable_window() throws {
         let json = """
         {
           "rate_limit": {
@@ -213,7 +213,7 @@ struct CodexAdditionalRateLimitsTests {
     }
 
     @Test
-    func `maps non spark additional limit using a slugged id and api label`() throws {
+    func maps_non_spark_additional_limit_using_a_slugged_id_and_api_label() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let json = """
         [
@@ -256,7 +256,7 @@ struct CodexAdditionalRateLimitsTests {
     }
 
     @Test
-    func `dedupes split spark entries by window kind`() throws {
+    func dedupes_split_spark_entries_by_window_kind() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let json = """
         [

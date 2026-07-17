@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct OpenRouterUsageStatsTests {
     @Test
-    func `to usage snapshot uses key quota for primary window`() {
+    func to_usage_snapshot_uses_key_quota_for_primary_window() {
         let snapshot = OpenRouterUsageSnapshot(
             totalCredits: 50,
             totalUsage: 45.3895596325,
@@ -25,7 +25,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `to usage snapshot without valid key limit omits primary window`() {
+    func to_usage_snapshot_without_valid_key_limit_omits_primary_window() {
         let snapshot = OpenRouterUsageSnapshot(
             totalCredits: 50,
             totalUsage: 45.3895596325,
@@ -43,7 +43,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `to usage snapshot when no limit configured omits primary and marks no limit`() {
+    func to_usage_snapshot_when_no_limit_configured_omits_primary_and_marks_no_limit() {
         let snapshot = OpenRouterUsageSnapshot(
             totalCredits: 50,
             totalUsage: 45.3895596325,
@@ -62,7 +62,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `sanitizers redact sensitive token shapes`() {
+    func sanitizers_redact_sensitive_token_shapes() {
         let body = """
         {"error":"bad token sk-or-v1-abc123","token":"secret-token","authorization":"Bearer sk-or-v1-xyz789"}
         """
@@ -82,7 +82,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `non200 fetch throws generic HTTP error without body details`() async throws {
+    func non200_fetch_throws_generic_HTTP_error_without_body_details() async throws {
         let registered = URLProtocol.registerClass(OpenRouterStubURLProtocol.self)
         defer {
             if registered {
@@ -114,7 +114,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `fetch usage sets credits timeout and client headers`() async throws {
+    func fetch_usage_sets_credits_timeout_and_client_headers() async throws {
         let registered = URLProtocol.registerClass(OpenRouterStubURLProtocol.self)
         defer {
             if registered {
@@ -171,7 +171,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `fetch usage when key endpoint fails marks quota unavailable`() async throws {
+    func fetch_usage_when_key_endpoint_fails_marks_quota_unavailable() async throws {
         let registered = URLProtocol.registerClass(OpenRouterStubURLProtocol.self)
         defer {
             if registered {
@@ -202,7 +202,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `key enrichment timeout does not wait for operation that ignores cancellation`() async throws {
+    func key_enrichment_timeout_does_not_wait_for_operation_that_ignores_cancellation() async throws {
         let startedAt = ContinuousClock.now
 
         let fetched = try await OpenRouterUsageFetcher._boundedKeyFetchForTesting(
@@ -223,7 +223,7 @@ struct OpenRouterUsageStatsTests {
     }
 
     @Test
-    func `usage snapshot round trip persists open router usage metadata`() throws {
+    func usage_snapshot_round_trip_persists_open_router_usage_metadata() throws {
         let openRouter = OpenRouterUsageSnapshot(
             totalCredits: 50,
             totalUsage: 45.3895596325,

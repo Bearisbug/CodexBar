@@ -6,7 +6,7 @@ import Testing
 extension UsageStorePlanUtilizationTests {
     @MainActor
     @Test
-    func `session quota celebration posts when session usage resets to zero`() async {
+    func session_quota_celebration_posts_when_session_usage_resets_to_zero() async {
         let store = Self.makeStore()
         let accountLabel = "session-reset-zero@example.com"
         let recorder = SessionLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -43,7 +43,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `Claude placeholder does not post or consume a genuine session reset`() async {
+    func Claude_placeholder_does_not_post_or_consume_a_genuine_session_reset() async {
         let store = Self.makeStore()
         let accountLabel = "synthetic-session-reset@example.com"
         let recorder = SessionLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -98,7 +98,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `legacy session detector state preserves first reset after upgrade`() async throws {
+    func legacy_session_detector_state_preserves_first_reset_after_upgrade() async throws {
         let store = Self.makeStore()
         let accountLabel = "session-reset-upgrade@example.com"
         let recorder = SessionLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -137,7 +137,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex session celebration follows semantic secondary session lane`() async throws {
+    func codex_session_celebration_follows_semantic_secondary_session_lane() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-session-secondary@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -182,7 +182,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex session celebration ignores transient zero when reset boundary is unchanged`() async throws {
+    func codex_session_celebration_ignores_transient_zero_when_reset_boundary_is_unchanged() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-session-transient-zero@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -261,7 +261,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly celebration ignores transient zero when reset boundary is unchanged`() async throws {
+    func codex_weekly_celebration_ignores_transient_zero_when_reset_boundary_is_unchanged() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-weekly-transient-zero@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -331,7 +331,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly celebration ignores missing reset boundaries`() async throws {
+    func codex_weekly_celebration_ignores_missing_reset_boundaries() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-weekly-missing-boundary@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -408,7 +408,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly celebration preserves a known boundary across missing metadata`() async throws {
+    func codex_weekly_celebration_preserves_a_known_boundary_across_missing_metadata() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-weekly-intermittent-boundary@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -472,7 +472,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex session celebration ignores missing reset boundary after a known boundary`() async throws {
+    func codex_session_celebration_ignores_missing_reset_boundary_after_a_known_boundary() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-session-missing-boundary@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -551,7 +551,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly celebration ignores low usage with an unchanged boundary`() async throws {
+    func codex_weekly_celebration_ignores_low_usage_with_an_unchanged_boundary() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-weekly-unchanged-boundary@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -589,7 +589,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly celebration requires both reset boundaries`() async throws {
+    func codex_weekly_celebration_requires_both_reset_boundaries() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-weekly-requires-boundaries@example.com"
         let recorder = WeeklyLimitResetEventRecorder(provider: .codex, accountLabel: accountLabel)
@@ -650,7 +650,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly celebration posts once for an advanced boundary`() async throws {
+    func codex_weekly_celebration_posts_once_for_an_advanced_boundary() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-weekly-advanced-boundary@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -692,7 +692,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly detector isolates same email workspaces`() async throws {
+    func codex_weekly_detector_isolates_same_email_workspaces() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-shared-email@example.com"
         let ownerA = try #require(CodexLimitResetOwnerKey(
@@ -749,7 +749,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly detector isolates members of the same workspace`() async throws {
+    func codex_weekly_detector_isolates_members_of_the_same_workspace() async throws {
         let store = Self.makeStore()
         let firstEmail = "first-workspace-member@example.com"
         let secondEmail = "second-workspace-member@example.com"
@@ -794,7 +794,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly celebration preserves baseline across a regressed boundary`() async throws {
+    func codex_weekly_celebration_preserves_baseline_across_a_regressed_boundary() async throws {
         let store = Self.makeStore()
         let accountLabel = "codex-weekly-regressed-boundary@example.com"
         let ownerKey = try #require(CodexLimitResetOwnerKey(
@@ -847,7 +847,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `weekly quota celebration posts when weekly usage resets to zero`() async {
+    func weekly_quota_celebration_posts_when_weekly_usage_resets_to_zero() async {
         let store = Self.makeStore()
         let accountLabel = "reset-zero@example.com"
         let recorder = WeeklyLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -884,7 +884,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `weekly quota celebration posts when reset lands mid hour without history split`() async {
+    func weekly_quota_celebration_posts_when_reset_lands_mid_hour_without_history_split() async {
         let store = Self.makeStore()
         let accountLabel = "mid-hour-reset@example.com"
         let recorder = WeeklyLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -930,7 +930,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `weekly quota celebration ignores first seen reset sample`() async {
+    func weekly_quota_celebration_ignores_first_seen_reset_sample() async {
         let store = Self.makeStore()
         let accountLabel = "first-seen-reset@example.com"
         let recorder = WeeklyLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -953,7 +953,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `antigravity weekly celebration samples stable named bucket maximum`() async {
+    func antigravity_weekly_celebration_samples_stable_named_bucket_maximum() async {
         let store = Self.makeStore()
         let recorder = WeeklyLimitResetEventRecorder(provider: .antigravity, accountLabel: nil)
         defer { recorder.invalidate() }
@@ -1054,7 +1054,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `antigravity session celebration follows stable quota summary source`() async {
+    func antigravity_session_celebration_follows_stable_quota_summary_source() async {
         let store = Self.makeStore()
         let recorder = SessionLimitResetEventRecorder(provider: .antigravity, accountLabel: nil)
         defer { recorder.invalidate() }
@@ -1130,7 +1130,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `weekly quota celebration fires once across repeated low samples`() async {
+    func weekly_quota_celebration_fires_once_across_repeated_low_samples() async {
         let store = Self.makeStore()
         let accountLabel = "repeated-low@example.com"
         let recorder = WeeklyLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -1175,7 +1175,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `weekly quota celebration posts for generic provider weekly lane`() async {
+    func weekly_quota_celebration_posts_for_generic_provider_weekly_lane() async {
         let store = Self.makeStore()
         let accountLabel = "zai-reset-org"
         let recorder = WeeklyLimitResetEventRecorder(provider: .zai, accountLabel: accountLabel)
@@ -1212,7 +1212,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session quota celebration uses copilot secondary fallback without history sample`() async {
+    func session_quota_celebration_uses_copilot_secondary_fallback_without_history_sample() async {
         let store = Self.makeStore()
         let accountLabel = "copilot-session-reset@example.com"
         let recorder = SessionLimitResetEventRecorder(provider: .copilot, accountLabel: accountLabel)
@@ -1250,7 +1250,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session quota celebration uses generic provider canonical primary without history sample`() async {
+    func session_quota_celebration_uses_generic_provider_canonical_primary_without_history_sample() async {
         let store = Self.makeStore()
         let accountLabel = "zai-session-reset-org"
         let recorder = SessionLimitResetEventRecorder(provider: .zai, accountLabel: accountLabel)
@@ -1285,7 +1285,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session quota celebration ignores unknown duration credit pool`() async {
+    func session_quota_celebration_ignores_unknown_duration_credit_pool() async {
         let store = Self.makeStore()
         let accountLabel = "elevenlabs-monthly-reset@example.com"
         let recorder = SessionLimitResetEventRecorder(provider: .elevenlabs, accountLabel: accountLabel)
@@ -1319,7 +1319,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session quota celebration uses zai semantic tertiary session lane`() async {
+    func session_quota_celebration_uses_zai_semantic_tertiary_session_lane() async {
         let store = Self.makeStore()
         let accountLabel = "zai-semantic-session-org"
         let recorder = SessionLimitResetEventRecorder(provider: .zai, accountLabel: accountLabel)
@@ -1363,7 +1363,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session quota celebration keeps account baselines isolated`() async {
+    func session_quota_celebration_keeps_account_baselines_isolated() async {
         let store = Self.makeStore()
         let accountLabel = "session-reset-b@example.com"
         let recorder = SessionLimitResetEventRecorder(provider: .claude, accountLabel: accountLabel)
@@ -1424,7 +1424,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session quota celebration ignores command code subscription enrichment failure`() async {
+    func session_quota_celebration_ignores_command_code_subscription_enrichment_failure() async {
         let store = Self.makeStore()
         let recorder = SessionLimitResetEventRecorder(provider: .commandcode, accountLabel: nil)
         defer { recorder.invalidate() }
@@ -1468,7 +1468,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session quota celebration does not infer arbitrary secondary session lane`() async {
+    func session_quota_celebration_does_not_infer_arbitrary_secondary_session_lane() async {
         let store = Self.makeStore()
         let recorder = SessionLimitResetEventRecorder(provider: .zai, accountLabel: nil)
         defer { recorder.invalidate() }

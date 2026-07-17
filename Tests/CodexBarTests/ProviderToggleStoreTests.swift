@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct ProviderToggleStoreTests {
     @Test
-    func `defaults match metadata`() throws {
+    func defaults_match_metadata() throws {
         let defaults = try #require(UserDefaults(suiteName: "ProviderToggleStoreTests-defaults"))
         defaults.removePersistentDomain(forName: "ProviderToggleStoreTests-defaults")
         let store = ProviderToggleStore(userDefaults: defaults)
@@ -18,7 +18,7 @@ struct ProviderToggleStoreTests {
     }
 
     @Test
-    func `persists changes`() throws {
+    func persists_changes() throws {
         let suite = "ProviderToggleStoreTests-persist"
         let defaultsA = try #require(UserDefaults(suiteName: suite))
         defaultsA.removePersistentDomain(forName: suite)
@@ -34,7 +34,7 @@ struct ProviderToggleStoreTests {
     }
 
     @Test
-    func `purges legacy keys`() throws {
+    func purges_legacy_keys() throws {
         let suite = "ProviderToggleStoreTests-purge"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

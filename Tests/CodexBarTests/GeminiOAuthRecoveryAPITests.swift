@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct GeminiOAuthRecoveryAPITests {
     @Test
-    func `explicit oauth2 js path overrides installed gemini cli`() async throws {
+    func explicit_oauth2_js_path_overrides_installed_gemini_cli() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -73,7 +73,7 @@ struct GeminiOAuthRecoveryAPITests {
     }
 
     @Test
-    func `prefers environment oauth client over installed gemini cli`() async throws {
+    func prefers_environment_oauth_client_over_installed_gemini_cli() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -136,7 +136,7 @@ struct GeminiOAuthRecoveryAPITests {
     }
 
     @Test
-    func `refreshes via known Homebrew Cellar libexec path without gemini binary`() async throws {
+    func refreshes_via_known_Homebrew_Cellar_libexec_path_without_gemini_binary() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(

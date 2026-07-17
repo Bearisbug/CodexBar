@@ -6,7 +6,7 @@ import Testing
 
 struct ClawRouterUsageFetcherTests {
     @Test
-    func `parses monthly budget and provider agnostic usage`() throws {
+    func parses_monthly_budget_and_provider_agnostic_usage() throws {
         let parsed = try ClawRouterUsageFetcher._parseSnapshotForTesting(
             Data(Self.budgetedResponse.utf8),
             updatedAt: Date(timeIntervalSince1970: 1))
@@ -38,7 +38,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `supports unmetered policies and arbitrary providers`() throws {
+    func supports_unmetered_policies_and_arbitrary_providers() throws {
         let parsed = try ClawRouterUsageFetcher._parseSnapshotForTesting(
             Data(Self.unmeteredResponse.utf8),
             updatedAt: Date(timeIntervalSince1970: 1))
@@ -53,7 +53,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `usage URL accepts root and versioned base URLs`() throws {
+    func usage_URL_accepts_root_and_versioned_base_URLs() throws {
         #expect(
             try ClawRouterUsageFetcher._usageURLForTesting(
                 baseURL: #require(URL(string: "https://router.example.com"))).absoluteString ==
@@ -65,7 +65,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `fetch sends bearer key and maps authorization failure`() async throws {
+    func fetch_sends_bearer_key_and_maps_authorization_failure() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.url?.absoluteString == "https://router.example.com/v1/usage")
             #expect(request.httpMethod == "GET")
@@ -87,7 +87,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `config projects API key and optional base URL`() {
+    func config_projects_API_key_and_optional_base_URL() {
         let config = ProviderConfig(
             id: .clawrouter,
             apiKey: "router-token",
@@ -103,7 +103,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `endpoint override is HTTPS only`() throws {
+    func endpoint_override_is_HTTPS_only() throws {
         let key = ClawRouterSettingsReader.baseURLEnvironmentKey
         try ClawRouterSettingsReader.validateEndpointOverride(environment: [key: "router.example.com/v1"])
         #expect(ClawRouterSettingsReader.baseURL(environment: [key: "router.example.com/v1"]).absoluteString ==
@@ -115,7 +115,7 @@ struct ClawRouterUsageFetcherTests {
 
     @Test
     @MainActor
-    func `descriptor and settings are registered`() throws {
+    func descriptor_and_settings_are_registered() throws {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .clawrouter)
         #expect(descriptor.metadata.displayName == "ClawRouter")
         #expect(descriptor.cli.aliases.contains("claw-router"))
@@ -125,7 +125,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `usage snapshot preserves ClawRouter detail when cached`() throws {
+    func usage_snapshot_preserves_ClawRouter_detail_when_cached() throws {
         let parsed = try ClawRouterUsageFetcher._parseSnapshotForTesting(
             Data(Self.budgetedResponse.utf8),
             updatedAt: Date(timeIntervalSince1970: 1))
@@ -137,7 +137,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `text CLI renders budgeted spend and routed usage`() throws {
+    func text_CLI_renders_budgeted_spend_and_routed_usage() throws {
         let parsed = try ClawRouterUsageFetcher._parseSnapshotForTesting(
             Data(Self.budgetedResponse.utf8),
             updatedAt: Date(timeIntervalSince1970: 1))
@@ -151,7 +151,7 @@ struct ClawRouterUsageFetcherTests {
     }
 
     @Test
-    func `text CLI renders unmetered and zero spend without a zero limit`() throws {
+    func text_CLI_renders_unmetered_and_zero_spend_without_a_zero_limit() throws {
         let unmetered = try ClawRouterUsageFetcher._parseSnapshotForTesting(
             Data(Self.unmeteredResponse.utf8),
             updatedAt: Date(timeIntervalSince1970: 1))

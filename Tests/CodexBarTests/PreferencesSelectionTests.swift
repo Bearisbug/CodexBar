@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct PreferencesSelectionTests {
     @Test
-    func `pane persistence tokens round-trip`() {
+    func pane_persistence_tokens_round_trip() {
         let panes: [SettingsPane] = [
             .general,
             .notifications,
@@ -25,12 +25,12 @@ struct PreferencesSelectionTests {
     }
 
     @Test
-    func `legacy display token restores the menu bar pane`() {
+    func legacy_display_token_restores_the_menu_bar_pane() {
         #expect(SettingsPane(persistenceToken: "display") == .menuBar)
     }
 
     @Test
-    func `selection restores persisted pane and saves changes`() throws {
+    func selection_restores_persisted_pane_and_saves_changes() throws {
         let suite = "PreferencesSelectionTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }

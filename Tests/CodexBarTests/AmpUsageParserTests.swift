@@ -4,7 +4,7 @@ import Testing
 
 struct AmpUsageParserTests {
     @Test
-    func `amp cli probe runs usage and parses balances`() async throws {
+    func amp_cli_probe_runs_usage_and_parses_balances() async throws {
         let script = """
         [ "$1" = "usage" ] || exit 2
         cat <<'EOF'
@@ -28,7 +28,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `parses current amp usage display text`() throws {
+    func parses_current_amp_usage_display_text() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let output = """
         \u{1B}[2mSigned in as ampcode@3kh0.net (echo)\u{1B}[0m
@@ -59,7 +59,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `parses percentage based amp free usage`() throws {
+    func parses_percentage_based_amp_free_usage() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let output = """
         Signed in as user@example.com (example)
@@ -86,7 +86,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `legacy amp free usage keeps replenishment reset when percentage text also exists`() throws {
+    func legacy_amp_free_usage_keeps_replenishment_reset_when_percentage_text_also_exists() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let output = """
         Signed in as user@example.com
@@ -104,7 +104,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `daily amp usage rejects cached rolling reset`() throws {
+    func daily_amp_usage_rejects_cached_rolling_reset() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let legacy = try AmpUsageParser.parse(
             displayText: "Signed in as user@example.com\nAmp Free: $6/$10 remaining (replenishes +$0.5/hour)",
@@ -121,7 +121,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `parses individual credits without free tier usage`() throws {
+    func parses_individual_credits_without_free_tier_usage() throws {
         let output = """
         Signed in as paid@example.com
         Individual credits: $25.64 remaining
@@ -139,7 +139,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `parses workspace credits without free tier usage`() throws {
+    func parses_workspace_credits_without_free_tier_usage() throws {
         let output = """
         Signed in as workspace@example.com (team)
         Workspace Alpha Team: $1,234.56 remaining
@@ -161,7 +161,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `signed in identity can contain login`() throws {
+    func signed_in_identity_can_contain_login() throws {
         let output = """
         Signed in as login@example.com (login-team)
         Amp Free: $6/$10 remaining (replenishes +$0.5/hour)
@@ -174,7 +174,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `parses current usage api response`() throws {
+    func parses_current_usage_api_response() throws {
         let now = Date(timeIntervalSince1970: 1_700_005_000)
         let displayText = """
         Signed in as user@example.com (team)
@@ -201,19 +201,23 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `usage api auth error is invalid API token`() {
+    func usage_api_auth_error_is_invalid_API_token() {
         let data = Data(#"{"ok":false,"error":{"code":"auth-required","message":"Sign in"}}"#.utf8)
 
-        #expect {
+        do {
             try AmpUsageFetcher.parseUsageAPIResponse(data)
-        } throws: { error in
-            guard case AmpUsageError.invalidAPIToken = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case AmpUsageError.invalidAPIToken = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `parses free tier usage from settings HTML`() throws {
+    func parses_free_tier_usage_from_settings_HTML() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let html = """
         <script>
@@ -241,7 +245,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `parses free tier usage from prefetched key`() throws {
+    func parses_free_tier_usage_from_prefetched_key() throws {
         let now = Date(timeIntervalSince1970: 1_700_010_000)
         let html = """
         <script>
@@ -257,31 +261,39 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `missing usage throws parse failed`() {
+    func missing_usage_throws_parse_failed() {
         let html = "<html><body>No usage here.</body></html>"
 
-        #expect {
+        do {
             try AmpUsageParser.parse(html: html)
-        } throws: { error in
-            guard case let AmpUsageError.parseFailed(message) = error else { return false }
-            return message.contains("Missing Amp Free usage data")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let AmpUsageError.parseFailed(message) = error else { return false }
+                return message.contains("Missing Amp Free usage data")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `signed out throws not logged in`() {
+    func signed_out_throws_not_logged_in() {
         let html = "<html><body>Please sign in to Amp.</body></html>"
 
-        #expect {
+        do {
             try AmpUsageParser.parse(html: html)
-        } throws: { error in
-            guard case AmpUsageError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case AmpUsageError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `usage snapshot clamps percent and window`() {
+    func usage_snapshot_clamps_percent_and_window() {
         let now = Date(timeIntervalSince1970: 1_700_020_000)
         let snapshot = AmpUsageSnapshot(
             freeQuota: 100,
@@ -296,7 +308,7 @@ struct AmpUsageParserTests {
     }
 
     @Test
-    func `usage snapshot omits reset when hourly replenishment is zero`() {
+    func usage_snapshot_omits_reset_when_hourly_replenishment_is_zero() {
         let now = Date(timeIntervalSince1970: 1_700_030_000)
         let snapshot = AmpUsageSnapshot(
             freeQuota: 100,

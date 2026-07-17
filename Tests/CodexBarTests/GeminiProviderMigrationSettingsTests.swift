@@ -52,14 +52,14 @@ struct GeminiProviderMigrationSettingsTests {
     }
 
     @Test
-    func `typed predicate accepts consumer tier deprecated only`() {
+    func typed_predicate_accepts_consumer_tier_deprecated_only() {
         #expect(UsageStore.isGeminiConsumerTierDeprecationError(GeminiStatusProbeError.consumerTierDeprecated))
         #expect(!UsageStore.isGeminiConsumerTierDeprecationError(GeminiStatusProbeError.notLoggedIn))
         #expect(!UsageStore.isGeminiConsumerTierDeprecationError(nil))
     }
 
     @Test
-    func `ordinary auth errors do not set migration observation`() {
+    func ordinary_auth_errors_do_not_set_migration_observation() {
         let settings = self.makeSettings()
         let store = self.makeStore(settings: settings)
 
@@ -69,7 +69,7 @@ struct GeminiProviderMigrationSettingsTests {
     }
 
     @Test
-    func `settings action appears when deprecation was observed`() {
+    func settings_action_appears_when_deprecation_was_observed() {
         let settings = self.makeSettings()
         let store = self.makeStore(settings: settings)
         store.observeGeminiConsumerTierDeprecation(from: GeminiStatusProbeError.consumerTierDeprecated)
@@ -84,7 +84,7 @@ struct GeminiProviderMigrationSettingsTests {
     }
 
     @Test
-    func `settings action hidden for ordinary not logged in errors`() {
+    func settings_action_hidden_for_ordinary_not_logged_in_errors() {
         let settings = self.makeSettings()
         let store = self.makeStore(settings: settings)
         store.errors[.gemini] = GeminiStatusProbeError.notLoggedIn.errorDescription
@@ -98,7 +98,7 @@ struct GeminiProviderMigrationSettingsTests {
     }
 
     @Test
-    func `settings action hidden for unauthenticated401 style failures`() {
+    func settings_action_hidden_for_unauthenticated401_style_failures() {
         let unauthenticatedBody = """
         {"error":{"code":401,"message":"Request had invalid authentication credentials.","status":"UNAUTHENTICATED"}}
         """
@@ -116,7 +116,7 @@ struct GeminiProviderMigrationSettingsTests {
     }
 
     @Test
-    func `migration observation is store scoped and survives unrelated failures`() {
+    func migration_observation_is_store_scoped_and_survives_unrelated_failures() {
         let firstSettings = self.makeSettings()
         let firstStore = self.makeStore(settings: firstSettings)
         let secondSettings = self.makeSettings()

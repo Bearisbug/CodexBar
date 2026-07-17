@@ -17,7 +17,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `api mode uses provided apiKey`() throws {
+    func api_mode_uses_provided_apiKey() throws {
         let resolved = try KiloBearerTokenResolver.resolve(
             source: .api,
             apiKey: "kilo_abc",
@@ -27,7 +27,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `api mode falls back to KILO_API_KEY env var when apiKey is empty`() throws {
+    func api_mode_falls_back_to_KILO_API_KEY_env_var_when_apiKey_is_empty() throws {
         let resolved = try KiloBearerTokenResolver.resolve(
             source: .api,
             apiKey: nil,
@@ -37,7 +37,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `api mode throws missingCredentials when nothing available`() {
+    func api_mode_throws_missingCredentials_when_nothing_available() {
         #expect(throws: KiloUsageError.missingCredentials) {
             try KiloBearerTokenResolver.resolve(
                 source: .api,
@@ -47,7 +47,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `cli mode reads token from auth.json`() throws {
+    func cli_mode_reads_token_from_auth_json() throws {
         let home = try self.writeAuthFile(#"{ "kilo": { "access": "cli-token" } }"#)
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -60,7 +60,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `cli mode throws cliSessionMissing when auth.json missing`() {
+    func cli_mode_throws_cliSessionMissing_when_auth_json_missing() {
         let nonexistentHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("kilo-no-such-home-\(UUID().uuidString)", isDirectory: true)
         #expect(throws: (any Error).self) {
@@ -72,7 +72,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `cli mode throws cliSessionInvalid for malformed JSON`() throws {
+    func cli_mode_throws_cliSessionInvalid_for_malformed_JSON() throws {
         let home = try self.writeAuthFile(#"{ "kilo": { } }"#)
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -85,7 +85,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `auto mode prefers API key when available`() throws {
+    func auto_mode_prefers_API_key_when_available() throws {
         let home = try self.writeAuthFile(#"{ "kilo": { "access": "cli-token" } }"#)
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -98,7 +98,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `auto mode falls back to CLI when API key missing`() throws {
+    func auto_mode_falls_back_to_CLI_when_API_key_missing() throws {
         let home = try self.writeAuthFile(#"{ "kilo": { "access": "cli-fallback" } }"#)
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -111,7 +111,7 @@ struct KiloBearerTokenResolverTests {
     }
 
     @Test
-    func `auto mode surfaces CLI error when neither path available`() {
+    func auto_mode_surfaces_CLI_error_when_neither_path_available() {
         let nonexistentHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("kilo-no-such-home-\(UUID().uuidString)", isDirectory: true)
         #expect(throws: (any Error).self) {

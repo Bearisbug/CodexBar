@@ -68,7 +68,7 @@ struct CodexConsumerProjectionCharacterizationTests {
     }
 
     @Test
-    func `snapshot override menu card stays isolated from live codex extras`() throws {
+    func snapshot_override_menu_card_stays_isolated_from_live_codex_extras() throws {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -121,7 +121,7 @@ struct CodexConsumerProjectionCharacterizationTests {
     }
 
     @Test
-    func `menu bar display text keeps percent in show used mode when codex is exhausted`() {
+    func menu_bar_display_text_keeps_percent_in_show_used_mode_when_codex_is_exhausted() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -151,7 +151,7 @@ struct CodexConsumerProjectionCharacterizationTests {
     }
 
     @Test
-    func `menu bar percent mode can show codex session and weekly together`() {
+    func menu_bar_percent_mode_can_show_codex_session_and_weekly_together() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -181,7 +181,7 @@ struct CodexConsumerProjectionCharacterizationTests {
     }
 
     @Test
-    func `menu bar combined codex percent keeps available weekly lane when session is unavailable`() {
+    func menu_bar_combined_codex_percent_keeps_available_weekly_lane_when_session_is_unavailable() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -211,7 +211,7 @@ struct CodexConsumerProjectionCharacterizationTests {
     }
 
     @Test
-    func `menu bar combined codex percent falls back to credits when no percent lanes are available`() {
+    func menu_bar_combined_codex_percent_falls_back_to_credits_when_no_percent_lanes_are_available() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -238,7 +238,7 @@ struct CodexConsumerProjectionCharacterizationTests {
     }
 
     @Test
-    func `menu bar combined codex percent keeps credits fallback when a lane is exhausted`() {
+    func menu_bar_combined_codex_percent_keeps_credits_fallback_when_a_lane_is_exhausted() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -268,7 +268,7 @@ struct CodexConsumerProjectionCharacterizationTests {
     }
 
     @Test
-    func `menu bar combined codex option preserves single metric choices`() {
+    func menu_bar_combined_codex_option_preserves_single_metric_choices() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual

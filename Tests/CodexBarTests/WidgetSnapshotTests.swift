@@ -5,7 +5,7 @@ import Testing
 
 struct WidgetSnapshotTests {
     @Test
-    func `Codex widget labels disclose API estimates`() {
+    func Codex_widget_labels_disclose_API_estimates() {
         let snapshot = CostUsageTokenSnapshot(
             sessionTokens: 1200,
             sessionCostUSD: 1.25,
@@ -25,7 +25,7 @@ struct WidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot round trip`() throws {
+    func widget_snapshot_round_trip() throws {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .codex,
             updatedAt: Date(),
@@ -76,7 +76,7 @@ struct WidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot round trip preserves kilo provider`() throws {
+    func widget_snapshot_round_trip_preserves_kilo_provider() throws {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .kilo,
             updatedAt: Date(),
@@ -113,7 +113,7 @@ struct WidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot round trip preserves kilo zero total edge state`() throws {
+    func widget_snapshot_round_trip_preserves_kilo_zero_total_edge_state() throws {
         let now = Date()
         let kiloSnapshot = KiloUsageSnapshot(
             creditsUsed: 0,
@@ -156,7 +156,7 @@ struct WidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot decodes legacy payload without usage rows`() throws {
+    func widget_snapshot_decodes_legacy_payload_without_usage_rows() throws {
         let json = """
         {
           "entries": [
@@ -193,7 +193,7 @@ struct WidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot decodes legacy token usage as usd`() throws {
+    func widget_snapshot_decodes_legacy_token_usage_as_usd() throws {
         let json = """
         {
           "entries": [
@@ -229,7 +229,7 @@ struct WidgetSnapshotTests {
     }
 
     @Test
-    func `token usage summary round trips updatedAt and tolerates legacy payloads`() throws {
+    func token_usage_summary_round_trips_updatedAt_and_tolerates_legacy_payloads() throws {
         let updatedAt = Date(timeIntervalSince1970: 1_760_000_000)
         let summary = WidgetSnapshot.TokenUsageSummary(
             sessionCostUSD: 1.5,
@@ -255,7 +255,7 @@ struct WidgetSnapshotTests {
     }
 
     @Test
-    func `token usage staleness discloses only meaningful lag`() {
+    func token_usage_staleness_discloses_only_meaningful_lag() {
         let entryUpdatedAt = Date()
 
         func summary(updatedAt: Date?) -> WidgetSnapshot.TokenUsageSummary {

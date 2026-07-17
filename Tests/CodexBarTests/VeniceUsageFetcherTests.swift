@@ -4,7 +4,7 @@ import Testing
 
 struct VeniceUsageFetcherTests {
     @Test
-    func `parses DIEM balance response`() throws {
+    func parses_DIEM_balance_response() throws {
         let json = """
         {
           "canConsume": true,
@@ -25,7 +25,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `parses USD balance response`() throws {
+    func parses_USD_balance_response() throws {
         let json = """
         {
           "canConsume": true,
@@ -46,7 +46,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `parses string-encoded balances and allocation`() throws {
+    func parses_string_encoded_balances_and_allocation() throws {
         let json = """
         {
           "canConsume": true,
@@ -65,7 +65,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `parses both DIEM and USD present`() throws {
+    func parses_both_DIEM_and_USD_present() throws {
         let json = """
         {
           "canConsume": true,
@@ -83,7 +83,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `uses DIEM allocation progress for bundled credits currency`() throws {
+    func uses_DIEM_allocation_progress_for_bundled_credits_currency() throws {
         let json = """
         {
           "canConsume": true,
@@ -102,7 +102,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `uses USD display when consumptionCurrency is USD and both balances exist`() throws {
+    func uses_USD_display_when_consumptionCurrency_is_USD_and_both_balances_exist() throws {
         let json = """
         {
           "canConsume": true,
@@ -121,7 +121,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `handles canConsume=false`() throws {
+    func handles_canConsume_false() throws {
         let json = """
         {
           "canConsume": false,
@@ -140,7 +140,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `displays DIEM with epoch allocation`() throws {
+    func displays_DIEM_with_epoch_allocation() throws {
         let json = """
         {
           "canConsume": true,
@@ -159,7 +159,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `displays DIEM without allocation`() throws {
+    func displays_DIEM_without_allocation() throws {
         let json = """
         {
           "canConsume": true,
@@ -178,7 +178,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `displays USD balance`() throws {
+    func displays_USD_balance() throws {
         let json = """
         {
           "canConsume": true,
@@ -197,7 +197,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `handles zero balances`() throws {
+    func handles_zero_balances() throws {
         let json = """
         {
           "canConsume": true,
@@ -216,7 +216,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `handles null balances with canConsume=true`() throws {
+    func handles_null_balances_with_canConsume_true() throws {
         let json = """
         {
           "canConsume": true,
@@ -235,7 +235,7 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `identity uses venice provider ID`() throws {
+    func identity_uses_venice_provider_ID() throws {
         let json = """
         {
           "canConsume": true,
@@ -255,29 +255,37 @@ struct VeniceUsageFetcherTests {
     }
 
     @Test
-    func `throws on malformed JSON`() {
+    func throws_on_malformed_JSON() {
         let json = "[{ \"canConsume\": true }]"
-        #expect {
+        do {
             _ = try VeniceUsageFetcher._parseSnapshotForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case VeniceUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case VeniceUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `throws on invalid JSON`() {
+    func throws_on_invalid_JSON() {
         let json = "{ invalid json }"
-        #expect {
+        do {
             _ = try VeniceUsageFetcher._parseSnapshotForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case VeniceUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case VeniceUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `clamps used percent to 0-100 range`() throws {
+    func clamps_used_percent_to_0_100_range() throws {
         // Negative used percent should be clamped to 0
         let json = """
         {

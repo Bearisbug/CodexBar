@@ -5,12 +5,12 @@ import Testing
 
 struct CLIServeTimeoutTests {
     @Test
-    func `serve cost keeps pricing refresh outside the request deadline`() {
+    func serve_cost_keeps_pricing_refresh_outside_the_request_deadline() {
         #expect(CodexBarCLI.serveCostRefreshesPricingInBackground)
     }
 
     @Test
-    func `serve deadlines clamp once from request entry`() throws {
+    func serve_deadlines_clamp_once_from_request_entry() throws {
         #expect(CodexBarCLI.clampedServeRequestTimeout(.greatestFiniteMagnitude) == 86400)
         #expect(CodexBarCLI.clampedServeRequestTimeout(1e308) == 86400)
         #expect(CodexBarCLI.clampedServeRequestTimeout(-5) == 0)
@@ -38,7 +38,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `timed out source stays owned and later requests never overlap`() async {
+    func timed_out_source_stays_owned_and_later_requests_never_overlap() async {
         let clock = ServeManualDeadlineClock()
         let gate = ServeFetchGate<Int>()
         let coordinator: CLIServeOperationCoordinator<Int> = self.makeCoordinator(clock: clock)
@@ -89,7 +89,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `earlier follower tightens the shared absolute budget`() async {
+    func earlier_follower_tightens_the_shared_absolute_budget() async {
         let clock = ServeManualDeadlineClock()
         let gate = ServeFetchGate<Int>()
         let coordinator: CLIServeOperationCoordinator<Int> = self.makeCoordinator(clock: clock)
@@ -135,7 +135,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `source completing at an overdue deadline cannot beat a delayed timer`() async {
+    func source_completing_at_an_overdue_deadline_cannot_beat_a_delayed_timer() async {
         let clock = ServeManualDeadlineClock()
         let gate = ServeFetchGate<Int>()
         let acceptance = ServeAcceptanceProbe<Int>()
@@ -162,7 +162,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `shared deadline returns each waiters own timeout value`() async {
+    func shared_deadline_returns_each_waiters_own_timeout_value() async {
         let clock = ServeManualDeadlineClock()
         let gate = ServeFetchGate<Int>()
         let coordinator: CLIServeOperationCoordinator<Int> = self.makeCoordinator(clock: clock)
@@ -201,7 +201,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `finite follower fails closed behind deadline free source`() async {
+    func finite_follower_fails_closed_behind_deadline_free_source() async {
         let gate = ServeFetchGate<Int>()
         let coordinator = CLIServeOperationCoordinator<Int>()
 
@@ -233,7 +233,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `waiter cancellation unregisters and last waiter cancels source`() async {
+    func waiter_cancellation_unregisters_and_last_waiter_cancels_source() async {
         let clock = ServeManualDeadlineClock()
         let gate = ServeFetchGate<Int>()
         let coordinator: CLIServeOperationCoordinator<Int> = self.makeCoordinator(clock: clock)
@@ -281,7 +281,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `source completion cancels the operation timer`() async {
+    func source_completion_cancels_the_operation_timer() async {
         let clock = ServeManualDeadlineClock()
         let gate = ServeFetchGate<Int>()
         let coordinator: CLIServeOperationCoordinator<Int> = self.makeCoordinator(clock: clock)
@@ -311,7 +311,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `accepted value stays owned through asynchronous commit`() async {
+    func accepted_value_stays_owned_through_asynchronous_commit() async {
         let source = ServeFetchGate<Int>()
         let commit = ServeFetchGate<Int>()
         let coordinator = CLIServeOperationCoordinator<Int>()
@@ -348,7 +348,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `earlier finite follower fails closed during accepted commit`() async {
+    func earlier_finite_follower_fails_closed_during_accepted_commit() async {
         let source = ServeFetchGate<Int>()
         let commit = ServeFetchGate<Int>()
         let coordinator = CLIServeOperationCoordinator<Int>()
@@ -385,7 +385,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `config change queues a nonoverlapping successor without a deadline`() async {
+    func config_change_queues_a_nonoverlapping_successor_without_a_deadline() async {
         let gate = ServeFetchGate<Int>()
         let coordinator = CLIServeOperationCoordinator<Int>()
 
@@ -425,7 +425,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `shutdown cancels owned work and rejects new operations`() async {
+    func shutdown_cancels_owned_work_and_rejects_new_operations() async {
         let clock = ServeManualDeadlineClock()
         let gate = ServeFetchGate<Int>()
         let coordinator: CLIServeOperationCoordinator<Int> = self.makeCoordinator(clock: clock)
@@ -465,7 +465,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `provider timeout preserves healthy rows and cannot stack provider work`() async {
+    func provider_timeout_preserves_healthy_rows_and_cannot_stack_provider_work() async {
         let clock = ServeManualDeadlineClock()
         let blocked = ServeFetchGate<UsageCommandOutput>()
         let healthy = ServeFetchGate<UsageCommandOutput>()
@@ -523,7 +523,7 @@ struct CLIServeTimeoutTests {
     }
 
     @Test
-    func `cost route variants cannot stack the same provider scan`() async {
+    func cost_route_variants_cannot_stack_the_same_provider_scan() async {
         let clock = ServeManualDeadlineClock()
         let late = CodexBarCLI.makeCostPayload(provider: .claude, snapshot: nil, error: nil)
         let blocked = ServeFetchGate<CostPayload>()

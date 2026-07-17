@@ -5,7 +5,7 @@ import Testing
 
 extension CodexManagedOpenAIWebTests {
     @Test
-    func `same account dashboard refresh requests coalesce while one is in flight`() async throws {
+    func same_account_dashboard_refresh_requests_coalesce_while_one_is_in_flight() async throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-refresh-coalesce")
         let managedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-coalesce-\(UUID().uuidString)", isDirectory: true)
@@ -70,7 +70,7 @@ extension CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `friendly error shortens cookie mismatch copy`() {
+    func friendly_error_shortens_cookie_mismatch_copy() {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-friendly-error-short")
         let store = UsageStore(
             fetcher: UsageFetcher(environment: [:]),

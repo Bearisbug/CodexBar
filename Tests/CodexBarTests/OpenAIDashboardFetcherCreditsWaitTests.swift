@@ -4,7 +4,7 @@ import Testing
 
 struct OpenAIDashboardFetcherCreditsWaitTests {
     @Test
-    func `waits after scroll request`() {
+    func waits_after_scroll_request() {
         let now = Date()
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForCreditsHistory(.init(
             now: now,
@@ -17,7 +17,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `waits briefly when header visible but table empty`() {
+    func waits_briefly_when_header_visible_but_table_empty() {
         let now = Date()
         let visibleAt = now.addingTimeInterval(-1.0)
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForCreditsHistory(.init(
@@ -31,7 +31,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `stops waiting after header has been visible long enough`() {
+    func stops_waiting_after_header_has_been_visible_long_enough() {
         let now = Date()
         let visibleAt = now.addingTimeInterval(-3.0)
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForCreditsHistory(.init(
@@ -45,7 +45,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `waits briefly after first dashboard signal even when header not present yet`() {
+    func waits_briefly_after_first_dashboard_signal_even_when_header_not_present_yet() {
         let now = Date()
         let startedAt = now.addingTimeInterval(-2.0)
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForCreditsHistory(.init(
@@ -59,7 +59,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `stops waiting eventually when header never appears`() {
+    func stops_waiting_eventually_when_header_never_appears() {
         let now = Date()
         let startedAt = now.addingTimeInterval(-7.0)
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForCreditsHistory(.init(
@@ -73,7 +73,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `usage breakdown recovery waits briefly after chart classification error`() {
+    func usage_breakdown_recovery_waits_briefly_after_chart_classification_error() {
         let now = Date()
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForUsageBreakdownRecovery(.init(
             now: now,
@@ -82,7 +82,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `usage breakdown recovery stops blocking partial snapshots`() {
+    func usage_breakdown_recovery_stops_blocking_partial_snapshots() {
         let now = Date()
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForUsageBreakdownRecovery(.init(
             now: now,
@@ -91,7 +91,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `probe waits briefly after reaching usage route without email or dashboard signals`() {
+    func probe_waits_briefly_after_reaching_usage_route_without_email_or_dashboard_signals() {
         let now = Date()
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForProbeReadiness(.init(
             now: now,
@@ -103,7 +103,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `probe waits briefly for email after dashboard signals appear`() {
+    func probe_waits_briefly_for_email_after_dashboard_signals_appear() {
         let now = Date()
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForProbeReadiness(.init(
             now: now,
@@ -115,7 +115,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `probe stops waiting once signed in email is available`() {
+    func probe_stops_waiting_once_signed_in_email_is_available() {
         let now = Date()
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForProbeReadiness(.init(
             now: now,
@@ -127,7 +127,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `probe handoff preserves page only after confirmed signed in email`() {
+    func probe_handoff_preserves_page_only_after_confirmed_signed_in_email() {
         let result = OpenAIDashboardFetcher.ProbeResult(
             href: "https://chatgpt.com/codex/cloud/settings/analytics#usage",
             loginRequired: false,
@@ -140,7 +140,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `probe handoff does not preserve timed out usage page without email`() {
+    func probe_handoff_does_not_preserve_timed_out_usage_page_without_email() {
         let result = OpenAIDashboardFetcher.ProbeResult(
             href: "https://chatgpt.com/codex/cloud/settings/analytics#usage",
             loginRequired: false,
@@ -153,7 +153,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `probe grace restarts after route reload resets readiness timestamps`() {
+    func probe_grace_restarts_after_route_reload_resets_readiness_timestamps() {
         let now = Date()
         let shouldWait = OpenAIDashboardFetcher.shouldWaitForProbeReadiness(.init(
             now: now,
@@ -165,14 +165,14 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `sanitized timeout preserves positive caller deadline`() {
+    func sanitized_timeout_preserves_positive_caller_deadline() {
         #expect(OpenAIDashboardFetcher.sanitizedTimeout(60) == 60)
         #expect(OpenAIDashboardFetcher.sanitizedTimeout(25) == 25)
         #expect(OpenAIDashboardFetcher.sanitizedTimeout(0.5) == 0.5)
     }
 
     @Test
-    func `sanitized timeout falls back for invalid values`() {
+    func sanitized_timeout_falls_back_for_invalid_values() {
         #expect(OpenAIDashboardFetcher.sanitizedTimeout(0) == 1)
         #expect(OpenAIDashboardFetcher.sanitizedTimeout(-5) == 1)
         #expect(OpenAIDashboardFetcher.sanitizedTimeout(.infinity) == 1)
@@ -180,7 +180,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `deadline starts at call start and remaining timeout shrinks from there`() {
+    func deadline_starts_at_call_start_and_remaining_timeout_shrinks_from_there() {
         let start = Date(timeIntervalSinceReferenceDate: 1000)
         let deadline = OpenAIDashboardFetcher.deadline(startingAt: start, timeout: 15)
 
@@ -193,7 +193,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `remaining timeout does not go negative`() {
+    func remaining_timeout_does_not_go_negative() {
         let deadline = Date(timeIntervalSinceReferenceDate: 2000)
         let remaining = OpenAIDashboardFetcher.remainingTimeout(
             until: deadline,
@@ -202,34 +202,34 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `usage route matcher accepts legacy settings route`() {
+    func usage_route_matcher_accepts_legacy_settings_route() {
         #expect(OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex/settings/usage"))
     }
 
     @Test
-    func `usage route matcher accepts cloud settings route`() {
+    func usage_route_matcher_accepts_cloud_settings_route() {
         #expect(OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex/cloud/settings/usage"))
     }
 
     @Test
-    func `usage route matcher accepts analytics route`() {
+    func usage_route_matcher_accepts_analytics_route() {
         #expect(OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex/cloud/settings/analytics"))
     }
 
     @Test
-    func `usage route matcher accepts analytics usage hash route`() {
+    func usage_route_matcher_accepts_analytics_usage_hash_route() {
         #expect(OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex/cloud/settings/analytics#usage"))
     }
 
     @Test
-    func `usage route matcher accepts trailing slash variants`() {
+    func usage_route_matcher_accepts_trailing_slash_variants() {
         #expect(OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex/settings/usage/"))
         #expect(OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex/cloud/settings/usage/"))
         #expect(OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex/cloud/settings/analytics/"))
     }
 
     @Test
-    func `usage route matcher rejects unrelated routes`() {
+    func usage_route_matcher_rejects_unrelated_routes() {
         #expect(!OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/"))
         #expect(!OpenAIDashboardFetcher.isUsageRoute("https://chatgpt.com/codex"))
         #expect(!OpenAIDashboardFetcher.isUsageRoute(nil))
@@ -240,7 +240,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
         ("https://chatgpt.com/", false, false, true, false),
         ("https://chatgpt.com/", false, false, false, true)
     ])
-    func `usage route reload skips blocking states`(
+    func usage_route_reload_skips_blocking_states(
         href: String,
         loginRequired: Bool,
         workspacePicker: Bool,
@@ -255,14 +255,14 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `dashboard requests prefer English localization`() throws {
+    func dashboard_requests_prefer_English_localization() throws {
         let url = try #require(URL(string: "https://chatgpt.com/codex/cloud/settings/analytics#usage"))
         let request = OpenAIDashboardFetcher.usageURLRequest(url: url)
         #expect(request.value(forHTTPHeaderField: "Accept-Language") == "en-US,en;q=0.9")
     }
 
     @Test
-    func `usage api request carries cookies and English localization`() {
+    func usage_api_request_carries_cookies_and_English_localization() {
         let request = OpenAIDashboardFetcher.dashboardUsageAPIRequest(cookieHeader: "a=b")
         #expect(request.url?.absoluteString == "https://chatgpt.com/backend-api/wham/usage")
         #expect(request.value(forHTTPHeaderField: "Cookie") == "a=b")
@@ -272,7 +272,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `identity api request carries cookies and English localization`() throws {
+    func identity_api_request_carries_cookies_and_English_localization() throws {
         let url = try #require(URL(string: "https://chatgpt.com/backend-api/me"))
         let request = OpenAIDashboardFetcher.dashboardIdentityAPIRequest(url: url, cookieHeader: "a=b")
 
@@ -284,7 +284,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `dashboard api requests accept shared deadline timeout clamps`() throws {
+    func dashboard_api_requests_accept_shared_deadline_timeout_clamps() throws {
         let url = try #require(URL(string: "https://chatgpt.com/backend-api/me"))
         let usageRequest = OpenAIDashboardFetcher.dashboardUsageAPIRequest(
             cookieHeader: "a=b",
@@ -299,7 +299,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `usage api data maps language independent rate limits and credits`() throws {
+    func usage_api_data_maps_language_independent_rate_limits_and_credits() throws {
         let json = """
         {
           "plan_type": "pro",
@@ -335,7 +335,7 @@ struct OpenAIDashboardFetcherCreditsWaitTests {
     }
 
     @Test
-    func `find first email searches nested api payloads`() {
+    func find_first_email_searches_nested_api_payloads() {
         let json = """
         {
           "accounts": [

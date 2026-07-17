@@ -7,7 +7,7 @@ struct GoogleWorkspaceStatusTests {
     private let productID = "npdyhgECDJ6tB66MxXyo"
 
     @Test
-    func `parse workspace status selects worst incident`() throws {
+    func parse_workspace_status_selects_worst_incident() throws {
         let data = Data(#"""
         [
           {
@@ -46,7 +46,7 @@ struct GoogleWorkspaceStatusTests {
     }
 
     @Test
-    func `parse workspace status ignores resolved incidents`() throws {
+    func parse_workspace_status_ignores_resolved_incidents() throws {
         let data = Data(#"""
         [
           {

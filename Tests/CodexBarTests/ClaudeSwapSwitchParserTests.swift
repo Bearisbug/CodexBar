@@ -8,7 +8,7 @@ struct ClaudeSwapSwitchParserTests {
     }
 
     @Test
-    func `parses direct switch result without retaining display identity`() throws {
+    func parses_direct_switch_result_without_retaining_display_identity() throws {
         let result = try self.parse("""
         {
           "schemaVersion": 1,
@@ -30,7 +30,7 @@ struct ClaudeSwapSwitchParserTests {
     }
 
     @Test
-    func `accepts unmanaged source and already active no op`() throws {
+    func accepts_unmanaged_source_and_already_active_no_op() throws {
         let freshActivation = try self.parse("""
         {"schemaVersion":1,"switched":true,"from":null,
          "to":{"number":2},"reason":"switched"}
@@ -54,7 +54,7 @@ struct ClaudeSwapSwitchParserTests {
     }
 
     @Test
-    func `surfaces switch error envelope`() {
+    func surfaces_switch_error_envelope() {
         #expect(throws: ClaudeSwapSwitchParserError.reportedError(
             type: "SwitchError",
             message: "store locked"))
@@ -66,7 +66,7 @@ struct ClaudeSwapSwitchParserTests {
     }
 
     @Test
-    func `rejects malformed or unsupported switch results`() {
+    func rejects_malformed_or_unsupported_switch_results() {
         #expect(throws: ClaudeSwapSwitchParserError.notJSONObject) {
             try self.parse("not json")
         }

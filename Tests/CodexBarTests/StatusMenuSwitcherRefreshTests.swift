@@ -32,7 +32,7 @@ private final class SwitcherRefreshManualGate {
 @Suite(.serialized)
 struct StatusMenuSwitcherRefreshTests {
     @Test
-    func `native switcher action preserves off tab switches after button state toggles`() {
+    func native_switcher_action_preserves_off_tab_switches_after_button_state_toggles() {
         var selections: [ProviderSwitcherSelection] = []
         let switcher = ProviderSwitcherView(
             providers: [.codex, .claude],
@@ -49,7 +49,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `native switcher action restores active tab after native toggle`() {
+    func native_switcher_action_restores_active_tab_after_native_toggle() {
         var selections: [ProviderSwitcherSelection] = []
         let switcher = ProviderSwitcherView(
             providers: [.codex, .claude],
@@ -67,7 +67,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `merged provider switch rebuilds stale width switcher rows`() async throws {
+    func merged_provider_switch_rebuilds_stale_width_switcher_rows() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(true)
@@ -134,7 +134,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `selected provider tab click does not rebuild open menu`() async throws {
+    func selected_provider_tab_click_does_not_rebuild_open_menu() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(true)
@@ -182,7 +182,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `merged provider switch updates live tab rows in place`() async throws {
+    func merged_provider_switch_updates_live_tab_rows_in_place() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(true)
@@ -250,7 +250,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `smart provider switch resizes persistent refresh row to rendered menu width`() throws {
+    func smart_provider_switch_resizes_persistent_refresh_row_to_rendered_menu_width() throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -307,7 +307,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `manual refresh keeps codex quota visible after switching away and back`() async throws {
+    func manual_refresh_keeps_codex_quota_visible_after_switching_away_and_back() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(true)
@@ -410,7 +410,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `completed refresh re-enables cached item when switching back`() async throws {
+    func completed_refresh_re_enables_cached_item_when_switching_back() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(true)
@@ -476,7 +476,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `full cached reattachment resynchronizes detached refresh item`() throws {
+    func full_cached_reattachment_resynchronizes_detached_refresh_item() throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         defer { StatusItemController.menuCardRenderingEnabled = previousMenuCardRendering }
@@ -530,7 +530,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `a provider manual refresh only greys its own tab`() {
+    func a_provider_manual_refresh_only_greys_its_own_tab() {
         let settings = Self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -575,7 +575,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `native image menu rows are replaced during reconciliation`() {
+    func native_image_menu_rows_are_replaced_during_reconciliation() {
         let settings = Self.makeSettings()
         let fetcher = UsageFetcher()
         let store = UsageStore(fetcher: fetcher, browserDetection: BrowserDetection(cacheTTL: 0), settings: settings)
@@ -605,7 +605,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `native image submenu rows reconcile in place`() {
+    func native_image_submenu_rows_reconcile_in_place() {
         let settings = Self.makeSettings()
         let fetcher = UsageFetcher()
         let store = UsageStore(fetcher: fetcher, browserDetection: BrowserDetection(cacheTTL: 0), settings: settings)
@@ -637,7 +637,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `provider switch does not cache stale rows after required invalidation`() async throws {
+    func provider_switch_does_not_cache_stale_rows_after_required_invalidation() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(true)
@@ -702,7 +702,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `tab switch does not replace quota indicator constraints`() {
+    func tab_switch_does_not_replace_quota_indicator_constraints() {
         let switcher = ProviderSwitcherView(
             providers: [.codex, .claude],
             selected: .provider(.codex),
@@ -723,7 +723,7 @@ struct StatusMenuSwitcherRefreshTests {
     }
 
     @Test
-    func `quota indicator constraints are replaced when ratio changes`() {
+    func quota_indicator_constraints_are_replaced_when_ratio_changes() {
         var currentRemaining = 75.0
         let switcher = ProviderSwitcherView(
             providers: [.codex, .claude],

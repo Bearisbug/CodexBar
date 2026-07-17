@@ -65,7 +65,7 @@ private final class CookieTimeoutProbe: @unchecked Sendable {
 
 struct OpenAIDashboardBrowserCookieImporterTests {
     @Test
-    func `profile denial names exact running component`() {
+    func profile_denial_names_exact_running_component() {
         let hint = OpenAIDashboardBrowserCookieImporter.browserProfileAccessHint(
             for: .chrome,
             issue: .accessDenied,
@@ -78,7 +78,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `profile denial names app bundle for menu refresh`() {
+    func profile_denial_names_app_bundle_for_menu_refresh() {
         let hint = OpenAIDashboardBrowserCookieImporter.browserProfileAccessHint(
             for: .chrome,
             issue: .accessDenied,
@@ -89,7 +89,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `browser cookie timeout remains distinct from permission denial`() {
+    func browser_cookie_timeout_remains_distinct_from_permission_denial() {
         let error = OpenAIDashboardBrowserCookieImporter.browserCookieLoadTimeoutError(
             for: .chrome,
             processName: "CodexBarCLI",
@@ -108,7 +108,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `shared deadline clamps each local timeout to remaining budget`() throws {
+    func shared_deadline_clamps_each_local_timeout_to_remaining_budget() throws {
         let start = Date(timeIntervalSinceReferenceDate: 1000)
         let deadline = start.addingTimeInterval(30)
 
@@ -121,7 +121,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `shared deadline preserves smaller local timeout`() throws {
+    func shared_deadline_preserves_smaller_local_timeout() throws {
         let start = Date(timeIntervalSinceReferenceDate: 1000)
         let deadline = start.addingTimeInterval(30)
 
@@ -134,7 +134,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `expired shared deadline throws structured timeout`() {
+    func expired_shared_deadline_throws_structured_timeout() {
         let deadline = Date(timeIntervalSinceReferenceDate: 1000)
 
         do {
@@ -150,7 +150,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `blocking browser cookie load cannot exceed shared deadline`() async throws {
+    func blocking_browser_cookie_load_cannot_exceed_shared_deadline() async throws {
         let start = Date()
         let timeoutProbe = CookieTimeoutProbe()
 
@@ -173,7 +173,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `timeout observer stays silent when operation wins`() async throws {
+    func timeout_observer_stays_silent_when_operation_wins() async throws {
         let timeoutProbe = CookieTimeoutProbe()
 
         let value = try await OpenAIDashboardBrowserCookieImporter.runBoundedCookieLoad(
@@ -189,7 +189,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `bounded cookie loads preserve explicit retry context`() async throws {
+    func bounded_cookie_loads_preserve_explicit_retry_context() async throws {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
         let start = Date()
@@ -213,7 +213,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `timed out cookie cache work stays ordered before retry`() async throws {
+    func timed_out_cookie_cache_work_stays_ordered_before_retry() async throws {
         let log = CookieOperationLog()
         let firstOperationStarted = DispatchSemaphore(value: 0)
         let allowFirstOperationToFinish = DispatchSemaphore(value: 0)
@@ -261,7 +261,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test @MainActor
-    func `slow callback times out before completion`() async throws {
+    func slow_callback_times_out_before_completion() async throws {
         let start = Date()
         let timeoutProbe = CookieTimeoutProbe()
 
@@ -285,7 +285,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test @MainActor
-    func `slow value callback times out before completion`() async throws {
+    func slow_value_callback_times_out_before_completion() async throws {
         let start = Date()
         let timeoutProbe = CookieTimeoutProbe()
 
@@ -309,7 +309,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test @MainActor
-    func `retry waits for timed out cookie store mutation`() async throws {
+    func retry_waits_for_timed_out_cookie_store_mutation() async throws {
         let keyOwner = NSObject()
         let key = ObjectIdentifier(keyOwner)
         let first = CookieCallbackHarness()
@@ -343,7 +343,7 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `mismatch error mentions source label`() {
+    func mismatch_error_mentions_source_label() {
         let err = OpenAIDashboardBrowserCookieImporter.ImportError.noMatchingAccount(
             found: [
                 .init(sourceLabel: "Safari", email: "a@example.com"),
@@ -355,20 +355,20 @@ struct OpenAIDashboardBrowserCookieImporterTests {
     }
 
     @Test
-    func `timed out persistent validation keeps verified session`() {
+    func timed_out_persistent_validation_keeps_verified_session() {
         let failure = OpenAIDashboardBrowserCookieImporter.persistentValidationFailure(URLError(.timedOut))
         #expect(OpenAIDashboardBrowserCookieImporter.shouldTrustVerifiedSession(
             afterPersistFailure: failure))
     }
 
     @Test
-    func `raw cookie mutation timeout is not trusted`() {
+    func raw_cookie_mutation_timeout_is_not_trusted() {
         #expect(!OpenAIDashboardBrowserCookieImporter.shouldTrustVerifiedSession(
             afterPersistFailure: URLError(.timedOut)))
     }
 
     @Test
-    func `non-timeout persistent validation failures are not trusted`() {
+    func non_timeout_persistent_validation_failures_are_not_trusted() {
         #expect(!OpenAIDashboardBrowserCookieImporter.shouldTrustVerifiedSession(
             afterPersistFailure: OpenAIDashboardBrowserCookieImporter.ImportError.dashboardStillRequiresLogin))
     }

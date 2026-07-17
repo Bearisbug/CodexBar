@@ -5,7 +5,7 @@ import Testing
 
 extension HistoricalUsagePaceTests {
     @Test
-    func `history store ownership aware load aliases legacy email hash into canonical email hash`() async {
+    func history_store_ownership_aware_load_aliases_legacy_email_hash_into_canonical_email_hash() async {
         let fileURL = Self.makeTempURL()
         let store = HistoricalUsageHistoryStore(fileURL: fileURL)
         let resetsAt = Date(timeIntervalSince1970: 1_770_000_000)
@@ -25,7 +25,7 @@ extension HistoricalUsagePaceTests {
     }
 
     @Test
-    func `history store ownership aware load keeps ambiguous nil key history unscoped`() async {
+    func history_store_ownership_aware_load_keeps_ambiguous_nil_key_history_unscoped() async {
         let fileURL = Self.makeTempURL()
         let store = HistoricalUsageHistoryStore(fileURL: fileURL)
         let resetsAt = Date(timeIntervalSince1970: 1_770_000_000)
@@ -62,7 +62,7 @@ extension HistoricalUsagePaceTests {
     }
 
     @Test
-    func `history store ownership aware load adopts nil key history only for strict single owner continuity`() async {
+    func history_store_ownership_aware_load_adopts_nil_key_history_only_for_strict_single_owner_continuity() async {
         let fileURL = Self.makeTempURL()
         let store = HistoricalUsageHistoryStore(fileURL: fileURL)
         let resetsAt = Date(timeIntervalSince1970: 1_770_000_000)
@@ -90,7 +90,7 @@ extension HistoricalUsagePaceTests {
     }
 
     @Test
-    func `history store ignores later unrelated owners when evaluating nil key continuity`() async throws {
+    func history_store_ignores_later_unrelated_owners_when_evaluating_nil_key_continuity() async throws {
         let fileURL = Self.makeTempURL()
         let store = HistoricalUsageHistoryStore(fileURL: fileURL)
         let resetsAt = Date(timeIntervalSince1970: 1_770_000_000)
@@ -131,7 +131,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `refresh historical dataset keeps nil key history unscoped when managed and live accounts are distinct`()
+    func refresh_historical_dataset_keeps_nil_key_history_unscoped_when_managed_and_live_accounts_are_distinct()
         async throws
     {
         let historyStore = HistoricalUsageHistoryStore(fileURL: Self.makeTempURL())
@@ -179,7 +179,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `refresh historical dataset ignores extra saved managed accounts for adjacent veto`() async throws {
+    func refresh_historical_dataset_ignores_extra_saved_managed_accounts_for_adjacent_veto() async throws {
         let historyStore = HistoricalUsageHistoryStore(fileURL: Self.makeTempURL())
         let activeManagedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -234,7 +234,7 @@ extension HistoricalUsagePaceTests {
     }
 
     @Test
-    func `history store ownership aware load merges legacy email hash into provider account continuity`() async throws {
+    func history_store_ownership_aware_load_merges_legacy_email_hash_into_provider_account_continuity() async throws {
         let fileURL = Self.makeTempURL()
         let store = HistoricalUsageHistoryStore(fileURL: fileURL)
         let resetsAt = Date(timeIntervalSince1970: 1_770_000_000)
@@ -255,7 +255,7 @@ extension HistoricalUsagePaceTests {
     }
 
     @Test
-    func `history store real local fixture aliases bare email hash into canonical continuity`() async throws {
+    func history_store_real_local_fixture_aliases_bare_email_hash_into_canonical_continuity() async throws {
         let fileURL = Self.makeTempURL()
         try Self.writeHistoricalFixture(named: "codex-historical-usage-real-legacy.jsonl", to: fileURL)
         let store = HistoricalUsageHistoryStore(fileURL: fileURL)
@@ -297,7 +297,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `usage store records historical pace with canonical provider account key`() async throws {
+    func usage_store_records_historical_pace_with_canonical_provider_account_key() async throws {
         let historyFileURL = Self.makeTempURL()
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: "HistoricalUsagePaceTests-provider-account-write",
@@ -328,7 +328,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `usage store records historical pace with canonical email hash key`() async throws {
+    func usage_store_records_historical_pace_with_canonical_email_hash_key() async throws {
         let historyFileURL = Self.makeTempURL()
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: "HistoricalUsagePaceTests-email-hash-write",
@@ -357,7 +357,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `refresh historical dataset aliases legacy email hash into canonical email hash`() async throws {
+    func refresh_historical_dataset_aliases_legacy_email_hash_into_canonical_email_hash() async throws {
         let historyFileURL = Self.makeTempURL()
         let historyStore = HistoricalUsageHistoryStore(fileURL: historyFileURL)
         let normalizedEmail = "person@example.com"
@@ -380,7 +380,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `refresh historical dataset carries matching email continuity into provider account`() async throws {
+    func refresh_historical_dataset_carries_matching_email_continuity_into_provider_account() async throws {
         let historyFileURL = Self.makeTempURL()
         let historyStore = HistoricalUsageHistoryStore(fileURL: historyFileURL)
         let normalizedEmail = "person@example.com"
@@ -405,7 +405,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `refresh historical dataset ignores stale dashboard signals and uses active account ownership`() async throws {
+    func refresh_historical_dataset_ignores_stale_dashboard_signals_and_uses_active_account_ownership() async throws {
         let historyFileURL = Self.makeTempURL()
         let historyStore = HistoricalUsageHistoryStore(fileURL: historyFileURL)
         let staleEmail = "old@example.com"

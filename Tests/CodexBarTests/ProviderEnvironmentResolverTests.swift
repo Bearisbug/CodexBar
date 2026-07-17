@@ -4,7 +4,7 @@ import Testing
 
 struct ProviderEnvironmentResolverTests {
     @Test
-    func `selected API account overrides saved and ambient credentials`() {
+    func selected_API_account_overrides_saved_and_ambient_credentials() {
         let account = Self.account(token: "account-token")
         let environment = ProviderEnvironmentResolver.resolve(
             base: [ZaiSettingsReader.apiTokenKey: "ambient-token"],
@@ -16,7 +16,7 @@ struct ProviderEnvironmentResolverTests {
     }
 
     @Test
-    func `OpenAI account removes project scoping from saved config`() {
+    func OpenAI_account_removes_project_scoping_from_saved_config() {
         let account = Self.account(token: "sk-admin-account")
         let environment = ProviderEnvironmentResolver.resolve(
             base: [
@@ -35,7 +35,7 @@ struct ProviderEnvironmentResolverTests {
     }
 
     @Test
-    func `Claude session account removes API and OAuth credentials`() {
+    func Claude_session_account_removes_API_and_OAuth_credentials() {
         let environment = ProviderEnvironmentResolver.resolve(
             base: [
                 ClaudeAdminAPISettingsReader.alternateAdminAPIKeyEnvironmentKey: "ambient-admin",
@@ -52,7 +52,7 @@ struct ProviderEnvironmentResolverTests {
     }
 
     @Test
-    func `Claude OAuth account replaces incompatible credentials`() {
+    func Claude_OAuth_account_replaces_incompatible_credentials() {
         let environment = ProviderEnvironmentResolver.resolve(
             base: [
                 ClaudeAdminAPISettingsReader.alternateAdminAPIKeyEnvironmentKey: "ambient-admin",
@@ -69,7 +69,7 @@ struct ProviderEnvironmentResolverTests {
     }
 
     @Test
-    func `cookie account leaves unrelated provider environment intact`() {
+    func cookie_account_leaves_unrelated_provider_environment_intact() {
         let base = ["FOO": "bar"]
         let environment = ProviderEnvironmentResolver.resolve(
             base: base,

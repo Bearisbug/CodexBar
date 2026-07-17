@@ -3,7 +3,7 @@ import Testing
 
 struct AntigravityLocalSnapshotSelectionTests {
     @Test
-    func `selected account wins before quota richness`() throws {
+    func selected_account_wins_before_quota_richness() throws {
         let selectedAccount = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(

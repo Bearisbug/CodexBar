@@ -99,7 +99,7 @@ struct QoderProviderBehaviorTests {
     }
 
     @Test
-    func `token account selection forces manual cookie source in CLI settings snapshot`() throws {
+    func token_account_selection_forces_manual_cookie_source_in_CLI_settings_snapshot() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -128,7 +128,7 @@ struct QoderProviderBehaviorTests {
     }
 
     @Test
-    func `model shows credit total only as primary detail when reset date missing`() throws {
+    func model_shows_credit_total_only_as_primary_detail_when_reset_date_missing() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.qoder])
         let snapshot = UsageSnapshot(
@@ -174,7 +174,7 @@ struct QoderProviderBehaviorTests {
     }
 
     @Test
-    func `model shows reset countdown with credit detail`() throws {
+    func model_shows_reset_countdown_with_credit_detail() throws {
         let now = Date(timeIntervalSince1970: 1_719_206_400)
         let snapshot = QoderUsageSnapshot(
             usedCredits: 125,
@@ -213,7 +213,7 @@ struct QoderProviderBehaviorTests {
 
     @MainActor
     @Test
-    func `standard menu shows credit total as detail instead of reset line`() throws {
+    func standard_menu_shows_credit_total_as_detail_instead_of_reset_line() throws {
         let suite = "QoderProviderBehaviorTests-menu-detail"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -268,7 +268,7 @@ struct QoderProviderBehaviorTests {
 
 struct QoderManualCookieRoutingTests {
     @Test
-    func `manual cookie header can route to Qoder China site`() {
+    func manual_cookie_header_can_route_to_Qoder_China_site() {
         #expect(QoderWebFetchStrategy.site(forManualCookieHeader: "sid=abc") == .international)
         #expect(QoderWebFetchStrategy.site(forManualCookieHeader: "sid=qoder.com.cn-looking-value") == .international)
         #expect(QoderWebFetchStrategy
@@ -365,7 +365,7 @@ struct QoderManualCookieRoutingTests {
     }
 
     @Test
-    func `manual curl Host headers must match authoritative Qoder target`() {
+    func manual_curl_Host_headers_must_match_authoritative_Qoder_target() {
         #expect(QoderWebFetchStrategy
             .site(
                 forManualCookieHeader:
@@ -506,7 +506,7 @@ struct QoderManualCookieRoutingTests {
     }
 
     @Test
-    func `manual curl rejects shell synthesis and injected controls`() {
+    func manual_curl_rejects_shell_synthesis_and_injected_controls() {
         #expect(QoderWebFetchStrategy
             .site(
                 forManualCookieHeader:
@@ -594,7 +594,7 @@ struct QoderManualCookieRoutingTests {
 extension QoderProviderBehaviorTests {
     #if os(macOS)
     @Test
-    func `importer exact domain filter keeps China cookies out of global sessions`() {
+    func importer_exact_domain_filter_keeps_China_cookies_out_of_global_sessions() {
         let records = [
             Self.cookieRecord(domain: "qoder.com", name: "global", value: "1"),
             Self.cookieRecord(domain: ".qoder.com.cn", name: "china", value: "1"),
@@ -608,7 +608,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `importer exact domain filter keeps global cookies out of China sessions`() {
+    func importer_exact_domain_filter_keeps_global_cookies_out_of_China_sessions() {
         let records = [
             Self.cookieRecord(domain: ".qoder.com", name: "global", value: "1"),
             Self.cookieRecord(domain: "qoder.com.cn", name: "china", value: "1"),
@@ -623,7 +623,7 @@ extension QoderProviderBehaviorTests {
     #endif
 
     @Test
-    func `auto cookie fetch retries every imported candidate before succeeding`() async throws {
+    func auto_cookie_fetch_retries_every_imported_candidate_before_succeeding() async throws {
         let candidates = [
             QoderResolvedCookie(cookieHeader: "sid=expired-one", sourceLabel: "Chrome Default / qoder.com"),
             QoderResolvedCookie(cookieHeader: "sid=expired-two", sourceLabel: "Chrome Profile 2 / qoder.com.cn"),
@@ -662,7 +662,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `auto cookie source label trusts authoritative suffix over browser label text`() async throws {
+    func auto_cookie_source_label_trusts_authoritative_suffix_over_browser_label_text() async throws {
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, site, _ in
@@ -688,7 +688,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `auto cookie fetch retries freshly imported session after stale cache`() async throws {
+    func auto_cookie_fetch_retries_freshly_imported_session_after_stale_cache() async throws {
         let sourceLabel = "Chrome Default / qoder.com"
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
@@ -724,7 +724,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `manual cookie fetch uses China endpoint when header identifies China site`() async throws {
+    func manual_cookie_fetch_uses_China_endpoint_when_header_identifies_China_site() async throws {
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, site, _ in
@@ -747,7 +747,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `manual cookie value that looks like China domain stays on global endpoint`() async throws {
+    func manual_cookie_value_that_looks_like_China_domain_stays_on_global_endpoint() async throws {
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, site, _ in
@@ -770,7 +770,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `manual request-like cookie with ambiguous target fails before request`() async {
+    func manual_request_like_cookie_with_ambiguous_target_fails_before_request() async {
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, site, _ in
@@ -794,7 +794,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `manual curl with appended command does not resolve cookie or send request`() async {
+    func manual_curl_with_appended_command_does_not_resolve_cookie_or_send_request() async {
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
             usageLoader: { cookieHeader, site, _ in
@@ -820,7 +820,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `manual plain cookie fetch does not retry China after global auth failure`() async {
+    func manual_plain_cookie_fetch_does_not_retry_China_after_global_auth_failure() async {
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, site, _ in
@@ -839,7 +839,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `manual plain cookie fetch does not retry China after global network failure`() async {
+    func manual_plain_cookie_fetch_does_not_retry_China_after_global_network_failure() async {
         let recorder = Recorder()
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, site, _ in
@@ -858,7 +858,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `auto cookie fetch preserves invalid credentials when fresh import is exhausted`() async {
+    func auto_cookie_fetch_preserves_invalid_credentials_when_fresh_import_is_exhausted() async {
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, _, _ in
                 throw QoderUsageError.invalidCredentials
@@ -882,7 +882,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `auto cookie fetch preserves terminal non auth error when fresh import is exhausted`() async {
+    func auto_cookie_fetch_preserves_terminal_non_auth_error_when_fresh_import_is_exhausted() async {
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, _, _ in
                 throw QoderUsageError.networkError("global timed out")
@@ -906,7 +906,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `auto cookie fetch preserves terminal non auth error when later candidate also fails`() async {
+    func auto_cookie_fetch_preserves_terminal_non_auth_error_when_later_candidate_also_fails() async {
         let candidates = [
             QoderResolvedCookie(cookieHeader: "sid=global", sourceLabel: "Chrome Default / qoder.com"),
             QoderResolvedCookie(cookieHeader: "sid=china", sourceLabel: "Chrome Default / qoder.com.cn"),
@@ -931,7 +931,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `auto cookie fetch preserves later non auth error after auth failure`() async {
+    func auto_cookie_fetch_preserves_later_non_auth_error_after_auth_failure() async {
         let candidates = [
             QoderResolvedCookie(cookieHeader: "sid=global", sourceLabel: "Chrome Default / qoder.com"),
             QoderResolvedCookie(cookieHeader: "sid=china", sourceLabel: "Chrome Default / qoder.com.cn"),
@@ -956,7 +956,7 @@ extension QoderProviderBehaviorTests {
     }
 
     @Test
-    func `manual plain cookie fetch reports invalid credentials when every candidate is auth failure`() async {
+    func manual_plain_cookie_fetch_reports_invalid_credentials_when_every_candidate_is_auth_failure() async {
         let strategy = QoderWebFetchStrategy(
             usageLoader: { _, _, _ in
                 throw QoderUsageError.invalidCredentials
@@ -972,7 +972,7 @@ extension QoderProviderBehaviorTests {
 
     @Test
     @MainActor
-    func `monthly credits keep nil cadence and do not emit quota notifications`() throws {
+    func monthly_credits_keep_nil_cadence_and_do_not_emit_quota_notifications() throws {
         let suiteName = "QoderProviderBehaviorTests-quota-notifications"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defaults.removePersistentDomain(forName: suiteName)

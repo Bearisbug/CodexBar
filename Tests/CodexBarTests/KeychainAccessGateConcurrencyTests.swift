@@ -18,7 +18,7 @@ struct KeychainAccessGateConcurrencyTests {
     /// them. It exists to trip ThreadSanitizer deterministically; run it in isolation via
     /// `CODEXBAR_TSAN_STRESS=1 swift test --sanitize=thread --filter KeychainAccessGateConcurrencyTests`.
     @Test(.enabled(if: ProcessInfo.processInfo.environment["CODEXBAR_TSAN_STRESS"] == "1"))
-    func `concurrent override writes, resets, and reads are race-free`() {
+    func concurrent_override_writes_resets_and_reads_are_race_free() {
         let iterations = 5000
         let lanes = 4
         let group = DispatchGroup()

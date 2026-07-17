@@ -40,7 +40,7 @@ struct ClaudeExtraWindowQuotaWarningTests {
     }
 
     @Test
-    func `claude scoped weekly and routines extra windows fire independent weekly warnings`() {
+    func claude_scoped_weekly_and_routines_extra_windows_fire_independent_weekly_warnings() {
         let settings = self.makeSettings(suiteName: "ClaudeExtraWindowQuotaWarningTests-independent")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -88,7 +88,7 @@ struct ClaudeExtraWindowQuotaWarningTests {
     }
 
     @Test
-    func `antigravity summary extra windows do not trigger the claude extra-window lane`() {
+    func antigravity_summary_extra_windows_do_not_trigger_the_claude_extra_window_lane() {
         let settings = self.makeSettings(suiteName: "ClaudeExtraWindowQuotaWarningTests-antigravity-guard")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -126,7 +126,7 @@ struct ClaudeExtraWindowQuotaWarningTests {
     }
 
     @Test
-    func `claude scoped weekly window refires after recovering above threshold`() {
+    func claude_scoped_weekly_window_refires_after_recovering_above_threshold() {
         let settings = self.makeSettings(suiteName: "ClaudeExtraWindowQuotaWarningTests-refire")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -156,7 +156,7 @@ struct ClaudeExtraWindowQuotaWarningTests {
     }
 
     @Test
-    func `claude extra-window fired state is pruned when a window disappears but others remain`() {
+    func claude_extra_window_fired_state_is_pruned_when_a_window_disappears_but_others_remain() {
         let settings = self.makeSettings(suiteName: "ClaudeExtraWindowQuotaWarningTests-prune")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -197,7 +197,7 @@ struct ClaudeExtraWindowQuotaWarningTests {
     }
 
     @Test
-    func `claude extra-window reconciliation preserves sibling account state`() {
+    func claude_extra_window_reconciliation_preserves_sibling_account_state() {
         let settings = self.makeSettings(suiteName: "ClaudeExtraWindowQuotaWarningTests-account-prune")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -244,7 +244,7 @@ struct ClaudeExtraWindowQuotaWarningTests {
     }
 
     @Test
-    func `disabling weekly warnings clears all account-scoped claude extra-window state`() {
+    func disabling_weekly_warnings_clears_all_account_scoped_claude_extra_window_state() {
         let settings = self.makeSettings(suiteName: "ClaudeExtraWindowQuotaWarningTests-disable")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -291,7 +291,7 @@ struct ClaudeExtraWindowQuotaWarningTests {
     }
 
     @Test
-    func `claude extra-window state survives a transient extras miss without re-posting`() {
+    func claude_extra_window_state_survives_a_transient_extras_miss_without_re_posting() {
         let settings = self.makeSettings(suiteName: "ClaudeExtraWindowQuotaWarningTests-transient-miss")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false

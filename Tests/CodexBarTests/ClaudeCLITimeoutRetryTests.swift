@@ -38,7 +38,7 @@ struct ClaudeCLITimeoutRetryTests {
     }
 
     @Test
-    func `cli usage retries with longer timeout after transient probe failure`() async throws {
+    func cli_usage_retries_with_longer_timeout_after_transient_probe_failure() async throws {
         let attempts = AttemptRecorder()
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -78,7 +78,7 @@ struct ClaudeCLITimeoutRetryTests {
     }
 
     @Test
-    func `auto cli usage does not retry unrecoverable parse failure`() async throws {
+    func auto_cli_usage_does_not_retry_unrecoverable_parse_failure() async throws {
         let attempts = AttemptRecorder()
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -107,7 +107,7 @@ struct ClaudeCLITimeoutRetryTests {
     }
 
     @Test
-    func `auto cli usage retries loading panel before stale web fallback`() async throws {
+    func auto_cli_usage_retries_loading_panel_before_stale_web_fallback() async throws {
         let attempts = AttemptRecorder()
         let webRequests = WebRequestRecorder()
         let fetcher = ClaudeUsageFetcher(
@@ -157,7 +157,7 @@ struct ClaudeCLITimeoutRetryTests {
     }
 
     @Test
-    func `auto cli usage retries timeout when cli is final source`() async throws {
+    func auto_cli_usage_retries_timeout_when_cli_is_final_source() async throws {
         let attempts = AttemptRecorder()
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -200,7 +200,7 @@ struct ClaudeCLITimeoutRetryTests {
     }
 
     @Test
-    func `cli usage does not retry cancelled probe`() async throws {
+    func cli_usage_does_not_retry_cancelled_probe() async throws {
         let attempts = AttemptRecorder()
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -226,7 +226,7 @@ struct ClaudeCLITimeoutRetryTests {
     }
 
     @Test
-    func `cli usage records background cooldown after rate limit`() async {
+    func cli_usage_records_background_cooldown_after_rate_limit() async {
         ClaudeCLIRateLimitGate.resetForTesting()
         defer { ClaudeCLIRateLimitGate.resetForTesting() }
 
@@ -272,7 +272,7 @@ struct ClaudeCLITimeoutRetryTests {
     }
 
     @Test
-    func `user initiated cli usage bypasses rate limit cooldown`() async throws {
+    func user_initiated_cli_usage_bypasses_rate_limit_cooldown() async throws {
         ClaudeCLIRateLimitGate.resetForTesting()
         defer { ClaudeCLIRateLimitGate.resetForTesting() }
         ClaudeCLIRateLimitGate.recordRateLimit()

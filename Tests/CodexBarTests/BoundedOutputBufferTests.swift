@@ -4,7 +4,7 @@ import Testing
 
 struct BoundedOutputBufferTests {
     @Test
-    func `output buffer rejects data beyond its byte limit`() {
+    func output_buffer_rejects_data_beyond_its_byte_limit() {
         var buffer = BoundedOutputBuffer(maxBytes: 4)
 
         let accepted = buffer.append(Data("abcd".utf8))
@@ -16,7 +16,7 @@ struct BoundedOutputBufferTests {
     }
 
     @Test
-    func `line buffer rejects an unterminated line beyond its byte limit`() {
+    func line_buffer_rejects_an_unterminated_line_beyond_its_byte_limit() {
         let buffer = BoundedLineBuffer(maxBytes: 4)
 
         let first = buffer.appendAndDrainLines(Data("abcd".utf8))
@@ -29,7 +29,7 @@ struct BoundedOutputBufferTests {
     }
 
     @Test
-    func `line buffer frees completed lines before accepting more output`() {
+    func line_buffer_frees_completed_lines_before_accepting_more_output() {
         let buffer = BoundedLineBuffer(maxBytes: 4)
 
         let first = buffer.appendAndDrainLines(Data("a\n".utf8))
@@ -41,7 +41,7 @@ struct BoundedOutputBufferTests {
     }
 
     @Test
-    func `line buffer drains a completed line before limiting the same chunk tail`() {
+    func line_buffer_drains_a_completed_line_before_limiting_the_same_chunk_tail() {
         let buffer = BoundedLineBuffer(maxBytes: 4)
 
         let partial = buffer.appendAndDrainLines(Data("abc".utf8))
@@ -53,7 +53,7 @@ struct BoundedOutputBufferTests {
     }
 
     @Test
-    func `line buffer rejects an oversized line even when newline arrives`() {
+    func line_buffer_rejects_an_oversized_line_even_when_newline_arrives() {
         let buffer = BoundedLineBuffer(maxBytes: 4)
 
         _ = buffer.appendAndDrainLines(Data("abc".utf8))

@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageDailyReportMergeTests {
     @Test
-    func `merged report sums overlapping day totals and model breakdowns`() {
+    func merged_report_sums_overlapping_day_totals_and_model_breakdowns() {
         let native = CostUsageDailyReport(
             data: [
                 CostUsageDailyReport.Entry(
@@ -87,7 +87,7 @@ struct CostUsageDailyReportMergeTests {
     }
 
     @Test
-    func `merged report unions days and orders model breakdowns deterministically`() {
+    func merged_report_unions_days_and_orders_model_breakdowns_deterministically() {
         let first = CostUsageDailyReport(
             data: [
                 CostUsageDailyReport.Entry(
@@ -130,7 +130,7 @@ struct CostUsageDailyReportMergeTests {
     }
 
     @Test
-    func `merged report includes derived totals when another same day entry has explicit total`() {
+    func merged_report_includes_derived_totals_when_another_same_day_entry_has_explicit_total() {
         let explicit = CostUsageDailyReport(
             data: [
                 CostUsageDailyReport.Entry(

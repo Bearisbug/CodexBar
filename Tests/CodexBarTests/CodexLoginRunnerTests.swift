@@ -5,7 +5,7 @@ import Testing
 
 struct CodexLoginRunnerTests {
     @Test
-    func `login runner returns timeout before hung codex exits`() async throws {
+    func login_runner_returns_timeout_before_hung_codex_exits() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-login-runner-\(UUID().uuidString)", isDirectory: true)
         let binDir = root.appendingPathComponent("bin", isDirectory: true)
@@ -40,7 +40,7 @@ struct CodexLoginRunnerTests {
     }
 
     @Test
-    func `login runner bounds output drain when detached child keeps pipes open`() async throws {
+    func login_runner_bounds_output_drain_when_detached_child_keeps_pipes_open() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-login-drain-\(UUID().uuidString)", isDirectory: true)
         let binDir = root.appendingPathComponent("bin", isDirectory: true)

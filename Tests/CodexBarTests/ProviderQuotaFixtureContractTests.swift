@@ -5,7 +5,7 @@ import Testing
 
 struct ProviderQuotaFixtureContractTests {
     @Test
-    func `MiniMax fixture preserves quota windows and plan`() throws {
+    func MiniMax_fixture_preserves_quota_windows_and_plan() throws {
         let data = try Self.fixtureData(provider: "MiniMax", name: "token-plan-normal", fileExtension: "json")
         let snapshot = try MiniMaxUsageParser.parseCodingPlanRemains(
             data: data,
@@ -22,7 +22,7 @@ struct ProviderQuotaFixtureContractTests {
     }
 
     @Test
-    func `MiniMax fixture keeps windows when reset timestamps are absent`() throws {
+    func MiniMax_fixture_keeps_windows_when_reset_timestamps_are_absent() throws {
         let data = try Self.fixtureData(
             provider: "MiniMax",
             name: "token-plan-missing-reset",
@@ -41,7 +41,7 @@ struct ProviderQuotaFixtureContractTests {
     }
 
     @Test
-    func `OpenAI fixture preserves quota windows and plan`() throws {
+    func OpenAI_fixture_preserves_quota_windows_and_plan() throws {
         let data = try Self.fixtureData(provider: "OpenAI", name: "pro-normal", fileExtension: "html")
         let body = try #require(String(data: data, encoding: .utf8))
         let limits = OpenAIDashboardParser.parseRateLimits(bodyText: body)
@@ -56,7 +56,7 @@ struct ProviderQuotaFixtureContractTests {
     }
 
     @Test
-    func `Claude fixture preserves quota windows and plan`() throws {
+    func Claude_fixture_preserves_quota_windows_and_plan() throws {
         let data = try Self.fixtureData(provider: "Claude", name: "weekly-limit", fileExtension: "json")
         let snapshot = try #require(ClaudeUsageFetcher.parse(json: data))
 

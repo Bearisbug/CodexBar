@@ -14,7 +14,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `removes skill usage services from usage breakdown`() {
+    func removes_skill_usage_services_from_usage_breakdown() {
         let breakdown = [
             OpenAIDashboardDailyBreakdown(
                 day: "2026-04-30",
@@ -45,7 +45,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `snapshot initializer sanitizes usage breakdown`() {
+    func snapshot_initializer_sanitizes_usage_breakdown() {
         let snapshot = OpenAIDashboardSnapshot(
             signedInEmail: "codex@example.com",
             codeReviewRemainingPercent: nil,
@@ -74,7 +74,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `snapshot decoder drops empty zero usage buckets`() throws {
+    func snapshot_decoder_drops_empty_zero_usage_buckets() throws {
         let json = """
         {
           "signedInEmail": "codex@example.com",
@@ -103,7 +103,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `recent credit totals use calendar days and exclude future rows`() {
+    func recent_credit_totals_use_calendar_days_and_exclude_future_rows() {
         let summary = OpenAIDashboardDailyBreakdown.recentUsageSummary(
             from: [
                 .init(day: "2026-05-31", services: [], totalCreditsUsed: 100),
@@ -123,7 +123,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `recent credit totals preserve gaps and sanitize invalid values`() throws {
+    func recent_credit_totals_preserve_gaps_and_sanitize_invalid_values() throws {
         let summary = OpenAIDashboardDailyBreakdown.recentUsageSummary(
             from: [
                 .init(
@@ -149,7 +149,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `recent credit totals report zero when history has no row for today`() {
+    func recent_credit_totals_report_zero_when_history_has_no_row_for_today() {
         let summary = OpenAIDashboardDailyBreakdown.recentUsageSummary(
             from: [
                 .init(day: "2026-06-29", services: [], totalCreditsUsed: 4),
@@ -163,7 +163,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `recent credit totals fail closed on overflow`() {
+    func recent_credit_totals_fail_closed_on_overflow() {
         let summary = OpenAIDashboardDailyBreakdown.recentUsageSummary(
             from: [
                 .init(
@@ -183,7 +183,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `recent credit totals respect the selected timezone`() throws {
+    func recent_credit_totals_respect_the_selected_timezone() throws {
         var pacific = Calendar(identifier: .gregorian)
         pacific.timeZone = try #require(TimeZone(identifier: "America/Los_Angeles"))
         let now = try #require(ISO8601DateFormatter().date(from: "2026-07-01T06:30:00Z"))
@@ -202,7 +202,7 @@ struct OpenAIDashboardModelsTests {
     }
 
     @Test
-    func `recent credit totals keep Gregorian dashboard keys with a non Gregorian system calendar`() throws {
+    func recent_credit_totals_keep_Gregorian_dashboard_keys_with_a_non_Gregorian_system_calendar() throws {
         var buddhist = Calendar(identifier: .buddhist)
         buddhist.timeZone = try #require(TimeZone(secondsFromGMT: 0))
 

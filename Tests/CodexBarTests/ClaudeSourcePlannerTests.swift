@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeSourcePlannerTests {
     @Test
-    func `app auto plan preserves ordered steps and reasons`() {
+    func app_auto_plan_preserves_ordered_steps_and_reasons() {
         let plan = ClaudeSourcePlanner.resolve(input: ClaudeSourcePlanningInput(
             runtime: .app,
             selectedDataSource: .auto,
@@ -24,7 +24,7 @@ struct ClaudeSourcePlannerTests {
     }
 
     @Test
-    func `CLI auto plan preserves ordered steps and reasons`() {
+    func CLI_auto_plan_preserves_ordered_steps_and_reasons() {
         let plan = ClaudeSourcePlanner.resolve(input: ClaudeSourcePlanningInput(
             runtime: .cli,
             selectedDataSource: .auto,
@@ -42,7 +42,7 @@ struct ClaudeSourcePlannerTests {
     }
 
     @Test
-    func `explicit mode plan is single step`() {
+    func explicit_mode_plan_is_single_step() {
         let plan = ClaudeSourcePlanner.resolve(input: ClaudeSourcePlanningInput(
             runtime: .app,
             selectedDataSource: .cli,
@@ -58,7 +58,7 @@ struct ClaudeSourcePlannerTests {
     }
 
     @Test
-    func `app auto CLI fallback reports web extras like runtime`() {
+    func app_auto_CLI_fallback_reports_web_extras_like_runtime() {
         let plan = ClaudeSourcePlanner.resolve(input: ClaudeSourcePlanningInput(
             runtime: .app,
             selectedDataSource: .auto,
@@ -72,7 +72,7 @@ struct ClaudeSourcePlannerTests {
     }
 
     @Test
-    func `no source planner output is deterministic`() {
+    func no_source_planner_output_is_deterministic() {
         let input = ClaudeSourcePlanningInput(
             runtime: .app,
             selectedDataSource: .auto,
@@ -98,7 +98,7 @@ struct ClaudeSourcePlannerTests {
     }
 
     @Test
-    func `CLI resolver falls back to PATH when Claude CLI path override is invalid`() throws {
+    func CLI_resolver_falls_back_to_PATH_when_Claude_CLI_path_override_is_invalid() throws {
         let tempDir = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)

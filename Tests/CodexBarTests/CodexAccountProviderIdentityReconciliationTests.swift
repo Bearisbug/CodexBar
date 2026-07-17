@@ -5,7 +5,7 @@ import Testing
 
 struct CodexAccountProviderIdentityReconciliationTests {
     @Test
-    func `same provider account id with different email does not merge live and managed rows`() {
+    func same_provider_account_id_with_different_email_does_not_merge_live_and_managed_rows() {
         let stored = ManagedCodexAccount(
             id: UUID(),
             email: "mi.chaelfmk5542@gmail.com",

@@ -6,7 +6,7 @@ import Testing
 extension HistoricalUsagePaceTests {
     @MainActor
     @Test
-    func `backfill skips when dashboard authority is display only`() async throws {
+    func backfill_skips_when_dashboard_authority_is_display_only() async throws {
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: "HistoricalUsagePaceTests-backfill-display-only",
             historyFileURL: Self.makeTempURL())
@@ -45,7 +45,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `backfill skips when dashboard authority fail closes`() async throws {
+    func backfill_skips_when_dashboard_authority_fail_closes() async throws {
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: "HistoricalUsagePaceTests-backfill-fail-closed",
             historyFileURL: Self.makeTempURL())
@@ -84,7 +84,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `backfill uses dashboard secondary when available`() async throws {
+    func backfill_uses_dashboard_secondary_when_available() async throws {
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: "HistoricalUsagePaceTests-backfill-dashboard-secondary",
             historyFileURL: Self.makeTempURL())
@@ -140,7 +140,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `backfill uses normalized dashboard weekly when only primary window is weekly`() async throws {
+    func backfill_uses_normalized_dashboard_weekly_when_only_primary_window_is_weekly() async throws {
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: "HistoricalUsagePaceTests-backfill-normalized-dashboard-weekly",
             historyFileURL: Self.makeTempURL())
@@ -195,7 +195,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `backfill uses attached account email from authority instead of dashboard email`() async throws {
+    func backfill_uses_attached_account_email_from_authority_instead_of_dashboard_email() async throws {
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: "HistoricalUsagePaceTests-backfill-attached-email",
             historyFileURL: Self.makeTempURL())
@@ -253,7 +253,7 @@ extension HistoricalUsagePaceTests {
     }
 
     @Test
-    func `will last decision uses smoothed probability when risk hidden`() throws {
+    func will_last_decision_uses_smoothed_probability_when_risk_hidden() throws {
         let now = Date(timeIntervalSince1970: 0)
         let windowMinutes = 10080
         let duration = TimeInterval(windowMinutes) * 60
@@ -286,7 +286,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `usage store falls back to linear when Codex history is insufficient`() throws {
+    func usage_store_falls_back_to_linear_when_Codex_history_is_insufficient() throws {
         let suite = "HistoricalUsagePaceTests-usage-store"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -352,7 +352,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `usage store preserves historical Codex pace in Automatic mode`() throws {
+    func usage_store_preserves_historical_Codex_pace_in_Automatic_mode() throws {
         let suite = "HistoricalUsagePaceTests-workdays-automatic-preserve-history-\(UUID().uuidString)"
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: suite,
@@ -395,7 +395,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test(arguments: [4, 5, 7])
-    func `explicit work day schedule overrides historical Codex pace`(workDays: Int) throws {
+    func explicit_work_day_schedule_overrides_historical_Codex_pace(workDays: Int) throws {
         let suite = "HistoricalUsagePaceTests-workdays-override-history-\(workDays)-\(UUID().uuidString)"
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: suite,
@@ -455,7 +455,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `usage store computes linear pace for providers with quota windows`() throws {
+    func usage_store_computes_linear_pace_for_providers_with_quota_windows() throws {
         let suite = "HistoricalUsagePaceTests-generic-provider-\(UUID().uuidString)"
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: suite,
@@ -476,7 +476,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `usage store applies configured work days to generic weekly pace`() throws {
+    func usage_store_applies_configured_work_days_to_generic_weekly_pace() throws {
         let suite = "HistoricalUsagePaceTests-generic-workdays-\(UUID().uuidString)"
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: suite,
@@ -511,7 +511,7 @@ extension HistoricalUsagePaceTests {
 
     @MainActor
     @Test
-    func `usage store returns nil pace when generic window lacks explicit duration`() throws {
+    func usage_store_returns_nil_pace_when_generic_window_lacks_explicit_duration() throws {
         let suite = "HistoricalUsagePaceTests-no-window-minutes-\(UUID().uuidString)"
         let store = try Self.makeUsageStoreForBackfillTests(
             suite: suite,

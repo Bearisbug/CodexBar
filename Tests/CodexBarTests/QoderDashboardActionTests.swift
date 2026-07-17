@@ -50,7 +50,7 @@ struct QoderDashboardActionTests {
     }
 
     @Test
-    func `qoder dashboard action follows current manual header`() {
+    func qoder_dashboard_action_follows_current_manual_header() {
         let settings = self.makeSettings()
         settings.qoderCookieSource = .manual
         settings.qoderCookieHeader = "curl https://qoder.com.cn -H 'Cookie: sid=abc'"
@@ -75,7 +75,7 @@ struct QoderDashboardActionTests {
     }
 
     @Test
-    func `qoder dashboard route trusts generated source label suffix only`() {
+    func qoder_dashboard_route_trusts_generated_source_label_suffix_only() {
         let automatic = ProviderSettingsSnapshot.QoderProviderSettings(cookieSource: .auto, manualCookieHeader: nil)
 
         #expect(QoderProviderDescriptor.dashboardURL(

@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct MenuBarSmartResetIntegrationTests {
     @Test(arguments: [MenuBarDisplayMode.pace, .both])
-    func `combined smart reset keeps exhausted session percent without a reset`(mode: MenuBarDisplayMode) {
+    func combined_smart_reset_keeps_exhausted_session_percent_without_a_reset(mode: MenuBarDisplayMode) {
         let settings = testSettingsStore(
             suiteName: "MenuBarSmartResetIntegrationTests-combined-fallback-\(mode.rawValue)")
         settings.statusChecksEnabled = false

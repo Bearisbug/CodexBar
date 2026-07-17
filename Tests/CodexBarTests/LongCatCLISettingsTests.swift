@@ -5,7 +5,7 @@ import Testing
 
 struct LongCatCLISettingsTests {
     @Test
-    func `manual config is carried into CLI settings snapshot`() throws {
+    func manual_config_is_carried_into_CLI_settings_snapshot() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(
                 id: .longcat,
@@ -21,7 +21,7 @@ struct LongCatCLISettingsTests {
     }
 
     @Test
-    func `off config is carried into CLI settings snapshot`() throws {
+    func off_config_is_carried_into_CLI_settings_snapshot() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(
                 id: .longcat,

@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageWindowSummaryTests {
     @Test
-    func `summaries use calendar windows instead of the last nonempty rows`() {
+    func summaries_use_calendar_windows_instead_of_the_last_nonempty_rows() {
         let snapshot = Self.snapshot(historyDays: 90)
         let summary = snapshot.summary(forLastDays: 7, calendar: Self.utcCalendar)
 
@@ -16,7 +16,7 @@ struct CostUsageWindowSummaryTests {
     }
 
     @Test
-    func `comparison periods are unique sorted and bounded by scanned history`() {
+    func comparison_periods_are_unique_sorted_and_bounded_by_scanned_history() {
         let snapshot = Self.snapshot(historyDays: 90)
 
         #expect(snapshot.comparisonSummaries(periods: [30, 7, 90, 7], calendar: Self.utcCalendar).map(\.days) == [
@@ -26,7 +26,7 @@ struct CostUsageWindowSummaryTests {
     }
 
     @Test
-    func `summary preserves unavailable totals as nil`() {
+    func summary_preserves_unavailable_totals_as_nil() {
         let snapshot = CostUsageTokenSnapshot(
             sessionTokens: nil,
             sessionCostUSD: nil,

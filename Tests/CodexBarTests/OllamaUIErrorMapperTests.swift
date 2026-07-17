@@ -4,7 +4,7 @@ import Testing
 
 struct OllamaUIErrorMapperTests {
     @Test
-    func `maps Safari cookie access error to localized hint`() {
+    func maps_Safari_cookie_access_error_to_localized_hint() {
         let message = OllamaUIErrorMapper.userFacingMessage(
             OllamaUsageError.safariCookieAccessDenied.localizedDescription,
             localize: { key in "localized:\(key)" })
@@ -13,7 +13,7 @@ struct OllamaUIErrorMapperTests {
     }
 
     @Test
-    func `maps Brave decryption denial with browser name`() {
+    func maps_Brave_decryption_denial_with_browser_name() {
         let message = OllamaUIErrorMapper.userFacingMessage(
             OllamaUsageError.browserCookieDecryptionDenied("Brave").localizedDescription,
             localize: { key in
@@ -24,7 +24,7 @@ struct OllamaUIErrorMapperTests {
     }
 
     @Test
-    func `maps disabled Keychain access with browser name`() {
+    func maps_disabled_Keychain_access_with_browser_name() {
         let message = OllamaUIErrorMapper.userFacingMessage(
             OllamaUsageError.browserCookieDecryptionDisabled("Brave").localizedDescription,
             localize: { key in
@@ -35,7 +35,7 @@ struct OllamaUIErrorMapperTests {
     }
 
     @Test
-    func `preserves generic Ollama errors`() {
+    func preserves_generic_Ollama_errors() {
         let raw = OllamaUsageError.noSessionCookie.localizedDescription
         #expect(OllamaUIErrorMapper.userFacingMessage(raw, localize: { $0 }) == raw)
     }

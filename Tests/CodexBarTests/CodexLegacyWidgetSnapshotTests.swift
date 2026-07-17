@@ -5,7 +5,7 @@ import Testing
 
 struct CodexLegacyWidgetSnapshotTests {
     @Test
-    func `codex widget caps legacy decoded rows without window metadata`() throws {
+    func codex_widget_caps_legacy_decoded_rows_without_window_metadata() throws {
         let json = """
         {
           "entries": [

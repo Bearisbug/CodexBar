@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexAccountPromotionPreparationTests {
     @Test
-    func `builder carries direct auth identities for target and live`() async throws {
+    func builder_carries_direct_auth_identities_for_target_and_live() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPreparationTests-direct-identities",
             workspaceIdentities: [
@@ -43,7 +43,7 @@ struct CodexAccountPromotionPreparationTests {
     }
 
     @Test
-    func `builder preserves target missing auth as degraded home state`() async throws {
+    func builder_preserves_target_missing_auth_as_degraded_home_state() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPreparationTests-target-missing-auth")
         defer { container.tearDown() }
@@ -77,7 +77,7 @@ struct CodexAccountPromotionPreparationTests {
     }
 
     @Test
-    func `builder keeps persisted and direct home identity views separate`() async throws {
+    func builder_keeps_persisted_and_direct_home_identity_views_separate() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPreparationTests-persisted-vs-direct",
             workspaceIdentities: [

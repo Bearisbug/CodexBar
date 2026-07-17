@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuSwitcherTrackingTests {
     @Test
-    func `switcher rebuild scheduler runs during menu tracking exactly once`() {
+    func switcher_rebuild_scheduler_runs_during_menu_tracking_exactly_once() {
         var runCount = 0
         ProviderSwitcherTrackingRunLoopScheduler.schedule {
             runCount += 1
@@ -24,7 +24,7 @@ struct StatusMenuSwitcherTrackingTests {
     }
 
     @Test
-    func `pointer switch defers structural menu rebuild until mouse up`() async throws {
+    func pointer_switch_defers_structural_menu_rebuild_until_mouse_up() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -98,7 +98,7 @@ struct StatusMenuSwitcherTrackingTests {
     }
 
     @Test
-    func `pointer switch cancels when mouse up leaves pressed segment`() throws {
+    func pointer_switch_cancels_when_mouse_up_leaves_pressed_segment() throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -159,7 +159,7 @@ struct StatusMenuSwitcherTrackingTests {
     }
 
     @Test
-    func `unrelated mouse up remains available to normal menu items`() throws {
+    func unrelated_mouse_up_remains_available_to_normal_menu_items() throws {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual

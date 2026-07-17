@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorKiloTests {
     @Test
-    func `kilo credits detail does not render as reset line`() throws {
+    func kilo_credits_detail_does_not_render_as_reset_line() throws {
         let suite = "MenuDescriptorKiloTests-kilo-detail"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -58,7 +58,7 @@ struct MenuDescriptorKiloTests {
     }
 
     @Test
-    func `kilo pass detail keeps reset line when reset date exists`() throws {
+    func kilo_pass_detail_keeps_reset_line_when_reset_date_exists() throws {
         let suite = "MenuDescriptorKiloTests-kilo-pass-reset"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -114,7 +114,7 @@ struct MenuDescriptorKiloTests {
     }
 
     @Test
-    func `kilo auto top up only renders activity without plan label`() throws {
+    func kilo_auto_top_up_only_renders_activity_without_plan_label() throws {
         let suite = "MenuDescriptorKiloTests-kilo-activity-only"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

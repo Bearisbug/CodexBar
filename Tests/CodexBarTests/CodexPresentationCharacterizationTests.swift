@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexPresentationCharacterizationTests {
     @Test
-    func `weekly only Codex menu rendering omits session row`() {
+    func weekly_only_Codex_menu_rendering_omits_session_row() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-weekly-only")
         settings.statusChecksEnabled = false
 
@@ -47,7 +47,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `Codex menu does not surface identity from another provider snapshot`() {
+    func Codex_menu_does_not_surface_identity_from_another_provider_snapshot() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-provider-silo")
         settings.statusChecksEnabled = false
 
@@ -96,7 +96,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `Codex menu omits account row when hiding personal info`() {
+    func Codex_menu_omits_account_row_when_hiding_personal_info() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-hide-account")
         settings.statusChecksEnabled = false
         settings.hidePersonalInfo = true
@@ -135,7 +135,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `Codex menu maps prolite plan to multiplier display name`() {
+    func Codex_menu_maps_prolite_plan_to_multiplier_display_name() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-prolite")
         settings.statusChecksEnabled = false
 
@@ -172,7 +172,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `Codex menu prefers snapshot identity over conflicting fallback account info`() throws {
+    func Codex_menu_prefers_snapshot_identity_over_conflicting_fallback_account_info() throws {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-snapshot-precedence")
         settings.statusChecksEnabled = false
         let managedHome = FileManager.default.temporaryDirectory
@@ -232,7 +232,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `Codex menu falls back per field when snapshot identity is partial`() {
+    func Codex_menu_falls_back_per_field_when_snapshot_identity_is_partial() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-partial-fallback")
         settings.statusChecksEnabled = false
         let managedHome = FileManager.default.temporaryDirectory
@@ -287,7 +287,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `managed OpenAI web targeting uses active managed Codex identity and scope`() {
+    func managed_OpenAI_web_targeting_uses_active_managed_Codex_identity_and_scope() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-managed-openai-web")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -311,7 +311,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `live OpenAI web targeting uses live Codex identity without managed scope`() {
+    func live_OpenAI_web_targeting_uses_live_Codex_identity_without_managed_scope() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-live-openai-web")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -344,7 +344,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `same email managed and live Codex resolves to live for OpenAI web targeting`() {
+    func same_email_managed_and_live_Codex_resolves_to_live_for_OpenAI_web_targeting() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-same-email-prefers-live")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -378,7 +378,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `live OpenAI web targeting does not reuse stale managed Codex snapshot identity`() {
+    func live_OpenAI_web_targeting_does_not_reuse_stale_managed_Codex_snapshot_identity() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-stale-managed-snapshot")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-presentation-openai-web-\(UUID().uuidString)", isDirectory: true)
@@ -423,7 +423,7 @@ struct CodexPresentationCharacterizationTests {
     }
 
     @Test
-    func `zai menu descriptor includes Tokens MCP and 5-hour rows`() {
+    func zai_menu_descriptor_includes_Tokens_MCP_and_5_hour_rows() {
         let settings = self.makeSettingsStore(suite: "CodexPresentationCharacterizationTests-zai-three-quota")
         settings.statusChecksEnabled = false
 

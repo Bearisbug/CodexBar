@@ -3,7 +3,7 @@ import Testing
 
 struct MenuSessionCoordinatorTests {
     @Test
-    func `invalidation records data structural and required generations independently`() {
+    func invalidation_records_data_structural_and_required_generations_independently() {
         var coordinator = MenuSessionCoordinator<String>()
 
         coordinator.invalidate(allowsStaleContent: false, requiresRebuild: true)
@@ -25,7 +25,7 @@ struct MenuSessionCoordinatorTests {
     }
 
     @Test
-    func `closed preparation distinguishes no work deferred work and required work`() {
+    func closed_preparation_distinguishes_no_work_deferred_work_and_required_work() {
         var coordinator = MenuSessionCoordinator<String>()
         let menu = "menu"
 
@@ -42,7 +42,7 @@ struct MenuSessionCoordinatorTests {
     }
 
     @Test
-    func `stale content survives only a data generation after latest structural render`() {
+    func stale_content_survives_only_a_data_generation_after_latest_structural_render() {
         var coordinator = MenuSessionCoordinator<String>()
         let menu = "menu"
 
@@ -57,7 +57,7 @@ struct MenuSessionCoordinatorTests {
     }
 
     @Test
-    func `removing menu clears all menu scoped lifecycle state`() {
+    func removing_menu_clears_all_menu_scoped_lifecycle_state() {
         var coordinator = MenuSessionCoordinator<String>()
         let menu = "menu"
 
@@ -76,7 +76,7 @@ struct MenuSessionCoordinatorTests {
     }
 
     @Test
-    func `reopening a persistent menu replaces its tracking session token`() {
+    func reopening_a_persistent_menu_replaces_its_tracking_session_token() {
         var coordinator = MenuSessionCoordinator<String>()
 
         let closedSession = coordinator.beginTrackingSession("menu")
@@ -89,7 +89,7 @@ struct MenuSessionCoordinatorTests {
     }
 
     @Test
-    func `menu interaction token advances within one tracking session`() throws {
+    func menu_interaction_token_advances_within_one_tracking_session() throws {
         var coordinator = MenuSessionCoordinator<String>()
         let initial = coordinator.beginTrackingSession("menu")
 
@@ -101,7 +101,7 @@ struct MenuSessionCoordinatorTests {
     }
 
     @Test
-    func `replacement viewport restore token rejects stale completion`() {
+    func replacement_viewport_restore_token_rejects_stale_completion() {
         var coordinator = MenuSessionCoordinator<String>()
 
         let stale = coordinator.armViewportRestore("menu")
@@ -119,7 +119,7 @@ struct MenuSessionCoordinatorTests {
 
 struct MenuRebuildRequestRegistryTests {
     @Test
-    func `replacement request invalidates prior token without affecting other menus`() {
+    func replacement_request_invalidates_prior_token_without_affecting_other_menus() {
         var registry = MenuRebuildRequestRegistry<String>()
 
         let first = registry.replaceRequest(for: "parent")
@@ -132,7 +132,7 @@ struct MenuRebuildRequestRegistryTests {
     }
 
     @Test
-    func `stale completion cannot clear replacement request`() {
+    func stale_completion_cannot_clear_replacement_request() {
         var registry = MenuRebuildRequestRegistry<String>()
         let stale = registry.replaceRequest(for: "menu")
         let current = registry.replaceRequest(for: "menu")
@@ -146,7 +146,7 @@ struct MenuRebuildRequestRegistryTests {
     }
 
     @Test
-    func `cancelling all requests keeps future tokens distinct`() {
+    func cancelling_all_requests_keeps_future_tokens_distinct() {
         var registry = MenuRebuildRequestRegistry<String>()
         let cancelled = registry.replaceRequest(for: "menu")
 

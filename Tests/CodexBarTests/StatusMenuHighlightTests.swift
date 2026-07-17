@@ -14,7 +14,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu highlight updates only previous and current custom rows`() {
+    func menu_highlight_updates_only_previous_and_current_custom_rows() {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         let store = self.makeCodexStore(settings: settings, dashboardAuthorized: false)
@@ -55,7 +55,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `native highlight preserves coalesced baseline resync until pointer leaves native rows`() async {
+    func native_highlight_preserves_coalesced_baseline_resync_until_pointer_leaves_native_rows() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -128,7 +128,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `native highlight preserves explicit rebuild even when menu is already fresh`() async {
+    func native_highlight_preserves_explicit_rebuild_even_when_menu_is_already_fresh() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -181,7 +181,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `hosted submenu close resumes deferred explicit rebuild on fresh parent`() async {
+    func hosted_submenu_close_resumes_deferred_explicit_rebuild_on_fresh_parent() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -253,7 +253,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `hosted submenu close keeps explicit rebuild ahead of dirty parent refresh`() async {
+    func hosted_submenu_close_keeps_explicit_rebuild_ahead_of_dirty_parent_refresh() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -322,7 +322,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `hosted submenu close preserves pending parent baseline resync`() async {
+    func hosted_submenu_close_preserves_pending_parent_baseline_resync() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -388,7 +388,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu close clears native highlight deferral and pending baseline resync`() async {
+    func menu_close_clears_native_highlight_deferral_and_pending_baseline_resync() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -442,7 +442,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `hosted native highlight defers signature changing refresh until pointer leaves`() async throws {
+    func hosted_native_highlight_defers_signature_changing_refresh_until_pointer_leaves() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = true
@@ -512,7 +512,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `custom highlight does not defer open menu rebuild`() {
+    func custom_highlight_does_not_defer_open_menu_rebuild() {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false

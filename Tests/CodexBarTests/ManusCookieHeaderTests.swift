@@ -4,30 +4,30 @@ import Testing
 
 struct ManusCookieHeaderTests {
     @Test
-    func `bare token resolves directly`() {
+    func bare_token_resolves_directly() {
         #expect(ManusCookieHeader.token(from: "abc123") == "abc123")
     }
 
     @Test
-    func `extracts session_id from cookie header`() {
+    func extracts_session_id_from_cookie_header() {
         let header = "foo=bar; session_id=token-a; baz=qux"
         #expect(ManusCookieHeader.token(from: header) == "token-a")
     }
 
     @Test
-    func `extracts mixed case session id from cookie header`() {
+    func extracts_mixed_case_session_id_from_cookie_header() {
         let header = "foo=bar; Session_ID=token-b; baz=qux"
         #expect(ManusCookieHeader.token(from: header) == "token-b")
     }
 
     @Test
-    func `unsupported cookie header returns nil`() {
+    func unsupported_cookie_header_returns_nil() {
         #expect(ManusCookieHeader.token(from: "foo=bar; hello=world") == nil)
     }
 
     #if os(macOS)
     @Test
-    func `importer session info extracts session token`() throws {
+    func importer_session_info_extracts_session_token() throws {
         let cookies = try [
             #require(self.makeCookie(name: "session_id", value: "cookie-token")),
         ]

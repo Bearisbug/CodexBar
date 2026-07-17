@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct FactoryStatusProbeFetchTests {
     @Test
-    func `keeps stored Factory cookies available when cached header is not logged in`() async throws {
+    func keeps_stored_Factory_cookies_available_when_cached_header_is_not_logged_in() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -106,7 +106,7 @@ struct FactoryStatusProbeFetchTests {
     }
 
     @Test
-    func `preserves stored Factory refresh token when stored cookies are not logged in`() async throws {
+    func preserves_stored_Factory_refresh_token_when_stored_cookies_are_not_logged_in() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -229,7 +229,7 @@ struct FactoryStatusProbeFetchTests {
     }
 
     @Test
-    func `fetches snapshot using cookie header override`() async throws {
+    func fetches_snapshot_using_cookie_header_override() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {
@@ -305,7 +305,7 @@ struct FactoryStatusProbeFetchTests {
     }
 
     @Test
-    func `uses bearer subject when auth profile omits user id`() async throws {
+    func uses_bearer_subject_when_auth_profile_omits_user_id() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {
@@ -384,7 +384,7 @@ struct FactoryStatusProbeFetchTests {
     }
 
     @Test
-    func `falls back to legacy usage when billing limits request fails`() async throws {
+    func falls_back_to_legacy_usage_when_billing_limits_request_fails() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {
@@ -456,7 +456,7 @@ struct FactoryStatusProbeFetchTests {
     }
 
     @Test
-    func `falls back to legacy usage when billing limits rejects auth`() async throws {
+    func falls_back_to_legacy_usage_when_billing_limits_rejects_auth() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {
@@ -528,7 +528,7 @@ struct FactoryStatusProbeFetchTests {
     }
 
     @Test
-    func `uses token rate limits billing when core pool is absent`() async throws {
+    func uses_token_rate_limits_billing_when_core_pool_is_absent() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {
@@ -601,7 +601,7 @@ struct FactoryStatusProbeFetchTests {
     }
 
     @Test
-    func `uses token rate limits billing when enabled`() async throws {
+    func uses_token_rate_limits_billing_when_enabled() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {

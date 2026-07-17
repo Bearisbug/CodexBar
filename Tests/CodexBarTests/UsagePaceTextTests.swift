@@ -21,7 +21,7 @@ struct UsagePaceTextTests {
     ]
 
     @Test
-    func `weekly pace detail provides left right labels`() throws {
+    func weekly_pace_detail_provides_left_right_labels() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,
@@ -37,7 +37,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail treats rounded zero delta as on pace`() {
+    func weekly_pace_detail_treats_rounded_zero_delta_as_on_pace() {
         let now = Date(timeIntervalSince1970: 0)
         let pace = UsagePace(
             stage: .slightlyBehind,
@@ -53,7 +53,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail reports lasts until reset`() throws {
+    func weekly_pace_detail_reports_lasts_until_reset() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 10,
@@ -69,7 +69,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace summary formats single line text`() throws {
+    func weekly_pace_summary_formats_single_line_text() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,
@@ -84,7 +84,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail reports capped speed headroom when under pace`() throws {
+    func weekly_pace_detail_reports_capped_speed_headroom_when_under_pace() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 20,
@@ -100,7 +100,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail limits headroom hint to Codex`() throws {
+    func weekly_pace_detail_limits_headroom_hint_to_Codex() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 20,
@@ -115,7 +115,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail reports remaining headroom late in window`() throws {
+    func weekly_pace_detail_reports_remaining_headroom_late_in_window() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 70,
@@ -131,7 +131,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `reported weekly state renders deficit and run out headline`() throws {
+    func reported_weekly_state_renders_deficit_and_run_out_headline() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 88,
@@ -148,7 +148,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail formats rounded risk when available`() {
+    func weekly_pace_detail_formats_rounded_risk_when_available() {
         let now = Date(timeIntervalSince1970: 0)
         let pace = UsagePace(
             stage: .ahead,
@@ -165,7 +165,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail does not combine lasts until reset with run out risk`() {
+    func weekly_pace_detail_does_not_combine_lasts_until_reset_with_run_out_risk() {
         let now = Date(timeIntervalSince1970: 0)
         let pace = UsagePace(
             stage: .slightlyBehind,
@@ -183,7 +183,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail keeps lasts until reset only when rounded risk is zero`() {
+    func weekly_pace_detail_keeps_lasts_until_reset_only_when_rounded_risk_is_zero() {
         let now = Date(timeIntervalSince1970: 0)
         let pace = UsagePace(
             stage: .farBehind,
@@ -201,7 +201,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `weekly pace detail prefers risk over lasts until reset when rounded risk is material`() {
+    func weekly_pace_detail_prefers_risk_over_lasts_until_reset_when_rounded_risk_is_material() {
         let now = Date(timeIntervalSince1970: 0)
         let pace = UsagePace(
             stage: .slightlyBehind,
@@ -220,7 +220,7 @@ struct UsagePaceTextTests {
     // MARK: - Session pace (5-hour window)
 
     @Test
-    func `session pace detail provides left right labels`() {
+    func session_pace_detail_provides_left_right_labels() {
         let now = Date(timeIntervalSince1970: 0)
         // 300-minute window, 2h remaining => 3h elapsed out of 5h
         // expected = 60%, actual = 80% => 20% ahead (in deficit)
@@ -239,7 +239,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `Claude session pace does not show Codex headroom`() {
+    func Claude_session_pace_does_not_show_Codex_headroom() {
         let now = Date(timeIntervalSince1970: 0)
         // 300-minute window, 2h remaining => 3h elapsed
         // expected = 60%, actual = 10% => far behind (in reserve)
@@ -257,7 +257,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `Codex session pace shows conservative headroom`() {
+    func Codex_session_pace_shows_conservative_headroom() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 10,
@@ -271,7 +271,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `session pace summary formats single line text`() {
+    func session_pace_summary_formats_single_line_text() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 80,
@@ -285,7 +285,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `session pace detail supports Ollama five hour window`() {
+    func session_pace_detail_supports_Ollama_five_hour_window() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 80,
@@ -300,7 +300,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `session pace detail supports Antigravity five hour window`() {
+    func session_pace_detail_supports_Antigravity_five_hour_window() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 80,
@@ -315,7 +315,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `session pace detail hides Antigravity weekly window`() {
+    func session_pace_detail_hides_Antigravity_weekly_window() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 80,
@@ -329,7 +329,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `session pace detail hides Ollama window without explicit duration`() {
+    func session_pace_detail_hides_Ollama_window_without_explicit_duration() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 80,
@@ -343,7 +343,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `session pace detail hides for unsupported provider`() {
+    func session_pace_detail_hides_for_unsupported_provider() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,
@@ -357,7 +357,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `session pace detail hides when reset is missing`() {
+    func session_pace_detail_hides_when_reset_is_missing() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,
@@ -371,7 +371,7 @@ struct UsagePaceTextTests {
     }
 
     @Test
-    func `usage pace text localization keys exist in en and zh Hans with matching placeholders`() throws {
+    func usage_pace_text_localization_keys_exist_in_en_and_zh_Hans_with_matching_placeholders() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()

@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeLoginFlowTests {
     @Test
-    func `successful Claude login controller flow preserves selected source and enables provider`() async throws {
+    func successful_Claude_login_controller_flow_preserves_selected_source_and_enables_provider() async throws {
         let registry = ProviderRegistry.shared
         let claudeMetadata = try #require(registry.metadata[.claude])
 

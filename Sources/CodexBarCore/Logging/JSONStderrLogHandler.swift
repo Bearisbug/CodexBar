@@ -27,20 +27,29 @@ struct JSONStderrLogHandler: LogHandler {
         set { self.metadata[metadataKey] = newValue }
     }
 
-    func log(event: LogEvent) {
+    // swiftlint:disable:next function_parameter_count
+    func log(
+        level: Logger.Level,
+        message: Logger.Message,
+        metadata: Logger.Metadata?,
+        source: String,
+        file: String,
+        function: String,
+        line: UInt)
+    {
         let ts = Date()
         var combined = self.metadata
-        if let metadata = event.metadata { combined.merge(metadata, uniquingKeysWith: { _, new in new }) }
+        if let metadata { combined.merge(metadata, uniquingKeysWith: { _, new in new }) }
 
         let payload = JSONLogLine(
             timestamp: ts,
-            level: event.level.rawValue,
+            level: level.rawValue,
             label: self.label,
-            message: event.message.description,
-            source: event.source,
-            file: event.file,
-            function: event.function,
-            line: event.line,
+            message: message.description,
+            source: source,
+            file: file,
+            function: function,
+            line: line,
             metadata: combined.isEmpty ? nil : combined.mapValues(\.description))
 
         guard let data = try? self.encoder.encode(payload),

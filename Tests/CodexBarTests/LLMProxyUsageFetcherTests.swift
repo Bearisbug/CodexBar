@@ -4,7 +4,7 @@ import Testing
 
 struct LLMProxyUsageFetcherTests {
     @Test
-    func `parses quota stats summary`() throws {
+    func parses_quota_stats_summary() throws {
         let json = """
         {
           "providers": {
@@ -72,7 +72,7 @@ struct LLMProxyUsageFetcherTests {
     }
 
     @Test
-    func `quota stats url accepts versioned or root base urls`() throws {
+    func quota_stats_url_accepts_versioned_or_root_base_urls() throws {
         #expect(
             try LLMProxyUsageFetcher
                 ._quotaStatsURLForTesting(baseURL: #require(URL(string: "https://proxy.example.com")))
@@ -84,7 +84,7 @@ struct LLMProxyUsageFetcherTests {
     }
 
     @Test
-    func `parses fractional second quota reset times`() throws {
+    func parses_fractional_second_quota_reset_times() throws {
         let json = """
         {
           "providers": {

@@ -621,27 +621,42 @@ struct MenuCardSectionContainerView<Content: View>: View {
             .environment(\.menuItemHighlighted, self.highlightState.isHighlighted)
             .environment(\.menuCardRefreshMonitor, self.refreshMonitor)
             .coordinateSpace(name: MenuCardInteractiveRegionPreferenceKey.coordinateSpaceName)
-            .onPreferenceChange(MenuCardInteractiveRegionPreferenceKey.self) { regions in
-                self.interactiveRegionStore?.regions = regions
+            .onPreferenceChange(MenuCardInteractiveRegionPreferenceKey
+                .self)
+            { [store = self.interactiveRegionStore] regions in
+                // macOS 15 SDK marks this callback @Sendable. Write synchronously when already
+                // on the main thread: menu tracking and hit-testing read the regions immediately,
+                // and an async hop may never run while the menu run loop is tracking.
+                if Thread.isMainThread {
+                    MainActor.assumeIsolated {
+                        store?.regions = regions
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        MainActor.assumeIsolated {
+                            store?.regions = regions
+                        }
+                    }
+                }
             }
             .foregroundStyle(MenuHighlightStyle.primary(self.highlightState.isHighlighted))
-            .background(alignment: .topLeading) {
-                if self.highlightState.isHighlighted {
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .fill(MenuHighlightStyle.selectionBackground(true))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
+                .background(alignment: .topLeading) {
+                    if self.highlightState.isHighlighted {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .fill(MenuHighlightStyle.selectionBackground(true))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                    }
                 }
-            }
-            .overlay(alignment: self.submenuIndicatorAlignment) {
-                if self.showsSubmenuIndicator {
-                    Image(systemName: "chevron.right")
-                        .font(.caption2.weight(.semibold))
-                        .foregroundStyle(MenuHighlightStyle.secondary(self.highlightState.isHighlighted))
-                        .padding(.top, self.submenuIndicatorTopPadding)
-                        .padding(.trailing, 10)
+                .overlay(alignment: self.submenuIndicatorAlignment) {
+                    if self.showsSubmenuIndicator {
+                        Image(systemName: "chevron.right")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(MenuHighlightStyle.secondary(self.highlightState.isHighlighted))
+                            .padding(.top, self.submenuIndicatorTopPadding)
+                            .padding(.trailing, 10)
+                    }
                 }
-            }
     }
 }
 

@@ -1,5 +1,5 @@
 {
-  "originHash" : "d5ef2ec180d58ea5f869b40e5024f2e23d1ce02e999305b2e78d1b5c3783b83b",
+  "originHash" : "2aa47308f3b25904967c56f02b649ce40ba9066f638c2b397bb1d511d766c964",
   "pins" : [
     {
       "identity" : "commander",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
-        "revision" : "1aef85578fdd4f9eaeeb8d53b7b4fc31bf08fe27",
-        "version" : "2.4.0"
+        "revision" : "045cf174010beb335fa1d2567d18c057b8787165",
+        "version" : "2.3.0"
       }
     },
     {
@@ -29,21 +29,12 @@
       }
     },
     {
-      "identity" : "sweetcookiekit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/steipete/SweetCookieKit",
-      "state" : {
-        "revision" : "21bedea672a3e63ccad24d744051e76cdf0462dd",
-        "version" : "0.4.1"
-      }
-    },
-    {
       "identity" : "swift-asn1",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-asn1.git",
       "state" : {
-        "revision" : "a9a5efd40eaf558a2bcd48d64b1d1646be686008",
-        "version" : "1.7.1"
+        "revision" : "9f542610331815e29cc3821d3b6f488db8715517",
+        "version" : "1.6.0"
       }
     },
     {
@@ -60,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log",
       "state" : {
-        "revision" : "92448c359f00ebe36ae97d3bd9086f13c7692b5a",
-        "version" : "1.13.2"
+        "revision" : "bc386b95f2a16ccd0150a8235e7c69eab2b866ca",
+        "version" : "1.8.0"
       }
     },
     {

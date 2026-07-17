@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeResetOccurrenceTests {
     @Test
-    func `parser preserves both repeated daylight saving times`() throws {
+    func parser_preserves_both_repeated_daylight_saving_times() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "America/New_York"))
         let startOfDay = try #require(calendar.date(from: DateComponents(
@@ -55,7 +55,7 @@ struct ClaudeResetOccurrenceTests {
     }
 
     @Test
-    func `parser searches across leap years`() throws {
+    func parser_searches_across_leap_years() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "UTC"))
         let leapReset = try #require(calendar.date(from: DateComponents(
@@ -82,7 +82,7 @@ struct ClaudeResetOccurrenceTests {
     }
 
     @Test
-    func `parser keeps explicit years authoritative across supported time forms`() throws {
+    func parser_keeps_explicit_years_authoritative_across_supported_time_forms() throws {
         let now = try Self.isoDate("2025-01-01T00:00:00Z")
         let cases = [
             (
@@ -108,7 +108,7 @@ struct ClaudeResetOccurrenceTests {
     }
 
     @Test
-    func `parser rejects nonexistent explicit local time`() throws {
+    func parser_rejects_nonexistent_explicit_local_time() throws {
         let now = try Self.isoDate("2026-01-01T00:00:00Z")
         #expect(ClaudeStatusProbe.parseResetDate(
             from: "Resets Mar 8, 2026, 2:30am (America/New_York)",

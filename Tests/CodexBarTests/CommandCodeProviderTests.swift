@@ -4,7 +4,7 @@ import Testing
 
 struct CommandCodeProviderTests {
     @Test
-    func `descriptor metadata is correct`() {
+    func descriptor_metadata_is_correct() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .commandcode)
 
         #expect(descriptor.metadata.displayName == "Command Code")
@@ -16,7 +16,7 @@ struct CommandCodeProviderTests {
     }
 
     @Test
-    func `manual cookie makes web strategy available`() async {
+    func manual_cookie_makes_web_strategy_available() async {
         let browserDetection = BrowserDetection(cacheTTL: 0)
         let settings = ProviderSettingsSnapshot.make(
             commandcode: .init(cookieSource: .manual, manualCookieHeader: "session=manual"))
@@ -38,7 +38,7 @@ struct CommandCodeProviderTests {
 
     @MainActor
     @Test
-    func `implementation is registered`() {
+    func implementation_is_registered() {
         #expect(ProviderCatalog.implementation(for: .commandcode) != nil)
     }
 }

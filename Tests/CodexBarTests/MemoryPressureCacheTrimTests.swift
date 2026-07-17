@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct MemoryPressureCacheTrimTests {
     @Test
-    func `memory pressure monitor invokes app cache trim and allocator relief handlers`() async {
+    func memory_pressure_monitor_invokes_app_cache_trim_and_allocator_relief_handlers() async {
         var handlerCalls = 0
         let releaseProbe = MemoryPressureReleaseProbe()
         let monitor = MemoryPressureMonitor(
@@ -29,7 +29,7 @@ struct MemoryPressureCacheTrimTests {
     }
 
     @Test
-    func `memory pressure event handler runs from utility queue and hops to main actor`() async {
+    func memory_pressure_event_handler_runs_from_utility_queue_and_hops_to_main_actor() async {
         let probe = MemoryPressureEventHandlerProbe()
         let handler = MemoryPressureMonitor.makeEventHandler(
             eventReader: { [.warning] },
@@ -58,7 +58,7 @@ struct MemoryPressureCacheTrimTests {
     }
 
     @Test
-    func `memory pressure source event handler can read source data from utility queue`() async {
+    func memory_pressure_source_event_handler_can_read_source_data_from_utility_queue() async {
         let source = DispatchSource.makeMemoryPressureSource(
             eventMask: [.warning, .critical],
             queue: .global(qos: .utility))
@@ -92,7 +92,7 @@ struct MemoryPressureCacheTrimTests {
     }
 
     @Test
-    func `status controller trims rebuildable menu caches on memory pressure`() {
+    func status_controller_trims_rebuildable_menu_caches_on_memory_pressure() {
         let controller = self.makeController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -132,7 +132,7 @@ struct MemoryPressureCacheTrimTests {
     }
 
     @Test
-    func `usage store trims OpenAI web debug cache without interrupting active refresh state`() {
+    func usage_store_trims_OpenAI_web_debug_cache_without_interrupting_active_refresh_state() {
         let store = self.makeStore()
         let taskToken = UUID()
 

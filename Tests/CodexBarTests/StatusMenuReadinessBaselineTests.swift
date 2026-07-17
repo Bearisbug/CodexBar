@@ -6,7 +6,7 @@ import Testing
 
 extension StatusMenuTests {
     @Test
-    func `reopening root menu resyncs readiness baseline so reverted store data still refreshes`() {
+    func reopening_root_menu_resyncs_readiness_baseline_so_reverted_store_data_still_refreshes() {
         // Regression for the readiness-signature optimization (#1351): the baseline is no longer
         // recomputed on every store change while menus are closed, so it must be re-anchored when a
         // root menu opens. Otherwise a closed-then-reopened menu built from new data, followed by an
@@ -66,7 +66,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `root open during in flight refresh preserves stale content and does not resync baseline`() {
+    func root_open_during_in_flight_refresh_preserves_stale_content_and_does_not_resync_baseline() {
         // When `refreshMenuForOpenIfNeeded` keeps existing menu content during an in-flight provider
         // refresh, the readiness baseline must not be re-anchored to live store data. Otherwise the
         // refresh-completion store mutation would compare equal against the prematurely resynced baseline
@@ -129,7 +129,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `native merged menu preparation during in flight refresh preserves stale menu freshness`() throws {
+    func native_merged_menu_preparation_during_in_flight_refresh_preserves_stale_menu_freshness() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -183,7 +183,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `root open before deferred store observation rebuilds and refreshes matching observer`() {
+    func root_open_before_deferred_store_observation_rebuilds_and_refreshes_matching_observer() {
         // Store observation invalidates menus from a deferred main-actor task. If a closed menu opens after
         // live data changes but before that task runs, it must rebuild from live data and let the matching
         // observer invalidate any coalesced non-readiness menu state without losing the readiness baseline.
@@ -244,7 +244,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `root open before deferred store observation during refresh leaves observer pending`() {
+    func root_open_before_deferred_store_observation_during_refresh_leaves_observer_pending() {
         // The pre-observer root-open repair must not bypass the in-flight refresh stale-content path.
         // While data is refreshing, the deferred observer should still invalidate the open menu and defer
         // parent rebuild instead of marking an intermediate snapshot fresh.
@@ -302,7 +302,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `fresh newer-version root open during unrelated refresh still reanchors baseline`() {
+    func fresh_newer_version_root_open_during_unrelated_refresh_still_reanchors_baseline() {
         // An in-flight refresh elsewhere must not block re-anchoring when this menu was already rebuilt for
         // a newer menuContentVersion. Otherwise the stale baseline can still hide a later reverted update.
         self.disableMenuCardsForTesting()
@@ -357,7 +357,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `equal-signature root open advances baseline version before next pre-observer change`() {
+    func equal_signature_root_open_advances_baseline_version_before_next_pre_observer_change() {
         // A root open whose signature still equals the baseline can nevertheless confirm that the visible
         // menu is fresh for a newer menuContentVersion. Record that version so a later live-data change before
         // its deferred observer does not look like already-rendered data.
@@ -417,7 +417,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `newer-version root open rebuilds when rendered signature is older than live data`() {
+    func newer_version_root_open_rebuilds_when_rendered_signature_is_older_than_live_data() {
         // A menu can be fresh for the current menuContentVersion while still having rendered an older
         // readiness signature than the current live store. Root open must rebuild in that pre-observer gap.
         self.disableMenuCardsForTesting()
@@ -483,7 +483,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `equal-signature root open rebuilds when rendered signature reverted before observer`() {
+    func equal_signature_root_open_rebuilds_when_rendered_signature_reverted_before_observer() {
         // A closed provider menu can be rebuilt from B while the readiness baseline remains A. If live data
         // reverts to A before the deferred observer runs, root open must still repair the B-rendered menu.
         self.disableMenuCardsForTesting()
@@ -544,7 +544,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `provider root open before deferred store observation leaves sibling provider menu stale`() {
+    func provider_root_open_before_deferred_store_observation_leaves_sibling_provider_menu_stale() {
         // The readiness signature is global across enabled providers. In split-icon mode, opening one
         // provider's menu must not consume a pending global observation while leaving sibling menus marked
         // fresh even though their provider data changed.

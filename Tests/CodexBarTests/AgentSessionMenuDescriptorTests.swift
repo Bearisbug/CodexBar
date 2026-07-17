@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct AgentSessionMenuDescriptorTests {
     @Test
-    func `fresh settings omit agent sessions until explicitly enabled`() {
+    func fresh_settings_omit_agent_sessions_until_explicitly_enabled() {
         let settings = testSettingsStore(suiteName: "AgentSessionMenuDescriptorTests-default-off")
         settings.statusChecksEnabled = false
         let store = UsageStore(
@@ -40,7 +40,7 @@ struct AgentSessionMenuDescriptorTests {
     }
 
     @Test
-    func `session section counts groups and renders unreachable hosts`() {
+    func session_section_counts_groups_and_renders_unreachable_hosts() {
         let now = Date(timeIntervalSince1970: 1000)
         let local = Self.session(id: "local", host: "local-mac", activity: now.addingTimeInterval(-60))
         let remote = Self.session(id: "remote", host: "clawmac", activity: now.addingTimeInterval(-720))
@@ -77,7 +77,7 @@ struct AgentSessionMenuDescriptorTests {
     }
 
     @Test
-    func `reachable empty remote host keeps zero count section actionable`() {
+    func reachable_empty_remote_host_keeps_zero_count_section_actionable() {
         let section = MenuDescriptor.agentSessionsSection(
             localSessions: [],
             remoteHosts: [RemoteSessionHostResult(host: "clawmac", sessions: [], error: nil)])
@@ -89,7 +89,7 @@ struct AgentSessionMenuDescriptorTests {
     }
 
     @Test
-    func `remote refresh gate retries changed settings and rejects stale result`() throws {
+    func remote_refresh_gate_retries_changed_settings_and_rejects_stale_result() throws {
         var gate = AgentSessionRemoteRefreshGate()
         let initialGenerationCandidate = gate.begin()
         let initialGeneration = try #require(initialGenerationCandidate)
@@ -108,7 +108,7 @@ struct AgentSessionMenuDescriptorTests {
     }
 
     @Test
-    func `remote refresh gate coalesces ordinary overlaps without retry`() throws {
+    func remote_refresh_gate_coalesces_ordinary_overlaps_without_retry() throws {
         var gate = AgentSessionRemoteRefreshGate()
         let generationCandidate = gate.begin()
         let generation = try #require(generationCandidate)
@@ -120,7 +120,7 @@ struct AgentSessionMenuDescriptorTests {
     }
 
     @Test
-    func `remote refresh gate coalesces multiple ordinary overlaps into one pass`() throws {
+    func remote_refresh_gate_coalesces_multiple_ordinary_overlaps_into_one_pass() throws {
         var gate = AgentSessionRemoteRefreshGate()
         let generationCandidate = gate.begin()
         let generation = try #require(generationCandidate)
@@ -135,7 +135,7 @@ struct AgentSessionMenuDescriptorTests {
     }
 
     @Test
-    func `remote refresh gate still retries after ordinary overlap then settings change`() throws {
+    func remote_refresh_gate_still_retries_after_ordinary_overlap_then_settings_change() throws {
         var gate = AgentSessionRemoteRefreshGate()
         let staleGenerationCandidate = gate.begin()
         let staleGeneration = try #require(staleGenerationCandidate)
@@ -155,7 +155,7 @@ struct AgentSessionMenuDescriptorTests {
     }
 
     @Test
-    func `remote refresh gate pass counts stay at one for overlap and two for settings change`() {
+    func remote_refresh_gate_pass_counts_stay_at_one_for_overlap_and_two_for_settings_change() {
         #expect(Self.remotePassCount(for: .ordinaryOverlaps(count: 1)) == 1)
         #expect(Self.remotePassCount(for: .settingsChangeDuringFlight) == 2)
     }

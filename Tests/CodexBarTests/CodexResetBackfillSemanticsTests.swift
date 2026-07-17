@@ -5,7 +5,7 @@ import Testing
 
 struct CodexResetBackfillSemanticsTests {
     @Test
-    func `merged reset cache preserves semantic lanes across swapped snapshots`() throws {
+    func merged_reset_cache_preserves_semantic_lanes_across_swapped_snapshots() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let sessionReset = now.addingTimeInterval(4 * 60 * 60)
         let weeklyReset = now.addingTimeInterval(4 * 24 * 60 * 60)
@@ -41,7 +41,7 @@ struct CodexResetBackfillSemanticsTests {
 
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `stacked email only rows use neither prior baselines nor reset backfills`() async throws {
+    func stacked_email_only_rows_use_neither_prior_baselines_nor_reset_backfills() async throws {
         let fixture = try self.makeEmailOnlyStackedFixture(
             suite: "CodexResetBackfillSemanticsTests-email-only-stacked")
         defer { fixture.cleanup() }

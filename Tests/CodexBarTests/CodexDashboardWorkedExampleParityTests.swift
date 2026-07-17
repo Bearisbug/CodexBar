@@ -8,7 +8,7 @@ import Testing
 @MainActor
 struct CodexDashboardWorkedExampleParityTests {
     @Test
-    func `worked example A wrong email app and CLI both reject and retire owned state`() async throws {
+    func worked_example_A_wrong_email_app_and_CLI_both_reject_and_retire_owned_state() async throws {
         try await self.withIsolatedDashboardCache {
             OpenAIDashboardCacheStore.clear()
             defer { OpenAIDashboardCacheStore.clear() }
@@ -101,7 +101,7 @@ struct CodexDashboardWorkedExampleParityTests {
     }
 
     @Test
-    func `worked example B same email ambiguity is display only in app and non attach in CLI`() async throws {
+    func worked_example_B_same_email_ambiguity_is_display_only_in_app_and_non_attach_in_CLI() async throws {
         try await self.withIsolatedDashboardCache {
             OpenAIDashboardCacheStore.clear()
             defer { OpenAIDashboardCacheStore.clear() }
@@ -193,7 +193,7 @@ struct CodexDashboardWorkedExampleParityTests {
     }
 
     @Test
-    func `worked example C unresolved but proven continuity attaches in app and CLI`() async {
+    func worked_example_C_unresolved_but_proven_continuity_attaches_in_app_and_CLI() async {
         await self.withIsolatedDashboardCache {
             OpenAIDashboardCacheStore.clear()
             defer { OpenAIDashboardCacheStore.clear() }
@@ -254,7 +254,7 @@ struct CodexDashboardWorkedExampleParityTests {
     }
 
     @Test
-    func `worked example D prior attach downgrades to ambiguity and retires old owned state`() async throws {
+    func worked_example_D_prior_attach_downgrades_to_ambiguity_and_retires_old_owned_state() async throws {
         try await self.withIsolatedDashboardCache {
             OpenAIDashboardCacheStore.clear()
             defer { OpenAIDashboardCacheStore.clear() }
@@ -348,7 +348,7 @@ struct CodexDashboardWorkedExampleParityTests {
         }
     }
 
-    private func withIsolatedDashboardCache<T>(
+    private func withIsolatedDashboardCache<T: Sendable>(
         _ operation: () async throws -> T) async rethrows -> T
     {
         let cacheURL = FileManager.default.temporaryDirectory

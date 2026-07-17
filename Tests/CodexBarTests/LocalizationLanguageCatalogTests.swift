@@ -31,62 +31,62 @@ struct LocalizationLanguageCatalogTests {
     ]
 
     @Test
-    func `app language catalog includes Ukrainian`() {
+    func app_language_catalog_includes_Ukrainian() {
         #expect(AppLanguage.allCases.contains(.ukrainian))
         #expect(AppLanguage.ukrainian.rawValue == "uk")
     }
 
     @Test
-    func `app language catalog includes Russian`() {
+    func app_language_catalog_includes_Russian() {
         #expect(AppLanguage.allCases.contains(.russian))
         #expect(AppLanguage.russian.rawValue == "ru")
     }
 
     @Test
-    func `app language catalog includes Korean`() {
+    func app_language_catalog_includes_Korean() {
         #expect(AppLanguage.allCases.contains(.korean))
         #expect(AppLanguage.korean.rawValue == "ko")
     }
 
     @Test
-    func `app language catalog includes Turkish`() {
+    func app_language_catalog_includes_Turkish() {
         #expect(AppLanguage.allCases.contains(.turkish))
         #expect(AppLanguage.turkish.rawValue == "tr")
     }
 
     @Test
-    func `app language catalog includes Italian`() {
+    func app_language_catalog_includes_Italian() {
         #expect(AppLanguage.allCases.contains(.italian))
         #expect(AppLanguage.italian.rawValue == "it")
     }
 
     @Test
-    func `app language catalog includes Indonesian`() {
+    func app_language_catalog_includes_Indonesian() {
         #expect(AppLanguage.allCases.contains(.indonesian))
         #expect(AppLanguage.indonesian.rawValue == "id")
     }
 
     @Test
-    func `app language catalog includes Polish`() {
+    func app_language_catalog_includes_Polish() {
         #expect(AppLanguage.allCases.contains(.polish))
         #expect(AppLanguage.polish.rawValue == "pl")
     }
 
     @Test
-    func `app language catalog includes Arabic Persian and Thai`() {
+    func app_language_catalog_includes_Arabic_Persian_and_Thai() {
         #expect(AppLanguage.arabic.rawValue == "ar")
         #expect(AppLanguage.persian.rawValue == "fa")
         #expect(AppLanguage.thai.rawValue == "th")
     }
 
     @Test
-    func `app language catalog includes Galician`() {
+    func app_language_catalog_includes_Galician() {
         #expect(AppLanguage.allCases.contains(.galician))
         #expect(AppLanguage.galician.rawValue == "gl")
     }
 
     @Test
-    func `language picker labels use stable native names`() {
+    func language_picker_labels_use_stable_native_names() {
         let expected: [AppLanguage: String] = [
             .system: "System",
             .english: "English",
@@ -128,7 +128,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `system language preserves an external Apple Languages override`() {
+    func system_language_preserves_an_external_Apple_Languages_override() {
         Self.withTemporaryDefaults(for: #function) { defaults, _ in
             defaults.set(["de"], forKey: "AppleLanguages")
 
@@ -141,7 +141,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `matching legacy language override is cleared`() {
+    func matching_legacy_language_override_is_cleared() {
         Self.withTemporaryDefaults(for: #function) { defaults, suiteName in
             defaults.set(["ja"], forKey: "AppleLanguages")
 
@@ -154,7 +154,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `unrelated external language override is preserved`() {
+    func unrelated_external_language_override_is_preserved() {
         Self.withTemporaryDefaults(for: #function) { defaults, _ in
             defaults.set(["de"], forKey: "AppleLanguages")
 
@@ -167,7 +167,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `new language bundles include representative native labels`() throws {
+    func new_language_bundles_include_representative_native_labels() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -236,7 +236,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `german manual action labels do not describe a handbook`() throws {
+    func german_manual_action_labels_do_not_describe_a_handbook() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -249,7 +249,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `galician localization matches the English catalog`() throws {
+    func galician_localization_matches_the_English_catalog() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -264,7 +264,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `catalan localization matches the English catalog`() throws {
+    func catalan_localization_matches_the_English_catalog() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -281,7 +281,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `localized catalogs include every app language label`() throws {
+    func localized_catalogs_include_every_app_language_label() throws {
         #expect(self.languageKeys.count == AppLanguage.allCases.count)
 
         let root = URL(fileURLWithPath: #filePath)
@@ -304,7 +304,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `localized catalogs include workday pace setting copy`() throws {
+    func localized_catalogs_include_workday_pace_setting_copy() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -328,7 +328,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `localized catalogs include default terminal setting copy`() throws {
+    func localized_catalogs_include_default_terminal_setting_copy() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -351,7 +351,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `ukrainian localization bundle exists and contains key UI labels`() throws {
+    func ukrainian_localization_bundle_exists_and_contains_key_UI_labels() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -373,7 +373,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `korean localization bundle includes representative native labels`() throws {
+    func korean_localization_bundle_includes_representative_native_labels() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -389,7 +389,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `turkish localization matches English catalog and preserves format placeholders`() throws {
+    func turkish_localization_matches_English_catalog_and_preserves_format_placeholders() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -431,7 +431,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `italian localization matches English catalog and includes current UI labels`() throws {
+    func italian_localization_matches_English_catalog_and_includes_current_UI_labels() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -505,7 +505,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `indonesian localization matches English catalog and preserves format placeholders`() throws {
+    func indonesian_localization_matches_English_catalog_and_preserves_format_placeholders() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -548,7 +548,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `polish localization matches English catalog and includes current UI labels`() throws {
+    func polish_localization_matches_English_catalog_and_includes_current_UI_labels() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -567,7 +567,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `japanese usage chart accessibility text preserves argument meanings`() throws {
+    func japanese_usage_chart_accessibility_text_preserves_argument_meanings() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -586,7 +586,7 @@ struct LocalizationLanguageCatalogTests {
     }
 
     @Test
-    func `korean usage chart accessibility text preserves argument meanings`() throws {
+    func korean_usage_chart_accessibility_text_preserves_argument_meanings() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()

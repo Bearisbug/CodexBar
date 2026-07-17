@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct MenuBarCountdownRefreshTests {
     @Test
-    func `countdown refresh delay follows the next displayed minute boundary`() {
+    func countdown_refresh_delay_follows_the_next_displayed_minute_boundary() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
 
         let delay = StatusItemController.menuBarCountdownRefreshDelay(
@@ -22,7 +22,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `countdown refresh ignores elapsed reset dates`() {
+    func countdown_refresh_ignores_elapsed_reset_dates() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
 
         let delay = StatusItemController.menuBarCountdownRefreshDelay(
@@ -33,7 +33,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `absolute refresh observes local midnight before the reset`() throws {
+    func absolute_refresh_observes_local_midnight_before_the_reset() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "America/Los_Angeles"))
         let now = try #require(calendar.date(from: DateComponents(
@@ -53,7 +53,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `absolute refresh observes midnight after a skipped day start`() throws {
+    func absolute_refresh_observes_midnight_after_a_skipped_day_start() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "America/Santiago"))
         let now = try #require(calendar.date(from: DateComponents(
@@ -72,7 +72,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `status item schedules countdown and exhausted lane refreshes`() {
+    func status_item_schedules_countdown_and_exhausted_lane_refreshes() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "MenuBarCountdownRefreshTests-scheduling"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -199,7 +199,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `absolute clock smart mode schedules the exhausted reset boundary`() {
+    func absolute_clock_smart_mode_schedules_the_exhausted_reset_boundary() {
         // Isolated defaults: this test enables the smart option, which must not leak into `.standard`
         // and flip other suites' exhausted-lane expectations.
         let settings = testSettingsStore(suiteName: "MenuBarCountdownRefreshTests-absolute-smart")
@@ -275,7 +275,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test(arguments: [MenuBarDisplayMode.percent, .pace, .both])
-    func `combined metric schedules every displayed exhausted reset lane`(mode: MenuBarDisplayMode) {
+    func combined_metric_schedules_every_displayed_exhausted_reset_lane(mode: MenuBarDisplayMode) {
         for usesAbsoluteClock in [false, true] {
             // Isolated defaults: enabling the smart option must not leak into `.standard`.
             let settings = testSettingsStore(
@@ -348,7 +348,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `combined metric falls through to a nonstandard exhausted fallback lane`() {
+    func combined_metric_falls_through_to_a_nonstandard_exhausted_fallback_lane() {
         let settings = testSettingsStore(suiteName: "MenuBarCountdownRefreshTests-combined-fallback")
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -395,7 +395,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `time environment change reschedules an absolute reset label`() {
+    func time_environment_change_reschedules_an_absolute_reset_label() {
         let settings = testSettingsStore(suiteName: "MenuBarCountdownRefreshTests-time-environment")
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -439,7 +439,7 @@ struct MenuBarCountdownRefreshTests {
     }
 
     @Test
-    func `merged highest usage observes reset for noncurrent Codex candidate`() throws {
+    func merged_highest_usage_observes_reset_for_noncurrent_Codex_candidate() throws {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "MenuBarCountdownRefreshTests-merged-highest"),
             zaiTokenStore: NoopZaiTokenStore(),

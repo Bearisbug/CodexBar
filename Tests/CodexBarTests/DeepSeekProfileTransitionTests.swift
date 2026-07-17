@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct DeepSeekProfileTransitionTests {
     @Test(arguments: [false, true])
-    func `forced web profile transition clears stale balance with an api key`(
+    func forced_web_profile_transition_clears_stale_balance_with_an_api_key(
         isCancellation: Bool) async throws
     {
         let apiKey = "test-deepseek-api-key"

@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CodexCombinedMetricHighestUsageTests {
     @Test
-    func `combined codex metric uses weekly lane when ranking highest usage`() {
+    func combined_codex_metric_uses_weekly_lane_when_ranking_highest_usage() {
         let store = self.makeStore(suiteName: "CodexCombinedMetricHighestUsageTests-weekly-ranking")
 
         let codexSnapshot = UsageSnapshot(
@@ -27,7 +27,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined codex metric ignores expired weekly lane when ranking highest usage`() {
+    func combined_codex_metric_ignores_expired_weekly_lane_when_ranking_highest_usage() {
         let store = self.makeStore(suiteName: "CodexCombinedMetricHighestUsageTests-expired-weekly-ranking")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
 
@@ -58,7 +58,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined codex metric excludes an actively binding weekly cap`() {
+    func combined_codex_metric_excludes_an_actively_binding_weekly_cap() {
         let store = self.makeStore(suiteName: "CodexCombinedMetricHighestUsageTests-binding-weekly-cap")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
 
@@ -89,7 +89,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined codex metric stays eligible when only one lane is exhausted`() {
+    func combined_codex_metric_stays_eligible_when_only_one_lane_is_exhausted() {
         let store = self.makeStore(suiteName: "CodexCombinedMetricHighestUsageTests-one-exhausted")
 
         store._setSnapshotForTesting(
@@ -115,7 +115,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined codex metric is excluded when both lanes are exhausted`() {
+    func combined_codex_metric_is_excluded_when_both_lanes_are_exhausted() {
         let store = self.makeStore(suiteName: "CodexCombinedMetricHighestUsageTests-both-exhausted")
 
         store._setSnapshotForTesting(
@@ -141,7 +141,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined claude metric stays eligible when only one lane is exhausted`() {
+    func combined_claude_metric_stays_eligible_when_only_one_lane_is_exhausted() {
         let store = self.makeStore(
             suiteName: "CodexCombinedMetricHighestUsageTests-claude-one-exhausted",
             claudeCombined: true)
@@ -175,7 +175,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined claude metric is excluded when both lanes are exhausted`() {
+    func combined_claude_metric_is_excluded_when_both_lanes_are_exhausted() {
         let store = self.makeStore(
             suiteName: "CodexCombinedMetricHighestUsageTests-claude-both-exhausted",
             claudeCombined: true)
@@ -209,7 +209,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined claude metric excludes an exhausted weekly-only account with a synthetic placeholder`() {
+    func combined_claude_metric_excludes_an_exhausted_weekly_only_account_with_a_synthetic_placeholder() {
         let store = self.makeStore(
             suiteName: "CodexCombinedMetricHighestUsageTests-claude-placeholder-exhausted",
             claudeCombined: true)
@@ -249,7 +249,7 @@ struct CodexCombinedMetricHighestUsageTests {
     }
 
     @Test
-    func `combined claude metric excludes an exhausted spend-limit-only account`() {
+    func combined_claude_metric_excludes_an_exhausted_spend_limit_only_account() {
         let store = self.makeStore(
             suiteName: "CodexCombinedMetricHighestUsageTests-claude-spend-limit-exhausted",
             claudeCombined: true)

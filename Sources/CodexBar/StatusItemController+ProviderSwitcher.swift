@@ -273,7 +273,7 @@ extension StatusItemController {
             self.advanceMenuInteraction(for: menu)
         }
         if StatusItemMenu.isPersistentRefreshShortcut(for: event),
-           menu.items.contains(where: self.isPersistentRefreshItem)
+           menu.items.contains(where: { self.isPersistentRefreshItem($0) })
         {
             if let menu = menu as? StatusItemMenu {
                 menu.requestPersistentRefreshAction()

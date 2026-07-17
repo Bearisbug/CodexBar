@@ -4,7 +4,7 @@ import Testing
 
 struct LocalizationBundleTests {
     @Test
-    func `packaged app resolves localization bundle from resources`() throws {
+    func packaged_app_resolves_localization_bundle_from_resources() throws {
         let fixture = try Self.makeAppBundleFixture(includeLocalizationBundle: true)
         defer { try? FileManager.default.removeItem(at: fixture.root) }
 
@@ -15,7 +15,7 @@ struct LocalizationBundleTests {
     }
 
     @Test
-    func `packaged app falls back to main bundle without touching SwiftPM module`() throws {
+    func packaged_app_falls_back_to_main_bundle_without_touching_SwiftPM_module() throws {
         let fixture = try Self.makeAppBundleFixture(includeLocalizationBundle: false)
         defer { try? FileManager.default.removeItem(at: fixture.root) }
 
@@ -25,7 +25,7 @@ struct LocalizationBundleTests {
     }
 
     @Test
-    func `packaged app resolves raw copied localization resources from main bundle`() throws {
+    func packaged_app_resolves_raw_copied_localization_resources_from_main_bundle() throws {
         let fixture = try Self.makeAppBundleFixture(
             includeLocalizationBundle: false,
             includeMainLocalization: true)
@@ -38,7 +38,7 @@ struct LocalizationBundleTests {
     }
 
     @Test
-    func `empty localized values fall back to English`() throws {
+    func empty_localized_values_fall_back_to_English() throws {
         let fixture = try Self.makeAppBundleFixture(
             includeLocalizationBundle: true,
             includeEmptyChineseLocalization: true)
@@ -53,7 +53,7 @@ struct LocalizationBundleTests {
     }
 
     @Test
-    func `managed Codex login failure includes CLI recovery guidance`() {
+    func managed_Codex_login_failure_includes_CLI_recovery_guidance() {
         let message = L("managed_login_failed")
 
         #expect(message.contains("codex --version"))

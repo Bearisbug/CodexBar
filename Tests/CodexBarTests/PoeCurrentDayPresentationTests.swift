@@ -5,7 +5,7 @@ import Testing
 
 struct PoeCurrentDayPresentationTests {
     @Test
-    func `Poe notes and dashboard do not label stale usage as Today`() throws {
+    func Poe_notes_and_dashboard_do_not_label_stale_usage_as_Today() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "Europe/London"))
         let now = try #require(ISO8601DateFormatter().date(from: "2026-06-23T12:00:00Z"))

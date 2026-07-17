@@ -22,7 +22,7 @@ private struct APITokenStrategyStubClaudeFetcher: ClaudeUsageFetching {
 
 struct APITokenFetchStrategyTests {
     @Test
-    func `missing token is unavailable and preserves provider error`() async {
+    func missing_token_is_unavailable_and_preserves_provider_error() async {
         let strategy = Self.makeStrategy()
         let context = Self.makeContext(environment: [:])
 
@@ -33,7 +33,7 @@ struct APITokenFetchStrategyTests {
     }
 
     @Test
-    func `resolved token loads usage and stamps result metadata`() async throws {
+    func resolved_token_loads_usage_and_stamps_result_metadata() async throws {
         let strategy = Self.makeStrategy()
         let context = Self.makeContext(environment: ["TEST_API_KEY": "test-token"])
 
@@ -48,7 +48,7 @@ struct APITokenFetchStrategyTests {
     }
 
     @Test
-    func `required token strategy surfaces its missing credential error`() async {
+    func required_token_strategy_surfaces_its_missing_credential_error() async {
         let strategy = APITokenFetchStrategy(
             id: "test.required-api",
             reportsMissingCredentials: true,

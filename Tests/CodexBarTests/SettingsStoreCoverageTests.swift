@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct SettingsStoreCoverageTests {
     @Test
-    func `provider ordering and caching`() throws {
+    func provider_ordering_and_caching() throws {
         let suite = "SettingsStoreCoverageTests-ordering"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -42,7 +42,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `disabling selected provider clears menu selection`() throws {
+    func disabling_selected_provider_clears_menu_selection() throws {
         let settings = Self.makeSettingsStore()
         let metadata = ProviderRegistry.shared.metadata
 
@@ -57,7 +57,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `menu bar metric preferences and display modes`() {
+    func menu_bar_metric_preferences_and_display_modes() {
         let settings = Self.makeSettingsStore()
 
         settings.setMenuBarMetricPreference(.average, for: .codex)
@@ -81,7 +81,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `minimax settings snapshot uses selected token account as manual cookie`() {
+    func minimax_settings_snapshot_uses_selected_token_account_as_manual_cookie() {
         let settings = Self.makeSettingsStore(suiteName: "SettingsStoreCoverageTests-minimax-token-account")
         settings.minimaxCookieSource = .auto
         settings.minimaxCookieHeader = "HERTZ-SESSION=global"
@@ -94,7 +94,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `minimax settings snapshot falls back to global cookie without token accounts`() {
+    func minimax_settings_snapshot_falls_back_to_global_cookie_without_token_accounts() {
         let settings = Self.makeSettingsStore(suiteName: "SettingsStoreCoverageTests-minimax-global-cookie")
         settings.minimaxCookieSource = .auto
         settings.minimaxCookieHeader = "HERTZ-SESSION=global"
@@ -106,7 +106,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `copilot budget extras default off and persist in provider snapshot`() throws {
+    func copilot_budget_extras_default_off_and_persist_in_provider_snapshot() throws {
         let suite = "SettingsStoreCoverageTests-copilot-budget-extras"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -124,7 +124,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `agent sessions default off and persist explicit opt in`() throws {
+    func agent_sessions_default_off_and_persist_explicit_opt_in() throws {
         let suite = "SettingsStoreCoverageTests-agent-sessions"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -142,7 +142,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `multi account menu layout persists and bridges legacy show all token accounts`() throws {
+    func multi_account_menu_layout_persists_and_bridges_legacy_show_all_token_accounts() throws {
         let suite = "SettingsStoreCoverageTests-multi-account-layout"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -162,7 +162,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `legacy show all token accounts migrates to stacked layout`() throws {
+    func legacy_show_all_token_accounts_migrates_to_stacked_layout() throws {
         let suite = "SettingsStoreCoverageTests-legacy-token-account-layout"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -175,7 +175,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `token account mutations apply side effects`() {
+    func token_account_mutations_apply_side_effects() {
         let settings = Self.makeSettingsStore()
 
         settings.addTokenAccount(provider: .claude, label: "Primary", token: "token")
@@ -197,7 +197,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `token account update preserves identity and selection`() throws {
+    func token_account_update_preserves_identity_and_selection() throws {
         let settings = Self.makeSettingsStore()
 
         settings.addTokenAccount(provider: .copilot, label: "Primary", token: "token-1")
@@ -219,7 +219,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `zai token account update preserves team metadata`() throws {
+    func zai_token_account_update_preserves_team_metadata() throws {
         let settings = Self.makeSettingsStore()
 
         settings.addTokenAccount(
@@ -244,7 +244,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `copilot token accounts clear legacy api key fallback`() throws {
+    func copilot_token_accounts_clear_legacy_api_key_fallback() throws {
         let settings = Self.makeSettingsStore()
         settings.copilotAPIToken = "legacy-token"
 
@@ -263,7 +263,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `copilot settings snapshot carries selected account identifier`() {
+    func copilot_settings_snapshot_carries_selected_account_identifier() {
         let settings = Self.makeSettingsStore()
         settings.addTokenAccount(
             provider: .copilot,
@@ -278,7 +278,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `copilot enterprise host persists in provider config`() throws {
+    func copilot_enterprise_host_persists_in_provider_config() throws {
         let suite = "SettingsStoreCoverageTests-copilot-enterprise-host"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -298,7 +298,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `removing another token account preserves active selection`() throws {
+    func removing_another_token_account_preserves_active_selection() throws {
         let settings = Self.makeSettingsStore()
 
         settings.addTokenAccount(provider: .copilot, label: "A", token: "token-a")
@@ -317,7 +317,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude snapshot uses OAuth routing for OAuth token accounts`() {
+    func claude_snapshot_uses_OAuth_routing_for_OAuth_token_accounts() {
         let settings = Self.makeSettingsStore()
         settings.addTokenAccount(provider: .claude, label: "OAuth", token: "Bearer sk-ant-oat-account-token")
 
@@ -329,7 +329,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude snapshot uses manual cookie routing for session key accounts`() {
+    func claude_snapshot_uses_manual_cookie_routing_for_session_key_accounts() {
         let settings = Self.makeSettingsStore()
         settings.addTokenAccount(provider: .claude, label: "Cookie", token: "sk-ant-session-token")
 
@@ -341,7 +341,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude snapshot normalizes config manual cookie input through shared route`() {
+    func claude_snapshot_normalizes_config_manual_cookie_input_through_shared_route() {
         let settings = Self.makeSettingsStore()
         settings.claudeCookieSource = .manual
         settings.claudeCookieHeader = "Cookie: sessionKey=sk-ant-session-token; foo=bar"
@@ -354,7 +354,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude snapshot does not fall back to config cookie for malformed selected token account`() {
+    func claude_snapshot_does_not_fall_back_to_config_cookie_for_malformed_selected_token_account() {
         let settings = Self.makeSettingsStore()
         settings.claudeCookieSource = .manual
         settings.claudeCookieHeader = "Cookie: sessionKey=sk-ant-config-cookie"
@@ -367,7 +367,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `opencode go token accounts force manual cookie routing`() {
+    func opencode_go_token_accounts_force_manual_cookie_routing() {
         let settings = Self.makeSettingsStore()
         settings.addTokenAccount(provider: .opencodego, label: "Go", token: "auth=go-cookie")
 
@@ -379,7 +379,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `opencode go snapshot preserves nil workspace id when settings are unset`() {
+    func opencode_go_snapshot_preserves_nil_workspace_id_when_settings_are_unset() {
         let settings = Self.makeSettingsStore()
 
         let snapshot = settings.opencodegoSettingsSnapshot(tokenOverride: nil)
@@ -389,7 +389,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `token cost usage source detection`() throws {
+    func token_cost_usage_source_detection() throws {
         let fileManager = FileManager.default
         let root = fileManager.temporaryDirectory.appendingPathComponent(
             "token-cost-\(UUID().uuidString)",
@@ -473,7 +473,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `ensure token loaders execute`() {
+    func ensure_token_loaders_execute() {
         let settings = Self.makeSettingsStore()
 
         settings.ensureZaiAPITokenLoaded()
@@ -498,7 +498,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `keychain disable forces manual cookie sources`() throws {
+    func keychain_disable_forces_manual_cookie_sources() throws {
         let suite = "SettingsStoreCoverageTests-keychain"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -516,13 +516,13 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude keychain prompt mode defaults to only on user action`() {
+    func claude_keychain_prompt_mode_defaults_to_only_on_user_action() {
         let settings = Self.makeSettingsStore()
         #expect(settings.claudeOAuthKeychainPromptMode == .onlyOnUserAction)
     }
 
     @Test
-    func `claude keychain prompt mode persists across store reload`() throws {
+    func claude_keychain_prompt_mode_persists_across_store_reload() throws {
         let suite = "SettingsStoreCoverageTests-claude-keychain-prompt-mode"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -539,7 +539,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude keychain prompt mode invalid raw falls back to only on user action`() throws {
+    func claude_keychain_prompt_mode_invalid_raw_falls_back_to_only_on_user_action() throws {
         let suite = "SettingsStoreCoverageTests-claude-keychain-prompt-mode-invalid"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -551,13 +551,13 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude keychain read strategy defaults to security framework`() {
+    func claude_keychain_read_strategy_defaults_to_security_framework() {
         let settings = Self.makeSettingsStore()
         #expect(settings.claudeOAuthKeychainReadStrategy == .securityFramework)
     }
 
     @Test
-    func `claude keychain read strategy persists across store reload`() throws {
+    func claude_keychain_read_strategy_persists_across_store_reload() throws {
         let suite = "SettingsStoreCoverageTests-claude-keychain-read-strategy"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -574,7 +574,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude legacy security CLI read strategy preserves no prompt intent`() throws {
+    func claude_legacy_security_CLI_read_strategy_preserves_no_prompt_intent() throws {
         let suite = "SettingsStoreCoverageTests-claude-keychain-read-strategy-migration"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -597,7 +597,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude legacy security CLI migration preserves explicit prompt policy`() throws {
+    func claude_legacy_security_CLI_migration_preserves_explicit_prompt_policy() throws {
         let suite = "SettingsStoreCoverageTests-claude-keychain-explicit-prompt-migration"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -617,7 +617,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude keychain read strategy invalid raw falls back to security framework`() throws {
+    func claude_keychain_read_strategy_invalid_raw_falls_back_to_security_framework() throws {
         let suite = "SettingsStoreCoverageTests-claude-keychain-read-strategy-invalid"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -629,7 +629,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `claude prompt free credentials toggle maps to never prompt policy`() {
+    func claude_prompt_free_credentials_toggle_maps_to_never_prompt_policy() {
         let settings = Self.makeSettingsStore()
         #expect(settings.claudeOAuthPromptFreeCredentialsEnabled == false)
 
@@ -643,7 +643,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `upsert antigravity oauth account adds and updates active token account`() throws {
+    func upsert_antigravity_oauth_account_adds_and_updates_active_token_account() throws {
         let settings = Self.makeSettingsStore()
         let first = AntigravityOAuthCredentials(
             accessToken: "first-access",
@@ -671,7 +671,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `upsert antigravity oauth account does not merge missing email accounts by fallback label`() {
+    func upsert_antigravity_oauth_account_does_not_merge_missing_email_accounts_by_fallback_label() {
         let settings = Self.makeSettingsStore()
         let first = AntigravityOAuthCredentials(
             accessToken: "first-access",
@@ -694,7 +694,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `removing last antigravity oauth account clears matching shared credentials`() throws {
+    func removing_last_antigravity_oauth_account_clears_matching_shared_credentials() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("antigravity-shared-removal-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -721,7 +721,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `removing antigravity oauth account preserves freshly reauthenticated credentials`() throws {
+    func removing_antigravity_oauth_account_preserves_freshly_reauthenticated_credentials() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("antigravity-shared-reauth-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -752,7 +752,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `removing antigravity oauth account preserves different shared credentials`() async throws {
+    func removing_antigravity_oauth_account_preserves_different_shared_credentials() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("antigravity-shared-preserve-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -785,7 +785,7 @@ struct SettingsStoreCoverageTests {
     }
 
     @Test
-    func `weekly progress work days defaults to nil and persists across store reload`() throws {
+    func weekly_progress_work_days_defaults_to_nil_and_persists_across_store_reload() throws {
         let suite = "SettingsStoreCoverageTests-weekly-progress-work-days"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

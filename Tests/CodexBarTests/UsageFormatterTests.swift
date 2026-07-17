@@ -30,7 +30,7 @@ struct UsageFormatterTests {
     ]
 
     @Test
-    func `formats usage line`() {
+    func formats_usage_line() {
         UsageFormatter.clearLocalizationProvider()
         UsageFormatter.clearLocaleProvider()
         let line = UsageFormatter.usageLine(remaining: 25, used: 75, showUsed: false)
@@ -38,7 +38,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `formats usage line show used`() {
+    func formats_usage_line_show_used() {
         UsageFormatter.clearLocalizationProvider()
         UsageFormatter.clearLocaleProvider()
         let line = UsageFormatter.usageLine(remaining: 25, used: 75, showUsed: true)
@@ -46,7 +46,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `positive sub percent usage stays visible`() {
+    func positive_sub_percent_usage_stays_visible() {
         #expect(UsageFormatter.percentString(-1) == "0%")
         #expect(UsageFormatter.percentString(0) == "0%")
         #expect(UsageFormatter.percentString(0.1) == "<1%")
@@ -68,7 +68,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `usage line respects injected localization provider`() {
+    func usage_line_respects_injected_localization_provider() {
         UsageFormatter.setLocalizationProvider { key in
             switch key {
             case "%.0f%% %@": "%2$@ %1$.0f%%"
@@ -87,7 +87,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `default locale fallback matches stable en US POSIX behavior`() {
+    func default_locale_fallback_matches_stable_en_US_POSIX_behavior() {
         UsageFormatter.clearLocalizationProvider()
         UsageFormatter.clearLocaleProvider()
 
@@ -103,7 +103,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `injected zh Hans locale applies app language formatting`() {
+    func injected_zh_Hans_locale_applies_app_language_formatting() {
         UsageFormatter.setLocalizationProvider { key in
             switch key {
             case "Updated absolute %@":
@@ -126,7 +126,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `injected zh Hant relative updated string can place updated after relative time`() {
+    func injected_zh_Hant_relative_updated_string_can_place_updated_after_relative_time() {
         UsageFormatter.setLocalizationProvider { key in
             switch key {
             case "Updated relative %@":
@@ -150,7 +150,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `clearing locale provider returns to stable default behavior`() {
+    func clearing_locale_provider_returns_to_stable_default_behavior() {
         UsageFormatter.clearLocalizationProvider()
         UsageFormatter.clearLocaleProvider()
 
@@ -167,7 +167,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `tomorrow reset description uses localized format`() throws {
+    func tomorrow_reset_description_uses_localized_format() throws {
         UsageFormatter.setLocalizationProvider { key in
             key == "reset_tomorrow_format" ? "明日 %@" : key
         }
@@ -190,7 +190,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `relative updated recent`() {
+    func relative_updated_recent() {
         let now = Date()
         let fiveHoursAgo = now.addingTimeInterval(-5 * 3600)
         let text = UsageFormatter.updatedString(from: fiveHoursAgo, now: now)
@@ -200,7 +200,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `absolute updated old`() {
+    func absolute_updated_old() {
         let now = Date()
         let dayAgo = now.addingTimeInterval(-26 * 3600)
         let text = UsageFormatter.updatedString(from: dayAgo, now: now)
@@ -209,70 +209,70 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `reset countdown minutes`() {
+    func reset_countdown_minutes() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval(10 * 60 + 1)
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 11m")
     }
 
     @Test
-    func `reset countdown hours and minutes`() {
+    func reset_countdown_hours_and_minutes() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval(3 * 3600 + 31 * 60)
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 3h 31m")
     }
 
     @Test
-    func `reset countdown caps days with hours at two units`() {
+    func reset_countdown_caps_days_with_hours_at_two_units() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval((26 * 3600) + (1 * 60))
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 1d 2h")
     }
 
     @Test
-    func `reset countdown days and exact hours`() {
+    func reset_countdown_days_and_exact_hours() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval(26 * 3600)
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 1d 2h")
     }
 
     @Test
-    func `reset countdown days and minutes without whole hours`() {
+    func reset_countdown_days_and_minutes_without_whole_hours() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval((24 * 3600) + (5 * 60))
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 1d 5m")
     }
 
     @Test
-    func `reset countdown exact days`() {
+    func reset_countdown_exact_days() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval(2 * 24 * 3600)
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 2d")
     }
 
     @Test
-    func `reset countdown rounds the last minute into a day`() {
+    func reset_countdown_rounds_the_last_minute_into_a_day() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval((24 * 3600) - 59)
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 1d")
     }
 
     @Test
-    func `reset countdown exact hour`() {
+    func reset_countdown_exact_hour() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval(60 * 60)
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "in 1h")
     }
 
     @Test
-    func `reset countdown past date`() {
+    func reset_countdown_past_date() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval(-10)
         #expect(UsageFormatter.resetCountdownDescription(from: reset, now: now) == "now")
     }
 
     @Test
-    func `reset line uses countdown when resets at is available`() {
+    func reset_line_uses_countdown_when_resets_at_is_available() {
         let now = Date(timeIntervalSince1970: 1_000_000)
         let reset = now.addingTimeInterval(10 * 60 + 1)
         let window = RateWindow(usedPercent: 0, windowMinutes: nil, resetsAt: reset, resetDescription: "Resets soon")
@@ -281,7 +281,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `reset line falls back to provided description`() {
+    func reset_line_falls_back_to_provided_description() {
         let window = RateWindow(
             usedPercent: 0,
             windowMinutes: nil,
@@ -294,7 +294,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `model display name strips trailing dates`() {
+    func model_display_name_strips_trailing_dates() {
         #expect(UsageFormatter.modelDisplayName("claude-opus-4-5-20251101") == "claude-opus-4-5")
         #expect(UsageFormatter.modelDisplayName("gpt-4o-2024-08-06") == "gpt-4o")
         #expect(UsageFormatter.modelDisplayName("Claude Opus 4.5 2025 1101") == "Claude Opus 4.5")
@@ -304,14 +304,14 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `model cost detail uses research preview label`() {
+    func model_cost_detail_uses_research_preview_label() {
         #expect(
             UsageFormatter.modelCostDetail("gpt-5.3-codex-spark", costUSD: 0, totalTokens: nil) == "Research Preview")
         #expect(UsageFormatter.modelCostDetail("gpt-5.2-codex", costUSD: 0.42, totalTokens: nil) == "$0.42")
     }
 
     @Test
-    func `model cost detail includes token counts when present`() {
+    func model_cost_detail_includes_token_counts_when_present() {
         #expect(UsageFormatter.modelCostDetail("gpt-5.2-codex", costUSD: 0.42, totalTokens: 1200) == "$0.42 · 1.2K")
         #expect(
             UsageFormatter.modelCostDetail("gpt-5.3-codex-spark", costUSD: 0, totalTokens: 1500)
@@ -320,21 +320,21 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `token count string formats small values without grouping`() {
+    func token_count_string_formats_small_values_without_grouping() {
         #expect(UsageFormatter.tokenCountString(0) == "0")
         #expect(UsageFormatter.tokenCountString(987) == "987")
         #expect(UsageFormatter.tokenCountString(-42) == "-42")
     }
 
     @Test
-    func `clean plan maps O auth to ollama`() {
+    func clean_plan_maps_O_auth_to_ollama() {
         #expect(UsageFormatter.cleanPlanName("oauth") == "Ollama")
     }
 
     // MARK: - Currency Formatting
 
     @Test
-    func `currency string formats USD correctly`() {
+    func currency_string_formats_USD_correctly() {
         // Should produce "$54.72" without space after symbol
         let result = UsageFormatter.currencyString(54.72, currencyCode: "USD")
         #expect(result == "$54.72")
@@ -342,7 +342,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `currency string handles large values`() {
+    func currency_string_handles_large_values() {
         let result = UsageFormatter.currencyString(1234.56, currencyCode: "USD")
         // For USD, we use direct string formatting with thousand separators
         #expect(result == "$1,234.56")
@@ -350,26 +350,26 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `currency string handles very large values`() {
+    func currency_string_handles_very_large_values() {
         let result = UsageFormatter.currencyString(1_234_567.89, currencyCode: "USD")
         #expect(result == "$1,234,567.89")
     }
 
     @Test
-    func `currency string handles negative values`() {
+    func currency_string_handles_negative_values() {
         // Negative sign should come before the dollar sign: -$54.72 (not $-54.72)
         let result = UsageFormatter.currencyString(-54.72, currencyCode: "USD")
         #expect(result == "-$54.72")
     }
 
     @Test
-    func `currency string handles negative large values`() {
+    func currency_string_handles_negative_large_values() {
         let result = UsageFormatter.currencyString(-1234.56, currencyCode: "USD")
         #expect(result == "-$1,234.56")
     }
 
     @Test
-    func `usd string matches currency string`() {
+    func usd_string_matches_currency_string() {
         // usdString should produce identical output to currencyString for USD
         #expect(UsageFormatter.usdString(54.72) == UsageFormatter.currencyString(54.72, currencyCode: "USD"))
         #expect(UsageFormatter.usdString(-1234.56) == UsageFormatter.currencyString(-1234.56, currencyCode: "USD"))
@@ -377,7 +377,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `currency string handles zero`() {
+    func currency_string_handles_zero() {
         let result = UsageFormatter.currencyString(0, currencyCode: "USD")
         #expect(result == "$0.00")
     }
@@ -388,12 +388,12 @@ struct UsageFormatterTests {
         (12.56, "$13"),
         (1515.0, "$1,515"),
     ])
-    func `compact currency keeps cents only below one unit`(value: Double, expected: String) {
+    func compact_currency_keeps_cents_only_below_one_unit(value: Double, expected: String) {
         #expect(UsageFormatter.compactCurrencyString(value, currencyCode: "USD") == expected)
     }
 
     @Test
-    func `currency string handles non USD currencies`() {
+    func currency_string_handles_non_USD_currencies() {
         // FormatStyle handles all currencies with proper symbols
         let eur = UsageFormatter.currencyString(54.72, currencyCode: "EUR")
         #expect(eur == "€54.72")
@@ -407,7 +407,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `currency string handles small values`() {
+    func currency_string_handles_small_values() {
         // Values smaller than 0.01 should round to $0.00
         let tiny = UsageFormatter.currencyString(0.001, currencyCode: "USD")
         #expect(tiny == "$0.00")
@@ -422,7 +422,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `currency string handles boundary values`() {
+    func currency_string_handles_boundary_values() {
         // Just under 1000 (no comma)
         let under1k = UsageFormatter.currencyString(999.99, currencyCode: "USD")
         #expect(under1k == "$999.99")
@@ -437,13 +437,13 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `credits string formats correctly`() {
+    func credits_string_formats_correctly() {
         let result = UsageFormatter.creditsString(from: 42.5)
         #expect(result == "42.5 left")
     }
 
     @Test
-    func `byte count string formats binary units`() {
+    func byte_count_string_formats_binary_units() {
         #expect(UsageFormatter.byteCountString(0) == "0 B")
         #expect(UsageFormatter.byteCountString(512) == "512 B")
         #expect(UsageFormatter.byteCountString(1536) == "1.5 KB")
@@ -454,7 +454,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `long byte count string localizes units and handles boundaries`() {
+    func long_byte_count_string_localizes_units_and_handles_boundaries() {
         UsageFormatter.clearLocalizationProvider()
         #expect(UsageFormatter.byteCountStringLong(1024 * 1024) == "1 megabyte")
 
@@ -470,7 +470,7 @@ struct UsageFormatterTests {
     }
 
     @Test
-    func `usage formatter localization keys exist in en and zh Hans with matching placeholders`() throws {
+    func usage_formatter_localization_keys_exist_in_en_and_zh_Hans_with_matching_placeholders() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()

@@ -599,15 +599,16 @@ enum PiSessionCostScanner {
                 ?? usage["cache_read_tokens"]
                 ?? usage["cacheReadInputTokens"]
                 ?? usage["cache_read_input_tokens"])
-        let cacheWrite = self.readNonNegativeInt(
-            usage["cacheWrite"]
-                ?? usage["cacheWriteTokens"]
-                ?? usage["cache_write"]
-                ?? usage["cache_write_tokens"]
-                ?? usage["cacheCreationTokens"]
-                ?? usage["cache_creation_tokens"]
-                ?? usage["cacheCreationInputTokens"]
-                ?? usage["cache_creation_input_tokens"])
+        // Split in two: the single 8-way `??` chain exceeds Swift 6.0's type-check budget.
+        let cacheWritePrimary: Any? = usage["cacheWrite"]
+            ?? usage["cacheWriteTokens"]
+            ?? usage["cache_write"]
+            ?? usage["cache_write_tokens"]
+        let cacheWriteFallback: Any? = usage["cacheCreationTokens"]
+            ?? usage["cache_creation_tokens"]
+            ?? usage["cacheCreationInputTokens"]
+            ?? usage["cache_creation_input_tokens"]
+        let cacheWrite = self.readNonNegativeInt(cacheWritePrimary ?? cacheWriteFallback)
         let output = self.readNonNegativeInt(
             usage["output"]
                 ?? usage["outputTokens"]

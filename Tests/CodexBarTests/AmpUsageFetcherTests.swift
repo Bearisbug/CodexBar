@@ -24,19 +24,19 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `uses amp internal usage endpoint`() {
+    func uses_amp_internal_usage_endpoint() {
         #expect(
             AmpUsageFetcher.usageURL.absoluteString ==
                 "https://ampcode.com/api/internal?userDisplayBalanceInfo")
     }
 
     @Test
-    func `provider dashboard points to current usage page`() {
+    func provider_dashboard_points_to_current_usage_page() {
         #expect(AmpProviderDescriptor.descriptor.metadata.dashboardURL == "https://ampcode.com/settings/usage")
     }
 
     @Test
-    func `web fallback requires browser import or a manual session cookie`() {
+    func web_fallback_requires_browser_import_or_a_manual_session_cookie() {
         let disabled = ProviderSettingsSnapshot.AmpProviderSettings(cookieSource: .off, manualCookieHeader: nil)
         let invalidManual = ProviderSettingsSnapshot.AmpProviderSettings(
             cookieSource: .manual,
@@ -63,7 +63,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `cli cancellation does not fall back to web`() {
+    func cli_cancellation_does_not_fall_back_to_web() {
         let strategy = AmpCLIFetchStrategy()
         let context = self.makeContext(sourceMode: .auto)
 
@@ -76,7 +76,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `api request uses bearer token without cookies`() throws {
+    func api_request_uses_bearer_token_without_cookies() throws {
         let request = try AmpUsageFetcher.makeUsageAPIRequest(apiToken: "sgamp_test")
 
         #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer sgamp_test")
@@ -84,7 +84,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `api strategy falls back only from auto mode and preserves cancellation`() {
+    func api_strategy_falls_back_only_from_auto_mode_and_preserves_cancellation() {
         let strategy = AmpAPIFetchStrategy()
         let auto = self.makeContext(sourceMode: .auto)
 
@@ -99,35 +99,35 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `amp config token resolves through environment`() {
+    func amp_config_token_resolves_through_environment() {
         let env = [AmpSettingsReader.apiTokenKey: " 'sgamp_test' "]
 
         #expect(ProviderTokenResolver.ampToken(environment: env) == "sgamp_test")
     }
 
     @Test
-    func `attaches cookie for amp hosts`() {
+    func attaches_cookie_for_amp_hosts() {
         #expect(AmpUsageFetcher.shouldAttachCookie(to: URL(string: "https://ampcode.com/settings")))
         #expect(AmpUsageFetcher.shouldAttachCookie(to: URL(string: "https://www.ampcode.com")))
         #expect(AmpUsageFetcher.shouldAttachCookie(to: URL(string: "https://app.ampcode.com/path")))
     }
 
     @Test
-    func `rejects non amp hosts`() {
+    func rejects_non_amp_hosts() {
         #expect(!AmpUsageFetcher.shouldAttachCookie(to: URL(string: "https://example.com")))
         #expect(!AmpUsageFetcher.shouldAttachCookie(to: URL(string: "https://ampcode.com.evil.com")))
         #expect(!AmpUsageFetcher.shouldAttachCookie(to: nil))
     }
 
     @Test
-    func `rejects non https amp urls`() {
+    func rejects_non_https_amp_urls() {
         #expect(!AmpUsageFetcher.shouldAttachCookie(to: URL(string: "http://ampcode.com/settings")))
         #expect(!AmpUsageFetcher.shouldAttachCookie(to: URL(string: "http://www.ampcode.com")))
         #expect(!AmpUsageFetcher.shouldAttachCookie(to: URL(string: "http://app.ampcode.com/path")))
     }
 
     @Test
-    func `detects login redirects`() throws {
+    func detects_login_redirects() throws {
         let signIn = try #require(URL(string: "https://ampcode.com/auth/sign-in?returnTo=%2Fsettings"))
         #expect(AmpUsageFetcher.isLoginRedirect(signIn))
 
@@ -150,7 +150,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `ignores non login UR ls`() throws {
+    func ignores_non_login_UR_ls() throws {
         let settings = try #require(URL(string: "https://ampcode.com/settings"))
         #expect(!AmpUsageFetcher.isLoginRedirect(settings))
 
@@ -162,7 +162,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `temporary API session is finished after a successful request`() async throws {
+    func temporary_API_session_is_finished_after_a_successful_request() async throws {
         defer { AmpStubURLProtocol.handler = nil }
         AmpStubURLProtocol.handler = { request in
             let displayText = "Amp Free: $8/$10 remaining (replenishes +$0.5/hour)"
@@ -181,7 +181,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `temporary API session is finished after a transport failure`() async {
+    func temporary_API_session_is_finished_after_a_transport_failure() async {
         defer { AmpStubURLProtocol.handler = nil }
         AmpStubURLProtocol.handler = { _ in throw URLError(.notConnectedToInternet) }
         let recorder = AmpSessionFinishRecorder()
@@ -194,7 +194,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `temporary web session is finished after a successful request`() async throws {
+    func temporary_web_session_is_finished_after_a_successful_request() async throws {
         defer { AmpStubURLProtocol.handler = nil }
         AmpStubURLProtocol.handler = { request in
             let html = """
@@ -214,7 +214,7 @@ struct AmpUsageFetcherTests {
     }
 
     @Test
-    func `temporary web session is finished after a transport failure`() async {
+    func temporary_web_session_is_finished_after_a_transport_failure() async {
         defer { AmpStubURLProtocol.handler = nil }
         AmpStubURLProtocol.handler = { _ in throw URLError(.notConnectedToInternet) }
         let recorder = AmpSessionFinishRecorder()

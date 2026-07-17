@@ -5,7 +5,7 @@ import Testing
 
 struct OpenCodeGoMenuCardModelTests {
     @Test
-    func `monthly quota shows deficit and run out details`() throws {
+    func monthly_quota_shows_deficit_and_run_out_details() throws {
         let now = Date(timeIntervalSince1970: 10_368_000) // 1970-05-01T00:00:00Z
         let reset = now.addingTimeInterval(6 * 24 * 3600)
         let monthlyMinutes = 30 * 24 * 60
@@ -59,7 +59,7 @@ struct OpenCodeGoMenuCardModelTests {
     }
 
     @Test
-    func `zen balance renders as optional balance`() throws {
+    func zen_balance_renders_as_optional_balance() throws {
         let now = Date()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
@@ -102,7 +102,7 @@ struct OpenCodeGoMenuCardModelTests {
     }
 
     @Test
-    func `required zen balance renders when optional usage is disabled`() throws {
+    func required_zen_balance_renders_when_optional_usage_is_disabled() throws {
         let now = Date()
         let snapshot = UsageSnapshot(
             primary: nil,
@@ -143,7 +143,7 @@ struct OpenCodeGoMenuCardModelTests {
     }
 
     @Test
-    func `subscription zen balance hides when optional usage is disabled`() throws {
+    func subscription_zen_balance_hides_when_optional_usage_is_disabled() throws {
         let now = Date()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: 300, resetsAt: nil, resetDescription: nil),

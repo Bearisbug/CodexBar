@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CrossModelUsageStatsTests {
     @Test
-    func `to usage snapshot exposes balance identity and omits rate windows`() {
+    func to_usage_snapshot_exposes_balance_identity_and_omits_rate_windows() {
         let snapshot = CrossModelUsageSnapshot(
             currency: "USD",
             balance: 8.059489,
@@ -32,7 +32,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage converts micro units and reads both endpoints`() async throws {
+    func fetch_usage_converts_micro_units_and_reads_both_endpoints() async throws {
         let registered = URLProtocol.registerClass(CrossModelStubURLProtocol.self)
         defer {
             if registered {
@@ -82,7 +82,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage propagates cancellation from optional enrichment`() async throws {
+    func fetch_usage_propagates_cancellation_from_optional_enrichment() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             if url.path == "/v1/credits" {
@@ -105,7 +105,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage maps url session cancellation from optional enrichment`() async throws {
+    func fetch_usage_maps_url_session_cancellation_from_optional_enrichment() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             if url.path == "/v1/credits" {
@@ -125,7 +125,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage keeps balance when usage endpoint fails`() async throws {
+    func fetch_usage_keeps_balance_when_usage_endpoint_fails() async throws {
         let registered = URLProtocol.registerClass(CrossModelStubURLProtocol.self)
         defer {
             if registered {
@@ -159,7 +159,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage skips optional usage endpoint when disabled`() async throws {
+    func fetch_usage_skips_optional_usage_endpoint_when_disabled() async throws {
         let requestedPaths = CrossModelRequestPathRecorder()
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
@@ -192,7 +192,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage throws invalid credentials on 401`() async throws {
+    func fetch_usage_throws_invalid_credentials_on_401() async throws {
         let registered = URLProtocol.registerClass(CrossModelStubURLProtocol.self)
         defer {
             if registered {
@@ -221,7 +221,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage formats non USD currency without false dollar labels`() async throws {
+    func fetch_usage_formats_non_USD_currency_without_false_dollar_labels() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             switch url.path {
@@ -259,7 +259,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage omits usage windows when endpoint currencies differ`() async throws {
+    func fetch_usage_omits_usage_windows_when_endpoint_currencies_differ() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             switch url.path {
@@ -297,7 +297,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage omits usage windows when usage currency is invalid`() async throws {
+    func fetch_usage_omits_usage_windows_when_usage_currency_is_invalid() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             switch url.path {
@@ -335,7 +335,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage rejects unsafe endpoint override before attaching credentials`() async throws {
+    func fetch_usage_rejects_unsafe_endpoint_override_before_attaching_credentials() async throws {
         await #expect(throws: CrossModelSettingsError.invalidEndpointOverride("CROSSMODEL_API_URL")) {
             _ = try await CrossModelUsageFetcher.fetchUsage(
                 apiKey: "cm-test",
@@ -348,7 +348,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage rejects cross origin credits redirect`() async throws {
+    func fetch_usage_rejects_cross_origin_credits_redirect() async throws {
         let transport = ProviderHTTPTransportHandler { _ in
             let body = #"{"currency":"USD","balance_micro":1500000,"uncollected_micro":0}"#
             let redirectedURL = URL(string: "https://evil.example/v1/credits")!
@@ -365,7 +365,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage accepts same origin default https port redirect`() async throws {
+    func fetch_usage_accepts_same_origin_default_https_port_redirect() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             if url.path == "/v1/credits" {
@@ -399,7 +399,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage rejects credits redirect to different port`() async throws {
+    func fetch_usage_rejects_credits_redirect_to_different_port() async throws {
         let transport = ProviderHTTPTransportHandler { _ in
             let body = #"{"currency":"USD","balance_micro":1500000,"uncollected_micro":0}"#
             let redirectedURL = URL(string: "https://crossmodel.test:444/v1/credits")!
@@ -416,7 +416,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage omits cross origin usage redirect`() async throws {
+    func fetch_usage_omits_cross_origin_usage_redirect() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             if url.path == "/v1/credits" {
@@ -448,7 +448,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage omits usage redirect to different port`() async throws {
+    func fetch_usage_omits_usage_redirect_to_different_port() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             if url.path == "/v1/credits" {
@@ -480,7 +480,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage hard deadlines never returning optional usage`() async throws {
+    func fetch_usage_hard_deadlines_never_returning_optional_usage() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             if url.path == "/v1/credits" {
@@ -506,7 +506,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `fetch usage cancels bounded optional usage join with parent task`() async throws {
+    func fetch_usage_cancels_bounded_optional_usage_join_with_parent_task() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             if url.path == "/v1/credits" {
@@ -545,7 +545,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `sanitizer redacts cm token shapes`() {
+    func sanitizer_redacts_cm_token_shapes() {
         let body = #"{"error":"bad token cm-abc123","authorization":"Bearer cm-xyz789"}"#
         let summary = CrossModelUsageFetcher._sanitizedResponseBodySummaryForTesting(body)
         #expect(summary.contains("cm-[REDACTED]"))
@@ -554,7 +554,7 @@ struct CrossModelUsageStatsTests {
     }
 
     @Test
-    func `usage snapshot round trip persists cross model usage metadata`() throws {
+    func usage_snapshot_round_trip_persists_cross_model_usage_metadata() throws {
         let crossModel = CrossModelUsageSnapshot(
             currency: "USD",
             balance: 8.06,

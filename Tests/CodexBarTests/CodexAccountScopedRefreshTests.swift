@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexAccountScopedRefreshTests {
     @Test
-    func `account transition invalidates codex scoped state and preserves token usage`() async {
+    func account_transition_invalidates_codex_scoped_state_and_preserves_token_usage() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-invalidate")
         settings.refreshFrequency = .manual
         settings.codexCookieSource = .auto
@@ -59,7 +59,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `first switch invalidates after codex refresh seeds the previous account guard`() async {
+    func first_switch_invalidates_after_codex_refresh_seeds_the_previous_account_guard() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-first-switch")
         settings.refreshFrequency = .manual
         settings.codexCookieSource = .off
@@ -83,7 +83,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stale codex usage success is discarded after account switch`() async {
+    func stale_codex_usage_success_is_discarded_after_account_switch() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-stale-success")
         settings.refreshFrequency = .manual
         settings._test_liveSystemCodexAccount = self.liveAccount(email: "alpha@example.com")
@@ -103,7 +103,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same email provider account switch discards stale codex usage success`() async {
+    func same_email_provider_account_switch_discards_stale_codex_usage_success() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-stale-same-email-provider-account")
         settings.refreshFrequency = .manual
         settings._test_liveSystemCodexAccount = self.liveAccount(
@@ -127,7 +127,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stale codex usage failure does not clear newer account snapshot`() async {
+    func stale_codex_usage_failure_does_not_clear_newer_account_snapshot() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-stale-failure")
         settings.refreshFrequency = .manual
         settings._test_liveSystemCodexAccount = self.liveAccount(email: "alpha@example.com")
@@ -152,7 +152,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `codex visible account refresh preserves prior snapshots when network fails`() async throws {
+    func codex_visible_account_refresh_preserves_prior_snapshots_when_network_fails() async throws {
         try await self.withCodexVisibleAccountFailureStore(
             suite: "CodexAccountScopedRefreshTests-preserve-codex-snapshots",
             errorMessage: "Network error: offline")
@@ -172,7 +172,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `codex visible account refresh drops prior snapshots when auth fails`() async throws {
+    func codex_visible_account_refresh_drops_prior_snapshots_when_auth_fails() async throws {
         try await self.withCodexVisibleAccountFailureStore(
             suite: "CodexAccountScopedRefreshTests-drop-auth-failed-snapshots",
             errorMessage: "401 Unauthorized")
@@ -191,7 +191,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `credits fallback only reuses cache for the same codex account`() async {
+    func credits_fallback_only_reuses_cache_for_the_same_codex_account() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-credits")
         settings.refreshFrequency = .manual
         settings._test_liveSystemCodexAccount = self.liveAccount(email: "alpha@example.com")
@@ -220,7 +220,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `managed refresh invalidation keeps state when provider account is unchanged`() throws {
+    func managed_refresh_invalidation_keeps_state_when_provider_account_is_unchanged() throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-managed-renamed-email")
         let managedHome = FileManager.default.temporaryDirectory
@@ -274,7 +274,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `credits refresh returns quickly when no live codex account is available`() async {
+    func credits_refresh_returns_quickly_when_no_live_codex_account_is_available() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-credits-no-live-account")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-credits-no-live-\(UUID().uuidString)", isDirectory: true)
@@ -304,7 +304,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stale dashboard apply is discarded after account switch`() async {
+    func stale_dashboard_apply_is_discarded_after_account_switch() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-dashboard")
         settings.refreshFrequency = .manual
         settings._test_liveSystemCodexAccount = self.liveAccount(email: "alpha@example.com")
@@ -325,7 +325,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard refresh fail closes when live identity is unresolved without trusted continuity`() async {
+    func dashboard_refresh_fail_closes_when_live_identity_is_unresolved_without_trusted_continuity() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-dashboard-unresolved-fail-closed")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-unresolved-fail-closed-\(UUID().uuidString)", isDirectory: true)
@@ -362,7 +362,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard refresh attaches for unresolved live identity with trusted non dashboard continuity`() async {
+    func dashboard_refresh_attaches_for_unresolved_live_identity_with_trusted_non_dashboard_continuity() async {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-dashboard-unresolved-trusted-continuity")
         let isolatedHome = FileManager.default.temporaryDirectory
@@ -411,7 +411,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `no usable codex usage does not block weekly only dashboard backfill`() async {
+    func no_usable_codex_usage_does_not_block_weekly_only_dashboard_backfill() async {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-no-usable-usage-weekly-dashboard-backfill")
         settings.refreshFrequency = .manual
@@ -455,7 +455,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard display only keeps dashboard visible and clears dashboard derived data`() async throws {
+    func dashboard_display_only_keeps_dashboard_visible_and_clears_dashboard_derived_data() async throws {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-dashboard-display-only-cleanup")
         let managedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -514,7 +514,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard downgrade from real attach to display only retires owned state immediately`() async throws {
+    func dashboard_downgrade_from_real_attach_to_display_only_retires_owned_state_immediately() async throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -576,7 +576,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard refresh rejects stale completion during live account reconciliation lag`() async {
+    func dashboard_refresh_rejects_stale_completion_during_live_account_reconciliation_lag() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-dashboard-reject-stale-live-lag")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-stale-live-lag-\(UUID().uuidString)", isDirectory: true)
@@ -610,7 +610,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `default dashboard refresh path discards stale completion after account switch`() async {
+    func default_dashboard_refresh_path_discards_stale_completion_after_account_switch() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-dashboard-guard")
         settings.refreshFrequency = .manual
         settings.openAIWebAccessEnabled = true
@@ -648,7 +648,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same email provider account switch discards stale dashboard completion`() async {
+    func same_email_provider_account_switch_discards_stale_dashboard_completion() async {
         let settings = self
             .makeSettingsStore(suite: "CodexAccountScopedRefreshTests-dashboard-same-email-provider-account")
         settings.refreshFrequency = .manual
@@ -676,7 +676,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `live switch invalidates stale codex state even when only last known live email remains`() async {
+    func live_switch_invalidates_stale_codex_state_even_when_only_last_known_live_email_remains() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-invalidate-with-stale-last-known")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-invalidate-stale-last-known-\(UUID().uuidString)", isDirectory: true)
@@ -716,7 +716,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `codex account refresh persists widget snapshots on invalidation and completion`() async {
+    func codex_account_refresh_persists_widget_snapshots_on_invalidation_and_completion() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-widgets")
         settings.refreshFrequency = .manual
         settings.codexCookieSource = .off
@@ -749,7 +749,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `widget snapshot saves stay ordered across codex account invalidation and completion`() async {
+    func widget_snapshot_saves_stay_ordered_across_codex_account_invalidation_and_completion() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-widget-order")
         settings.refreshFrequency = .manual
 
@@ -783,7 +783,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `widget snapshot excludes display only dashboard code review`() async throws {
+    func widget_snapshot_excludes_display_only_dashboard_code_review() async throws {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-widget-display-only-dashboard")
         settings.refreshFrequency = .manual
 
@@ -809,7 +809,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `widget snapshot includes attached dashboard code review`() async throws {
+    func widget_snapshot_includes_attached_dashboard_code_review() async throws {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-widget-attached-dashboard")
         settings.refreshFrequency = .manual
 
@@ -833,7 +833,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `codex account refresh reports usage and credits phases before completion`() async {
+    func codex_account_refresh_reports_usage_and_credits_phases_before_completion() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-phases")
         settings.refreshFrequency = .manual
         settings.codexCookieSource = .off
@@ -868,7 +868,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `refresh loads credits when codex email is discovered by usage in the same cycle`() async {
+    func refresh_loads_credits_when_codex_email_is_discovered_by_usage_in_the_same_cycle() async {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-refresh-credits")
         settings.refreshFrequency = .manual
         settings.codexCookieSource = .off
@@ -892,7 +892,7 @@ struct CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `settings codex account selection refreshes credits on the first switch`() async throws {
+    func settings_codex_account_selection_refreshes_credits_on_the_first_switch() async throws {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-settings-selection")
         settings.refreshFrequency = .manual
         settings.codexCookieSource = .off

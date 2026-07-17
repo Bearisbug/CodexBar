@@ -41,7 +41,7 @@ struct StatusItemControllerMenuTests {
     }
 
     @Test
-    func `cursor switcher falls back to on demand budget when plan exhausted and showing remaining`() {
+    func cursor_switcher_falls_back_to_on_demand_budget_when_plan_exhausted_and_showing_remaining() {
         let primary = RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let secondary = RateWindow(usedPercent: 36, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let providerCost = ProviderCostSnapshot(
@@ -60,7 +60,7 @@ struct StatusItemControllerMenuTests {
     }
 
     @Test
-    func `cursor switcher uses primary when showing used`() {
+    func cursor_switcher_uses_primary_when_showing_used() {
         let primary = RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let secondary = RateWindow(usedPercent: 36, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let snapshot = self.makeSnapshot(primary: primary, secondary: secondary)
@@ -74,7 +74,7 @@ struct StatusItemControllerMenuTests {
     }
 
     @Test
-    func `cursor switcher keeps primary when remaining is positive`() {
+    func cursor_switcher_keeps_primary_when_remaining_is_positive() {
         let primary = RateWindow(usedPercent: 20, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let secondary = RateWindow(usedPercent: 40, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let snapshot = self.makeSnapshot(primary: primary, secondary: secondary)
@@ -88,7 +88,7 @@ struct StatusItemControllerMenuTests {
     }
 
     @Test
-    func `cursor switcher does not treat auto lane as extra remaining quota`() {
+    func cursor_switcher_does_not_treat_auto_lane_as_extra_remaining_quota() {
         let primary = RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let secondary = RateWindow(usedPercent: 36, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let snapshot = self.makeSnapshot(primary: primary, secondary: secondary)
@@ -102,7 +102,7 @@ struct StatusItemControllerMenuTests {
     }
 
     @Test
-    func `perplexity switcher falls back after recurring credits are exhausted`() {
+    func perplexity_switcher_falls_back_after_recurring_credits_are_exhausted() {
         let primary = RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let secondary = RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let tertiary = RateWindow(usedPercent: 24, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
@@ -117,7 +117,7 @@ struct StatusItemControllerMenuTests {
     }
 
     @Test
-    func `mistral switcher uses monthly plan metric when selected`() {
+    func mistral_switcher_uses_monthly_plan_metric_when_selected() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -139,7 +139,7 @@ struct StatusItemControllerMenuTests {
     }
 
     @Test
-    func `mistral switcher ignores pay as you go balance primary`() {
+    func mistral_switcher_ignores_pay_as_you_go_balance_primary() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(
                 usedPercent: 0,
@@ -160,7 +160,7 @@ struct StatusItemControllerMenuTests {
 
     @Test
     @MainActor
-    func `menu card width stays at base width when menu accessories are present`() {
+    func menu_card_width_stays_at_base_width_when_menu_accessories_are_present() {
         let shortcutMenu = NSMenu()
         let refreshItem = NSMenuItem(title: "Refresh", action: nil, keyEquivalent: "r")
         shortcutMenu.addItem(refreshItem)
@@ -175,7 +175,7 @@ struct StatusItemControllerMenuTests {
 
     @Test
     @MainActor
-    func `update menu action installs prepared update instead of checking again`() throws {
+    func update_menu_action_installs_prepared_update_instead_of_checking_again() throws {
         let suite = "StatusItemControllerMenuTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

@@ -5,7 +5,7 @@ import Testing
 
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `credits refresh honors explicit codex oauth source without raw CLI fallback`() async throws {
+    func credits_refresh_honors_explicit_codex_oauth_source_without_raw_CLI_fallback() async throws {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-oauth-credits-source")
         settings.refreshFrequency = .manual
         settings.codexUsageDataSource = .oauth
@@ -48,7 +48,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `auto credits refresh falls back when oauth usage omits credits`() async throws {
+    func auto_credits_refresh_falls_back_when_oauth_usage_omits_credits() async throws {
         let settings = self.makeSettingsStore(suite: "CodexAccountScopedRefreshTests-auto-credits-fallback")
         settings.refreshFrequency = .manual
         settings.codexUsageDataSource = .auto

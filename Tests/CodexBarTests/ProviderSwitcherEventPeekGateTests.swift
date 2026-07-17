@@ -6,13 +6,13 @@ import Testing
 @MainActor
 struct ProviderSwitcherEventPeekGateTests {
     @Test
-    func `first check always peeks`() {
+    func first_check_always_peeks() {
         let gate = ProviderSwitcherEventPeekGate(eventTypes: [.keyDown], counterProvider: { _ in 7 })
         #expect(gate.shouldPeek())
     }
 
     @Test
-    func `unchanged counters skip the peek`() {
+    func unchanged_counters_skip_the_peek() {
         let gate = ProviderSwitcherEventPeekGate(eventTypes: [.keyDown, .leftMouseDown], counterProvider: { _ in 7 })
         #expect(gate.shouldPeek())
         gate.observeQueueEmpty(afterFindingEvent: false)
@@ -23,7 +23,7 @@ struct ProviderSwitcherEventPeekGateTests {
     }
 
     @Test
-    func `any advanced counter re-enables the peek`() {
+    func any_advanced_counter_re_enables_the_peek() {
         var keyDownCount: UInt32 = 1
         let gate = ProviderSwitcherEventPeekGate(
             eventTypes: [.keyDown, .leftMouseDown],
@@ -42,7 +42,7 @@ struct ProviderSwitcherEventPeekGateTests {
     }
 
     @Test
-    func `counter change keeps one follow up peek for AppKit queue delivery`() {
+    func counter_change_keeps_one_follow_up_peek_for_AppKit_queue_delivery() {
         var keyDownCount: UInt32 = 1
         let gate = ProviderSwitcherEventPeekGate(
             eventTypes: [.keyDown],
@@ -62,7 +62,7 @@ struct ProviderSwitcherEventPeekGateTests {
     }
 
     @Test
-    func `queued unhandled event burst keeps peeking until the queue is empty`() throws {
+    func queued_unhandled_event_burst_keeps_peeking_until_the_queue_is_empty() throws {
         var eventCount: UInt32 = 1
         let gate = ProviderSwitcherEventPeekGate(
             eventTypes: [.keyUp],
@@ -89,7 +89,7 @@ struct ProviderSwitcherEventPeekGateTests {
     }
 
     @Test
-    func `handled event keeps peeking for delayed sibling from same counter snapshot`() throws {
+    func handled_event_keeps_peeking_for_delayed_sibling_from_same_counter_snapshot() throws {
         var eventCount: UInt32 = 1
         let gate = ProviderSwitcherEventPeekGate(
             eventTypes: [.keyUp],
@@ -115,7 +115,7 @@ struct ProviderSwitcherEventPeekGateTests {
     }
 
     @Test
-    func `held key keeps peeking for uncounted autorepeat events`() throws {
+    func held_key_keeps_peeking_for_uncounted_autorepeat_events() throws {
         let gate = ProviderSwitcherEventPeekGate(eventTypes: [.keyDown, .keyUp], counterProvider: { _ in 7 })
         #expect(gate.shouldPeek())
         gate.observeQueueEmpty(afterFindingEvent: false)

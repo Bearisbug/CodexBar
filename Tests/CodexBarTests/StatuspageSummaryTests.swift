@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct StatuspageSummaryTests {
     @Test
-    func `parse statuspage status decodes overall indicator`() throws {
+    func parse_statuspage_status_decodes_overall_indicator() throws {
         let data = Data(#"""
         {
           "page": {"updated_at": "2026-06-18T19:41:22Z"},
@@ -21,7 +21,7 @@ struct StatuspageSummaryTests {
     }
 
     @Test
-    func `parse statuspage components maps and sorts leaf rows`() throws {
+    func parse_statuspage_components_maps_and_sorts_leaf_rows() throws {
         // Mirrors components.json, which includes unlisted rows such as FedRAMP.
         let data = Data(#"""
         {
@@ -43,7 +43,7 @@ struct StatuspageSummaryTests {
     }
 
     @Test
-    func `parse statuspage components nests children under their group`() throws {
+    func parse_statuspage_components_nests_children_under_their_group() throws {
         let data = Data(#"""
         {
           "components": [
@@ -71,13 +71,13 @@ struct StatuspageSummaryTests {
     }
 
     @Test
-    func `parse statuspage components tolerates missing components`() throws {
+    func parse_statuspage_components_tolerates_missing_components() throws {
         let components = try UsageStore.parseStatuspageComponents(data: Data("{}".utf8))
         #expect(components.isEmpty)
     }
 
     @Test
-    func `parse statuspage components drops blank names`() throws {
+    func parse_statuspage_components_drops_blank_names() throws {
         let data = Data(#"""
         {
           "components": [
@@ -93,7 +93,7 @@ struct StatuspageSummaryTests {
     }
 
     @Test
-    func `fetchStatusSummary returns status with empty components when component feed fails`() async throws {
+    func fetchStatusSummary_returns_status_with_empty_components_when_component_feed_fails() async throws {
         let summaryJSON = Data(#"""
         {
           "page": {"updated_at": "2026-06-18T19:41:22Z"},
@@ -119,7 +119,7 @@ struct StatuspageSummaryTests {
     }
 
     @Test
-    func `fetchStatusSummary overlays description and updatedAt when incident io succeeds`() async throws {
+    func fetchStatusSummary_overlays_description_and_updatedAt_when_incident_io_succeeds() async throws {
         let proxyJSON = Data(#"""
         {
           "summary": {
@@ -156,7 +156,7 @@ struct StatuspageSummaryTests {
     }
 
     @Test
-    func `parse incident io summary builds groups with aggregated status`() throws {
+    func parse_incident_io_summary_builds_groups_with_aggregated_status() throws {
         // Shaped like status.openai.com/proxy/status.openai.com.
         let data = Data(#"""
         {

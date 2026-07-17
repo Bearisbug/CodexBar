@@ -25,14 +25,14 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `api key reader trims configured environment key`() {
+    func api_key_reader_trims_configured_environment_key() {
         let token = OllamaAPISettingsReader.apiKey(environment: ["OLLAMA_API_KEY": " 'ollama-test' "])
 
         #expect(token == "ollama-test")
     }
 
     @Test
-    func `api tags response maps to API key identity`() throws {
+    func api_tags_response_maps_to_API_key_identity() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = try OllamaAPIUsageFetcher._parseTagsForTesting(
             Data(#"{"models":[{"name":"gpt-oss:120b"}]}"#.utf8),
@@ -47,7 +47,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `auto mode keeps web quota strategy before api key verification`() async {
+    func auto_mode_keeps_web_quota_strategy_before_api_key_verification() async {
         let descriptor = OllamaProviderDescriptor.makeDescriptor()
         let context = self.makeContext(
             sourceMode: .auto,
@@ -61,7 +61,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `auto mode uses api only when ollama cookies are off`() async {
+    func auto_mode_uses_api_only_when_ollama_cookies_are_off() async {
         let descriptor = OllamaProviderDescriptor.makeDescriptor()
         let context = self.makeContext(
             sourceMode: .auto,
@@ -75,7 +75,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `web strategy falls back to api key in auto mode`() {
+    func web_strategy_falls_back_to_api_key_in_auto_mode() {
         let context = self.makeContext(
             sourceMode: .auto,
             env: ["OLLAMA_API_KEY": "ollama-test"])
@@ -85,7 +85,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test(arguments: [401, 403])
-    func `api fetch sends bearer token and rejects unauthorized key`(statusCode: Int) async throws {
+    func api_fetch_sends_bearer_token_and_rejects_unauthorized_key(statusCode: Int) async throws {
         let url = try #require(URL(string: "https://ollama.com/api/web_search"))
         let transport = ProviderHTTPTransportHandler { request in
             #expect(request.url == url)
@@ -115,7 +115,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `authorized validation continues to model catalog`() async throws {
+    func authorized_validation_continues_to_model_catalog() async throws {
         let validationURL = try #require(URL(string: "https://ollama.test/api/web_search"))
         let tagsURL = try #require(URL(string: "https://ollama.test/api/tags"))
         let transport = ProviderHTTPTransportHandler { request in
@@ -151,7 +151,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test(arguments: [401, 403])
-    func `authorized validation still rejects unauthorized model catalog`(statusCode: Int) async throws {
+    func authorized_validation_still_rejects_unauthorized_model_catalog(statusCode: Int) async throws {
         let validationURL = try #require(URL(string: "https://ollama.test/api/web_search"))
         let tagsURL = try #require(URL(string: "https://ollama.test/api/tags"))
         let transport = ProviderHTTPTransportHandler { request in
@@ -182,7 +182,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `custom catalog derives validation on the same origin`() async throws {
+    func custom_catalog_derives_validation_on_the_same_origin() async throws {
         let tagsURL = try #require(URL(string: "https://private.example/prefix/api/tags"))
         let validationURL = try #require(URL(string: "https://private.example/prefix/api/web_search"))
         let transport = ProviderHTTPTransportHandler { request in
@@ -218,7 +218,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `cross origin validation endpoint is rejected before sending credentials`() async throws {
+    func cross_origin_validation_endpoint_is_rejected_before_sending_credentials() async throws {
         let tagsURL = try #require(URL(string: "https://private.example/api/tags"))
         let validationURL = try #require(URL(string: "https://ollama.com/api/web_search"))
         let transport = ProviderHTTPTransportHandler { _ in
@@ -245,7 +245,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `non loopback HTTP catalog is rejected before sending credentials`() async throws {
+    func non_loopback_HTTP_catalog_is_rejected_before_sending_credentials() async throws {
         let tagsURL = try #require(URL(string: "http://private.example/api/tags"))
         let transport = ProviderHTTPTransportHandler { _ in
             Issue.record("Insecure non-loopback endpoints must fail before transport")
@@ -270,7 +270,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `api validation preserves cancellation`() async {
+    func api_validation_preserves_cancellation() async {
         let transport = ProviderHTTPTransportHandler { _ in
             throw CancellationError()
         }
@@ -281,7 +281,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `model catalog fetch preserves URL cancellation`() async throws {
+    func model_catalog_fetch_preserves_URL_cancellation() async throws {
         let validationURL = try #require(URL(string: "https://ollama.test/api/web_search"))
         let tagsURL = try #require(URL(string: "https://ollama.test/api/tags"))
         let transport = ProviderHTTPTransportHandler { request in
@@ -304,7 +304,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `unproven validation status fails closed`() async throws {
+    func unproven_validation_status_fails_closed() async throws {
         let validationURL = try #require(URL(string: "https://ollama.test/api/web_search"))
         let tagsURL = try #require(URL(string: "https://ollama.test/api/tags"))
         let transport = ProviderHTTPTransportHandler { request in
@@ -336,7 +336,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `missing usage shape surfaces public parse failed message`() async {
+    func missing_usage_shape_surfaces_public_parse_failed_message() async {
         defer { OllamaRetryMappingStubURLProtocol.handler = nil }
 
         OllamaRetryMappingStubURLProtocol.handler = { request in
@@ -363,7 +363,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `workos sign in landing surfaces invalid credentials before parsing`() async throws {
+    func workos_sign_in_landing_surfaces_invalid_credentials_before_parsing() async throws {
         defer { OllamaRetryMappingStubURLProtocol.handler = nil }
 
         let landingURL = try #require(URL(
@@ -391,7 +391,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `workos sign in service failure remains a network error`() async throws {
+    func workos_sign_in_service_failure_remains_a_network_error() async throws {
         defer { OllamaRetryMappingStubURLProtocol.handler = nil }
 
         let landingURL = try #require(URL(string: "https://signin.ollama.com/"))
@@ -417,7 +417,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `temporary session is finished after a failed request`() async throws {
+    func temporary_session_is_finished_after_a_failed_request() async throws {
         defer { OllamaRetryMappingStubURLProtocol.handler = nil }
 
         let landingURL = try #require(URL(string: "https://ollama.com/settings"))
@@ -441,7 +441,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `temporary session is finished after a successful request`() async throws {
+    func temporary_session_is_finished_after_a_successful_request() async throws {
         defer { OllamaRetryMappingStubURLProtocol.handler = nil }
 
         OllamaRetryMappingStubURLProtocol.handler = { request in
@@ -470,7 +470,7 @@ struct OllamaUsageFetcherRetryMappingTests {
     }
 
     @Test
-    func `temporary session is finished after a transport failure`() async {
+    func temporary_session_is_finished_after_a_transport_failure() async {
         defer { OllamaRetryMappingStubURLProtocol.handler = nil }
 
         OllamaRetryMappingStubURLProtocol.handler = { _ in

@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeOAuthHistoryCredentialRoutingTests {
     @Test
-    func `history keychain reference only matches the credential that won routing`() throws {
+    func history_keychain_reference_only_matches_the_credential_that_won_routing() throws {
         let keychainData = self.makeCredentialsData(accessToken: "keychain-token")
         let keychainCredentials = try ClaudeOAuthCredentials.parse(data: keychainData)
         let differentCredentials = try ClaudeOAuthCredentials.parse(
@@ -76,7 +76,7 @@ struct ClaudeOAuthHistoryCredentialRoutingTests {
     }
 
     @Test
-    func `newest duplicate reference cannot label a different winning credential`() throws {
+    func newest_duplicate_reference_cannot_label_a_different_winning_credential() throws {
         let winningCredentials = try ClaudeOAuthCredentials.parse(
             data: self.makeCredentialsData(accessToken: "winning-token"))
         let newestCandidateCredentials = try ClaudeOAuthCredentials.parse(
@@ -101,7 +101,7 @@ struct ClaudeOAuthHistoryCredentialRoutingTests {
     }
 
     @Test
-    func `history owner follows refresh credential across access token rotation`() throws {
+    func history_owner_follows_refresh_credential_across_access_token_rotation() throws {
         let beforeRefresh = try ClaudeOAuthCredentials.parse(
             data: self.makeCredentialsData(accessToken: "access-before", refreshToken: "stable-refresh"))
         let afterRefresh = try ClaudeOAuthCredentials.parse(
@@ -115,7 +115,7 @@ struct ClaudeOAuthHistoryCredentialRoutingTests {
     }
 
     @Test
-    func `access-only credential replacement rotates history owner`() throws {
+    func access_only_credential_replacement_rotates_history_owner() throws {
         let original = try ClaudeOAuthCredentials.parse(
             data: self.makeCredentialsData(accessToken: "original-access"))
         let replacement = try ClaudeOAuthCredentials.parse(
@@ -129,7 +129,7 @@ struct ClaudeOAuthHistoryCredentialRoutingTests {
     }
 
     @Test
-    func `only an explicit refresh lineage can preserve a rotated credential owner`() throws {
+    func only_an_explicit_refresh_lineage_can_preserve_a_rotated_credential_owner() throws {
         let original = try ClaudeOAuthCredentials.parse(
             data: self.makeCredentialsData(accessToken: "access-before", refreshToken: "refresh-before"))
         let rotated = try ClaudeOAuthCredentials.parse(

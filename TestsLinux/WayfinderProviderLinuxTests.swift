@@ -10,7 +10,7 @@ import Testing
 /// (`wayfinder-router serve`, two-tier priced config) after routing real traffic.
 struct WayfinderProviderLinuxTests {
     @Test
-    func `assembles a snapshot from live gateway payloads`() throws {
+    func assembles_a_snapshot_from_live_gateway_payloads() throws {
         let snapshot = try Self.makeSnapshot()
 
         #expect(snapshot.gatewayStatus == "ok")
@@ -40,7 +40,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `maps the snapshot onto the shared usage snapshot`() throws {
+    func maps_the_snapshot_onto_the_shared_usage_snapshot() throws {
         let usage = try Self.makeSnapshot().toUsageSnapshot()
 
         #expect(usage.primary == nil)
@@ -54,7 +54,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `degraded health reports the missing key count`() throws {
+    func degraded_health_reports_the_missing_key_count() throws {
         let snapshot = try Self.makeSnapshot(healthData: Self.healthDegraded)
         #expect(snapshot.gatewayStatus == "degraded")
         #expect(snapshot.missingKeys == ["cloud"])
@@ -62,7 +62,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `empty savings suppress the routed and saved summaries`() throws {
+    func empty_savings_suppress_the_routed_and_saved_summaries() throws {
         let snapshot = try Self.makeSnapshot(savingsData: Self.savingsZeros)
         #expect(snapshot.requests == 0)
         #expect(snapshot.routedSummary == nil)
@@ -71,7 +71,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `unpriced savings never render dollars`() throws {
+    func unpriced_savings_never_render_dollars() throws {
         let snapshot = try Self.makeSnapshot(savingsData: Self.savingsUnpriced)
         #expect(!snapshot.priced)
         #expect(snapshot.savedSummary == "40% vs highest-cost route")
@@ -79,7 +79,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `sub-cent priced savings render below one cent`() throws {
+    func sub_cent_priced_savings_render_below_one_cent() throws {
         let snapshot = try Self.makeSnapshot()
         #expect(snapshot.routedSummary == "local: 10 · cloud: 4")
         #expect(snapshot.savedSummary == "<$0.01 · 61.5% vs highest-cost route")
@@ -87,7 +87,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `metrics parsing is best effort`() throws {
+    func metrics_parsing_is_best_effort() throws {
         #expect(WayfinderUsageFetcher._averageDecisionMillisecondsForTesting("") == nil)
         #expect(WayfinderUsageFetcher._averageDecisionMillisecondsForTesting("garbage\nlines\n") == nil)
         #expect(WayfinderUsageFetcher._averageDecisionMillisecondsForTesting(
@@ -107,7 +107,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `endpoint URLs preserve prefixes and trailing slashes`() throws {
+    func endpoint_URLs_preserve_prefixes_and_trailing_slashes() throws {
         func endpoint(_ base: String, _ path: String) throws -> String {
             try WayfinderUsageFetcher._endpointURLForTesting(
                 baseURL: #require(URL(string: base)),
@@ -120,7 +120,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `gateway URL override allows loopback HTTP and rejects remote HTTP`() throws {
+    func gateway_URL_override_allows_loopback_HTTP_and_rejects_remote_HTTP() throws {
         let key = WayfinderSettingsReader.baseURLEnvironmentKey
 
         try WayfinderSettingsReader.validateEndpointOverride(environment: [key: "http://127.0.0.1:9090"])
@@ -141,7 +141,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `dashboard URL follows the configured gateway and preserves its prefix`() {
+    func dashboard_URL_follows_the_configured_gateway_and_preserves_its_prefix() {
         let key = WayfinderSettingsReader.baseURLEnvironmentKey
 
         #expect(WayfinderSettingsReader.dashboardURL(environment: [:]).absoluteString ==
@@ -152,7 +152,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `config projects the gateway URL into the fetch environment`() {
+    func config_projects_the_gateway_URL_into_the_fetch_environment() {
         let config = ProviderConfig(id: .wayfinder, enterpriseHost: "http://localhost:9099")
         let environment = ProviderConfigEnvironment.applyProviderConfigOverrides(
             base: [:],
@@ -164,7 +164,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `descriptor is registered`() {
+    func descriptor_is_registered() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .wayfinder)
         #expect(descriptor.metadata.displayName == "Wayfinder")
         #expect(descriptor.metadata.cliName == "wayfinder")
@@ -173,7 +173,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `usage snapshot preserves Wayfinder detail when cached`() throws {
+    func usage_snapshot_preserves_Wayfinder_detail_when_cached() throws {
         let snapshot = try Self.makeSnapshot()
         let encoded = try JSONEncoder().encode(snapshot.toUsageSnapshot())
         let decoded = try JSONDecoder().decode(UsageSnapshot.self, from: encoded)
@@ -183,7 +183,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `fetch polls only the documented read-only endpoints`() async throws {
+    func fetch_polls_only_the_documented_read_only_endpoints() async throws {
         let log = RequestLog()
         let transport = ProviderHTTPTransportHandler { request in
             let url = try #require(request.url)
@@ -214,7 +214,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `fetch maps HTTP failures to actionable errors`() async throws {
+    func fetch_maps_HTTP_failures_to_actionable_errors() async throws {
         let failing = ProviderHTTPTransportHandler { _ in
             throw URLError(.cannotConnectToHost)
         }
@@ -241,7 +241,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `required request cancellation remains cancellation`() async throws {
+    func required_request_cancellation_remains_cancellation() async throws {
         for error in [CancellationError() as any Error, URLError(.cancelled) as any Error] {
             let cancelling = ProviderHTTPTransportHandler { _ in throw error }
             await #expect(throws: CancellationError.self) {
@@ -253,7 +253,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `optional metrics cancellation remains cancellation`() async throws {
+    func optional_metrics_cancellation_remains_cancellation() async throws {
         let cancelling = ProviderHTTPTransportHandler { request in
             let url = try #require(request.url)
             if url.path == "/metrics" {
@@ -281,7 +281,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `fetch rejects responses from a different origin`() async throws {
+    func fetch_rejects_responses_from_a_different_origin() async throws {
         let redirecting = ProviderHTTPTransportHandler { _ in
             let elsewhere = try #require(URL(string: "http://attacker.test/healthz"))
             let response = try #require(HTTPURLResponse(
@@ -299,7 +299,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `text CLI renders gateway health routed split savings and latency`() throws {
+    func text_CLI_renders_gateway_health_routed_split_savings_and_latency() throws {
         let output = try CLIRenderer.renderText(
             provider: .wayfinder,
             snapshot: Self.makeSnapshot().toUsageSnapshot(),
@@ -318,7 +318,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `routed summary reflects request counts regardless of configured model order`() throws {
+    func routed_summary_reflects_request_counts_regardless_of_configured_model_order() throws {
         // The heavier-traffic route ("primary-tier") is configured SECOND in /router/models,
         // and the lighter one ("secondary-tier") FIRST — proving nothing in the summary is
         // derived from array position (the gateway's config order is not a semantic signal).
@@ -335,7 +335,7 @@ struct WayfinderProviderLinuxTests {
     }
 
     @Test
-    func `routed summary uses the gateway's own route names, not a hardcoded local or cloud label`() throws {
+    func routed_summary_uses_the_gateway_s_own_route_names_not_a_hardcoded_local_or_cloud_label() throws {
         // Route names are whatever the user named their endpoints in the Wayfinder config —
         // there is no "local"/"cloud" semantic anywhere in the gateway's JSON.
         let customNamedSavings = Data("""

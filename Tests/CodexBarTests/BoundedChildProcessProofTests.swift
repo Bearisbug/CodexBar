@@ -11,7 +11,7 @@ import Glibc
 @Suite(.serialized)
 struct BoundedChildProcessProofTests {
     @Test
-    func `synthetic PTY child overflow propagates and cleans up the process`() throws {
+    func synthetic_PTY_child_overflow_propagates_and_cleans_up_the_process() throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBarBoundedProcessProof-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -51,7 +51,7 @@ struct BoundedChildProcessProofTests {
     }
 
     @Test
-    func `synthetic Grok RPC child returns a normal framed response`() async throws {
+    func synthetic_Grok_RPC_child_returns_a_normal_framed_response() async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBarBoundedRPCProof-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -88,7 +88,7 @@ struct BoundedChildProcessProofTests {
     }
 
     @Test
-    func `synthetic Grok RPC child overflow terminates the process`() async throws {
+    func synthetic_Grok_RPC_child_overflow_terminates_the_process() async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBarBoundedRPCOverflowProof-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

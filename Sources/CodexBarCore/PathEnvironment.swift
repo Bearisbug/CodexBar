@@ -1163,7 +1163,9 @@ public final class LoginShellPathCache: @unchecked Sendable {
     private let capture: @Sendable (String?, TimeInterval) -> [String]?
     private var captured: [String]?
     private var isCapturing = false
-    private var callbacks: [([String]?) -> Void] = []
+    /// Callbacks fire on a utility queue; @Sendable keeps caller closures from
+    /// inheriting actor isolation the queue cannot honor (runtime executor trap).
+    private var callbacks: [@Sendable ([String]?) -> Void] = []
 
     init(capture: @escaping @Sendable (String?, TimeInterval) -> [String]? = LoginShellPathCapturer.capture) {
         self.capture = capture
@@ -1179,7 +1181,7 @@ public final class LoginShellPathCache: @unchecked Sendable {
     public func captureOnce(
         shell: String? = ProcessInfo.processInfo.environment["SHELL"],
         timeout: TimeInterval = 6.0,
-        onFinish: (([String]?) -> Void)? = nil)
+        onFinish: (@Sendable ([String]?) -> Void)? = nil)
     {
         self.lock.lock()
         if let captured {
@@ -1228,15 +1230,15 @@ public final class LoginShellPathCache: @unchecked Sendable {
 
         if self.isCapturing {
             let semaphore = DispatchSemaphore(value: 0)
-            var callbackResult: [String]?
+            let resultBox = CallbackResultBox()
             self.callbacks.append { result in
-                callbackResult = result
+                resultBox.value = result
                 semaphore.signal()
             }
             self.lock.unlock()
             let deadline = DispatchTime.now() + timeout
             _ = semaphore.wait(timeout: deadline)
-            return callbackResult ?? self.current
+            return resultBox.value ?? self.current
         }
 
         self.isCapturing = true
@@ -1252,5 +1254,10 @@ public final class LoginShellPathCache: @unchecked Sendable {
 
         callbacks.forEach { $0(result) }
         return result
+    }
+
+    /// Dispatch-semaphore handoff box for `currentOrCapture`; the semaphore orders access.
+    private final class CallbackResultBox: @unchecked Sendable {
+        var value: [String]?
     }
 }

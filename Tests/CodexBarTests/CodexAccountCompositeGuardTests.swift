@@ -6,21 +6,21 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `shared workspace rejects stale member results without fingerprints`() {
+    func shared_workspace_rejects_stale_member_results_without_fingerprints() {
         self.assertSharedWorkspaceMemberSwitchRejectsStaleResults(
             suite: "CodexAccountScopedRefreshTests-shared-workspace-nil-fingerprint",
             authFingerprint: nil)
     }
 
     @Test
-    func `shared workspace rejects stale member results with stable fingerprints`() {
+    func shared_workspace_rejects_stale_member_results_with_stable_fingerprints() {
         self.assertSharedWorkspaceMemberSwitchRejectsStaleResults(
             suite: "CodexAccountScopedRefreshTests-shared-workspace-stable-fingerprint",
             authFingerprint: "stable-auth")
     }
 
     @Test
-    func `provider identity without email fails every scoped guard closed`() {
+    func provider_identity_without_email_fails_every_scoped_guard_closed() {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-provider-identity-missing-email")
         settings.refreshFrequency = .manual
@@ -44,7 +44,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same member auth rotation keeps success admission policy`() {
+    func same_member_auth_rotation_keeps_success_admission_policy() {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-same-member-auth-rotation")
         settings.refreshFrequency = .manual

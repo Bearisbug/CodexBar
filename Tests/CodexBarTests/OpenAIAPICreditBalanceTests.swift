@@ -35,7 +35,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `prefers admin key environment variable`() {
+    func prefers_admin_key_environment_variable() {
         let token = OpenAIAPISettingsReader.apiKey(environment: [
             "OPENAI_API_KEY": "sk-project",
             "OPENAI_ADMIN_KEY": "sk-admin",
@@ -45,7 +45,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `parses credit grants balance`() throws {
+    func parses_credit_grants_balance() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -76,7 +76,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `maps balance to usage snapshot`() {
+    func maps_balance_to_usage_snapshot() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let balance = OpenAIAPICreditBalanceSnapshot(
             totalGranted: 100,
@@ -96,7 +96,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `maps unauthorized legacy balance to admin key guidance`() async {
+    func maps_unauthorized_legacy_balance_to_admin_key_guidance() async {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             let response = HTTPURLResponse(
@@ -122,7 +122,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `falls back to legacy billing when admin usage rejects credentials`() async throws {
+    func falls_back_to_legacy_billing_when_admin_usage_rejects_credentials() async throws {
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { _, _ in
                 throw OpenAIAPIUsageError.apiError(endpoint: "costs", statusCode: 403)
@@ -143,7 +143,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `legacy API key without project ID falls back to legacy billing`() async throws {
+    func legacy_API_key_without_project_ID_falls_back_to_legacy_billing() async throws {
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in
                 #expect(credential.apiKey == "sk-test")
@@ -169,7 +169,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `selected token account uses scrubbed final environment for legacy fallback`() async throws {
+    func selected_token_account_uses_scrubbed_final_environment_for_legacy_fallback() async throws {
         let accountID = UUID()
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in
@@ -199,7 +199,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `preserves admin usage error when legacy fallback also fails`() async {
+    func preserves_admin_usage_error_when_legacy_fallback_also_fails() async {
         let usageFailure = OpenAIAPIUsageError.parseFailed(endpoint: "costs", message: "changed")
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { _, _ in throw usageFailure },
@@ -216,7 +216,7 @@ struct OpenAIAPICreditBalanceTests {
     }
 
     @Test
-    func `falls back to credit balance when admin usage endpoint is unavailable`() async throws {
+    func falls_back_to_credit_balance_when_admin_usage_endpoint_is_unavailable() async throws {
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in
                 #expect(credential.apiKey == "sk-test")

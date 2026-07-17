@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CodexUsageFetcherFallbackTests {
     @Test
-    func `missing CLI binary reports install guidance instead of not running`() async throws {
+    func missing_CLI_binary_reports_install_guidance_instead_of_not_running() async throws {
         let fetcher = UsageFetcher(
             environment: [:],
             initializeTimeoutSeconds: 0.1,
@@ -25,7 +25,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI usage recovers from RPC decode mismatch body payload`() {
+    func CLI_usage_recovers_from_RPC_decode_mismatch_body_payload() {
         let snapshot = UsageFetcher._recoverCodexRPCUsageFromErrorForTesting(
             Self.decodeMismatchBodyMessage)
 
@@ -38,14 +38,14 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI credits recover from RPC decode mismatch body payload`() {
+    func CLI_credits_recover_from_RPC_decode_mismatch_body_payload() {
         let credits = UsageFetcher._recoverCodexRPCCreditsFromErrorForTesting(Self.decodeMismatchBodyMessage)
 
         #expect(credits?.remaining == 0)
     }
 
     @Test
-    func `CLI credits recover from RPC error body when usage windows are unusable`() async throws {
+    func CLI_credits_recover_from_RPC_error_body_when_usage_windows_are_unusable() async throws {
         let stubCLIPath = try self.makeDecodeMismatchStubCodexCLI(message: Self.creditsOnlyDecodeMismatchBodyMessage)
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -59,7 +59,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI usage does not partially recover malformed RPC body without session lane`() {
+    func CLI_usage_does_not_partially_recover_malformed_RPC_body_without_session_lane() {
         let snapshot = UsageFetcher._recoverCodexRPCUsageFromErrorForTesting(
             Self.partialDecodeBodyMessage)
 
@@ -67,7 +67,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI usage recovers from RPC body without TTY fallback`() async throws {
+    func CLI_usage_recovers_from_RPC_body_without_TTY_fallback() async throws {
         let stubCLIPath = try self.makeDecodeMismatchStubCodexCLI(message: Self.decodeMismatchBodyMessage)
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -81,7 +81,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI credits recover from RPC body without TTY fallback`() async throws {
+    func CLI_credits_recover_from_RPC_body_without_TTY_fallback() async throws {
         let stubCLIPath = try self.makeDecodeMismatchStubCodexCLI(message: Self.decodeMismatchBodyMessage)
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -92,7 +92,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI credits load from RPC response without usage windows`() async throws {
+    func CLI_credits_load_from_RPC_response_without_usage_windows() async throws {
         let stubCLIPath = try self.makeCreditsOnlyStubCodexCLI()
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -106,7 +106,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI usage loads plan only RPC response as unavailable limits`() async throws {
+    func CLI_usage_loads_plan_only_RPC_response_as_unavailable_limits() async throws {
         let stubCLIPath = try self.makePlanOnlyStubCodexCLI()
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -121,7 +121,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI plan and credits response without usage windows keeps unavailable limits`() async throws {
+    func CLI_plan_and_credits_response_without_usage_windows_keeps_unavailable_limits() async throws {
         let stubCLIPath = try self.makePlanOnlyStubCodexCLI(includeCredits: true)
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -135,7 +135,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `CLI usage fails when RPC body recovery misses session lane`() async throws {
+    func CLI_usage_fails_when_RPC_body_recovery_misses_session_lane() async throws {
         let stubCLIPath = try self.makeDecodeMismatchStubCodexCLI(message: Self.partialDecodeBodyMessage)
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -150,7 +150,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `hung CLI RPC rate limits request times out within budget`() async throws {
+    func hung_CLI_RPC_rate_limits_request_times_out_within_budget() async throws {
         let stubCLIPath = try self.makeHungRateLimitsStubCodexCLI()
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 
@@ -178,7 +178,7 @@ struct CodexUsageFetcherFallbackTests {
     }
 
     @Test
-    func `repeated hung CLI RPC requests stay bounded`() async throws {
+    func repeated_hung_CLI_RPC_requests_stay_bounded() async throws {
         let stubCLIPath = try self.makeHungRateLimitsStubCodexCLI()
         defer { try? FileManager.default.removeItem(atPath: stubCLIPath) }
 

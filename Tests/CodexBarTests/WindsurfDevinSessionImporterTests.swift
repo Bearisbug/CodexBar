@@ -5,7 +5,7 @@ import Testing
 
 struct WindsurfDevinSessionImporterTests {
     @Test
-    func `defaults to Chrome before fallback Chromium browsers`() {
+    func defaults_to_Chrome_before_fallback_Chromium_browsers() {
         #expect(WindsurfDevinSessionImporter.defaultPreferredBrowsers == [.chrome])
         #expect(!WindsurfDevinSessionImporter.fallbackBrowsers.contains(.chrome))
         #expect(WindsurfDevinSessionImporter.fallbackBrowsersExcluding([.chrome, .edge]).first == .chromeBeta)
@@ -13,7 +13,7 @@ struct WindsurfDevinSessionImporterTests {
     }
 
     @Test
-    func `reads Devin app storage before legacy Windsurf origin`() {
+    func reads_Devin_app_storage_before_legacy_Windsurf_origin() {
         #expect(WindsurfDevinSessionImporter.localStorageOrigins.map(\.absoluteString) == [
             "https://app.devin.ai",
             "https://windsurf.com",
@@ -21,14 +21,14 @@ struct WindsurfDevinSessionImporterTests {
     }
 
     @Test
-    func `decodes quoted local storage strings`() {
+    func decodes_quoted_local_storage_strings() {
         #expect(WindsurfDevinSessionImporter
             .decodedStorageValue(#""devin-session-token$abc""#) == "devin-session-token$abc")
         #expect(WindsurfDevinSessionImporter.decodedStorageValue("auth1_xyz") == "auth1_xyz")
     }
 
     @Test
-    func `builds session only when all local storage keys exist`() {
+    func builds_session_only_when_all_local_storage_keys_exist() {
         let storage = [
             "devin_session_token": "devin-session-token$abc",
             "devin_auth1_token": "auth1_xyz",
@@ -46,7 +46,7 @@ struct WindsurfDevinSessionImporterTests {
     }
 
     @Test
-    func `keeps partial app origin separate from complete legacy origin`() throws {
+    func keeps_partial_app_origin_separate_from_complete_legacy_origin() throws {
         let appOrigin = try #require(URL(string: "https://app.devin.ai"))
         let legacyOrigin = try #require(URL(string: "https://windsurf.com"))
 
@@ -80,7 +80,7 @@ struct WindsurfDevinSessionImporterTests {
     }
 
     @Test
-    func `keeps text entry fallback after structured origin snapshots`() throws {
+    func keeps_text_entry_fallback_after_structured_origin_snapshots() throws {
         let appOrigin = try #require(URL(string: "https://app.devin.ai"))
 
         let snapshots = WindsurfDevinSessionImporter.localStorageSnapshots(
@@ -122,7 +122,7 @@ struct WindsurfDevinSessionImporterTests {
     }
 
     @Test
-    func `deduplicates repeated session tokens while preserving first source`() {
+    func deduplicates_repeated_session_tokens_while_preserving_first_source() {
         let sessions = [
             WindsurfDevinSessionImporter.SessionInfo(
                 session: WindsurfDevinSessionAuth(

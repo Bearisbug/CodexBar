@@ -15,7 +15,7 @@ struct MenuBarPaceTextTests {
     }
 
     @Test
-    func `paceText drops the sign when the rounded delta is zero`() {
+    func paceText_drops_the_sign_when_the_rounded_delta_is_zero() {
         let slightlyAhead = Self.pace(deltaPercent: 0.3, stage: .onTrack)
         let slightlyBehind = Self.pace(deltaPercent: -0.3, stage: .onTrack)
 
@@ -25,7 +25,7 @@ struct MenuBarPaceTextTests {
     }
 
     @Test
-    func `paceText keeps the sign for non-zero deltas`() {
+    func paceText_keeps_the_sign_for_non_zero_deltas() {
         #expect(MenuBarDisplayText.paceText(pace: Self.pace(deltaPercent: 3, stage: .ahead)) == "+3%")
         #expect(MenuBarDisplayText.paceText(pace: Self.pace(deltaPercent: -3, stage: .behind)) == "-3%")
     }

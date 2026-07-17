@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct ProviderChangelogLinkTests {
     @Test
-    func `known CLI providers declare changelog URLs`() {
+    func known_CLI_providers_declare_changelog_URLs() {
         let metadata = ProviderDefaults.metadata
 
         #expect(metadata[.codex]?.changelogURL == "https://github.com/openai/codex/releases")
@@ -15,7 +15,7 @@ struct ProviderChangelogLinkTests {
     }
 
     @Test
-    func `provider menu hides changelog action until enabled`() {
+    func provider_menu_hides_changelog_action_until_enabled() {
         let codexDescriptor = self.makeDescriptor(
             provider: .codex,
             suite: "ProviderChangelogLinkTests-codex-default")
@@ -23,7 +23,7 @@ struct ProviderChangelogLinkTests {
     }
 
     @Test
-    func `provider menu shows changelog action only when setting and URL are present`() {
+    func provider_menu_shows_changelog_action_only_when_setting_and_URL_are_present() {
         let codexDescriptor = self.makeDescriptor(
             provider: .codex,
             suite: "ProviderChangelogLinkTests-codex",

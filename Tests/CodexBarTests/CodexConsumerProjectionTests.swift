@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CodexConsumerProjectionTests {
     @Test
-    func `live card projection compacts weekly lanes and attaches dashboard extras`() {
+    func live_card_projection_compacts_weekly_lanes_and_attaches_dashboard_extras() {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-live-card")
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
@@ -51,7 +51,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `display only dashboard stays visible without attached extras`() {
+    func display_only_dashboard_stays_visible_without_attached_extras() {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-display-only")
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
@@ -90,7 +90,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `override card projection does not pull live codex adjuncts`() {
+    func override_card_projection_does_not_pull_live_codex_adjuncts() {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-override")
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
@@ -146,7 +146,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `menu bar projection flags credits fallback on exhaustion`() {
+    func menu_bar_projection_flags_credits_fallback_on_exhaustion() {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-menu-bar")
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
@@ -172,7 +172,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `live card projection keeps buy credits available without dashboard purchase URL`() {
+    func live_card_projection_keeps_buy_credits_available_without_dashboard_purchase_URL() {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-buy-credits")
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
@@ -196,7 +196,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `menu bar projection keeps credits fallback when credits load before usage`() {
+    func menu_bar_projection_keeps_credits_fallback_when_credits_load_before_usage() {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-menu-bar-credits-only")
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
@@ -210,7 +210,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `projection prefers monthly credit limit remaining over zero balance`() {
+    func projection_prefers_monthly_credit_limit_remaining_over_zero_balance() {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-monthly-credit-limit")
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
@@ -232,7 +232,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `exhausted weekly lane caps session display until weekly reset`() throws {
+    func exhausted_weekly_lane_caps_session_display_until_weekly_reset() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-weekly-caps-session")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let sessionReset = now.addingTimeInterval(3 * 3600)
@@ -265,7 +265,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `exhausted weekly lane retargets session reset when session is also exhausted`() throws {
+    func exhausted_weekly_lane_retargets_session_reset_when_session_is_also_exhausted() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-weekly-caps-both-exhausted")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let sessionReset = now.addingTimeInterval(42 * 60)
@@ -295,7 +295,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `both exhausted lanes use the later session reset`() throws {
+    func both_exhausted_lanes_use_the_later_session_reset() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-session-reset-binds-later")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let weeklyReset = now.addingTimeInterval(60 * 60)
@@ -325,7 +325,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `both exhausted lanes keep effective reset unknown when session reset is unknown`() throws {
+    func both_exhausted_lanes_keep_effective_reset_unknown_when_session_reset_is_unknown() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-session-reset-unknown")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
 
@@ -353,7 +353,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `exhausted weekly lane leaves session reset unknown when weekly reset is unknown`() throws {
+    func exhausted_weekly_lane_leaves_session_reset_unknown_when_weekly_reset_is_unknown() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-weekly-caps-unknown-reset")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let sessionReset = now.addingTimeInterval(42 * 60)
@@ -382,7 +382,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `weekly cap lifts after weekly reset even with stale snapshot timestamp`() throws {
+    func weekly_cap_lifts_after_weekly_reset_even_with_stale_snapshot_timestamp() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-weekly-cap-stale-snapshot")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let snapshotCapturedAt = now.addingTimeInterval(-2 * 3600)
@@ -414,7 +414,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `weekly cap does not alter session display when weekly has reset`() throws {
+    func weekly_cap_does_not_alter_session_display_when_weekly_has_reset() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-weekly-reset-session-uncapped")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let sessionReset = now.addingTimeInterval(3 * 3600)
@@ -443,7 +443,7 @@ struct CodexConsumerProjectionTests {
     }
 
     @Test
-    func `weekly cap lifts at the weekly reset boundary`() throws {
+    func weekly_cap_lifts_at_the_weekly_reset_boundary() throws {
         let store = self.makeStore(suite: "CodexConsumerProjectionTests-weekly-reset-boundary")
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let sessionReset = now.addingTimeInterval(3 * 3600)

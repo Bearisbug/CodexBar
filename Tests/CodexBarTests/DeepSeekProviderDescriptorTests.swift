@@ -39,7 +39,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `balance failure cancels automatic session resolution promptly`() async {
+    func balance_failure_cancels_automatic_session_resolution_promptly() async {
         let probe = CancellationProbe()
         let operations = DeepSeekProviderDescriptor.FetchOperations(
             fetchUsage: { _, _, _ in
@@ -55,14 +55,18 @@ struct DeepSeekProviderDescriptorTests {
             })
         let startedAt = ContinuousClock.now
 
-        await #expect {
+        do {
             _ = try await DeepSeekProviderDescriptor._loadUsageForTesting(
                 apiKey: "invalid",
                 context: Self.makeContext(),
                 optionalResolutionJoinGrace: .seconds(5),
                 operations: operations)
-        } throws: { error in
-            error as? DeepSeekUsageError == .apiError("invalid key")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? DeepSeekUsageError == .apiError("invalid key")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
 
         #expect(startedAt.duration(to: .now) < .seconds(1))
@@ -74,7 +78,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `automatic session resolution cannot hold balance past its grace`() async throws {
+    func automatic_session_resolution_cannot_hold_balance_past_its_grace() async throws {
         let probe = CancellationProbe()
         let operations = DeepSeekProviderDescriptor.FetchOperations(
             fetchUsage: { _, _, _ in Self.balance },
@@ -106,7 +110,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `automatic session result enriches the required balance`() async throws {
+    func automatic_session_result_enriches_the_required_balance() async throws {
         let summary = DeepSeekUsageSummary(
             todayTokens: 123,
             currentMonthTokens: 456,
@@ -141,7 +145,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `automatic resolution timeout is hard when the resolver ignores cancellation`() async throws {
+    func automatic_resolution_timeout_is_hard_when_the_resolver_ignores_cancellation() async throws {
         let operations = DeepSeekProviderDescriptor.FetchOperations(
             fetchUsage: { _, _, _ in Self.balance },
             resolveAutomaticSession: { _, _, _, _, _, _ in
@@ -164,7 +168,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `profile selection from another api account requires explicit replacement`() async throws {
+    func profile_selection_from_another_api_account_requires_explicit_replacement() async throws {
         let probe = ResolutionInputProbe()
         let selectedAccountID = UUID()
         let otherAccountID = UUID()
@@ -195,7 +199,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `replacing an api key in the same account requires explicit profile replacement`() async throws {
+    func replacing_an_api_key_in_the_same_account_requires_explicit_profile_replacement() async throws {
         let probe = ResolutionInputProbe()
         let selectedAccountID = UUID()
         let operations = DeepSeekProviderDescriptor.FetchOperations(
@@ -223,7 +227,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `changing the environment api key requires explicit profile replacement`() async throws {
+    func changing_the_environment_api_key_requires_explicit_profile_replacement() async throws {
         let probe = ResolutionInputProbe()
         let operations = DeepSeekProviderDescriptor.FetchOperations(
             fetchUsage: { _, _, _ in Self.balance },
@@ -250,7 +254,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `platform session from another account does not enrich api balance`() async throws {
+    func platform_session_from_another_account_does_not_enrich_api_balance() async throws {
         let probe = UsageInputProbe()
         let activeAccountID = UUID()
         let credential = "api-key-value"
@@ -280,7 +284,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `browser only mode returns Platform balance and usage without an API key`() async throws {
+    func browser_only_mode_returns_Platform_balance_and_usage_without_an_API_key() async throws {
         let probe = ResolutionInputProbe()
         let summary = DeepSeekUsageSummary(
             todayTokens: 123,
@@ -326,7 +330,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `forced web mode preserves the active credential profile scope`() async throws {
+    func forced_web_mode_preserves_the_active_credential_profile_scope() async throws {
         let probe = ResolutionInputProbe()
         let selectedAccountID = UUID()
         let credential = "api-key-value"
@@ -368,7 +372,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `browser only mode skips optional usage when extras are disabled`() async throws {
+    func browser_only_mode_skips_optional_usage_when_extras_are_disabled() async throws {
         let probe = ResolutionInputProbe()
         let operations = DeepSeekProviderDescriptor.FetchOperations(
             fetchUsage: { _, _, _ in
@@ -399,7 +403,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `browser only resolution timeout is hard when Chrome ignores cancellation`() async throws {
+    func browser_only_resolution_timeout_is_hard_when_Chrome_ignores_cancellation() async throws {
         let operations = DeepSeekProviderDescriptor.FetchOperations(
             fetchUsage: { _, _, _ in Self.balance },
             resolveAutomaticSession: { _, _, _, _, _, _ in
@@ -411,20 +415,24 @@ struct DeepSeekProviderDescriptorTests {
             })
         let startedAt = ContinuousClock.now
 
-        await #expect {
+        do {
             _ = try await DeepSeekProviderDescriptor._loadPlatformUsageForTesting(
                 context: Self.makeContext(sourceMode: .auto),
                 resolutionJoinGrace: .milliseconds(20),
                 operations: operations)
-        } throws: { error in
-            guard case let DeepSeekUsageError.networkError(message) = error else { return false }
-            return message.contains("timed out")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let DeepSeekUsageError.networkError(message) = error else { return false }
+                return message.contains("timed out")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
         #expect(startedAt.duration(to: .now) < .milliseconds(200))
     }
 
     @Test
-    func `browser only mode asks for Chrome sign in instead of an API key`() async throws {
+    func browser_only_mode_asks_for_Chrome_sign_in_instead_of_an_API_key() async throws {
         let operations = DeepSeekProviderDescriptor.FetchOperations(
             fetchUsage: { _, _, _ in
                 throw DeepSeekUsageError.missingCredentials
@@ -445,7 +453,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `automatic source uses Chrome session when API key is absent`() async {
+    func automatic_source_uses_Chrome_session_when_API_key_is_absent() async {
         let strategies = await DeepSeekProviderDescriptor.descriptor.fetchPlan.pipeline.resolveStrategies(
             Self.makeContext(sourceMode: .auto))
 
@@ -453,7 +461,7 @@ struct DeepSeekProviderDescriptorTests {
     }
 
     @Test
-    func `automatic source keeps API path when API key is present`() async {
+    func automatic_source_keeps_API_path_when_API_key_is_present() async {
         let strategies = await DeepSeekProviderDescriptor.descriptor.fetchPlan.pipeline.resolveStrategies(
             Self.makeContext(
                 environment: [DeepSeekSettingsReader.apiKeyEnvironmentKey: "test-api-key"],

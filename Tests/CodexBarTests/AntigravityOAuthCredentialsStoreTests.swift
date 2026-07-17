@@ -4,7 +4,7 @@ import Testing
 
 struct AntigravityOAuthCredentialsStoreTests {
     @Test
-    func `oauth client discovery reads renamed legacy bundle`() throws {
+    func oauth_client_discovery_reads_renamed_legacy_bundle() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
@@ -29,7 +29,7 @@ struct AntigravityOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `oauth client discovery reads standalone antigravity 2 bundle`() throws {
+    func oauth_client_discovery_reads_standalone_antigravity_2_bundle() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
@@ -58,7 +58,7 @@ struct AntigravityOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `oauth client discovery reads antigravity extension language server`() throws {
+    func oauth_client_discovery_reads_antigravity_extension_language_server() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
@@ -97,7 +97,7 @@ struct AntigravityOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `oauth client discovery pairs lone binary secret with trailing client id`() throws {
+    func oauth_client_discovery_pairs_lone_binary_secret_with_trailing_client_id() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }

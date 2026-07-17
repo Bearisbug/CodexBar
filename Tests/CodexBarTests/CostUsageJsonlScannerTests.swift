@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageJsonlScannerTests {
     @Test
-    func `jsonl scanner handles lines across read chunks`() throws {
+    func jsonl_scanner_handles_lines_across_read_chunks() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -31,7 +31,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retains prefix for truncated lines`() throws {
+    func jsonl_scanner_retains_prefix_for_truncated_lines() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -59,7 +59,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retries an incomplete final record after append`() throws {
+    func jsonl_scanner_retries_an_incomplete_final_record_after_append() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -100,7 +100,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner accepts a complete final record without newline`() throws {
+    func jsonl_scanner_accepts_a_complete_final_record_without_newline() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -122,7 +122,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner preserves a truncated final record`() throws {
+    func jsonl_scanner_preserves_a_truncated_final_record() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -145,7 +145,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retries a truncated incomplete final record after append`() throws {
+    func jsonl_scanner_retries_a_truncated_incomplete_final_record_after_append() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -187,7 +187,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retries a truncated escape sequence`() throws {
+    func jsonl_scanner_retries_a_truncated_escape_sequence() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -229,7 +229,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner ignores nested delimiters inside strings`() throws {
+    func jsonl_scanner_ignores_nested_delimiters_inside_strings() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -254,7 +254,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner commits only complete CRLF records`() throws {
+    func jsonl_scanner_commits_only_complete_CRLF_records() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -298,7 +298,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner tracks an incomplete record across read chunks`() throws {
+    func jsonl_scanner_tracks_an_incomplete_record_across_read_chunks() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -341,7 +341,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retries truncated literal prefixes`() throws {
+    func jsonl_scanner_retries_truncated_literal_prefixes() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -386,7 +386,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retries a truncated number exponent`() throws {
+    func jsonl_scanner_retries_a_truncated_number_exponent() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -428,7 +428,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retries a complete numeric prefix`() throws {
+    func jsonl_scanner_retries_a_complete_numeric_prefix() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -469,7 +469,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner retries a truncated complete numeric prefix`() throws {
+    func jsonl_scanner_retries_a_truncated_complete_numeric_prefix() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -511,7 +511,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner accepts a number terminated by trailing whitespace`() throws {
+    func jsonl_scanner_accepts_a_number_terminated_by_trailing_whitespace() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -533,7 +533,7 @@ struct CostUsageJsonlScannerTests {
     }
 
     @Test
-    func `jsonl scanner commits complete EOF record larger than retained prefix`() throws {
+    func jsonl_scanner_commits_complete_EOF_record_larger_than_retained_prefix() throws {
         let root = try self.makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 

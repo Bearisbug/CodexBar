@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `dashboard cannot publish an unconfirmed first weekly low`() async {
+    func dashboard_cannot_publish_an_unconfirmed_first_weekly_low() async {
         let settings = self.makeSettingsStore(
             suite: "CodexDashboardWeeklyPublicationTests-first-low")
         settings.refreshFrequency = .manual
@@ -45,7 +45,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard publishes an ordinary first weekly observation`() async {
+    func dashboard_publishes_an_ordinary_first_weekly_observation() async {
         let settings = self.makeSettingsStore(
             suite: "CodexDashboardWeeklyPublicationTests-ordinary")
         settings.refreshFrequency = .manual

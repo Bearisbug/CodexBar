@@ -33,7 +33,7 @@ struct MenuCardRefreshTests {
     }
 
     @Test
-    func `background refresh keeps quota timing current`() throws {
+    func background_refresh_keeps_quota_timing_current() throws {
         let updatedAt = Date(timeIntervalSince1970: 1_800_000_000)
         for provider in [UsageProvider.claude, .codex] {
             let snapshot = UsageSnapshot(

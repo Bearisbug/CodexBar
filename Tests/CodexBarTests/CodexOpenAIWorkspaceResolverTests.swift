@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CodexOpenAIWorkspaceResolverTests {
     @Test
-    func `resolver returns workspace identity and sends expected headers`() async throws {
+    func resolver_returns_workspace_identity_and_sends_expected_headers() async throws {
         defer {
             CodexOpenAIWorkspaceStubURLProtocol.handler = nil
             CodexOpenAIWorkspaceStubURLProtocol.requests = []
@@ -54,7 +54,7 @@ struct CodexOpenAIWorkspaceResolverTests {
     }
 
     @Test
-    func `resolver default uses isolated authenticated transport`() async throws {
+    func resolver_default_uses_isolated_authenticated_transport() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.cachePolicy == .reloadIgnoringLocalCacheData)
             let url = try #require(request.url)
@@ -81,7 +81,7 @@ struct CodexOpenAIWorkspaceResolverTests {
     }
 
     @Test
-    func `resolver returns personal when account name is empty`() async throws {
+    func resolver_returns_personal_when_account_name_is_empty() async throws {
         defer {
             CodexOpenAIWorkspaceStubURLProtocol.handler = nil
             CodexOpenAIWorkspaceStubURLProtocol.requests = []
@@ -121,7 +121,7 @@ struct CodexOpenAIWorkspaceResolverTests {
     }
 
     @Test
-    func `workspace identity cache persists and normalizes workspace ids`() throws {
+    func workspace_identity_cache_persists_and_normalizes_workspace_ids() throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
         let fileURL = root.appendingPathComponent("codex-openai-workspaces.json")

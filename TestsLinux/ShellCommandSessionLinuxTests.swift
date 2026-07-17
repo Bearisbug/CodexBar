@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct ShellCommandSessionLinuxTests {
     @Test
-    func `shell probe launches as a detached session leader`() throws {
+    func shell_probe_launches_as_a_detached_session_leader() throws {
         let output = ShellCommandLocator.test_runShellCommand(
             shell: "/bin/sh",
             arguments: ["-c", "printf '%s ' \"$$\"; ps -o sid= -p \"$$\""],

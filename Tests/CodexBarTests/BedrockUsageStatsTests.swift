@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct BedrockUsageStatsTests {
     @Test
-    func `to usage snapshot with budget shows primary window`() {
+    func to_usage_snapshot_with_budget_shows_primary_window() {
         let snapshot = BedrockUsageSnapshot(
             monthlySpend: 50,
             monthlyBudget: 200,
@@ -31,7 +31,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `to usage snapshot without budget omits primary window`() {
+    func to_usage_snapshot_without_budget_omits_primary_window() {
         let snapshot = BedrockUsageSnapshot(
             monthlySpend: 75.5,
             monthlyBudget: nil,
@@ -46,7 +46,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `settings reader parses credentials from environment`() {
+    func settings_reader_parses_credentials_from_environment() {
         let env = [
             "AWS_ACCESS_KEY_ID": "AKIAIOSFODNN7EXAMPLE",
             "AWS_SECRET_ACCESS_KEY": "secret",
@@ -62,7 +62,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `settings reader requires both credential fields`() {
+    func settings_reader_requires_both_credential_fields() {
         #expect(!BedrockSettingsReader.hasCredentials(environment: [:]))
         #expect(!BedrockSettingsReader.hasCredentials(environment: [
             "AWS_ACCESS_KEY_ID": "AKIATEST",
@@ -73,7 +73,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cost explorer response parsing extracts total`() async throws {
+    func cost_explorer_response_parsing_extracts_total() async throws {
         let registered = URLProtocol.registerClass(BedrockStubURLProtocol.self)
         defer {
             if registered {
@@ -127,7 +127,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cost explorer data unavailable response returns zero usage`() async throws {
+    func cost_explorer_data_unavailable_response_returns_zero_usage() async throws {
         let registered = URLProtocol.registerClass(BedrockStubURLProtocol.self)
         defer {
             if registered {
@@ -160,7 +160,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cost explorer unrelated bad request remains an API error`() async throws {
+    func cost_explorer_unrelated_bad_request_remains_an_API_error() async throws {
         let registered = URLProtocol.registerClass(BedrockStubURLProtocol.self)
         defer {
             if registered {
@@ -192,7 +192,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cost explorer rejects remote HTTP override before transport`() async throws {
+    func cost_explorer_rejects_remote_HTTP_override_before_transport() async throws {
         let registered = URLProtocol.registerClass(BedrockStubURLProtocol.self)
         defer {
             if registered {
@@ -217,7 +217,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cost explorer pagination aggregates monthly total`() async throws {
+    func cost_explorer_pagination_aggregates_monthly_total() async throws {
         let registered = URLProtocol.registerClass(BedrockStubURLProtocol.self)
         defer {
             if registered {
@@ -284,7 +284,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cost usage fetcher uses provided bedrock environment`() async throws {
+    func cost_usage_fetcher_uses_provided_bedrock_environment() async throws {
         let registered = URLProtocol.registerClass(BedrockStubURLProtocol.self)
         defer {
             if registered {
@@ -347,7 +347,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `current month range uses UTC calendar`() throws {
+    func current_month_range_uses_UTC_calendar() throws {
         let originalTimeZone = NSTimeZone.default
         NSTimeZone.default = TimeZone(secondsFromGMT: 14 * 60 * 60)!
         defer {
@@ -362,7 +362,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cloudwatch fetch aggregates Claude activity with bounded signed query`() async throws {
+    func cloudwatch_fetch_aggregates_Claude_activity_with_bounded_signed_query() async throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-06-19T12:00:00Z"))
         let capture = BedrockRequestCapture()
         let transport = ProviderHTTPTransportHandler { request in
@@ -415,7 +415,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cloudwatch pagination aggregates pages`() async throws {
+    func cloudwatch_pagination_aggregates_pages() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let requestBody = try #require(request.httpBody)
             let payload = try #require(JSONSerialization.jsonObject(with: requestBody) as? [String: Any])
@@ -454,7 +454,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cloudwatch rejects incomplete search results`() async throws {
+    func cloudwatch_rejects_incomplete_search_results() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let requestURL = try #require(request.url)
             let response = try #require(HTTPURLResponse(
@@ -479,7 +479,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cloudwatch permission failure preserves cost explorer usage`() async throws {
+    func cloudwatch_permission_failure_preserves_cost_explorer_usage() async throws {
         let registered = URLProtocol.registerClass(BedrockStubURLProtocol.self)
         defer {
             if registered {
@@ -531,7 +531,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cloudwatch invalid override fails closed without transport`() async throws {
+    func cloudwatch_invalid_override_fails_closed_without_transport() async throws {
         let capture = BedrockRequestCapture()
         let transport = ProviderHTTPTransportHandler { request in
             capture.append(request)
@@ -552,7 +552,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cloudwatch allows HTTP only for loopback overrides`() async throws {
+    func cloudwatch_allows_HTTP_only_for_loopback_overrides() async throws {
         let capture = BedrockRequestCapture()
         let transport = ProviderHTTPTransportHandler { request in
             capture.append(request)
@@ -583,7 +583,7 @@ struct BedrockUsageStatsTests {
     }
 
     @Test
-    func `cloudwatch resolves AWS partition endpoints`() async throws {
+    func cloudwatch_resolves_AWS_partition_endpoints() async throws {
         let capture = BedrockRequestCapture()
         let transport = ProviderHTTPTransportHandler { request in
             capture.append(request)

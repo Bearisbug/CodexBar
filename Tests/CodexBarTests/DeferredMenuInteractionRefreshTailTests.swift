@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct DeferredMenuInteractionRefreshTailTests {
     @Test
-    func `repeated scheduling during forced enrichment produces one deferred refresh`() async {
+    func repeated_scheduling_during_forced_enrichment_produces_one_deferred_refresh() async {
         let settings = testSettingsStore(
             suiteName: "DeferredMenuInteractionRefreshTailTests-forced-tail")
         settings.providerDetectionCompleted = true

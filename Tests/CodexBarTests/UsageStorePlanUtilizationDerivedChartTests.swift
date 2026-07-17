@@ -6,7 +6,7 @@ import Testing
 struct UsageStorePlanUtilizationDerivedChartTests {
     @MainActor
     @Test
-    func `chart uses requested native series without cross series selection`() {
+    func chart_uses_requested_native_series_without_cross_series_selection() {
         let firstBoundary = Date(timeIntervalSince1970: 1_710_000_000)
         let secondBoundary = firstBoundary.addingTimeInterval(7 * 24 * 60 * 60)
         let histories = [
@@ -31,7 +31,7 @@ struct UsageStorePlanUtilizationDerivedChartTests {
 
     @MainActor
     @Test
-    func `chart exposes claude opus as separate native tab`() {
+    func chart_exposes_claude_opus_as_separate_native_tab() {
         let boundary = Date(timeIntervalSince1970: 1_710_000_000)
         let histories = [
             planSeries(name: .session, windowMinutes: 300, entries: [

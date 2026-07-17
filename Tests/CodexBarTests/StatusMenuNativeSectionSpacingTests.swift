@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuNativeSectionSpacingTests {
     @Test
-    func `buy credits stays available without an error only credits section`() {
+    func buy_credits_stays_available_without_an_error_only_credits_section() {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -66,7 +66,7 @@ struct StatusMenuNativeSectionSpacingTests {
     }
 
     @Test
-    func `usage history cost and storage stay together without adjacent separators`() throws {
+    func usage_history_cost_and_storage_stay_together_without_adjacent_separators() throws {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }

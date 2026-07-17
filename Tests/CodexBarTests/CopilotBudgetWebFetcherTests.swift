@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CopilotBudgetWebFetcherTests {
     @Test
-    func `maps positive copilot budgets to extra rate windows`() {
+    func maps_positive_copilot_budgets_to_extra_rate_windows() {
         let budgets: [CopilotBudgetWebFetcher.Budget] = [
             .init(
                 id: "product-budget",
@@ -36,7 +36,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `decodes github web budget response shape`() throws {
+    func decodes_github_web_budget_response_shape() throws {
         let data = Data("""
         {
           "payload": {
@@ -71,7 +71,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `ignores malformed embedded minus amounts`() throws {
+    func ignores_malformed_embedded_minus_amounts() throws {
         let data = Data("""
         {
           "budgets": [
@@ -100,7 +100,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `normalizes documented copilot billing names`() {
+    func normalizes_documented_copilot_billing_names() {
         #expect(CopilotBudgetWebFetcher.normalizedBillingIdentifier("Copilot") == "copilot")
         #expect(
             CopilotBudgetWebFetcher.normalizedBillingIdentifier("Copilot Premium Request") ==
@@ -126,13 +126,13 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `extracts github fetch nonce from html`() {
+    func extracts_github_fetch_nonce_from_html() {
         let html = #"<meta name="x-fetch-nonce" content="v2:abc-123">"#
         #expect(CopilotBudgetWebFetcher.extractFetchNonce(from: html) == "v2:abc-123")
     }
 
     @Test
-    func `extracts github web identity from html`() throws {
+    func extracts_github_web_identity_from_html() throws {
         let html = """
         <meta name="octolytics-actor-id" content="123">
         <meta content = "octocat" name = "user-login">
@@ -148,7 +148,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `missing github web identity with expected account maps to unknown account mismatch`() async throws {
+    func missing_github_web_identity_with_expected_account_maps_to_unknown_account_mismatch() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard let url = request.url,
                   let response = HTTPURLResponse(
@@ -181,7 +181,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `invalid github budget page html encoding maps to invalid response`() async throws {
+    func invalid_github_budget_page_html_encoding_maps_to_invalid_response() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard let url = request.url,
                   let response = HTTPURLResponse(
@@ -214,7 +214,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `manual budget cookie for different github account is ignored before budget request`() async throws {
+    func manual_budget_cookie_for_different_github_account_is_ignored_before_budget_request() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard let url = request.url,
                   let response = HTTPURLResponse(
@@ -253,7 +253,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `manual budget cookie with matching github account appends budget windows`() async throws {
+    func manual_budget_cookie_with_matching_github_account_appends_budget_windows() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard let url = request.url,
                   let response = HTTPURLResponse(
@@ -303,7 +303,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `mismatched manual budget cookie leaves normal copilot usage unchanged`() async {
+    func mismatched_manual_budget_cookie_leaves_normal_copilot_usage_unchanged() async {
         let registered = URLProtocol.registerClass(CopilotBudgetBindingStubURLProtocol.self)
         defer {
             if registered {
@@ -373,7 +373,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `stale selected account identifier is ignored for budget cookie binding`() async {
+    func stale_selected_account_identifier_is_ignored_for_budget_cookie_binding() async {
         let registered = URLProtocol.registerClass(CopilotBudgetBindingStubURLProtocol.self)
         defer {
             if registered {
@@ -446,7 +446,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `invalid github budget JSON maps to invalid response`() async throws {
+    func invalid_github_budget_JSON_maps_to_invalid_response() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard let url = request.url,
                   let response = HTTPURLResponse(
@@ -475,7 +475,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `cached cookie non auth errors do not fall back to browser import`() async throws {
+    func cached_cookie_non_auth_errors_do_not_fall_back_to_browser_import() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.store(provider: .copilot, cookieHeader: "user_session=cached", sourceLabel: "Chrome")
@@ -507,7 +507,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `cached cookie account mismatch clears cache before browser fallback`() async throws {
+    func cached_cookie_account_mismatch_clears_cache_before_browser_fallback() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.store(provider: .copilot, cookieHeader: "user_session=cached", sourceLabel: "Chrome")
@@ -556,7 +556,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `cached cookie missing identity clears cache before browser fallback`() async throws {
+    func cached_cookie_missing_identity_clears_cache_before_browser_fallback() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.store(provider: .copilot, cookieHeader: "user_session=cached", sourceLabel: "Chrome")
@@ -599,7 +599,7 @@ struct CopilotBudgetWebFetcherTests {
     }
 
     @Test
-    func `budget page request omits content type on get`() async throws {
+    func budget_page_request_omits_content_type_on_get() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard let url = request.url,
                   let response = HTTPURLResponse(

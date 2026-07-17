@@ -4,7 +4,7 @@ import Testing
 
 struct MiniMaxLocalStorageImporterTests {
     @Test
-    func `extracts access tokens from JSON preferring long tokens`() {
+    func extracts_access_tokens_from_JSON_preferring_long_tokens() {
         let shortToken = String(repeating: "b", count: 24)
         let longToken = String(repeating: "a", count: 72)
         let payload = """
@@ -18,7 +18,7 @@ struct MiniMaxLocalStorageImporterTests {
     }
 
     @Test
-    func `extracts group ID from JSON string`() {
+    func extracts_group_ID_from_JSON_string() {
         let payload = """
         {"user":{"groupId":"98765"}}
         """
@@ -29,7 +29,7 @@ struct MiniMaxLocalStorageImporterTests {
     }
 
     @Test
-    func `resolves group ID from JWT claims`() {
+    func resolves_group_ID_from_JWT_claims() {
         let token = Self.makeJWT(payload: [
             "iss": "minimax",
             "group_id": "12345",
@@ -41,7 +41,7 @@ struct MiniMaxLocalStorageImporterTests {
     }
 
     @Test
-    func `rejects non mini max JW ts without signal`() {
+    func rejects_non_mini_max_JW_ts_without_signal() {
         let token = Self.makeJWT(payload: [
             "iss": "other",
             "pad": String(repeating: "y", count: 80),

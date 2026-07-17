@@ -19,7 +19,7 @@ struct CodingActivityReplayPolicyTests {
     }
 
     @Test
-    func `active coding caps idle and long-idle decisions at five minutes`() {
+    func active_coding_caps_idle_and_long_idle_decisions_at_five_minutes() {
         let policy = CodingActivityAdaptivePolicy()
 
         #expect(policy.name == "adaptive-activity")
@@ -29,7 +29,7 @@ struct CodingActivityReplayPolicyTests {
     }
 
     @Test
-    func `existing recent and warm decisions remain unchanged`() {
+    func existing_recent_and_warm_decisions_remain_unchanged() {
         let policy = CodingActivityAdaptivePolicy()
 
         #expect(policy.decide(self.input(menuAge: 60, activityAge: 10)).delaySeconds == 120)
@@ -37,7 +37,7 @@ struct CodingActivityReplayPolicyTests {
     }
 
     @Test
-    func `constrained state wins and exact threshold is inactive`() {
+    func constrained_state_wins_and_exact_threshold_is_inactive() {
         let policy = CodingActivityAdaptivePolicy()
 
         #expect(policy.decide(self.input(menuAge: nil, activityAge: 10, constrained: true)).delaySeconds == 1800)
@@ -46,7 +46,7 @@ struct CodingActivityReplayPolicyTests {
     }
 
     @Test
-    func `future activity samples never backfill an earlier replay decision`() {
+    func future_activity_samples_never_backfill_an_earlier_replay_decision() {
         let trace: [AdaptiveRefreshTraceRecord] = [
             .decision(
                 timestamp: Self.now,
@@ -72,7 +72,7 @@ struct CodingActivityReplayPolicyTests {
     }
 
     @Test
-    func `a newer unavailable observation invalidates older activity`() {
+    func a_newer_unavailable_observation_invalidates_older_activity() {
         let trace: [AdaptiveRefreshTraceRecord] = [
             .menuOpen(timestamp: Self.now),
             .decision(
@@ -100,7 +100,7 @@ struct CodingActivityReplayPolicyTests {
     }
 
     @Test
-    func `active compliance denominator excludes constrained decisions`() {
+    func active_compliance_denominator_excludes_constrained_decisions() {
         let trace: [AdaptiveRefreshTraceRecord] = [
             .decision(
                 timestamp: Self.now,
@@ -120,7 +120,7 @@ struct CodingActivityReplayPolicyTests {
     }
 
     @Test
-    func `manual policy counts as slower than the active freshness cap`() {
+    func manual_policy_counts_as_slower_than_the_active_freshness_cap() {
         let trace: [AdaptiveRefreshTraceRecord] = [
             .decision(
                 timestamp: Self.now,

@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct ClickToCopyOverlayTests {
     @Test
-    func `view stores the latest copyText`() {
+    func view_stores_the_latest_copyText() {
         let view = ClickToCopyView(copyText: "original")
         #expect(view.copyText == "original")
         view.copyText = "updated"
@@ -13,7 +13,7 @@ struct ClickToCopyOverlayTests {
     }
 
     @Test
-    func `pasteboard copy waits for deferred scheduler`() {
+    func pasteboard_copy_waits_for_deferred_scheduler() {
         var pendingAction: (() -> Void)?
         var copiedText: String?
         var completed = false
@@ -32,7 +32,7 @@ struct ClickToCopyOverlayTests {
     }
 
     @Test
-    func `mouseDown forwards the latest copyText`() {
+    func mouseDown_forwards_the_latest_copyText() {
         var copiedText: String?
         let view = ClickToCopyView(copyText: "original") { copiedText = $0 }
         view.copyText = "updated"
@@ -43,7 +43,7 @@ struct ClickToCopyOverlayTests {
     }
 
     @Test
-    func `accepts first mouse so error text overlay is clickable on first focus`() {
+    func accepts_first_mouse_so_error_text_overlay_is_clickable_on_first_focus() {
         let view = ClickToCopyView(copyText: "x")
         #expect(view.acceptsFirstMouse(for: nil) == true)
     }

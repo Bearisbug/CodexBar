@@ -167,7 +167,15 @@ private struct DiscardLogHandler: LogHandler {
         set { self.metadata[metadataKey] = newValue }
     }
 
-    func log(event _: LogEvent) {}
+    // swiftlint:disable:next function_parameter_count
+    func log(
+        level _: Logger.Level,
+        message _: Logger.Message,
+        metadata _: Logger.Metadata?,
+        source _: String,
+        file _: String,
+        function _: String,
+        line _: UInt) {}
 }
 
 public struct CodexBarLogger: Sendable {

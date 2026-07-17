@@ -7,7 +7,7 @@ import Testing
 
 struct OpenCodeGoLocalUsageReaderTests {
     @Test
-    func `reads local OpenCode Go history into usage windows`() throws {
+    func reads_local_OpenCode_Go_history_into_usage_windows() throws {
         let env = try Self.makeEnvironment()
         defer { try? FileManager.default.removeItem(at: env.root) }
 
@@ -38,7 +38,7 @@ struct OpenCodeGoLocalUsageReaderTests {
     }
 
     @Test
-    func `auth without history falls through to web strategy`() throws {
+    func auth_without_history_falls_through_to_web_strategy() throws {
         let env = try Self.makeEnvironment()
         defer { try? FileManager.default.removeItem(at: env.root) }
 
@@ -52,7 +52,7 @@ struct OpenCodeGoLocalUsageReaderTests {
     }
 
     @Test
-    func `auth with unreadable history falls through to web strategy`() throws {
+    func auth_with_unreadable_history_falls_through_to_web_strategy() throws {
         let env = try Self.makeEnvironment()
         defer { try? FileManager.default.removeItem(at: env.root) }
 
@@ -69,7 +69,7 @@ struct OpenCodeGoLocalUsageReaderTests {
     }
 
     @Test
-    func `monthly window keeps original anchor after shorter month clamp`() throws {
+    func monthly_window_keeps_original_anchor_after_shorter_month_clamp() throws {
         let env = try Self.makeEnvironment()
         defer { try? FileManager.default.removeItem(at: env.root) }
 
@@ -93,7 +93,7 @@ struct OpenCodeGoLocalUsageReaderTests {
     }
 
     @Test
-    func `reads step finish parts when message only stores metadata`() throws {
+    func reads_step_finish_parts_when_message_only_stores_metadata() throws {
         let env = try Self.makeEnvironment()
         defer { try? FileManager.default.removeItem(at: env.root) }
 
@@ -118,7 +118,7 @@ struct OpenCodeGoLocalUsageReaderTests {
     }
 
     @Test
-    func `does not double count step finish parts when message has cost`() throws {
+    func does_not_double_count_step_finish_parts_when_message_has_cost() throws {
         let env = try Self.makeEnvironment()
         defer { try? FileManager.default.removeItem(at: env.root) }
 
@@ -143,7 +143,7 @@ struct OpenCodeGoLocalUsageReaderTests {
     }
 
     @Test
-    func `missing auth and history is not detected`() throws {
+    func missing_auth_and_history_is_not_detected() throws {
         let env = try Self.makeEnvironment()
         defer { try? FileManager.default.removeItem(at: env.root) }
 

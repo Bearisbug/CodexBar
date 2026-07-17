@@ -46,7 +46,7 @@ struct SyntheticMenuCardTests {
     }
 
     @Test
-    func `rolling regen text uses parsed tickPercent not hardcoded fallback`() throws {
+    func rolling_regen_text_uses_parsed_tickPercent_not_hardcoded_fallback() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let primary = RateWindow(
             usedPercent: 50,
@@ -62,7 +62,7 @@ struct SyntheticMenuCardTests {
     }
 
     @Test
-    func `rolling regen omits Synthetic-specific text when tickPercent is missing`() throws {
+    func rolling_regen_omits_Synthetic_specific_text_when_tickPercent_is_missing() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let primary = RateWindow(
             usedPercent: 50,
@@ -78,7 +78,7 @@ struct SyntheticMenuCardTests {
     }
 
     @Test
-    func `weekly regen text near full reports both labels consistently`() throws {
+    func weekly_regen_text_near_full_reports_both_labels_consistently() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let secondary = RateWindow(
             usedPercent: 1,

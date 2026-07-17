@@ -53,7 +53,7 @@ private final class MistralCookieHeaderLog: @unchecked Sendable {
 struct MistralVibeUsageTests {
     #if os(macOS)
     @Test
-    func `cookie importer uses only accepted Mistral domains`() {
+    func cookie_importer_uses_only_accepted_Mistral_domains() {
         #expect(Set(MistralCookieImporter.cookieDomains) == [
             "mistral.ai",
             "admin.mistral.ai",
@@ -73,7 +73,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `tries later browser sessions after invalid credentials`() async throws {
+    func tries_later_browser_sessions_after_invalid_credentials() async throws {
         let headerLog = MistralCookieHeaderLog()
         let usageData = Data(Self.billingUsageResponseJSON.utf8)
         let sessions = try [
@@ -107,7 +107,7 @@ struct MistralVibeUsageTests {
     #endif
 
     @Test
-    func `parses subscription percentage and reset`() throws {
+    func parses_subscription_percentage_and_reset() throws {
         let data = Data(Self.responseJSON(usagePercentage: 2.8141356666666666).utf8)
 
         let result = try MistralUsageFetcher.parseVibeUsage(data: data)
@@ -117,7 +117,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `rejects subscription percentages outside rate window range`() {
+    func rejects_subscription_percentages_outside_rate_window_range() {
         let data = Data(Self.responseJSON(usagePercentage: 101).utf8)
 
         #expect(throws: MistralUsageError.self) {
@@ -126,7 +126,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `subscription request sends only csrf cookie`() async throws {
+    func subscription_request_sends_only_csrf_cookie() async throws {
         let capture = MistralRequestCapture()
         let data = Data(Self.responseJSON(usagePercentage: 12.5).utf8)
         let transport = ProviderHTTPTransportHandler { request in
@@ -159,7 +159,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `rejects csrf values that could add cookies or headers`() {
+    func rejects_csrf_values_that_could_add_cookies_or_headers() {
         #expect(throws: MistralUsageError.self) {
             try MistralUsageFetcher.vibeCookieHeader(csrfToken: "csrf; ory_session_secret=leak")
         }
@@ -169,7 +169,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `optional subscription request propagates in flight cancellation`() async throws {
+    func optional_subscription_request_propagates_in_flight_cancellation() async throws {
         let started = AsyncStream<Void>.makeStream(of: Void.self)
         let transport = ProviderHTTPTransportHandler { _ in
             started.continuation.yield(())
@@ -194,7 +194,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `optional subscription request ignores ordinary endpoint failures`() async throws {
+    func optional_subscription_request_ignores_ordinary_endpoint_failures() async throws {
         let transport = ProviderHTTPTransportHandler { _ in
             throw URLError(.cannotConnectToHost)
         }
@@ -208,7 +208,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `combined fetch preserves monthly plan when optional credits time out`() async throws {
+    func combined_fetch_preserves_monthly_plan_when_optional_credits_time_out() async throws {
         let requestLog = MistralRequestPathLog()
         let usageData = Data(Self.billingUsageResponseJSON.utf8)
         let vibeData = Data(Self.responseJSON(usagePercentage: 37).utf8)
@@ -247,7 +247,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `monthly plan window preserves existing extras`() {
+    func monthly_plan_window_preserves_existing_extras() {
         let existing = NamedRateWindow(
             id: "existing",
             title: "Existing",
@@ -269,20 +269,20 @@ struct MistralVibeUsageTests {
     // MARK: - consoleCookieHeader allowlist
 
     @Test
-    func `console cookie header contains only csrf when no admin header`() {
+    func console_cookie_header_contains_only_csrf_when_no_admin_header() {
         let cookie = MistralUsageFetcher.consoleCookieHeader(csrfToken: "tok", adminCookieHeader: nil)
         #expect(cookie == "csrftoken=tok")
     }
 
     @Test
-    func `console cookie header forwards ory session alongside csrf`() {
+    func console_cookie_header_forwards_ory_session_alongside_csrf() {
         let admin = "csrftoken=tok; ory_session_coolcurranf83m3srkfl=sess123; other_admin=secret"
         let cookie = MistralUsageFetcher.consoleCookieHeader(csrfToken: "tok", adminCookieHeader: admin)
         #expect(cookie == "csrftoken=tok; ory_session_coolcurranf83m3srkfl=sess123")
     }
 
     @Test
-    func `console cookie header excludes non-session admin cookies`() {
+    func console_cookie_header_excludes_non_session_admin_cookies() {
         let admin = "csrftoken=tok; session_token=other; admin_secret=x"
         let cookie = MistralUsageFetcher.consoleCookieHeader(csrfToken: "tok", adminCookieHeader: admin)
         #expect(cookie == "csrftoken=tok")
@@ -291,7 +291,7 @@ struct MistralVibeUsageTests {
     }
 
     @Test
-    func `console cookie header forwards multiple ory session cookies`() {
+    func console_cookie_header_forwards_multiple_ory_session_cookies() {
         let admin = "ory_session_a=val1; ory_session_b=val2; unrelated=drop"
         let cookie = MistralUsageFetcher.consoleCookieHeader(csrfToken: "tok", adminCookieHeader: admin)
         #expect(cookie.contains("csrftoken=tok"))

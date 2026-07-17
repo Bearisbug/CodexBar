@@ -9,7 +9,7 @@ struct UsageMenuCardLayoutTests {
     private static let heightTolerance: CGFloat = 1
 
     @Test
-    func `header only menu card keeps comfortable padding`() {
+    func header_only_menu_card_keeps_comfortable_padding() {
         let model = Self.model()
         let width: CGFloat = 296
 
@@ -26,7 +26,7 @@ struct UsageMenuCardLayoutTests {
     }
 
     @Test
-    func `full provider card matches overview height`() {
+    func full_provider_card_matches_overview_height() {
         let model = Self.model(metrics: [
             UsageMenuCardView.Model.Metric(
                 id: "session",
@@ -60,7 +60,7 @@ struct UsageMenuCardLayoutTests {
     }
 
     @Test
-    func `detail card keeps compact divider gap without usage section`() {
+    func detail_card_keeps_compact_divider_gap_without_usage_section() {
         let metricsModel = Self.model(metrics: [
             UsageMenuCardView.Model.Metric(
                 id: "session",

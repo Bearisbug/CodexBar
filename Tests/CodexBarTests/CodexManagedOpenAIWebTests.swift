@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexManagedOpenAIWebTests {
     @Test
-    func `managed codex open A I web uses active managed identity and cache scope`() {
+    func managed_codex_open_A_I_web_uses_active_managed_identity_and_cache_scope() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -50,7 +50,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `managed codex open A I web targets runtime auth backed email for selected account`() throws {
+    func managed_codex_open_A_I_web_targets_runtime_auth_backed_email_for_selected_account() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-managed-runtime-email")
         let managedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -85,7 +85,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `live system codex open A I web uses live identity and no managed cache scope`() {
+    func live_system_codex_open_A_I_web_uses_live_identity_and_no_managed_cache_scope() {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-live-system")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -118,7 +118,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `live system codex open A I web does not reuse stale managed snapshot email after source switch`() {
+    func live_system_codex_open_A_I_web_does_not_reuse_stale_managed_snapshot_email_after_source_switch() {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-live-system-stale-managed-snapshot")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-empty-\(UUID().uuidString)", isDirectory: true)
@@ -163,7 +163,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `live system codex open A I web reuses last known live email without allowing any account`() async {
+    func live_system_codex_open_A_I_web_reuses_last_known_live_email_without_allowing_any_account() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-live-system-last-known-email")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-last-known-\(UUID().uuidString)", isDirectory: true)
@@ -226,7 +226,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `successful dashboard apply preserves cached open A I web view for same account`() async {
+    func successful_dashboard_apply_preserves_cached_open_A_I_web_view_for_same_account() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-preserve-cache-on-success")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -275,7 +275,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `dashboard refresh does not target stale last known live email`() async {
+    func dashboard_refresh_does_not_target_stale_last_known_live_email() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-live-system-refresh-strict-target")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-refresh-strict-\(UUID().uuidString)", isDirectory: true)
@@ -334,7 +334,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `dashboard refresh targets usage discovered live email before reconciliation catches up`() async {
+    func dashboard_refresh_targets_usage_discovered_live_email_before_reconciliation_catches_up() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-live-system-usage-discovered-target")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-usage-discovered-\(UUID().uuidString)", isDirectory: true)
@@ -392,7 +392,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `usage discovered live email still surfaces open A I web login guidance during reconciliation lag`() async {
+    func usage_discovered_live_email_still_surfaces_open_A_I_web_login_guidance_during_reconciliation_lag() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-live-system-usage-discovered-failure")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-usage-discovered-failure-\(UUID().uuidString)", isDirectory: true)
@@ -434,7 +434,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `open A I web import uses managed account target when live account differs`() async {
+    func open_A_I_web_import_uses_managed_account_target_when_live_account_differs() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-targeting-active-vs-live")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -505,7 +505,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `open A I web prefers live identity when managed and live share email`() {
+    func open_A_I_web_prefers_live_identity_when_managed_and_live_share_email() {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-same-email-prefers-live")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -538,7 +538,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `unmanaged codex open A I web falls back to provider global cache scope`() {
+    func unmanaged_codex_open_A_I_web_falls_back_to_provider_global_cache_scope() {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-unmanaged")
         let store = UsageStore(
             fetcher: UsageFetcher(environment: [:]),
@@ -550,7 +550,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `unreadable managed codex store fails closed for open A I web`() async {
+    func unreadable_managed_codex_store_fails_closed_for_open_A_I_web() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-unreadable-store")
         settings._test_unreadableManagedCodexAccountStore = true
         settings.codexActiveSource = .managedAccount(id: UUID())
@@ -580,7 +580,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `missing managed codex open A I web target fails closed`() async {
+    func missing_managed_codex_open_A_I_web_target_fails_closed() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-missing-managed-target")
         let storedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -646,7 +646,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `managed codex mismatch fail closed blocks stale dashboard restoration`() async {
+    func managed_codex_mismatch_fail_closed_blocks_stale_dashboard_restoration() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-mismatch")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -701,7 +701,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `managed codex import mismatch fail closed blocks stale dashboard restoration`() async {
+    func managed_codex_import_mismatch_fail_closed_blocks_stale_dashboard_restoration() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-import-mismatch")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -755,7 +755,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `missing managed target failure handlers do not resurrect stale dashboard state`() async {
+    func missing_managed_target_failure_handlers_do_not_resurrect_stale_dashboard_state() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-missing-target-failure-handlers")
         let isolatedHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-web-missing-target-\(UUID().uuidString)", isDirectory: true)
@@ -798,7 +798,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `managed codex refresh stops after cookie mismatch instead of retrying web view`() async {
+    func managed_codex_refresh_stops_after_cookie_mismatch_instead_of_retrying_web_view() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-mismatch-aborts-retry")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -841,7 +841,7 @@ struct CodexManagedOpenAIWebTests {
     }
 
     @Test
-    func `managed codex refresh reports no matching web session without fake account`() async {
+    func managed_codex_refresh_reports_no_matching_web_session_without_fake_account() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedOpenAIWebTests-no-matching-web-session")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),

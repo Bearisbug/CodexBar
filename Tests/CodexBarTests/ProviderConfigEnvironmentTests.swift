@@ -3,7 +3,7 @@ import Testing
 
 struct ProviderConfigEnvironmentTests {
     @Test
-    func `applies API key override for amp`() {
+    func applies_API_key_override_for_amp() {
         let config = ProviderConfig(id: .amp, apiKey: "sgamp-config")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -15,7 +15,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for zai`() {
+    func applies_API_key_override_for_zai() {
         let config = ProviderConfig(id: .zai, apiKey: "z-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -28,7 +28,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for warp`() {
+    func applies_API_key_override_for_warp() {
         let config = ProviderConfig(id: .warp, apiKey: "w-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -43,7 +43,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for open router`() {
+    func applies_API_key_override_for_open_router() {
         let config = ProviderConfig(id: .openrouter, apiKey: "or-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -54,7 +54,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for cross model`() {
+    func applies_API_key_override_for_cross_model() {
         let config = ProviderConfig(id: .crossmodel, apiKey: "cm-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -67,7 +67,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for doubao`() {
+    func applies_API_key_override_for_doubao() {
         let config = ProviderConfig(id: .doubao, apiKey: "db-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -79,7 +79,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `preserves doubao ark API key when environment secret key is present`() {
+    func preserves_doubao_ark_API_key_when_environment_secret_key_is_present() {
         let config = ProviderConfig(id: .doubao, apiKey: "ark-config")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [
@@ -96,7 +96,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `preserves doubao ark API key when config secret key is present`() {
+    func preserves_doubao_ark_API_key_when_config_secret_key_is_present() {
         let config = ProviderConfig(
             id: .doubao,
             apiKey: "ark-config",
@@ -114,7 +114,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `doubao ark API key config overrides environment coding plan credentials`() {
+    func doubao_ark_API_key_config_overrides_environment_coding_plan_credentials() {
         let config = ProviderConfig(id: .doubao, apiKey: "ark-config")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [
@@ -133,7 +133,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `reads doubao volcengine secret key alias`() {
+    func reads_doubao_volcengine_secret_key_alias() {
         let env = [
             DoubaoSettingsReader.accessKeyIDEnvironmentKeys[1]: "AKLT-env",
             "VOLCENGINE_SECRET_KEY": "sk-env",
@@ -146,7 +146,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `reads doubao volc sdk credential aliases`() {
+    func reads_doubao_volc_sdk_credential_aliases() {
         let env = [
             "VOLC_ACCESSKEY": "AKLT-volc",
             "VOLC_SECRETKEY": "sk-volc",
@@ -162,7 +162,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `does not project incomplete doubao access key as ark API key`() {
+    func does_not_project_incomplete_doubao_access_key_as_ark_API_key() {
         let config = ProviderConfig(id: .doubao, apiKey: "AKLT-config")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -176,7 +176,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `keeps base doubao ark API key when config access key lacks secret`() {
+    func keeps_base_doubao_ark_API_key_when_config_access_key_lacks_secret() {
         let config = ProviderConfig(id: .doubao, apiKey: "AKLT-config")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [
@@ -192,7 +192,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies volcengine access key override for doubao coding plan`() {
+    func applies_volcengine_access_key_override_for_doubao_coding_plan() {
         let config = ProviderConfig(
             id: .doubao,
             apiKey: "AKLT-config",
@@ -212,7 +212,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `merges doubao config access key with environment secret key`() {
+    func merges_doubao_config_access_key_with_environment_secret_key() {
         let config = ProviderConfig(
             id: .doubao,
             apiKey: "AKLT-config")
@@ -234,7 +234,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `merges doubao environment access key with config secret key`() {
+    func merges_doubao_environment_access_key_with_config_secret_key() {
         let config = ProviderConfig(
             id: .doubao,
             secretKey: "sk-config")
@@ -255,7 +255,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies cookie header override for sakana`() {
+    func applies_cookie_header_override_for_sakana() {
         let config = ProviderConfig(id: .sakana, cookieHeader: "Cookie: session=abc")
         let env = ProviderConfigEnvironment.applyProviderConfigOverrides(
             base: [:],
@@ -267,7 +267,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies cookie header override for longcat`() {
+    func applies_cookie_header_override_for_longcat() {
         let config = ProviderConfig(
             id: .longcat,
             cookieHeader: "Cookie: passport_token=abc; uid=42",
@@ -282,7 +282,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `does not expose stored longcat cookie outside manual mode`() {
+    func does_not_expose_stored_longcat_cookie_outside_manual_mode() {
         for source in [ProviderCookieSource.auto, .off] {
             let config = ProviderConfig(id: .longcat, cookieHeader: "stale=1", cookieSource: source)
             let env = ProviderConfigEnvironment.applyProviderConfigOverrides(
@@ -295,7 +295,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for moonshot`() {
+    func applies_API_key_override_for_moonshot() {
         let config = ProviderConfig(id: .moonshot, apiKey: "moon-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -310,7 +310,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies Kimi API key and base URL config overrides`() throws {
+    func applies_Kimi_API_key_and_base_URL_config_overrides() throws {
         let config = ProviderConfig(
             id: .kimi,
             apiKey: "kimi-api-token",
@@ -329,7 +329,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for elevenlabs`() {
+    func applies_API_key_override_for_elevenlabs() {
         let config = ProviderConfig(id: .elevenlabs, apiKey: "xi-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -341,7 +341,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for groq`() {
+    func applies_API_key_override_for_groq() {
         let config = ProviderConfig(id: .groq, apiKey: "gsk-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -353,7 +353,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies LLM Proxy config overrides`() {
+    func applies_LLM_Proxy_config_overrides() {
         let config = ProviderConfig(
             id: .llmproxy,
             apiKey: "proxy-token",
@@ -369,7 +369,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies LiteLLM config overrides`() {
+    func applies_LiteLLM_config_overrides() {
         let config = ProviderConfig(
             id: .litellm,
             apiKey: "litellm-token",
@@ -385,7 +385,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `openai config override uses preferred admin key environment`() {
+    func openai_config_override_uses_preferred_admin_key_environment() {
         let config = ProviderConfig(id: .openai, apiKey: "config-openai-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [
@@ -401,7 +401,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `openai config override applies project ID without replacing environment key`() {
+    func openai_config_override_applies_project_ID_without_replacing_environment_key() {
         let config = ProviderConfig(id: .openai, workspaceID: "proj_config")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [
@@ -416,7 +416,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies Azure OpenAI config overrides`() {
+    func applies_Azure_OpenAI_config_overrides() {
         let config = ProviderConfig(
             id: .azureopenai,
             apiKey: "config-azure-token",
@@ -439,7 +439,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock config maps AWS credential fields`() {
+    func bedrock_config_maps_AWS_credential_fields() {
         let config = ProviderConfig(
             id: .bedrock,
             apiKey: "AKIATEST",
@@ -458,7 +458,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock config merges secret and region without replacing environment access key`() {
+    func bedrock_config_merges_secret_and_region_without_replacing_environment_access_key() {
         let config = ProviderConfig(
             id: .bedrock,
             apiKey: nil,
@@ -476,7 +476,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock merged static credentials win over inherited AWS_PROFILE`() {
+    func bedrock_merged_static_credentials_win_over_inherited_AWS_PROFILE() {
         let config = ProviderConfig(
             id: .bedrock,
             secretKey: "config-secret",
@@ -496,7 +496,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock profile mode projects AWS_PROFILE without saved static keys`() {
+    func bedrock_profile_mode_projects_AWS_PROFILE_without_saved_static_keys() {
         let config = ProviderConfig(
             id: .bedrock,
             apiKey: "AKIATEST",
@@ -516,7 +516,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock config without explicit mode preserves env profile inference`() {
+    func bedrock_config_without_explicit_mode_preserves_env_profile_inference() {
         let config = ProviderConfig(id: .bedrock, region: "us-east-1")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [BedrockSettingsReader.profileKey: "work"],
@@ -528,7 +528,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock saved static keys survive base AWS_PROFILE when auth mode is unset`() {
+    func bedrock_saved_static_keys_survive_base_AWS_PROFILE_when_auth_mode_is_unset() {
         let config = ProviderConfig(
             id: .bedrock,
             apiKey: "AKIASAVED",
@@ -545,7 +545,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock profile mode preserves inherited static credentials for environment source profiles`() {
+    func bedrock_profile_mode_preserves_inherited_static_credentials_for_environment_source_profiles() {
         let config = ProviderConfig(id: .bedrock, awsProfile: "work", awsAuthMode: "profile")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [
@@ -562,7 +562,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock env profile mode does not project saved static credentials`() {
+    func bedrock_env_profile_mode_does_not_project_saved_static_credentials() {
         let config = ProviderConfig(
             id: .bedrock,
             apiKey: "AKIASAVED",
@@ -582,7 +582,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `bedrock keys mode still projects static credentials`() {
+    func bedrock_keys_mode_still_projects_static_credentials() {
         let config = ProviderConfig(
             id: .bedrock,
             apiKey: "AKIATEST",
@@ -600,7 +600,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `ignores legacy API key override for deepseek`() {
+    func ignores_legacy_API_key_override_for_deepseek() {
         let config = ProviderConfig(id: .deepseek, apiKey: "ds-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -616,7 +616,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `projects the legacy DeepSeek Platform token and stable profile identifier`() {
+    func projects_the_legacy_DeepSeek_Platform_token_and_stable_profile_identifier() {
         let config = ProviderConfig(
             id: .deepseek,
             apiKey: "legacy-api-key",
@@ -635,7 +635,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `normalization preserves a legacy DeepSeek browser token and canonicalizes the profile path`() throws {
+    func normalization_preserves_a_legacy_DeepSeek_browser_token_and_canonicalizes_the_profile_path() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(
                 id: .deepseek,
@@ -651,7 +651,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for kilo`() {
+    func applies_API_key_override_for_kilo() {
         let config = ProviderConfig(id: .kilo, apiKey: "kilo-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -663,7 +663,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for factory`() {
+    func applies_API_key_override_for_factory() {
         let config = ProviderConfig(id: .factory, apiKey: "fk-config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -676,7 +676,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `factory config api key wins over existing FACTORY_API_KEY`() {
+    func factory_config_api_key_wins_over_existing_FACTORY_API_KEY() {
         let config = ProviderConfig(id: .factory, apiKey: "fk-config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [FactorySettingsReader.apiTokenKey: "fk-env-token"],
@@ -688,7 +688,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `open router config override wins over environment token`() {
+    func open_router_config_override_wins_over_environment_token() {
         let config = ProviderConfig(id: .openrouter, apiKey: "config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [OpenRouterSettingsReader.envKey: "env-token"],
@@ -700,7 +700,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `deepseek config override leaves environment token alone`() {
+    func deepseek_config_override_leaves_environment_token_alone() {
         let config = ProviderConfig(id: .deepseek, apiKey: "config-token")
         let envKey = DeepSeekSettingsReader.apiKeyEnvironmentKeys[0]
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
@@ -713,7 +713,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for codebuff`() {
+    func applies_API_key_override_for_codebuff() {
         let config = ProviderConfig(id: .codebuff, apiKey: "cb-config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -727,7 +727,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for deepgram`() {
+    func applies_API_key_override_for_deepgram() {
         let config = ProviderConfig(id: .deepgram, apiKey: "dg-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -742,7 +742,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies Deepgram project ID override from provider config`() {
+    func applies_Deepgram_project_ID_override_from_provider_config() {
         let config = ProviderConfig(id: .deepgram, workspaceID: "proj-123")
         let env = ProviderConfigEnvironment.applyProviderConfigOverrides(
             base: [:],
@@ -753,7 +753,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `Deepgram project ID config overrides environment`() {
+    func Deepgram_project_ID_config_overrides_environment() {
         let config = ProviderConfig(id: .deepgram, workspaceID: "config-project")
         let env = ProviderConfigEnvironment.applyProviderConfigOverrides(
             base: [DeepgramSettingsReader.projectIDEnvironmentKey: "env-project"],
@@ -764,7 +764,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `codebuff config override leaves environment token alone`() {
+    func codebuff_config_override_leaves_environment_token_alone() {
         let config = ProviderConfig(id: .codebuff, apiKey: "config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [CodebuffSettingsReader.apiTokenKey: "env-token"],
@@ -778,7 +778,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `leaves environment when API key missing`() {
+    func leaves_environment_when_API_key_missing() {
         let config = ProviderConfig(id: .zai, apiKey: nil)
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [ZaiSettingsReader.apiTokenKey: "existing"],
@@ -789,7 +789,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `applies API key override for poe`() {
+    func applies_API_key_override_for_poe() {
         let config = ProviderConfig(id: .poe, apiKey: "poe-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -801,7 +801,7 @@ struct ProviderConfigEnvironmentTests {
     }
 
     @Test
-    func `poe supports API key override`() {
+    func poe_supports_API_key_override() {
         #expect(ProviderConfigEnvironment.supportsAPIKeyOverride(for: .poe) == true)
     }
 }

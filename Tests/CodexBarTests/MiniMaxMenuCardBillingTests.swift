@@ -5,7 +5,7 @@ import Testing
 
 struct MiniMaxMenuCardBillingTests {
     @Test
-    func `minimax billing history renders inline dashboard`() throws {
+    func minimax_billing_history_renders_inline_dashboard() throws {
         let now = Date()
         let billing = MiniMaxBillingSummary(
             todayTokens: 1234,

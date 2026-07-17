@@ -6,7 +6,7 @@ import Testing
 
 struct AbacusDescriptorTests {
     @Test
-    func `descriptor has correct identity`() {
+    func descriptor_has_correct_identity() {
         let descriptor = AbacusProviderDescriptor.descriptor
         #expect(descriptor.id == .abacus)
         #expect(descriptor.metadata.displayName == "Abacus AI")
@@ -14,46 +14,46 @@ struct AbacusDescriptorTests {
     }
 
     @Test
-    func `descriptor does not expose a separate credits panel`() {
+    func descriptor_does_not_expose_a_separate_credits_panel() {
         let meta = AbacusProviderDescriptor.descriptor.metadata
         #expect(meta.supportsCredits == false)
         #expect(meta.supportsOpus == false)
     }
 
     @Test
-    func `descriptor is not primary provider`() {
+    func descriptor_is_not_primary_provider() {
         let meta = AbacusProviderDescriptor.descriptor.metadata
         #expect(meta.isPrimaryProvider == false)
         #expect(meta.defaultEnabled == false)
     }
 
     @Test
-    func `descriptor supports auto and web source modes`() {
+    func descriptor_supports_auto_and_web_source_modes() {
         let descriptor = AbacusProviderDescriptor.descriptor
         #expect(descriptor.fetchPlan.sourceModes.contains(.auto))
         #expect(descriptor.fetchPlan.sourceModes.contains(.web))
     }
 
     @Test
-    func `descriptor has no version detector`() {
+    func descriptor_has_no_version_detector() {
         let descriptor = AbacusProviderDescriptor.descriptor
         #expect(descriptor.cli.versionDetector == nil)
     }
 
     @Test
-    func `descriptor does not support token cost`() {
+    func descriptor_does_not_support_token_cost() {
         let descriptor = AbacusProviderDescriptor.descriptor
         #expect(descriptor.tokenCost.supportsTokenCost == false)
     }
 
     @Test
-    func `cli aliases include abacus-ai`() {
+    func cli_aliases_include_abacus_ai() {
         let descriptor = AbacusProviderDescriptor.descriptor
         #expect(descriptor.cli.aliases.contains("abacus-ai"))
     }
 
     @Test
-    func `dashboard url points to compute points page`() {
+    func dashboard_url_points_to_compute_points_page() {
         let meta = AbacusProviderDescriptor.descriptor.metadata
         #expect(meta.dashboardURL?.contains("compute-points") == true)
     }
@@ -63,7 +63,7 @@ struct AbacusDescriptorTests {
 
 struct AbacusUsageSnapshotTests {
     @Test
-    func `converts full snapshot to usage snapshot`() throws {
+    func converts_full_snapshot_to_usage_snapshot() throws {
         let resetDate = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 250,
@@ -88,7 +88,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `handles zero usage`() {
+    func handles_zero_usage() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 0,
             creditsTotal: 500,
@@ -101,7 +101,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `handles full usage`() {
+    func handles_full_usage() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 1000,
             creditsTotal: 1000,
@@ -114,7 +114,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `handles nil credits gracefully`() {
+    func handles_nil_credits_gracefully() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: nil,
             creditsTotal: nil,
@@ -127,7 +127,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `handles nil total with non-nil used`() {
+    func handles_nil_total_with_non_nil_used() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 100,
             creditsTotal: nil,
@@ -139,7 +139,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `handles zero total credits`() {
+    func handles_zero_total_credits() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 0,
             creditsTotal: 0,
@@ -151,7 +151,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `formats large credit values with comma grouping`() {
+    func formats_large_credit_values_with_comma_grouping() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 12345,
             creditsTotal: 50000,
@@ -163,7 +163,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `formats fractional credit values`() {
+    func formats_fractional_credit_values() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 42.5,
             creditsTotal: 100,
@@ -175,7 +175,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `window minutes represents monthly cycle`() {
+    func window_minutes_represents_monthly_cycle() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 0,
             creditsTotal: 100,
@@ -188,7 +188,7 @@ struct AbacusUsageSnapshotTests {
     }
 
     @Test
-    func `identity has no email or organization`() {
+    func identity_has_no_email_or_organization() {
         let snapshot = AbacusUsageSnapshot(
             creditsUsed: 0,
             creditsTotal: 100,
@@ -205,31 +205,31 @@ struct AbacusUsageSnapshotTests {
 
 struct AbacusErrorTests {
     @Test
-    func `noSessionCookie error mentions login`() {
+    func noSessionCookie_error_mentions_login() {
         let error = AbacusUsageError.noSessionCookie
         #expect(error.errorDescription?.contains("log in") == true)
     }
 
     @Test
-    func `sessionExpired error mentions expired`() {
+    func sessionExpired_error_mentions_expired() {
         let error = AbacusUsageError.sessionExpired
         #expect(error.errorDescription?.contains("expired") == true)
     }
 
     @Test
-    func `networkError includes message`() {
+    func networkError_includes_message() {
         let error = AbacusUsageError.networkError("HTTP 500")
         #expect(error.errorDescription?.contains("HTTP 500") == true)
     }
 
     @Test
-    func `parseFailed includes message`() {
+    func parseFailed_includes_message() {
         let error = AbacusUsageError.parseFailed("Invalid JSON")
         #expect(error.errorDescription?.contains("Invalid JSON") == true)
     }
 
     @Test
-    func `unauthorized error mentions login`() {
+    func unauthorized_error_mentions_login() {
         let error = AbacusUsageError.unauthorized
         #expect(error.errorDescription?.contains("log in") == true)
     }
@@ -239,21 +239,21 @@ struct AbacusErrorTests {
 
 struct AbacusErrorClassificationTests {
     @Test
-    func `unauthorized is recoverable and auth related`() {
+    func unauthorized_is_recoverable_and_auth_related() {
         let error = AbacusUsageError.unauthorized
         #expect(error.isRecoverable == true)
         #expect(error.isAuthRelated == true)
     }
 
     @Test
-    func `sessionExpired is recoverable and auth related`() {
+    func sessionExpired_is_recoverable_and_auth_related() {
         let error = AbacusUsageError.sessionExpired
         #expect(error.isRecoverable == true)
         #expect(error.isAuthRelated == true)
     }
 
     @Test
-    func `parseFailed is not recoverable`() {
+    func parseFailed_is_not_recoverable() {
         let error = AbacusUsageError.parseFailed("bad json")
         #expect(error.isRecoverable == false)
         #expect(error.isAuthRelated == false)
@@ -262,7 +262,7 @@ struct AbacusErrorClassificationTests {
     }
 
     @Test
-    func `networkError is not recoverable`() {
+    func networkError_is_not_recoverable() {
         let error = AbacusUsageError.networkError("timeout")
         #expect(error.isRecoverable == false)
         #expect(error.isAuthRelated == false)
@@ -271,7 +271,7 @@ struct AbacusErrorClassificationTests {
     }
 
     @Test
-    func `noSessionCookie is not recoverable`() {
+    func noSessionCookie_is_not_recoverable() {
         let error = AbacusUsageError.noSessionCookie
         #expect(error.isRecoverable == false)
         #expect(error.isAuthRelated == false)
@@ -280,7 +280,7 @@ struct AbacusErrorClassificationTests {
     }
 
     @Test
-    func `auth failures continue imported session scanning`() {
+    func auth_failures_continue_imported_session_scanning() {
         #expect(AbacusUsageError.unauthorized.shouldTryNextImportedSession == true)
         #expect(AbacusUsageError.sessionExpired.shouldTryNextImportedSession == true)
         #expect(AbacusUsageError.unauthorized.shouldClearCachedCookie == true)

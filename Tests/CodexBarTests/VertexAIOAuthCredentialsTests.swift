@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct VertexAIOAuthCredentialsTests {
     @Test
-    func `service account credentials from GOOGLE_APPLICATION_CREDENTIALS use gcloud token`() async throws {
+    func service_account_credentials_from_GOOGLE_APPLICATION_CREDENTIALS_use_gcloud_token() async throws {
         let fileURL = try Self.writeServiceAccountCredentials()
         defer { try? FileManager.default.removeItem(at: fileURL.deletingLastPathComponent()) }
         let env = ["GOOGLE_APPLICATION_CREDENTIALS": fileURL.path]
@@ -29,7 +29,7 @@ struct VertexAIOAuthCredentialsTests {
     }
 
     @Test
-    func `user ADC credentials still parse from CLOUDSDK_CONFIG`() throws {
+    func user_ADC_credentials_still_parse_from_CLOUDSDK_CONFIG() throws {
         let configDir = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-vertex-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: configDir, withIntermediateDirectories: true)

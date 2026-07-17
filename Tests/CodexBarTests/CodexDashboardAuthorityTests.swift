@@ -3,7 +3,7 @@ import Testing
 
 struct CodexDashboardAuthorityTests {
     @Test
-    func `email only wrong email returns fail closed`() {
+    func email_only_wrong_email_returns_fail_closed() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -27,7 +27,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `provider account wrong email returns fail closed`() {
+    func provider_account_wrong_email_returns_fail_closed() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -51,7 +51,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `email only same email ambiguity returns display only`() {
+    func email_only_same_email_ambiguity_returns_display_only() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -78,7 +78,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `provider account exact owner match returns attach`() {
+    func provider_account_exact_owner_match_returns_attach() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -105,7 +105,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `provider account exact owner ignores duplicate profile isolation`() {
+    func provider_account_exact_owner_ignores_duplicate_profile_isolation() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -134,7 +134,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `email only owners retain profile isolation ambiguity`() {
+    func email_only_owners_retain_profile_isolation_ambiguity() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -163,7 +163,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `provider account exact owner stays display only when email has another owner`() {
+    func provider_account_exact_owner_stays_display_only_when_email_has_another_owner() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -190,7 +190,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `provider account same email ambiguity without exact match returns display only`() {
+    func provider_account_same_email_ambiguity_without_exact_match_returns_display_only() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -217,7 +217,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `provider account nil scoped email with dashboard collision returns fail closed`() {
+    func provider_account_nil_scoped_email_with_dashboard_collision_returns_fail_closed() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -244,7 +244,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `unresolved trusted continuity without competing owner returns attach`() {
+    func unresolved_trusted_continuity_without_competing_owner_returns_attach() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -268,7 +268,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `unresolved trusted continuity with competing owner returns display only`() {
+    func unresolved_trusted_continuity_with_competing_owner_returns_display_only() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -295,7 +295,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `unresolved without trusted evidence returns fail closed`() {
+    func unresolved_without_trusted_evidence_returns_fail_closed() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -315,7 +315,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `missing dashboard signed in email returns fail closed`() {
+    func missing_dashboard_signed_in_email_returns_fail_closed() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -339,7 +339,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `live web attach exposes usage credits guard and history effects`() {
+    func live_web_attach_exposes_usage_credits_guard_and_history_effects() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -369,7 +369,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `cached dashboard attach exposes cached reuse only`() {
+    func cached_dashboard_attach_exposes_cached_reuse_only() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .cachedDashboard,
             proof: CodexDashboardOwnershipProofContext(
@@ -394,7 +394,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `display only emits full cleanup set`() {
+    func display_only_emits_full_cleanup_set() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -422,7 +422,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `fail closed emits full cleanup set`() {
+    func fail_closed_emits_full_cleanup_set() {
         let input = CodexDashboardAuthorityInput(
             sourceKind: .liveWeb,
             proof: CodexDashboardOwnershipProofContext(
@@ -443,7 +443,7 @@ struct CodexDashboardAuthorityTests {
     }
 
     @Test
-    func `routing hints do not change evaluation result`() {
+    func routing_hints_do_not_change_evaluation_result() {
         let proof = CodexDashboardOwnershipProofContext(
             currentIdentity: .providerAccount(id: "acct-owner"),
             expectedScopedEmail: "owner@example.com",

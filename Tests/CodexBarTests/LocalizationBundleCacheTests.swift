@@ -11,7 +11,7 @@ import Testing
 /// the cache can never serve a stale localization.
 struct LocalizationBundleCacheTests {
     @Test
-    func `resolves the correct lproj per language and re-resolves on switch`() {
+    func resolves_the_correct_lproj_per_language_and_re_resolves_on_switch() {
         resetCodexBarLocalizationCacheForTesting()
 
         let fr = CodexBarLocalizationOverride.$appLanguage.withValue("fr") {
@@ -33,7 +33,7 @@ struct LocalizationBundleCacheTests {
     }
 
     @Test
-    func `repeated same-language calls keep resolving the same lproj`() {
+    func repeated_same_language_calls_keep_resolving_the_same_lproj() {
         resetCodexBarLocalizationCacheForTesting()
 
         for _ in 0..<5 {
@@ -45,7 +45,7 @@ struct LocalizationBundleCacheTests {
     }
 
     @Test
-    func `unknown language falls back to en lproj`() {
+    func unknown_language_falls_back_to_en_lproj() {
         resetCodexBarLocalizationCacheForTesting()
 
         let bundle = CodexBarLocalizationOverride.$appLanguage.withValue("zz-unknown") {
@@ -55,7 +55,7 @@ struct LocalizationBundleCacheTests {
     }
 
     @Test
-    func `resolution survives an explicit cache reset`() {
+    func resolution_survives_an_explicit_cache_reset() {
         let first = CodexBarLocalizationOverride.$appLanguage.withValue("uk") {
             codexBarLocalizedBundleForTesting()
         }

@@ -19,7 +19,7 @@ struct ClaudeDirectUsageFallbackTests {
     }
 
     @Test
-    func `passive claude probes always disable the cli auto updater`() {
+    func passive_claude_probes_always_disable_the_cli_auto_updater() {
         let environment = ClaudeCLISession.launchEnvironment(baseEnv: [
             "DISABLE_AUTOUPDATER": "0",
             ClaudeOAuthCredentialsStore.environmentTokenKey: "oauth-token",
@@ -32,7 +32,7 @@ struct ClaudeDirectUsageFallbackTests {
     }
 
     @Test
-    func `cli source falls back to direct usage when pty usage fails to load`() async throws {
+    func cli_source_falls_back_to_direct_usage_when_pty_usage_fails_to_load() async throws {
         let cliLogURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-direct-fallback-log-\(UUID().uuidString).txt")
         let log = InvocationLog(url: cliLogURL)
@@ -70,7 +70,7 @@ struct ClaudeDirectUsageFallbackTests {
     }
 
     @Test
-    func `direct usage timeout keeps original pty failure`() async throws {
+    func direct_usage_timeout_keeps_original_pty_failure() async throws {
         let cliLogURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-direct-timeout-log-\(UUID().uuidString).txt")
         let log = InvocationLog(url: cliLogURL)

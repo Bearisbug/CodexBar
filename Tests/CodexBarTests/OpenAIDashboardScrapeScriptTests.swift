@@ -8,7 +8,7 @@ import WebKit
 @Suite(.serialized)
 struct OpenAIDashboardScrapeScriptTests {
     @Test
-    func `scraper returns structured account fields without full html`() async throws {
+    func scraper_returns_structured_account_fields_without_full_html() async throws {
         if Self.shouldSkipOnCI() { return }
 
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -25,7 +25,7 @@ struct OpenAIDashboardScrapeScriptTests {
     }
 
     @Test
-    func `usage breakdown scraper ignores neighboring client charts`() async throws {
+    func usage_breakdown_scraper_ignores_neighboring_client_charts() async throws {
         if Self.shouldSkipOnCI() { return }
 
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -45,7 +45,7 @@ struct OpenAIDashboardScrapeScriptTests {
     }
 
     @Test
-    func `usage breakdown scraper reports wrong chart instead of accepting it`() async throws {
+    func usage_breakdown_scraper_reports_wrong_chart_instead_of_accepting_it() async throws {
         if Self.shouldSkipOnCI() { return }
 
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -60,7 +60,7 @@ struct OpenAIDashboardScrapeScriptTests {
     }
 
     @Test
-    func `usage breakdown scraper rejects non english chart titles`() async throws {
+    func usage_breakdown_scraper_rejects_non_english_chart_titles() async throws {
         if Self.shouldSkipOnCI() { return }
 
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())

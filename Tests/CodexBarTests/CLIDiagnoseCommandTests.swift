@@ -5,7 +5,7 @@ import Testing
 
 struct CLIDiagnoseCommandTests {
     @Test
-    func `diagnose help describes generic JSON export`() {
+    func diagnose_help_describes_generic_JSON_export() {
         let help = CodexBarCLI.diagnoseHelp(version: "0.0.0")
 
         #expect(help.contains("codexbar diagnose --provider <name|all> --format json"))
@@ -17,7 +17,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `diagnose output writer creates parent directories`() throws {
+    func diagnose_output_writer_creates_parent_directories() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBarDiagnoseTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: root) }
@@ -55,7 +55,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `diagnose auth mode uses settings-backed MiniMax manual cookie when env token is absent`() {
+    func diagnose_auth_mode_uses_settings_backed_MiniMax_manual_cookie_when_env_token_is_absent() {
         let settings = self.makeSettingsWithMiniMaxCookie("Cookie: session_id=demo-cookie")
 
         let authMode = CodexBarCLI._resolveMiniMaxAuthModeForTesting(
@@ -66,7 +66,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `diagnose auth mode keeps apiToken precedence over settings cookie`() {
+    func diagnose_auth_mode_keeps_apiToken_precedence_over_settings_cookie() {
         let settings = self.makeSettingsWithMiniMaxCookie("Cookie: session_id=demo-cookie")
 
         let authMode = CodexBarCLI._resolveMiniMaxAuthModeForTesting(
@@ -77,7 +77,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `generic diagnose auth summary detects provider config`() {
+    func generic_diagnose_auth_summary_detects_provider_config() {
         let summary = CodexBarCLI._diagnosticAuthSummaryForTesting(
             provider: .openai,
             account: nil,
@@ -90,7 +90,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `generic diagnose auth summary detects provider environment credentials`() {
+    func generic_diagnose_auth_summary_detects_provider_environment_credentials() {
         let summary = CodexBarCLI._diagnosticAuthSummaryForTesting(
             provider: .openai,
             account: nil,
@@ -103,7 +103,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `generic diagnose auth summary detects Chutes environment credentials`() {
+    func generic_diagnose_auth_summary_detects_Chutes_environment_credentials() {
         let summary = CodexBarCLI._diagnosticAuthSummaryForTesting(
             provider: .chutes,
             account: nil,
@@ -116,7 +116,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `generic diagnose auth summary detects CrossModel environment credentials`() {
+    func generic_diagnose_auth_summary_detects_CrossModel_environment_credentials() {
         let summary = CodexBarCLI._diagnosticAuthSummaryForTesting(
             provider: .crossmodel,
             account: nil,
@@ -129,7 +129,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `generic diagnose auth summary requires complete Bedrock credentials`() {
+    func generic_diagnose_auth_summary_requires_complete_Bedrock_credentials() {
         let partial = CodexBarCLI._diagnosticAuthSummaryForTesting(
             provider: .bedrock,
             account: nil,
@@ -153,7 +153,7 @@ struct CLIDiagnoseCommandTests {
     }
 
     @Test
-    func `generic diagnose auth summary does not assume ambient credentials`() {
+    func generic_diagnose_auth_summary_does_not_assume_ambient_credentials() {
         let summary = CodexBarCLI._diagnosticAuthSummaryForTesting(
             provider: .codex,
             account: nil,

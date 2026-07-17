@@ -54,7 +54,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `predictive pace warnings default off and persist when enabled`() throws {
+    func predictive_pace_warnings_default_off_and_persist_when_enabled() throws {
         let suite = "PredictivePaceWarningTests-default-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -70,7 +70,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `predictive pace preference refreshes background work only when it changes`() {
+    func predictive_pace_preference_refreshes_background_work_only_when_it_changes() {
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-settings-revision")
         let initialRevision = settings.backgroundWorkSettingsRevision
 
@@ -85,7 +85,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `predictive only settings expose delivery controls without threshold editors`() {
+    func predictive_only_settings_expose_delivery_controls_without_threshold_editors() {
         let disabled = QuotaWarningSettingsVisibility(
             thresholdWarningsEnabled: false,
             predictiveWarningsEnabled: false)
@@ -106,7 +106,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `trigger only accepts at risk pace with positive eta and confident probability`() {
+    func trigger_only_accepts_at_risk_pace_with_positive_eta_and_confident_probability() {
         #expect(PredictivePaceWarningNotificationLogic.shouldNotify(pace: self.pace(
             willLastToReset: false,
             etaSeconds: 60,
@@ -134,7 +134,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `state machine suppresses repeats until authoritative recovery`() {
+    func state_machine_suppresses_repeats_until_authoritative_recovery() {
         let key = PredictivePaceWarningStateKey(
             provider: .claude,
             accountDiscriminator: "email:person@example.com",
@@ -168,7 +168,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `new reset window identity is independent and prunes expired sibling key`() {
+    func new_reset_window_identity_is_independent_and_prunes_expired_sibling_key() {
         var notifiedKeys: Set<PredictivePaceWarningStateKey> = []
         let oldKey = PredictivePaceWarningStateKey(
             provider: .claude,
@@ -196,7 +196,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `provider account and window risk episodes are isolated`() {
+    func provider_account_and_window_risk_episodes_are_isolated() {
         let keys = [
             PredictivePaceWarningStateKey(
                 provider: .claude,
@@ -237,7 +237,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `reset time jitter follows the same risk episode without repeating`() {
+    func reset_time_jitter_follows_the_same_risk_episode_without_repeating() {
         let firstKey = PredictivePaceWarningStateKey(
             provider: .codex,
             accountDiscriminator: "account-a",
@@ -274,7 +274,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `store posts once for Claude session and weekly risk then re-arms after recovery`() {
+    func store_posts_once_for_Claude_session_and_weekly_risk_then_re_arms_after_recovery() {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-claude-store")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -317,7 +317,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `missing incomplete and failed observations preserve warned state`() async {
+    func missing_incomplete_and_failed_observations_preserve_warned_state() async {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-preserve-state")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -363,7 +363,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `new store starts with memory only warning state`() {
+    func new_store_starts_with_memory_only_warning_state() {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-memory-only")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -385,7 +385,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `store posts for Codex session and weekly risk`() {
+    func store_posts_for_Codex_session_and_weekly_risk() {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-codex-store")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -407,7 +407,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `store isolates risk episodes by account`() {
+    func store_isolates_risk_episodes_by_account() {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-account-isolation")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -438,7 +438,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `stable Claude account identity spans OAuth and CLI observations`() {
+    func stable_Claude_account_identity_spans_OAuth_and_CLI_observations() {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-claude-active-account")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -504,7 +504,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `Claude OAuth owner keeps no email warnings account scoped when active metadata is missing`() {
+    func Claude_OAuth_owner_keeps_no_email_warnings_account_scoped_when_active_metadata_is_missing() {
         let owner = String(repeating: "a", count: 64)
 
         #expect(UsageStore.warningClaudeAccountDiscriminator(
@@ -526,7 +526,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `selected Claude account identity is stable across OAuth owner changes`() async throws {
+    func selected_Claude_account_identity_is_stable_across_OAuth_owner_changes() async throws {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-selected-claude-account")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -572,7 +572,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `store keeps identity out of copy when personal info is hidden`() throws {
+    func store_keeps_identity_out_of_copy_when_personal_info_is_hidden() throws {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-hidden-info")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -597,7 +597,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `store ignores providers outside accepted scope`() {
+    func store_ignores_providers_outside_accepted_scope() {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-scope")
         settings.predictivePaceWarningNotificationsEnabled = true
@@ -612,7 +612,7 @@ struct PredictivePaceWarningTests {
     }
 
     @Test
-    func `store ignores unsupported tertiary windows`() {
+    func store_ignores_unsupported_tertiary_windows() {
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let settings = self.makeSettings(suiteName: "PredictivePaceWarningTests-window-scope")
         settings.predictivePaceWarningNotificationsEnabled = true

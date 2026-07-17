@@ -11,7 +11,7 @@ struct AlibabaCodingPlanCookieImporterTests {
     @Test(.disabled(
         if: ProcessInfo.processInfo.environment[BrowserCookieAccessGate.allowTestCookieAccessEnvironmentKey] == "1",
         "Default-home cookie access is explicitly enabled for this test run."))
-    func `default home import is suppressed before profile and keychain access`() throws {
+    func default_home_import_is_suppressed_before_profile_and_keychain_access() throws {
         let profileProbeCount = OSAllocatedUnfairLock(initialState: 0)
         let keychainProbeCount = OSAllocatedUnfairLock(initialState: 0)
         let defaultHome = try #require(BrowserCookieClient.defaultHomeDirectories().first)
@@ -45,7 +45,7 @@ struct AlibabaCodingPlanCookieImporterTests {
     @Test(.disabled(
         if: ProcessInfo.processInfo.environment[BrowserCookieAccessGate.allowTestCookieAccessEnvironmentKey] == "1",
         "Default-home cookie access is explicitly enabled for this test run."))
-    func `chromium fallback rejects default client before keychain access`() {
+    func chromium_fallback_rejects_default_client_before_keychain_access() {
         let keychainProbeCount = OSAllocatedUnfairLock(initialState: 0)
         _ = KeychainAccessGate.withTaskOverrideForTesting(false) {
             KeychainAccessPreflight.withCheckGenericPasswordOverrideForTesting { _, _ in
@@ -63,7 +63,7 @@ struct AlibabaCodingPlanCookieImporterTests {
     }
 
     @Test
-    func `domain matching requires exact or label bounded suffix`() {
+    func domain_matching_requires_exact_or_label_bounded_suffix() {
         #expect(AlibabaCodingPlanCookieImporter.matchesCookieDomain("console.aliyun.com"))
         #expect(AlibabaCodingPlanCookieImporter.matchesCookieDomain(".modelstudio.console.alibabacloud.com"))
         #expect(AlibabaCodingPlanCookieImporter.matchesCookieDomain("foo.aliyun.com"))
@@ -72,7 +72,7 @@ struct AlibabaCodingPlanCookieImporterTests {
     }
 
     @Test
-    func `cookie import candidates honor provided browser order`() throws {
+    func cookie_import_candidates_honor_provided_browser_order() throws {
         BrowserCookieAccessGate.resetForTesting()
 
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -107,7 +107,7 @@ struct AlibabaCodingPlanCookieImporterTests {
     }
 
     @Test
-    func `default cookie import candidates skip keychain browsers during tests`() throws {
+    func default_cookie_import_candidates_skip_keychain_browsers_during_tests() throws {
         BrowserCookieAccessGate.resetForTesting()
 
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -139,7 +139,7 @@ struct AlibabaCodingPlanCookieImporterTests {
 
 struct AlibabaCodingPlanCookieImporterTests {
     @Test
-    func `non mac OS placeholder`() {
+    func non_mac_OS_placeholder() {
         #expect(true)
     }
 }

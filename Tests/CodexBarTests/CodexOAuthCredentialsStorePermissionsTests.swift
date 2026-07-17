@@ -8,7 +8,7 @@ struct CodexOAuthCredentialsStorePermissionsTests {
     }
 
     @Test
-    func `saving O auth credentials keeps auth json private`() throws {
+    func saving_O_auth_credentials_keeps_auth_json_private() throws {
         #if os(macOS) || os(Linux)
         let codexHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-oauth-permissions-\(UUID().uuidString)", isDirectory: true)
@@ -33,7 +33,7 @@ struct CodexOAuthCredentialsStorePermissionsTests {
     }
 
     @Test
-    func `auth json is private before atomic publication`() throws {
+    func auth_json_is_private_before_atomic_publication() throws {
         #if os(macOS) || os(Linux)
         let codexHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-oauth-staging-\(UUID().uuidString)", isDirectory: true)

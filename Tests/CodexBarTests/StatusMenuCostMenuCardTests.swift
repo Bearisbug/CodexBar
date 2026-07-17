@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuCostMenuCardTests {
     @Test
-    func `cost menu keeps the estimate hint beside a history submenu`() {
+    func cost_menu_keeps_the_estimate_hint_beside_a_history_submenu() {
         let tokenUsage = UsageMenuCardView.Model.TokenUsageSection(
             sessionLine: "Today: $74.83 - 87M tokens",
             monthLine: "Last 30 days: $4,279.64 - 5.7B tokens",
@@ -33,7 +33,7 @@ struct StatusMenuCostMenuCardTests {
     }
 
     @Test
-    func `cost menu preserves summary lines without history submenu`() {
+    func cost_menu_preserves_summary_lines_without_history_submenu() {
         let tokenUsage = UsageMenuCardView.Model.TokenUsageSection(
             sessionLine: "Today: $74.83 - 87M tokens",
             monthLine: "Last 30 days: $4,279.64 - 5.7B tokens",
@@ -60,7 +60,7 @@ struct StatusMenuCostMenuCardTests {
     }
 
     @Test
-    func `cost menu tooltip preserves hint and error details`() {
+    func cost_menu_tooltip_preserves_hint_and_error_details() {
         let tokenUsage = UsageMenuCardView.Model.TokenUsageSection(
             sessionLine: "Today: $1.00",
             monthLine: "Last 30 days: $9.00",
@@ -77,7 +77,7 @@ struct StatusMenuCostMenuCardTests {
     }
 
     @Test
-    func `cost menu with history submenu omits native tooltip`() {
+    func cost_menu_with_history_submenu_omits_native_tooltip() {
         let settings = self.makeSettings()
         let fetcher = UsageFetcher()
         let store = UsageStore(
@@ -111,7 +111,7 @@ struct StatusMenuCostMenuCardTests {
     }
 
     @Test
-    func `rendered cost menu keeps long dynamic details inside fixed row width`() throws {
+    func rendered_cost_menu_keeps_long_dynamic_details_inside_fixed_row_width() throws {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -155,7 +155,7 @@ struct StatusMenuCostMenuCardTests {
     }
 
     @Test
-    func `cost menu title distinguishes Codex estimates from billing-backed cost`() {
+    func cost_menu_title_distinguishes_Codex_estimates_from_billing_backed_cost() {
         #expect(StatusItemController.costMenuTitleForProvider(.codex) == "API-equivalent estimate")
         #expect(StatusItemController.costMenuTitleForProvider(.mistral) == "Cost")
     }

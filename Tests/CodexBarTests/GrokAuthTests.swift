@@ -4,7 +4,7 @@ import Testing
 
 struct GrokAuthTests {
     @Test
-    func `parses OIDC SuperGrok entry`() throws {
+    func parses_OIDC_SuperGrok_entry() throws {
         let json = #"""
         {
           "https://auth.x.ai::b1a00492-073a-47ea-816f-4c329264a828": {
@@ -40,7 +40,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `falls back to legacy session scope when OIDC absent`() throws {
+    func falls_back_to_legacy_session_scope_when_OIDC_absent() throws {
         let json = #"""
         {
           "https://accounts.x.ai/sign-in": {
@@ -58,7 +58,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `throws missingTokens when key absent`() {
+    func throws_missingTokens_when_key_absent() {
         let json = #"{"https://auth.x.ai::abc": {"auth_mode": "oidc"}}"#
         let data = Data(json.utf8)
         #expect(throws: GrokCredentialsError.self) {
@@ -67,7 +67,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `throws decodeFailed when JSON is invalid`() {
+    func throws_decodeFailed_when_JSON_is_invalid() {
         let data = Data("not-json".utf8)
         #expect(throws: GrokCredentialsError.self) {
             _ = try GrokCredentialsStore.parse(data: data)
@@ -75,7 +75,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `isExpired reflects past expires_at`() throws {
+    func isExpired_reflects_past_expires_at() throws {
         // Past expiry
         let pastJson = #"""
         {
@@ -114,7 +114,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `expired credentials are preserved when billing succeeds`() throws {
+    func expired_credentials_are_preserved_when_billing_succeeds() throws {
         let pastJson = #"""
         {
           "https://auth.x.ai::client": {
@@ -139,7 +139,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `remote auth failures surface even with fresh local credentials`() {
+    func remote_auth_failures_surface_even_with_fresh_local_credentials() {
         #expect(GrokStatusProbe.shouldSurfaceRemoteAuthError(GrokWebBillingError.requestFailed(401, "unauthorized")))
         #expect(GrokStatusProbe.shouldSurfaceRemoteAuthError(GrokWebBillingError.requestFailed(403, "forbidden")))
         #expect(GrokStatusProbe.shouldSurfaceRemoteAuthError(GrokWebBillingError.rpcFailed(16, "token expired")))
@@ -147,7 +147,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `team method unavailable is classified without broadening other rpc failures`() {
+    func team_method_unavailable_is_classified_without_broadening_other_rpc_failures() {
         #expect(GrokStatusProbe.isBillingMethodUnavailable(
             GrokRPCError.requestFailed("Method not found")))
         #expect(GrokStatusProbe.isBillingMethodUnavailable(
@@ -158,7 +158,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `team identity fallback requires an attempted billing call`() throws {
+    func team_identity_fallback_requires_an_attempted_billing_call() throws {
         let json = #"{"https://auth.x.ai::client":{"key":"token","principal_type":"Team"}}"#
         let credentials = try GrokCredentialsStore.parse(data: Data(json.utf8))
         let methodNotFound = GrokRPCError.requestFailed("Method not found")
@@ -174,14 +174,14 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `principal type matching is case and whitespace insensitive`() throws {
+    func principal_type_matching_is_case_and_whitespace_insensitive() throws {
         let json = #"{"https://auth.x.ai::client":{"key":"token","principal_type":" team "}}"#
         let credentials = try GrokCredentialsStore.parse(data: Data(json.utf8))
         #expect(credentials.isTeamPrincipal)
     }
 
     @Test
-    func `identity-only team snapshot retains identity and diagnostic`() throws {
+    func identity_only_team_snapshot_retains_identity_and_diagnostic() throws {
         let json = #"""
         {
           "https://auth.x.ai::client": {
@@ -207,7 +207,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `falls back to legacy when OIDC entry has no key`() throws {
+    func falls_back_to_legacy_when_OIDC_entry_has_no_key() throws {
         // A stale/partial OIDC record must not shadow a healthy legacy session.
         let json = #"""
         {
@@ -229,7 +229,7 @@ struct GrokAuthTests {
     }
 
     @Test
-    func `prefers OIDC entry over legacy session when both present`() throws {
+    func prefers_OIDC_entry_over_legacy_session_when_both_present() throws {
         let json = #"""
         {
           "https://accounts.x.ai/sign-in": {

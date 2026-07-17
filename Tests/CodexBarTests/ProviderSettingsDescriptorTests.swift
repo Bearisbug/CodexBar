@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct ProviderSettingsDescriptorTests {
     @Test
-    func `toggle I ds are unique across providers`() throws {
+    func toggle_I_ds_are_unique_across_providers() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-unique")
         var seenToggleIDs: Set<String> = []
         var seenActionIDs: Set<String> = []
@@ -36,7 +36,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `openai exposes project id setting`() throws {
+    func openai_exposes_project_id_setting() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-openai-project")
         let context = fixture.settingsContext(provider: .openai)
 
@@ -51,7 +51,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `codex exposes usage and cookie pickers`() throws {
+    func codex_exposes_usage_and_cookie_pickers() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-codex")
         let context = fixture.settingsContext(provider: .codex)
 
@@ -75,7 +75,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `antigravity usage source picker clarifies local ide and agy`() throws {
+    func antigravity_usage_source_picker_clarifies_local_ide_and_agy() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-antigravity-source")
         let context = fixture.settingsContext(provider: .antigravity)
 
@@ -88,7 +88,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `antigravity exhausted five hour and weekly priority names both surfaces and persists across reopen`() throws {
+    func antigravity_exhausted_five_hour_and_weekly_priority_names_both_surfaces_and_persists_across_reopen() throws {
         let suite = "ProviderSettingsDescriptorTests-antigravity-ranking"
         let fixture = try self.makeSettingsFixture(suite: suite)
         let context = fixture.settingsContext(provider: .antigravity)
@@ -125,7 +125,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `codex exposes open AI web extras toggle as default off opt in`() throws {
+    func codex_exposes_open_AI_web_extras_toggle_as_default_off_opt_in() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-codex-openai-toggle")
         let context = fixture.settingsContext(provider: .codex)
 
@@ -144,7 +144,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `claude exposes usage and cookie pickers`() throws {
+    func claude_exposes_usage_and_cookie_pickers() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-claude")
         fixture.settings.debugDisableKeychainAccess = false
         let context = fixture.settingsContext(provider: .claude)
@@ -164,7 +164,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `claude prompt policy picker remains visible for prompt free toggle`() throws {
+    func claude_prompt_policy_picker_remains_visible_for_prompt_free_toggle() throws {
         let fixture = try self.makeSettingsFixture(
             suite: "ProviderSettingsDescriptorTests-claude-prompt-visible-prompt-free")
         fixture.settings.debugDisableKeychainAccess = false
@@ -178,7 +178,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `claude avoid keychain prompts toggle is disabled when global keychain disabled`() throws {
+    func claude_avoid_keychain_prompts_toggle_is_disabled_when_global_keychain_disabled() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-claude-prompt-free-disabled")
         fixture.settings.debugDisableKeychainAccess = true
         fixture.settings.claudeOAuthPromptFreeCredentialsEnabled = true
@@ -198,7 +198,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `claude keychain prompt policy picker disabled when global keychain disabled`() throws {
+    func claude_keychain_prompt_policy_picker_disabled_when_global_keychain_disabled() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-claude-keychain-disabled")
         fixture.settings.debugDisableKeychainAccess = true
         let context = fixture.settingsContext(provider: .claude)
@@ -211,7 +211,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `claude web extras auto disables when leaving CLI`() throws {
+    func claude_web_extras_auto_disables_when_leaving_CLI() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-claude-invariant")
         let settings = fixture.settings
         settings.debugMenuEnabled = true
@@ -223,7 +223,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `kilo exposes usage source picker and api field only`() throws {
+    func kilo_exposes_usage_source_picker_and_api_field_only() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-kilo")
         let context = fixture.settingsContext(provider: .kilo)
 
@@ -238,7 +238,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `copilot budget secondary picker appears before cookie picker`() throws {
+    func copilot_budget_secondary_picker_appears_before_cookie_picker() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-copilot-budget-pickers")
         fixture.settings.copilotBudgetExtrasEnabled = true
         let context = fixture.settingsContext(provider: .copilot)
@@ -252,7 +252,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `kiro menu bar display picker uses the menu bar placement`() throws {
+    func kiro_menu_bar_display_picker_uses_the_menu_bar_placement() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-kiro-placement")
         let context = fixture.settingsContext(provider: .kiro)
 
@@ -263,7 +263,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `copilot manual cookie field is labelled and refreshable`() throws {
+    func copilot_manual_cookie_field_is_labelled_and_refreshable() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-copilot-budget-field")
         fixture.settings.copilotBudgetExtrasEnabled = true
         fixture.settings.copilotBudgetCookieSource = .manual
@@ -278,7 +278,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `kimi exposes usage source picker plus api and cookie fields`() throws {
+    func kimi_exposes_usage_source_picker_plus_api_and_cookie_fields() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-kimi")
         let context = fixture.settingsContext(provider: .kimi)
 
@@ -300,7 +300,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `kimi presentation follows selected source label`() throws {
+    func kimi_presentation_follows_selected_source_label() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-kimi-presentation")
         fixture.settings.kimiUsageDataSource = .api
         let metadata = try #require(ProviderDescriptorRegistry.metadata[.kimi])
@@ -314,7 +314,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepgram exposes api key and project id fields`() throws {
+    func deepgram_exposes_api_key_and_project_id_fields() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepgram")
         let context = fixture.settingsContext(provider: .deepgram)
 
@@ -330,7 +330,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `alibaba presentation follows store source label`() throws {
+    func alibaba_presentation_follows_store_source_label() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-alibaba-presentation")
         let metadata = try #require(ProviderDescriptorRegistry.metadata[.alibaba])
         let context = fixture.presentationContext(provider: .alibaba, metadata: metadata)
@@ -343,7 +343,7 @@ struct ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `devin presentation follows store source label`() throws {
+    func devin_presentation_follows_store_source_label() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-devin-presentation")
         fixture.store.lastSourceLabels[.devin] = "web"
         let metadata = try #require(ProviderDescriptorRegistry.metadata[.devin])
@@ -359,7 +359,7 @@ struct ProviderSettingsDescriptorTests {
 
 extension ProviderSettingsDescriptorTests {
     @Test
-    func `alibaba token plan settings expose cookie controls`() throws {
+    func alibaba_token_plan_settings_expose_cookie_controls() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-alibaba-token-plan-settings")
         fixture.settings.alibabaTokenPlanCookieSource = .manual
         let context = fixture.settingsContext(provider: .alibabatokenplan)
@@ -373,7 +373,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek profile picker contains only validated profiles and persists selection`() throws {
+    func deepseek_profile_picker_contains_only_validated_profiles_and_persists_selection() throws {
         let apiKey = "test-deepseek-api-key"
         let fixture = try self.makeSettingsFixture(
             suite: "ProviderSettingsDescriptorTests-deepseek-profiles",
@@ -414,7 +414,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek browser only profile selection persists without an API key`() async throws {
+    func deepseek_browser_only_profile_selection_persists_without_an_API_key() async throws {
         let fixture = try self.makeSettingsFixture(
             suite: "ProviderSettingsDescriptorTests-deepseek-browser-only-profile")
         fixture.store.snapshots[.deepseek] = UsageSnapshot(
@@ -451,7 +451,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek profile picker stays visible while switching profiles`() throws {
+    func deepseek_profile_picker_stays_visible_while_switching_profiles() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-profile-switch")
         let snapshot = UsageSnapshot(
             primary: nil,
@@ -474,7 +474,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek browser profile cancellation does not leave refreshing behind`() async throws {
+    func deepseek_browser_profile_cancellation_does_not_leave_refreshing_behind() async throws {
         let fixture = try self.makeSettingsFixture(
             suite: "ProviderSettingsDescriptorTests-deepseek-browser-cancelled-transition")
         fixture.store.snapshots[.deepseek] = UsageSnapshot(
@@ -497,7 +497,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek settings keeps balance while live snapshot is switching`() throws {
+    func deepseek_settings_keeps_balance_while_live_snapshot_is_switching() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-balance-switch")
         fixture.store.lastKnownResetSnapshots[.deepseek] = UsageSnapshot(
             primary: RateWindow(
@@ -522,7 +522,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek profile transition survives selected api token cache invalidation`() throws {
+    func deepseek_profile_transition_survives_selected_api_token_cache_invalidation() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-token-transition")
         fixture.settings.addTokenAccount(provider: .deepseek, label: "cv", token: "test-token")
         let snapshot = UsageSnapshot(
@@ -583,7 +583,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek selected account success clears its profile transition`() async throws {
+    func deepseek_selected_account_success_clears_its_profile_transition() async throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-transition-success")
         fixture.store.snapshots[.deepseek] = UsageSnapshot(
             primary: RateWindow(
@@ -622,7 +622,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek timeout keeps the validated profile catalog with the refreshed balance`() async throws {
+    func deepseek_timeout_keeps_the_validated_profile_catalog_with_the_refreshed_balance() async throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-timeout-catalog")
         fixture.store.snapshots[.deepseek] = UsageSnapshot(
             primary: RateWindow(
@@ -675,7 +675,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek selected account failure preserves its balance only transition`() async throws {
+    func deepseek_selected_account_failure_preserves_its_balance_only_transition() async throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-transition-failure")
         fixture.store.snapshots[.deepseek] = UsageSnapshot(
             primary: RateWindow(
@@ -714,7 +714,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `disabling deepseek clears a failed profile transition`() async throws {
+    func disabling_deepseek_clears_a_failed_profile_transition() async throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-disable-transition")
         fixture.store.snapshots[.deepseek] = UsageSnapshot(
             primary: RateWindow(
@@ -741,7 +741,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek requires explicit replacement when the stored profile expires`() throws {
+    func deepseek_requires_explicit_replacement_when_the_stored_profile_expires() throws {
         let apiKey = "test-deepseek-api-key"
         let fixture = try self.makeSettingsFixture(
             suite: "ProviderSettingsDescriptorTests-deepseek-expired-selection",
@@ -763,7 +763,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek profile transition does not cross api token account selection`() throws {
+    func deepseek_profile_transition_does_not_cross_api_token_account_selection() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-account-transition")
         fixture.settings.addTokenAccount(provider: .deepseek, label: "Personal", token: "token-1")
         fixture.settings.addTokenAccount(provider: .deepseek, label: "Work", token: "token-2")
@@ -792,7 +792,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `replacing a deepseek key in the same account clears its profile selection`() throws {
+    func replacing_a_deepseek_key_in_the_same_account_clears_its_profile_selection() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-replaced-key")
         fixture.settings.addTokenAccount(provider: .deepseek, label: "Account", token: "old-key")
         let account = try #require(fixture.settings.selectedTokenAccount(for: .deepseek))
@@ -809,7 +809,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek detailed usage runs only for the active api token account`() throws {
+    func deepseek_detailed_usage_runs_only_for_the_active_api_token_account() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-account-usage")
         fixture.settings.addTokenAccount(provider: .deepseek, label: "Personal", token: "token-1")
         fixture.settings.addTokenAccount(provider: .deepseek, label: "Work", token: "token-2")
@@ -828,7 +828,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `provider settings labels an empty transition as refreshing`() {
+    func provider_settings_labels_an_empty_transition_as_refreshing() {
         #expect(ProviderMetricsInlineView.placeholderText(
             isEnabled: true,
             isRefreshing: true,
@@ -840,7 +840,7 @@ extension ProviderSettingsDescriptorTests {
     }
 
     @Test
-    func `deepseek hides profile picker when only one validated profile remains`() throws {
+    func deepseek_hides_profile_picker_when_only_one_validated_profile_remains() throws {
         let fixture = try self.makeSettingsFixture(suite: "ProviderSettingsDescriptorTests-deepseek-single-profile")
         fixture.store.snapshots[.deepseek] = UsageSnapshot(
             primary: nil,

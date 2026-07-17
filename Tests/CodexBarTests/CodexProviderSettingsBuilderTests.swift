@@ -4,7 +4,7 @@ import Testing
 
 struct CodexProviderSettingsBuilderTests {
     @Test
-    func `builder keeps managed store unreadable fail closed when selection resolves back to live system`() {
+    func builder_keeps_managed_store_unreadable_fail_closed_when_selection_resolves_back_to_live_system() {
         let selectedManagedID = UUID()
         let snapshot = CodexAccountReconciliationSnapshot(
             storedAccounts: [],
@@ -30,7 +30,7 @@ struct CodexProviderSettingsBuilderTests {
     }
 
     @Test
-    func `builder marks missing selected managed account as unavailable`() {
+    func builder_marks_missing_selected_managed_account_as_unavailable() {
         let selectedManagedID = UUID()
         let otherStoredAccount = ManagedCodexAccount(
             id: UUID(),
@@ -59,7 +59,7 @@ struct CodexProviderSettingsBuilderTests {
     }
 
     @Test
-    func `builder keeps missing managed target fail closed when selection resolves back to live system`() {
+    func builder_keeps_missing_managed_target_fail_closed_when_selection_resolves_back_to_live_system() {
         let selectedManagedID = UUID()
         let otherStoredAccount = ManagedCodexAccount(
             id: UUID(),
@@ -92,7 +92,7 @@ struct CodexProviderSettingsBuilderTests {
     }
 
     @Test
-    func `builder marks profile without observed account as unavailable`() {
+    func builder_marks_profile_without_observed_account_as_unavailable() {
         let profilePath = "/tmp/codex-profile-missing-auth"
         let snapshot = CodexAccountReconciliationSnapshot(
             storedAccounts: [],
@@ -116,7 +116,7 @@ struct CodexProviderSettingsBuilderTests {
     }
 
     @Test
-    func `known owner catalog includes runtime managed and live identities`() {
+    func known_owner_catalog_includes_runtime_managed_and_live_identities() {
         let storedAccount = ManagedCodexAccount(
             id: UUID(),
             email: "managed@example.com",
@@ -151,7 +151,7 @@ struct CodexProviderSettingsBuilderTests {
     }
 
     @Test
-    func `builder preserves same email profile owners and scopes web cache`() {
+    func builder_preserves_same_email_profile_owners_and_scopes_web_cache() {
         let profileA = ObservedSystemCodexAccount(
             email: "shared@example.com",
             codexHomePath: "/tmp/codex-profile-a",

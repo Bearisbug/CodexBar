@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct UsageStoreCachedTokenHydrationTests {
     @Test
-    func `cached codex token hydration populates startup token snapshot`() async throws {
+    func cached_codex_token_hydration_populates_startup_token_snapshot() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -49,7 +49,7 @@ struct UsageStoreCachedTokenHydrationTests {
     }
 
     @Test
-    func `cached codex token hydration skips managed codex homes`() async throws {
+    func cached_codex_token_hydration_skips_managed_codex_homes() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -99,7 +99,7 @@ struct UsageStoreCachedTokenHydrationTests {
     }
 
     @Test
-    func `fresh cached hydration suppresses the redundant startup token refresh`() async throws {
+    func fresh_cached_hydration_suppresses_the_redundant_startup_token_refresh() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -144,7 +144,7 @@ struct UsageStoreCachedTokenHydrationTests {
     }
 
     @Test
-    func `stale cached hydration still allows the startup token refresh`() async throws {
+    func stale_cached_hydration_still_allows_the_startup_token_refresh() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

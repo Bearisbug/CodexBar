@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardSubtitleTests {
     @Test
-    func `subtitle uses injected current time`() throws {
+    func subtitle_uses_injected_current_time() throws {
         let updatedAt = Date(timeIntervalSinceReferenceDate: 0)
         let now = updatedAt.addingTimeInterval(5 * 3600)
         let snapshot = UsageSnapshot(
@@ -48,7 +48,7 @@ struct MenuCardSubtitleTests {
     }
 
     @Test
-    func `subtitle shows refreshing while cached snapshot remains visible`() throws {
+    func subtitle_shows_refreshing_while_cached_snapshot_remains_visible() throws {
         let updatedAt = Date(timeIntervalSinceReferenceDate: 0)
         let now = updatedAt.addingTimeInterval(5 * 3600)
         let snapshot = UsageSnapshot(

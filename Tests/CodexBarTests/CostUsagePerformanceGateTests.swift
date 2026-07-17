@@ -10,7 +10,7 @@ import Testing
 @Suite(.serialized)
 struct CostUsagePerformanceGateTests {
     @Test
-    func `warm codex refresh over an unchanged session corpus must not re-parse it`() throws {
+    func warm_codex_refresh_over_an_unchanged_session_corpus_must_not_re_parse_it() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 10)
@@ -56,7 +56,7 @@ struct CostUsagePerformanceGateTests {
     }
 
     @Test
-    func `priority turns refresh must scan only appended trace rows`() throws {
+    func priority_turns_refresh_must_scan_only_appended_trace_rows() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -94,7 +94,7 @@ struct CostUsagePerformanceGateTests {
     }
 
     @Test
-    func `cached daily report resolves and uses the pricing catalog once`() throws {
+    func cached_daily_report_resolves_and_uses_the_pricing_catalog_once() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 10)
@@ -152,7 +152,7 @@ struct CostUsagePerformanceGateTests {
     }
 
     @Test
-    func `cached daily report uses complete aggregates without loading pricing`() throws {
+    func cached_daily_report_uses_complete_aggregates_without_loading_pricing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 10)
@@ -189,7 +189,7 @@ struct CostUsagePerformanceGateTests {
     }
 
     @Test
-    func `legacy missing aggregate cost backfills rows before threshold pricing`() throws {
+    func legacy_missing_aggregate_cost_backfills_rows_before_threshold_pricing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 10)
@@ -251,7 +251,7 @@ struct CostUsagePerformanceGateTests {
     }
 
     @Test
-    func `project rollups resolve the pricing catalog once per build`() throws {
+    func project_rollups_resolve_the_pricing_catalog_once_per_build() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 10)

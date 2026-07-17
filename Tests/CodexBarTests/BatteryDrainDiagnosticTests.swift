@@ -20,7 +20,7 @@ struct BatteryDrainDiagnosticTests {
     }
 
     @Test
-    func `Fallback provider should not animate when all providers are disabled`() {
+    func Fallback_provider_should_not_animate_when_all_providers_are_disabled() {
         self.ensureAppKitInitialized()
 
         let settings = SettingsStore(
@@ -63,7 +63,7 @@ struct BatteryDrainDiagnosticTests {
     }
 
     @Test
-    func `Enabled provider with data should not animate`() {
+    func Enabled_provider_with_data_should_not_animate() {
         self.ensureAppKitInitialized()
 
         let settings = SettingsStore(
@@ -111,7 +111,7 @@ struct BatteryDrainDiagnosticTests {
     }
 
     @Test
-    func `Enabled provider without data should animate`() {
+    func Enabled_provider_without_data_should_animate() {
         self.ensureAppKitInitialized()
 
         let settings = SettingsStore(
@@ -149,7 +149,7 @@ struct BatteryDrainDiagnosticTests {
     }
 
     @Test
-    func `Enabled provider with error should not animate`() {
+    func Enabled_provider_with_error_should_not_animate() {
         self.ensureAppKitInitialized()
 
         let settings = SettingsStore(

@@ -8,7 +8,7 @@ struct Issue2037ScannerIntegrationTests {
     /// is present in the scan window. Missing-parent / interleaved Ultra shapes
     /// need separate goldens.
     @Test
-    func `archived fork family scanner matches parent-owns-prefix oracle`() throws {
+    func archived_fork_family_scanner_matches_parent_owns_prefix_oracle() throws {
         let fixture = try Issue2037FixtureHarness.load(named: "archived-fork-33ce-3869")
         let sanitized = try SanitizedForkFamilyFixture.load(named: "archived-fork-33ce-3869")
         let oracle = sanitized.manifest.oracle
@@ -67,7 +67,7 @@ struct Issue2037ScannerIntegrationTests {
     /// Scanner units follow `total_token_usage` deltas (not `sum(last)`): this
     /// corpus has a flat-total row with non-zero `last` at parent ordinal 120.
     @Test
-    func `live fork 4d90 family scanner matches parent-owns-prefix oracle`() throws {
+    func live_fork_4d90_family_scanner_matches_parent_owns_prefix_oracle() throws {
         let fixture = try Issue2037FixtureHarness.load(named: "live-fork-4d90-52bf")
         let sanitized = try SanitizedForkFamilyFixture.load(named: "live-fork-4d90-52bf")
         let scannerOracle = try #require(fixture.manifest.scannerOracle)
@@ -125,7 +125,7 @@ struct Issue2037ScannerIntegrationTests {
     }
 
     @Test
-    func `missing parent equal counter siblings fail open`() throws {
+    func missing_parent_equal_counter_siblings_fail_open() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

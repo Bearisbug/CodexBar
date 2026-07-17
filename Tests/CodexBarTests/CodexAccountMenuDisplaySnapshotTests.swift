@@ -52,7 +52,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `cold menu projection read never loads auth state`() async {
+    func cold_menu_projection_read_never_loads_auth_state() async {
         let settings = self.makeSettings()
         let probe = CodexAccountSnapshotLoaderProbe(snapshot: self.liveSnapshot(email: "loaded@example.com"))
         settings._test_codexAccountSnapshotLoader = { _ in probe.load() }
@@ -72,7 +72,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `override snapshot load preserves persisted account menu projection`() {
+    func override_snapshot_load_preserves_persisted_account_menu_projection() {
         let settings = self.makeSettings()
         let activeSnapshot = self.liveSnapshot(email: "active@example.com")
         settings.cachedCodexAccountMenuProjection = self.cachedProjection(snapshot: activeSnapshot)
@@ -103,7 +103,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `managed account change refreshes account menu projection`() {
+    func managed_account_change_refreshes_account_menu_projection() {
         let settings = self.makeSettings()
         let activeSnapshot = self.liveSnapshot(email: "active@example.com")
         settings.cachedCodexAccountMenuProjection = self.cachedProjection(snapshot: activeSnapshot, loadedAt: Date())
@@ -134,7 +134,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `stacked menu matches runtime enriched snapshot for legacy managed workspace`() throws {
+    func stacked_menu_matches_runtime_enriched_snapshot_for_legacy_managed_workspace() throws {
         let settings = self.makeSettings()
         settings.multiAccountMenuLayout = .stacked
         let legacyID = UUID()
@@ -211,7 +211,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `stale menu projection returns immediately then refreshes concurrently`() async {
+    func stale_menu_projection_returns_immediately_then_refreshes_concurrently() async {
         let settings = self.makeSettings()
         let staleSnapshot = self.liveSnapshot(email: "before@example.com")
         let probe = CodexAccountSnapshotLoaderProbe(snapshot: self.liveSnapshot(email: "after@example.com"))
@@ -240,7 +240,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `revalidation discards result after reconciliation generation changes`() async {
+    func revalidation_discards_result_after_reconciliation_generation_changes() async {
         let settings = self.makeSettings()
         let staleSnapshot = self.liveSnapshot(email: "before@example.com")
         let probe = CodexAccountSnapshotLoaderProbe(
@@ -267,7 +267,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `fresh menu open coalesces account projection revalidation and identity stays read only`() async throws {
+    func fresh_menu_open_coalesces_account_projection_revalidation_and_identity_stays_read_only() async throws {
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         StatusItemController.setCodexAccountMenuProjectionRevalidationEnabledForTesting(true)
@@ -330,7 +330,7 @@ struct CodexAccountMenuDisplaySnapshotTests {
     }
 
     @Test
-    func `selecting displayed account uses captured source without reconciliation`() throws {
+    func selecting_displayed_account_uses_captured_source_without_reconciliation() throws {
         let settings = self.makeSettings()
         let firstID = UUID()
         let secondID = UUID()

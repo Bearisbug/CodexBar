@@ -5,7 +5,7 @@ import Testing
 
 struct Sub2APICLIOutputTests {
     @Test
-    func `subscription labels and per key totals reach CLI output`() {
+    func subscription_labels_and_per_key_totals_reach_CLI_output() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 10, windowMinutes: 1440, resetsAt: nil, resetDescription: "$1 / $10"),
             secondary: RateWindow(

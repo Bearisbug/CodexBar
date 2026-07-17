@@ -4,7 +4,7 @@ import Testing
 @Suite(.serialized)
 struct LoginNotificationLogicTests {
     @Test
-    func `login success notification copy follows Traditional Chinese app language`() {
+    func login_success_notification_copy_follows_Traditional_Chinese_app_language() {
         Self.withAppLanguage("zh-Hant") {
             let copy = LoginNotificationLogic.notificationCopy(providerName: "Codex")
 

@@ -69,7 +69,7 @@ enum MenuBarVisibilityWatcher {
             hasButton: item.button != nil,
             hasWindow: item.button?.window != nil,
             hasScreen: screen != nil,
-            isOnCurrentScreen: screen.map(self.isCurrentScreen) ?? false,
+            isOnCurrentScreen: screen.map { Self.isCurrentScreen($0) } ?? false,
             buttonWidth: item.button?.frame.size.width ?? 0)
     }
 

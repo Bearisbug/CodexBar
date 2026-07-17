@@ -24,7 +24,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `provider with highest usage and icon style`() throws {
+    func provider_with_highest_usage_and_icon_style() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-highest")
         let store = Self.makeUsageStore(settings: settings)
         let metadata = ProviderRegistry.shared.metadata
@@ -67,7 +67,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `source label adds open AI web`() {
+    func source_label_adds_open_AI_web() {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-source")
         settings.debugDisableKeychainAccess = false
         settings.codexUsageDataSource = .oauth
@@ -89,7 +89,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `amp balances are rendered in provider cards`() {
+    func amp_balances_are_rendered_in_provider_cards() {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-amp-credits")
         let store = Self.makeUsageStore(settings: settings)
         let now = Date()
@@ -118,7 +118,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `account info caches codex auth parsing until config revision changes`() throws {
+    func account_info_caches_codex_auth_parsing_until_config_revision_changes() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-account-info-cache")
         let home = FileManager.default.temporaryDirectory.appendingPathComponent(
             "usage-store-account-info-\(UUID().uuidString)",
@@ -148,7 +148,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `source label uses configured kilo source`() {
+    func source_label_uses_configured_kilo_source() {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-kilo-source")
         settings.kiloUsageDataSource = .api
 
@@ -157,7 +157,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `clearing copilot budget extras syncs reset baseline`() {
+    func clearing_copilot_budget_extras_syncs_reset_baseline() {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-copilot-budget-clear")
         let store = Self.makeUsageStore(settings: settings)
         let live = Self.makeCopilotSnapshot(usedPercent: 20, extraRateWindows: [Self.makeCopilotBudgetWindow()])
@@ -173,7 +173,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `clearing copilot budget extras also clears stale reset baseline`() {
+    func clearing_copilot_budget_extras_also_clears_stale_reset_baseline() {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-copilot-budget-reset-clear")
         let store = Self.makeUsageStore(settings: settings)
         let live = Self.makeCopilotSnapshot(usedPercent: 20, extraRateWindows: nil)
@@ -192,7 +192,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `permission prompt errors are detected for notifications`() {
+    func permission_prompt_errors_are_detected_for_notifications() {
         let errors: [LocalizedTestError] = [
             LocalizedTestError("Waiting for folder trust prompt"),
             LocalizedTestError("Permission prompt is waiting in the CLI"),
@@ -205,7 +205,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `provider with highest usage prefers kimi rate limit window`() throws {
+    func provider_with_highest_usage_prefers_kimi_rate_limit_window() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-kimi-highest")
         let store = Self.makeUsageStore(settings: settings)
         let metadata = ProviderRegistry.shared.metadata
@@ -233,7 +233,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `provider availability and subscription detection`() {
+    func provider_availability_and_subscription_detection() {
         let zaiStore = InMemoryZaiTokenStore(value: "zai-token")
         let syntheticStore = InMemorySyntheticTokenStore(value: "synthetic-token")
         let settings = Self.makeSettingsStore(
@@ -259,7 +259,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `background refresh only tracks enabled providers`() throws {
+    func background_refresh_only_tracks_enabled_providers() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-background-refresh")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -296,7 +296,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `cleanup preserves enabled but unavailable provider state`() throws {
+    func cleanup_preserves_enabled_but_unavailable_provider_state() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-preserve-unavailable")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -333,7 +333,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `background work excludes enabled but unavailable providers`() throws {
+    func background_work_excludes_enabled_but_unavailable_providers() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-background-unavailable")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -358,7 +358,7 @@ struct UsageStoreCoverageTests {
     }
 
     @Test
-    func `visible unavailable provider gets explicit user facing state`() throws {
+    func visible_unavailable_provider_gets_explicit_user_facing_state() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-unavailable-message")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -387,7 +387,7 @@ struct UsageStoreCoverageTests {
 
 extension UsageStoreCoverageTests {
     @Test
-    func `sub2api unavailable message identifies the missing setting`() throws {
+    func sub2api_unavailable_message_identifies_the_missing_setting() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-sub2api-unavailable-message")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -408,7 +408,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `refresh clears enabled but unavailable cached state`() async throws {
+    func refresh_clears_enabled_but_unavailable_cached_state() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-background-cleanup")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -462,7 +462,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `refresh clears enabled but unavailable failure state`() async throws {
+    func refresh_clears_enabled_but_unavailable_failure_state() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-background-failure-cleanup")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -501,7 +501,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `widget snapshot projects provider derived token usage`() async throws {
+    func widget_snapshot_projects_provider_derived_token_usage() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-widget-provider-cost")
         let store = Self.makeUsageStore(settings: settings)
         let day = MistralDailyUsageBucket(
@@ -539,7 +539,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `unavailable provider with only cached status gets single cleanup pass`() async throws {
+    func unavailable_provider_with_only_cached_status_gets_single_cleanup_pass() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-background-status-cleanup")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = true
@@ -571,7 +571,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `status indicators and failure gate`() {
+    func status_indicators_and_failure_gate() {
         #expect(!ProviderStatusIndicator.none.hasIssue)
         #expect(ProviderStatusIndicator.maintenance.hasIssue)
         CodexBarLocalizationOverride.$appLanguage.withValue("en") {
@@ -591,7 +591,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `token account error message ignores cancellation`() {
+    func token_account_error_message_ignores_cancellation() {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-token-account-cancel")
         let store = Self.makeUsageStore(settings: settings)
 
@@ -600,7 +600,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `isPreservableNetworkTransportError classifies transport failures correctly`() {
+    func isPreservableNetworkTransportError_classifies_transport_failures_correctly() {
         #expect(UsageStore.isPreservableNetworkTransportError(
             NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotFindHost)))
         #expect(UsageStore.isPreservableNetworkTransportError(
@@ -620,7 +620,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `background work settings observation ignores menu provider selection churn`() async throws {
+    func background_work_settings_observation_ignores_menu_provider_selection_churn() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-switcher-selection-observation")
         settings.refreshFrequency = .manual
         settings.mergeIcons = true
@@ -652,7 +652,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `background work settings observation ignores display only settings churn`() async throws {
+    func background_work_settings_observation_ignores_display_only_settings_churn() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-display-only-observation")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -715,7 +715,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `display only settings do not invoke provider refresh while background work is active`() async throws {
+    func display_only_settings_do_not_invoke_provider_refresh_while_background_work_is_active() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-display-only-no-provider-refresh")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -758,7 +758,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `startup status network failure schedules bounded retry`() async throws {
+    func startup_status_network_failure_schedules_bounded_retry() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-startup-status-retry")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = true
@@ -791,7 +791,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `startup connectivity retry refreshes status and clears retry task after recovery`() async throws {
+    func startup_connectivity_retry_refreshes_status_and_clears_retry_task_after_recovery() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreCoverageTests-startup-status-recovery")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = true
@@ -831,7 +831,7 @@ extension UsageStoreCoverageTests {
     }
 
     @Test
-    func `startup connectivity retry classification is bounded and excludes cancellation`() {
+    func startup_connectivity_retry_classification_is_bounded_and_excludes_cancellation() {
         #expect(UsageStore.startupConnectivityRetryDelay(forAttempt: 1) == 15)
         #expect(UsageStore.startupConnectivityRetryDelay(forAttempt: 4) == 300)
         #expect(UsageStore.startupConnectivityRetryDelay(forAttempt: 5) == nil)

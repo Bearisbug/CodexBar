@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardCostHintTests {
     @Test
-    func `claude cost hint explains cache tokens and status line drift`() throws {
+    func claude_cost_hint_explains_cache_tokens_and_status_line_drift() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let snapshot = CostUsageTokenSnapshot(
@@ -51,7 +51,7 @@ struct MenuCardCostHintTests {
     }
 
     @Test
-    func `one day history label stays today`() throws {
+    func one_day_history_label_stays_today() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let snapshot = CostUsageTokenSnapshot(

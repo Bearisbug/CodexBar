@@ -6,7 +6,7 @@ import Testing
 
 struct CopilotMenuCardModelTests {
     @Test
-    func `hides copilot budget bars when budget extras are disabled`() throws {
+    func hides_copilot_budget_bars_when_budget_extras_are_disabled() throws {
         let now = Date()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 20, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -46,7 +46,7 @@ struct CopilotMenuCardModelTests {
     }
 
     @Test
-    func `monthly quotas show projections and pace markers`() throws {
+    func monthly_quotas_show_projections_and_pace_markers() throws {
         let now = try Self.date("2026-07-16T12:00:00Z")
         let reset = try Self.date("2026-08-01T00:00:00Z")
         let snapshot = UsageSnapshot(
@@ -72,7 +72,7 @@ struct CopilotMenuCardModelTests {
     }
 
     @Test
-    func `monthly projection uses the calendar month ending at reset`() throws {
+    func monthly_projection_uses_the_calendar_month_ending_at_reset() throws {
         let now = try Self.date("2026-02-15T00:00:00Z")
         let reset = try Self.date("2026-03-01T00:00:00Z")
         let snapshot = UsageSnapshot(
@@ -88,7 +88,7 @@ struct CopilotMenuCardModelTests {
     }
 
     @Test
-    func `over quota usage keeps raw detail when reset is known`() throws {
+    func over_quota_usage_keeps_raw_detail_when_reset_is_known() throws {
         let now = try Self.date("2026-07-16T12:00:00Z")
         let reset = try Self.date("2026-08-01T00:00:00Z")
         let snapshot = UsageSnapshot(

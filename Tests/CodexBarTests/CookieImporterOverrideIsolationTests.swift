@@ -20,7 +20,7 @@ private actor CookieImporterOverrideBarrier {
 
 struct CookieImporterOverrideIsolationTests {
     @Test
-    func `cookie importer overrides stay isolated across concurrent tasks`() async throws {
+    func cookie_importer_overrides_stay_isolated_across_concurrent_tasks() async throws {
         let expectedLabels = ["first", "second"]
         let barrier = CookieImporterOverrideBarrier()
 
@@ -51,7 +51,7 @@ struct CookieImporterOverrideIsolationTests {
     }
 
     @Test
-    func `perplexity overrides bypass the shared import cache`() async throws {
+    func perplexity_overrides_bypass_the_shared_import_cache() async throws {
         PerplexityCookieImporter.invalidateImportSessionCache()
         defer { PerplexityCookieImporter.invalidateImportSessionCache() }
 

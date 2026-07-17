@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsagePricingTests {
     @Test
-    func `normalizes codex model variants exactly`() {
+    func normalizes_codex_model_variants_exactly() {
         #expect(CostUsagePricing.normalizeCodexModel("openai/gpt-5-codex") == "gpt-5-codex")
         #expect(CostUsagePricing.normalizeCodexModel("gpt-5.2-codex") == "gpt-5.2-codex")
         #expect(CostUsagePricing.normalizeCodexModel("gpt-5.1-codex-max") == "gpt-5.1-codex-max")
@@ -25,7 +25,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `unattributed codex usage stays unpriced despite a catalog collision`() throws {
+    func unattributed_codex_usage_stays_unpriced_despite_a_catalog_collision() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -51,7 +51,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost supports gpt51 codex max`() {
+    func codex_cost_supports_gpt51_codex_max() {
         let cost = CostUsagePricing.codexCostUSD(
             model: "gpt-5.1-codex-max",
             inputTokens: 100,
@@ -61,7 +61,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost supports gpt53 codex`() {
+    func codex_cost_supports_gpt53_codex() {
         let cost = CostUsagePricing.codexCostUSD(
             model: "gpt-5.3-codex",
             inputTokens: 100,
@@ -71,7 +71,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost supports gpt54 mini and nano`() {
+    func codex_cost_supports_gpt54_mini_and_nano() {
         let mini = CostUsagePricing.codexCostUSD(
             model: "gpt-5.4-mini-2026-03-17",
             inputTokens: 100,
@@ -88,7 +88,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost supports gpt55 bundled fallback`() throws {
+    func codex_cost_supports_gpt55_bundled_fallback() throws {
         let root = try Self.cacheRoot()
         let cost = CostUsagePricing.codexCostUSD(
             model: "openai/gpt-5.5-2026-04-23",
@@ -104,7 +104,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost supports gpt56 sol terra luna bundled fallback`() throws {
+    func codex_cost_supports_gpt56_sol_terra_luna_bundled_fallback() throws {
         // Empty models.dev cache root forces the built-in table for GPT-5.6 tiers.
         let root = try Self.cacheRoot()
 
@@ -135,15 +135,18 @@ struct CostUsagePricingTests {
 
         // Rates per token: Sol $5/$30 per 1M, Terra $2.50/$15, Luna $1/$6;
         // cache read is 10% of input. Non-cached input is 90 tokens.
-        #expect(sol == (90.0 * 5e-6) + (10.0 * 5e-7) + (5.0 * 3e-5))
-        #expect(terra == (90.0 * 2.5e-6) + (10.0 * 2.5e-7) + (5.0 * 1.5e-5))
-        #expect(luna == (90.0 * 1e-6) + (10.0 * 1e-7) + (5.0 * 6e-6))
+        let expectedValueLine138 = (90.0 * 5e-6) + (10.0 * 5e-7) + (5.0 * 3e-5)
+        #expect(sol == expectedValueLine138)
+        let expectedValueLine139 = (90.0 * 2.5e-6) + (10.0 * 2.5e-7) + (5.0 * 1.5e-5)
+        #expect(terra == expectedValueLine139)
+        let expectedValueLine140 = (90.0 * 1e-6) + (10.0 * 1e-7) + (5.0 * 6e-6)
+        #expect(luna == expectedValueLine140)
         // Unsuffixed gpt-5.6 alias routes to Sol.
         #expect(alias == sol)
     }
 
     @Test
-    func `codex models dev falls back from gpt56 alias to canonical sol pricing`() throws {
+    func codex_models_dev_falls_back_from_gpt56_alias_to_canonical_sol_pricing() throws {
         let canonicalOnlyRoot = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -193,7 +196,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex pricing key distinguishes an empty long context block from no block`() throws {
+    func codex_pricing_key_distinguishes_an_empty_long_context_block_from_no_block() throws {
         let withoutLongContext = try Self.modelsDevArtifact("""
         {
           "openai": {
@@ -236,7 +239,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost applies gpt56 long context rates`() throws {
+    func codex_cost_applies_gpt56_long_context_rates() throws {
         let root = try Self.cacheRoot()
         let sol = CostUsagePricing.codexCostUSD(
             model: "gpt-5.6-sol",
@@ -262,13 +265,16 @@ struct CostUsagePricingTests {
 
         // Long-context (>272K) rates apply to the entire request. Total input contains 10 cached,
         // 20 cache-write, and 271,971 ordinary input tokens.
-        #expect(sol == (271_971.0 * 1e-5) + (10.0 * 1e-6) + (20.0 * 1.25e-5) + (10.0 * 4.5e-5))
-        #expect(terra == (271_971.0 * 5e-6) + (10.0 * 5e-7) + (20.0 * 6.25e-6) + (10.0 * 2.25e-5))
-        #expect(luna == (271_971.0 * 2e-6) + (10.0 * 2e-7) + (20.0 * 2.5e-6) + (10.0 * 9e-6))
+        let expectedValueLine265 = (271_971.0 * 1e-5) + (10.0 * 1e-6) + (20.0 * 1.25e-5) + (10.0 * 4.5e-5)
+        #expect(sol == expectedValueLine265)
+        let expectedValueLine266 = (271_971.0 * 5e-6) + (10.0 * 5e-7) + (20.0 * 6.25e-6) + (10.0 * 2.25e-5)
+        #expect(terra == expectedValueLine266)
+        let expectedValueLine267 = (271_971.0 * 2e-6) + (10.0 * 2e-7) + (20.0 * 2.5e-6) + (10.0 * 9e-6)
+        #expect(luna == expectedValueLine267)
     }
 
     @Test
-    func `codex cost bills gpt56 cache writes at one point two five x input`() throws {
+    func codex_cost_bills_gpt56_cache_writes_at_one_point_two_five_x_input() throws {
         let root = try Self.cacheRoot()
         // Total prompt 100: 70 uncached + 20 cache-write + 10 cache-read.
         let sol = CostUsagePricing.codexCostUSD(
@@ -284,7 +290,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex priority cost supports gpt56 tiers`() {
+    func codex_priority_cost_supports_gpt56_tiers() {
         let sol = CostUsagePricing.codexPriorityCostUSD(
             model: "gpt-5.6-sol",
             inputTokens: 100,
@@ -302,13 +308,16 @@ struct CostUsagePricingTests {
             outputTokens: 10)
 
         // Priority is 2x short-context rates (Sol input $10/1M, etc.).
-        #expect(sol == (80.0 * 1e-5) + (20.0 * 1e-6) + (10.0 * 6e-5))
-        #expect(terra == (80.0 * 5e-6) + (20.0 * 5e-7) + (10.0 * 3e-5))
-        #expect(luna == (80.0 * 2e-6) + (20.0 * 2e-7) + (10.0 * 1.2e-5))
+        let expectedValueLine305 = (80.0 * 1e-5) + (20.0 * 1e-6) + (10.0 * 6e-5)
+        #expect(sol == expectedValueLine305)
+        let expectedValueLine306 = (80.0 * 5e-6) + (20.0 * 5e-7) + (10.0 * 3e-5)
+        #expect(terra == expectedValueLine306)
+        let expectedValueLine307 = (80.0 * 2e-6) + (20.0 * 2e-7) + (10.0 * 1.2e-5)
+        #expect(luna == expectedValueLine307)
     }
 
     @Test
-    func `codex priority cost uses explicit cache write rates`() {
+    func codex_priority_cost_uses_explicit_cache_write_rates() {
         let sol = CostUsagePricing.codexPriorityCostUSD(
             model: "gpt-5.6-sol",
             inputTokens: 100,
@@ -334,17 +343,19 @@ struct CostUsagePricingTests {
             cacheWriteInputTokens: 20,
             outputTokens: 5)
 
-        #expect(sol == (70.0 * 1e-5) + (10.0 * 1e-6) + (20.0 * 1.25e-5) + (5.0 * 6e-5))
-        #expect(terra == (70.0 * 5e-6) + (10.0 * 5e-7) + (20.0 * 6.25e-6) + (5.0 * 3e-5))
-        #expect(luna == (70.0 * 2e-6) + (10.0 * 2e-7) + (20.0 * 2.5e-6) + (5.0 * 1.2e-5))
+        let expectedValueLine337 = (70.0 * 1e-5) + (10.0 * 1e-6) + (20.0 * 1.25e-5) + (5.0 * 6e-5)
+        #expect(sol == expectedValueLine337)
+        let expectedValueLine338 = (70.0 * 5e-6) + (10.0 * 5e-7) + (20.0 * 6.25e-6) + (5.0 * 3e-5)
+        #expect(terra == expectedValueLine338)
+        let expectedValueLine339 = (70.0 * 2e-6) + (10.0 * 2e-7) + (20.0 * 2.5e-6) + (5.0 * 1.2e-5)
+        #expect(luna == expectedValueLine339)
         // A model without an explicit Priority cache-write price keeps the legacy input-rate fold.
-        #expect(
-            modelWithoutCacheWriteSupport ==
-                (90.0 * 1.25e-5) + (10.0 * 1.25e-6) + (5.0 * 7.5e-5))
+        let expectedLegacyFold = (90.0 * 1.25e-5) + (10.0 * 1.25e-6) + (5.0 * 7.5e-5)
+        #expect(modelWithoutCacheWriteSupport == expectedLegacyFold)
     }
 
     @Test
-    func `codex cost applies gpt54 and gpt55 long context rates to full session`() throws {
+    func codex_cost_applies_gpt54_and_gpt55_long_context_rates_to_full_session() throws {
         let root = try Self.cacheRoot()
         let gpt54 = CostUsagePricing.codexCostUSD(
             model: "gpt-5.4",
@@ -364,7 +375,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost keeps normal rates at long context input boundary`() throws {
+    func codex_cost_keeps_normal_rates_at_long_context_input_boundary() throws {
         let root = try Self.cacheRoot()
         let gpt55 = CostUsagePricing.codexCostUSD(
             model: "gpt-5.5",
@@ -377,7 +388,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost applies long context rates to all cached and non cached input`() throws {
+    func codex_cost_applies_long_context_rates_to_all_cached_and_non_cached_input() throws {
         let root = try Self.cacheRoot()
         let gpt55 = CostUsagePricing.codexCostUSD(
             model: "gpt-5.5",
@@ -395,7 +406,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost clamps cache reads to input tokens`() throws {
+    func codex_cost_clamps_cache_reads_to_input_tokens() throws {
         // `cached_input_tokens` can never exceed `input_tokens` in real Codex data; if it does,
         // clamp cached to input so the surplus is not invented and input is never double-billed.
         let root = try Self.cacheRoot()
@@ -412,7 +423,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost does not double bill cached input tokens`() throws {
+    func codex_cost_does_not_double_bill_cached_input_tokens() throws {
         // Regression for the cached double-count: input_tokens includes cached reads, so a turn
         // with 1000 input / 900 cached must bill 100 tokens at the input rate and 900 at the
         // cache rate — not the full 1000 at the input rate plus 900 again at the cache rate.
@@ -429,7 +440,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex priority cost applies model specific fast rates`() {
+    func codex_priority_cost_applies_model_specific_fast_rates() {
         let gpt54 = CostUsagePricing.codexPriorityCostUSD(
             model: "gpt-5.4",
             inputTokens: 100,
@@ -446,13 +457,16 @@ struct CostUsagePricingTests {
             cachedInputTokens: 20,
             outputTokens: 10)
 
-        #expect(gpt54 == (80.0 * 5e-6) + (20.0 * 5e-7) + (10.0 * 3e-5))
-        #expect(gpt55 == (80.0 * 1.25e-5) + (20.0 * 1.25e-6) + (10.0 * 7.5e-5))
-        #expect(gpt54Mini == (80.0 * 1.5e-6) + (20.0 * 1.5e-7) + (10.0 * 9e-6))
+        let expectedValueLine449 = (80.0 * 5e-6) + (20.0 * 5e-7) + (10.0 * 3e-5)
+        #expect(gpt54 == expectedValueLine449)
+        let expectedValueLine450 = (80.0 * 1.25e-5) + (20.0 * 1.25e-6) + (10.0 * 7.5e-5)
+        #expect(gpt55 == expectedValueLine450)
+        let expectedValueLine451 = (80.0 * 1.5e-6) + (20.0 * 1.5e-7) + (10.0 * 9e-6)
+        #expect(gpt54Mini == expectedValueLine451)
     }
 
     @Test
-    func `codex priority cost is unavailable for long context requests`() {
+    func codex_priority_cost_is_unavailable_for_long_context_requests() {
         let gpt55 = CostUsagePricing.codexPriorityCostUSD(
             model: "gpt-5.5",
             inputTokens: 272_001,
@@ -487,7 +501,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex priority cost counts only input tokens toward the limit`() {
+    func codex_priority_cost_counts_only_input_tokens_toward_the_limit() {
         let eligible = CostUsagePricing.codexPriorityCostUSD(
             model: "gpt-5.5",
             inputTokens: 200_000,
@@ -504,13 +518,14 @@ struct CostUsagePricingTests {
             cachedInputTokens: 0,
             outputTokens: 10)
 
-        #expect(eligible == (100_000.0 * 1.25e-5) + (100_000.0 * 1.25e-6) + (10.0 * 7.5e-5))
+        let expectedValueLine507 = (100_000.0 * 1.25e-5) + (100_000.0 * 1.25e-6) + (10.0 * 7.5e-5)
+        #expect(eligible == expectedValueLine507)
         #expect(boundary != nil)
         #expect(overLimit == nil)
     }
 
     @Test
-    func `codex priority cost remains available at priority input boundary`() {
+    func codex_priority_cost_remains_available_at_priority_input_boundary() {
         let gpt55 = CostUsagePricing.codexPriorityCostUSD(
             model: "gpt-5.5",
             inputTokens: 272_000,
@@ -521,7 +536,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex models dev pricing uses codex long context threshold`() throws {
+    func codex_models_dev_pricing_uses_codex_long_context_threshold() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -563,7 +578,7 @@ struct CostUsagePricingTests {
     }
 
     @Test
-    func `codex models dev cached fallback uses long context input rate when cache read is absent`() throws {
+    func codex_models_dev_cached_fallback_uses_long_context_input_rate_when_cache_read_is_absent() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -602,7 +617,7 @@ struct CostUsagePricingTests {
 
 extension CostUsagePricingTests {
     @Test
-    func `codex models dev uses bundled short cache rates only when catalog omits them`() throws {
+    func codex_models_dev_uses_bundled_short_cache_rates_only_when_catalog_omits_them() throws {
         let missingRoot = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -645,12 +660,13 @@ extension CostUsagePricingTests {
             cacheWriteInputTokens: 20,
             modelsDevCacheRoot: explicitZeroRoot)
 
-        #expect(missing == (70.0 * 5e-6) + (10.0 * 5e-7) + (20.0 * 6.25e-6))
+        let expectedValueLine648 = (70.0 * 5e-6) + (10.0 * 5e-7) + (20.0 * 6.25e-6)
+        #expect(missing == expectedValueLine648)
         #expect(explicitZero == 70.0 * 5e-6)
     }
 
     @Test
-    func `codex models dev falls back bundled long context rates when catalog omits them`() throws {
+    func codex_models_dev_falls_back_bundled_long_context_rates_when_catalog_omits_them() throws {
         // Catalog has short-context rates only; bundled table supplies the 272K threshold + rates.
         let root = try Self.seedModelsDevCache("""
         {
@@ -683,7 +699,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `codex models dev overrides every gpt56 long context token bucket`() throws {
+    func codex_models_dev_overrides_every_gpt56_long_context_token_bucket() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -725,7 +741,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost supports gpt55 pro bundled fallback`() throws {
+    func codex_cost_supports_gpt55_pro_bundled_fallback() throws {
         let root = try Self.cacheRoot()
         let cost = CostUsagePricing.codexCostUSD(
             model: "openai/gpt-5.5-pro-2026-04-23",
@@ -741,7 +757,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost returns zero for research preview fallback model`() throws {
+    func codex_cost_returns_zero_for_research_preview_fallback_model() throws {
         let root = try Self.cacheRoot()
         let cost = CostUsagePricing.codexCostUSD(
             model: "gpt-5.3-codex-spark",
@@ -755,7 +771,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost prefers models dev cache over bundled fallback`() throws {
+    func codex_cost_prefers_models_dev_cache_over_bundled_fallback() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -782,7 +798,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost lets models dev override research preview fallback`() throws {
+    func codex_cost_lets_models_dev_override_research_preview_fallback() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "openai": {
@@ -810,7 +826,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `codex cost falls back to bundled pricing when models dev misses provider model`() throws {
+    func codex_cost_falls_back_to_bundled_pricing_when_models_dev_misses_provider_model() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "anthropic": {
@@ -837,12 +853,12 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `normalizes claude opus41 dated variants`() {
+    func normalizes_claude_opus41_dated_variants() {
         #expect(CostUsagePricing.normalizeClaudeModel("claude-opus-4-1-20250805") == "claude-opus-4-1")
     }
 
     @Test
-    func `claude cost supports opus41 dated variant`() {
+    func claude_cost_supports_opus41_dated_variant() {
         let cost = CostUsagePricing.claudeCostUSD(
             model: "claude-opus-4-1-20250805",
             inputTokens: 10,
@@ -853,7 +869,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost supports opus46 dated variant`() {
+    func claude_cost_supports_opus46_dated_variant() {
         let cost = CostUsagePricing.claudeCostUSD(
             model: "claude-opus-4-6-20260205",
             inputTokens: 10,
@@ -864,7 +880,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost supports opus47`() {
+    func claude_cost_supports_opus47() {
         let cost = CostUsagePricing.claudeCostUSD(
             model: "claude-opus-4-7",
             inputTokens: 10,
@@ -876,7 +892,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost supports opus48`() throws {
+    func claude_cost_supports_opus48() throws {
         // Point at a fresh, empty cache root so the models.dev lookup misses and this
         // exercises the built-in fallback table specifically — not a local cache hit.
         let emptyCacheRoot = try Self.cacheRoot()
@@ -892,7 +908,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost supports fable5 bundled fallback`() throws {
+    func claude_cost_supports_fable5_bundled_fallback() throws {
         let emptyCacheRoot = try Self.cacheRoot()
         let cost = CostUsagePricing.claudeCostUSD(
             model: "claude-fable-5",
@@ -906,7 +922,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost preserves historical sonnet46 long context pricing`() throws {
+    func claude_cost_preserves_historical_sonnet46_long_context_pricing() throws {
         let emptyCacheRoot = try Self.cacheRoot()
         let historical = CostUsagePricing.claudeCostUSD(
             model: "claude-sonnet-4-6",
@@ -930,7 +946,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost ignores stale sonnet46 threshold catalog after cutover`() throws {
+    func claude_cost_ignores_stale_sonnet46_threshold_catalog_after_cutover() throws {
         let cacheRoot = try Self.seedModelsDevCache("""
         {
           "anthropic": {
@@ -968,7 +984,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost prices one hour cache writes separately`() throws {
+    func claude_cost_prices_one_hour_cache_writes_separately() throws {
         let emptyCacheRoot = try Self.cacheRoot()
         let cost = CostUsagePricing.claudeCostUSD(
             model: "claude-fable-5",
@@ -987,7 +1003,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost applies long context rates across cache write durations`() throws {
+    func claude_cost_applies_long_context_rates_across_cache_write_durations() throws {
         let cacheRoot = try Self.seedModelsDevCache("""
         {
           "anthropic": {
@@ -1026,7 +1042,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude sonnet46 uses standard pricing across full context`() throws {
+    func claude_sonnet46_uses_standard_pricing_across_full_context() throws {
         let emptyCacheRoot = try Self.cacheRoot()
         let cost = CostUsagePricing.claudeCostUSD(
             model: "claude-sonnet-4-6",
@@ -1039,7 +1055,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost returns nil for unknown models`() {
+    func claude_cost_returns_nil_for_unknown_models() {
         let cost = CostUsagePricing.claudeCostUSD(
             model: "glm-4.6",
             inputTokens: 100,
@@ -1050,7 +1066,7 @@ extension CostUsagePricingTests {
     }
 
     @Test
-    func `claude cost prefers models dev cache with threshold pricing`() throws {
+    func claude_cost_prefers_models_dev_cache_with_threshold_pricing() throws {
         let root = try Self.seedModelsDevCache("""
         {
           "anthropic": {

@@ -6,7 +6,7 @@ import Testing
 
 struct CLIArgumentParsingTests {
     @Test
-    func `json shortcut does not enable json logs`() throws {
+    func json_shortcut_does_not_enable_json_logs() throws {
         let signature = CodexBarCLI._usageSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: ["--json"])
@@ -17,7 +17,7 @@ struct CLIArgumentParsingTests {
     }
 
     @Test
-    func `json output flag enables json logs`() throws {
+    func json_output_flag_enables_json_logs() throws {
         let signature = CodexBarCLI._usageSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: ["--json-output"])
@@ -28,7 +28,7 @@ struct CLIArgumentParsingTests {
     }
 
     @Test
-    func `log level and verbose are parsed`() throws {
+    func log_level_and_verbose_are_parsed() throws {
         let signature = CodexBarCLI._usageSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: ["--log-level", "info", "--verbose"])
@@ -38,14 +38,14 @@ struct CLIArgumentParsingTests {
     }
 
     @Test
-    func `resolved log level defaults to error`() {
+    func resolved_log_level_defaults_to_error() {
         #expect(CodexBarCLI.resolvedLogLevel(verbose: false, rawLevel: nil) == .error)
         #expect(CodexBarCLI.resolvedLogLevel(verbose: true, rawLevel: nil) == .debug)
         #expect(CodexBarCLI.resolvedLogLevel(verbose: false, rawLevel: "info") == .info)
     }
 
     @Test
-    func `format option overrides json shortcut`() throws {
+    func format_option_overrides_json_shortcut() throws {
         let signature = CodexBarCLI._usageSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: ["--json", "--format", "text"])
@@ -56,7 +56,7 @@ struct CLIArgumentParsingTests {
     }
 
     @Test
-    func `json only enables json format`() throws {
+    func json_only_enables_json_format() throws {
         let signature = CodexBarCLI._usageSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: ["--json-only"])
@@ -67,7 +67,7 @@ struct CLIArgumentParsingTests {
     }
 
     @Test
-    func `diagnose accepts json output flag but discards provider logs`() throws {
+    func diagnose_accepts_json_output_flag_but_discards_provider_logs() throws {
         let signature = CodexBarCLI._diagnoseSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: [
@@ -87,7 +87,7 @@ struct CLIArgumentParsingTests {
     }
 
     @Test
-    func `diagnose accepts explicit redact and output path`() throws {
+    func diagnose_accepts_explicit_redact_and_output_path() throws {
         let signature = CodexBarCLI._diagnoseSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: [
@@ -102,7 +102,7 @@ struct CLIArgumentParsingTests {
     }
 
     @Test
-    func `Claude OAuth usage does not detect CLI version`() {
+    func Claude_OAuth_usage_does_not_detect_CLI_version() {
         #expect(!CodexBarCLI.shouldDetectVersion(
             provider: .claude,
             result: self.makeResult(kind: .oauth)))

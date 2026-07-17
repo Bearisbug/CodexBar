@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeWebUsageExtraWindowTests {
     @Test
-    func `parses claude web API sonnet usage response`() throws {
+    func parses_claude_web_API_sonnet_usage_response() throws {
         let json = """
         {
           "five_hour": { "utilization": 9, "resets_at": "2025-12-23T16:00:00.000Z" },
@@ -17,7 +17,7 @@ struct ClaudeWebUsageExtraWindowTests {
     }
 
     @Test
-    func `ignores merged claude web API omelette usage window`() throws {
+    func ignores_merged_claude_web_API_omelette_usage_window() throws {
         let json = """
         {
           "five_hour": { "utilization": 9, "resets_at": "2025-12-23T16:00:00.000Z" },
@@ -33,7 +33,7 @@ struct ClaudeWebUsageExtraWindowTests {
     }
 
     @Test
-    func `parses claude web API cowork null as zero routines window`() throws {
+    func parses_claude_web_API_cowork_null_as_zero_routines_window() throws {
         let json = """
         {
           "five_hour": { "utilization": 9, "resets_at": "2025-12-23T16:00:00.000Z" },
@@ -48,7 +48,7 @@ struct ClaudeWebUsageExtraWindowTests {
     }
 
     @Test
-    func `surfaces Fable scoped weekly limit from claude web API limits array`() throws {
+    func surfaces_Fable_scoped_weekly_limit_from_claude_web_API_limits_array() throws {
         // Real shape observed 2026-07-03 from claude.ai/api/organizations/{org}/usage during
         // Anthropic's Fable 5 promotional access window (up to 50% of the weekly limit).
         let json = """

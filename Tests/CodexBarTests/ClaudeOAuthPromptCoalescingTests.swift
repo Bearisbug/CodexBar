@@ -47,17 +47,17 @@ struct ClaudeOAuthPromptCoalescingTests {
     }
 
     @Test
-    func `concurrent expired credential loads share one interactive keychain read`() async throws {
+    func concurrent_expired_credential_loads_share_one_interactive_keychain_read() async throws {
         try await self.verifySuccessfulFanout(expiresIn: -3600)
     }
 
     @Test
-    func `concurrent valid credential loads replay the exact interactive result`() async throws {
+    func concurrent_valid_credential_loads_replay_the_exact_interactive_result() async throws {
         try await self.verifySuccessfulFanout(expiresIn: 3600)
     }
 
     @Test
-    func `denial is replayed within one request and a new user request retries`() async throws {
+    func denial_is_replayed_within_one_request_and_a_new_user_request_retries() async throws {
         let state = ConcurrentPromptReadState()
         let deniedStore = ClaudeOAuthKeychainAccessGate.DeniedUntilStore()
         let status = Int(errSecUserCanceled)
@@ -95,7 +95,7 @@ struct ClaudeOAuthPromptCoalescingTests {
     }
 
     @Test
-    func `prompt failure is not replayed after policy changes`() async throws {
+    func prompt_failure_is_not_replayed_after_policy_changes() async throws {
         let state = ConcurrentPromptReadState()
         let deniedStore = ClaudeOAuthKeychainAccessGate.DeniedUntilStore()
         let status = Int(errSecUserCanceled)
@@ -129,7 +129,7 @@ struct ClaudeOAuthPromptCoalescingTests {
     }
 
     @Test
-    func `credential invalidation starts a fresh prompt outcome generation`() async throws {
+    func credential_invalidation_starts_a_fresh_prompt_outcome_generation() async throws {
         let state = ConcurrentPromptReadState()
         let deniedStore = ClaudeOAuthKeychainAccessGate.DeniedUntilStore()
         let status = Int(errSecUserCanceled)

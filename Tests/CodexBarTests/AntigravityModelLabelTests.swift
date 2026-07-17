@@ -3,7 +3,7 @@ import Testing
 
 struct AntigravityModelLabelTests {
     @Test
-    func `humanizes raw model ids when label matches model id`() {
+    func humanizes_raw_model_ids_when_label_matches_model_id() {
         #expect(AntigravityStatusSnapshot.humanizedModelID("gemini-3-pro-preview") == "Gemini 3 Pro Preview")
         #expect(AntigravityStatusSnapshot.humanizedModelID("gemini-2.5-flash") == "Gemini 2.5 Flash")
         #expect(AntigravityStatusSnapshot.humanizedModelID("example-3-1-pro-low") == "Example 3.1 Pro Low")
@@ -12,7 +12,7 @@ struct AntigravityModelLabelTests {
     }
 
     @Test
-    func `preserves custom model labels`() {
+    func preserves_custom_model_labels() {
         let quota = AntigravityModelQuota(
             label: "Custom enterprise label",
             modelId: "gemini-3-pro-preview",

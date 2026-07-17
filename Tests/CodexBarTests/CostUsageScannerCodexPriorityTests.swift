@@ -6,7 +6,7 @@ import Testing
 
 struct CostUsageScannerCodexPriorityTests {
     @Test
-    func `parses priority turn metadata without exposing request body`() {
+    func parses_priority_turn_metadata_without_exposing_request_body() {
         let body = "INFO thread_id=11111111-1111-1111-1111-111111111111 "
             + "turn.id=22222222-2222-2222-2222-222222222222 websocket request: "
             + #"{"type":"response.create","model":"request-model","service_tier":"priority","#
@@ -21,7 +21,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `ignores non priority malformed and non response request rows`() {
+    func ignores_non_priority_malformed_and_non_response_request_rows() {
         let prefix = "thread_id=thread turn.id=turn websocket request: "
 
         #expect(CostUsageScanner.parseCodexPriorityTraceRow(
@@ -39,7 +39,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `parses completed response model without exposing response body`() {
+    func parses_completed_response_model_without_exposing_response_body() {
         let body = "INFO thread_id=thread turn.id=turn websocket event: "
             + #"{"type":"response.completed","response":{"model":"completed-model","output":[{"content":"private"}]}}"#
 
@@ -50,7 +50,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `reads priority turns from sqlite logs table`() throws {
+    func reads_priority_turns_from_sqlite_logs_table() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -75,7 +75,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `cold scan uses timestamp index and warm scan uses rowid cursor`() throws {
+    func cold_scan_uses_timestamp_index_and_warm_scan_uses_rowid_cursor() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -114,7 +114,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `sqlite scan upgrades priority request alias with completed response model`() throws {
+    func sqlite_scan_upgrades_priority_request_alias_with_completed_response_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -136,7 +136,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `sqlite scan matches spaced completed response json`() throws {
+    func sqlite_scan_matches_spaced_completed_response_json() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -158,7 +158,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `sqlite scan only returns priority turns in requested day range`() throws {
+    func sqlite_scan_only_returns_priority_turns_in_requested_day_range() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -186,7 +186,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `sqlite scan uses local day boundaries for integer timestamps`() throws {
+    func sqlite_scan_uses_local_day_boundaries_for_integer_timestamps() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -222,7 +222,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `incremental memo picks up rows appended after the first query`() throws {
+    func incremental_memo_picks_up_rows_appended_after_the_first_query() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -253,7 +253,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `memo drops pruned requests while ids keep increasing`() throws {
+    func memo_drops_pruned_requests_while_ids_keep_increasing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -282,7 +282,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `memo drops a pruned completion model without losing its request`() throws {
+    func memo_drops_a_pruned_completion_model_without_losing_its_request() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -312,7 +312,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `memo falls back to retained duplicate request and completion rows`() throws {
+    func memo_falls_back_to_retained_duplicate_request_and_completion_rows() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -356,7 +356,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `failed incremental scan does not report completion`() throws {
+    func failed_incremental_scan_does_not_report_completion() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -390,7 +390,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `memo rescans when requested window expands earlier than accumulated coverage`() throws {
+    func memo_rescans_when_requested_window_expands_earlier_than_accumulated_coverage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -426,7 +426,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `memo rescans when the database shrinks or is replaced`() throws {
+    func memo_rescans_when_the_database_shrinks_or_is_replaced() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -456,7 +456,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `database replacement during open is rejected`() throws {
+    func database_replacement_during_open_is_rejected() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -481,7 +481,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `overlapping refresh writeback cannot replace newer memo state`() throws {
+    func overlapping_refresh_writeback_cannot_replace_newer_memo_state() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")
@@ -529,7 +529,7 @@ struct CostUsageScannerCodexPriorityTests {
     }
 
     @Test
-    func `memo bounds retained completion metadata for non-priority turns`() throws {
+    func memo_bounds_retained_completion_metadata_for_non_priority_turns() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let dbURL = env.root.appendingPathComponent("logs_2.sqlite")

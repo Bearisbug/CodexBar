@@ -4,7 +4,7 @@ import Testing
 
 struct CodexSessionRolloutTests {
     @Test
-    func `first rollout line maps to file only agent session`() throws {
+    func first_rollout_line_maps_to_file_only_agent_session() throws {
         let url = try AgentSessionParserTests.fixtureURL("agent-session-rollout", extension: "jsonl")
         let metadata = try #require(CodexRolloutFirstLineParser.read(from: url))
         let now = Date(timeIntervalSince1970: 10000)
@@ -25,7 +25,7 @@ struct CodexSessionRolloutTests {
     }
 
     @Test
-    func `file only rollout outside window is excluded while live process remains`() throws {
+    func file_only_rollout_outside_window_is_excluded_while_live_process_remains() throws {
         let url = try AgentSessionParserTests.fixtureURL("agent-session-rollout", extension: "jsonl")
         let metadata = try #require(CodexRolloutFirstLineParser.read(from: url))
         let now = Date(timeIntervalSince1970: 10000)
@@ -47,7 +47,7 @@ struct CodexSessionRolloutTests {
     }
 
     @Test
-    func `app server presence classifies unknown file only rollout as desktop`() {
+    func app_server_presence_classifies_unknown_file_only_rollout_as_desktop() {
         #expect(AgentSessionCorrelation.fileOnlyCodexSource(
             metadataSource: .unknown,
             appServerPresent: true) == .desktopApp)
@@ -57,7 +57,7 @@ struct CodexSessionRolloutTests {
     }
 
     @Test
-    func `codex cwd matching rejects missing paths`() {
+    func codex_cwd_matching_rejects_missing_paths() {
         #expect(AgentSessionCorrelation.codexWorkingDirectoriesMatch("/repo/alpha", "/repo/./alpha"))
         #expect(!AgentSessionCorrelation.codexWorkingDirectoriesMatch(nil, nil))
         #expect(!AgentSessionCorrelation.codexWorkingDirectoriesMatch("/repo/alpha", nil))

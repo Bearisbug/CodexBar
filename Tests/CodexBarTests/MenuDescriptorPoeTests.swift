@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorPoeTests {
     @Test
-    func `poe balance renders as balance text not plan label`() throws {
+    func poe_balance_renders_as_balance_text_not_plan_label() throws {
         let suite = "MenuDescriptorPoeTests-balance"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -55,7 +55,7 @@ struct MenuDescriptorPoeTests {
     }
 
     @Test
-    func `poe usage history renders today week month and top breakdown`() throws {
+    func poe_usage_history_renders_today_week_month_and_top_breakdown() throws {
         let suite = "MenuDescriptorPoeTests-history"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

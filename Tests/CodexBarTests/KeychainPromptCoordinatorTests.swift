@@ -4,7 +4,7 @@ import Testing
 
 struct KeychainPromptCoordinatorTests {
     @Test
-    func `detects raw SwiftPM debug executable`() {
+    func detects_raw_SwiftPM_debug_executable() {
         #expect(KeychainPromptCoordinator.isUnbundledCodexBarExecutable(
             "/Users/me/CodexBar/.build/arm64-apple-macosx/debug/CodexBar"))
         #expect(KeychainPromptCoordinator.isUnbundledCodexBarExecutable(
@@ -12,19 +12,19 @@ struct KeychainPromptCoordinatorTests {
     }
 
     @Test
-    func `detects raw SwiftPM release executable`() {
+    func detects_raw_SwiftPM_release_executable() {
         #expect(KeychainPromptCoordinator.isUnbundledCodexBarExecutable(
             "/Users/me/CodexBar/.build/arm64-apple-macosx/release/CodexBar"))
     }
 
     @Test
-    func `detects custom SwiftPM scratch path`() {
+    func detects_custom_SwiftPM_scratch_path() {
         #expect(KeychainPromptCoordinator.isUnbundledCodexBarExecutable(
             "/tmp/codexbar-build/arm64-apple-macosx/debug/CodexBar"))
     }
 
     @Test
-    func `keeps packaged app keychain behavior`() {
+    func keeps_packaged_app_keychain_behavior() {
         #expect(!KeychainPromptCoordinator.isUnbundledCodexBarExecutable(
             "/Applications/CodexBar.app/Contents/MacOS/CodexBar"))
         #expect(!KeychainPromptCoordinator.isUnbundledCodexBarExecutable(
@@ -32,7 +32,7 @@ struct KeychainPromptCoordinatorTests {
     }
 
     @Test
-    func `ignores unrelated executable paths`() {
+    func ignores_unrelated_executable_paths() {
         #expect(!KeychainPromptCoordinator.isUnbundledCodexBarExecutable(
             "/Users/me/CodexBar/.build/debug/CodexBarCLI"))
         #expect(!KeychainPromptCoordinator.isUnbundledCodexBarExecutable(""))
@@ -40,7 +40,7 @@ struct KeychainPromptCoordinatorTests {
     }
 
     @Test
-    func `browser cookie alert explains password handling and opt out`() {
+    func browser_cookie_alert_explains_password_handling_and_opt_out() {
         let model = KeychainPromptCoordinator.browserCookieAlertModel(label: "Chrome Safe Storage")
 
         #expect(model.title == "Keychain Access Required")
@@ -53,7 +53,7 @@ struct KeychainPromptCoordinatorTests {
     }
 
     @Test
-    func `provider alert preserves the requested keychain purpose`() {
+    func provider_alert_preserves_the_requested_keychain_purpose() {
         let context = KeychainPromptContext(
             kind: .claudeOAuth,
             service: "Claude Code-credentials",

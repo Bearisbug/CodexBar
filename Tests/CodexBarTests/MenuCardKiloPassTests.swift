@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardKiloPassTests {
     @Test
-    func `kilo model shows pass before credits and keeps reset with detail`() throws {
+    func kilo_model_shows_pass_before_credits_and_keeps_reset_with_detail() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.kilo])
         let snapshot = UsageSnapshot(

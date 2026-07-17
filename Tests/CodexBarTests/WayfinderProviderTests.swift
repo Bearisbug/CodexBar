@@ -6,7 +6,7 @@ import Testing
 struct WayfinderProviderTests {
     @Test
     @MainActor
-    func `descriptor and implementation are registered`() throws {
+    func descriptor_and_implementation_are_registered() throws {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .wayfinder)
         #expect(descriptor.metadata.displayName == "Wayfinder")
         #expect(descriptor.metadata.cliName == "wayfinder")
@@ -20,7 +20,7 @@ struct WayfinderProviderTests {
 
     @Test
     @MainActor
-    func `dashboard follows saved gateway instead of the descriptor default`() throws {
+    func dashboard_follows_saved_gateway_instead_of_the_descriptor_default() throws {
         let suite = "WayfinderProviderTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }

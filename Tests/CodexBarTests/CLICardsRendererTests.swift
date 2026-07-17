@@ -5,7 +5,7 @@ import Testing
 
 struct CLICardsRendererTests {
     @Test
-    func `computes column count from terminal width`() {
+    func computes_column_count_from_terminal_width() {
         #expect(CLICardsRenderer.columnCount(terminalWidth: 80) == 2)
         #expect(CLICardsRenderer.columnCount(terminalWidth: 120) == 3)
         #expect(CLICardsRenderer.columnCount(terminalWidth: 160) == 4)
@@ -13,7 +13,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `renders single codex card without color`() {
+    func renders_single_codex_card_without_color() {
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
             accountEmail: "user@example.com",
@@ -53,7 +53,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `card includes account line`() {
+    func card_includes_account_line() {
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
             accountEmail: "user@example.com",
@@ -86,7 +86,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `renders two card grid at fixed width`() {
+    func renders_two_card_grid_at_fixed_width() {
         let codex = CLICardModel(
             provider: .codex,
             title: "Codex",
@@ -118,7 +118,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `renders failure footer without cards`() {
+    func renders_failure_footer_without_cards() {
         let failures = [
             CLICardFailure(provider: .cursor, accountLabel: nil, message: "not configured"),
         ]
@@ -129,7 +129,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `appends failure footer after successful cards`() {
+    func appends_failure_footer_after_successful_cards() {
         let card = CLICardModel(
             provider: .codex,
             title: "Codex",
@@ -152,7 +152,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `brief mode renders usage table`() {
+    func brief_mode_renders_usage_table() {
         let card = CLICardModel(
             provider: .claude,
             title: "Claude",
@@ -186,7 +186,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `synthetic quota lanes do not replace real brief usage`() {
+    func synthetic_quota_lanes_do_not_replace_real_brief_usage() {
         let snapshot = UsageSnapshot(
             primary: .init(
                 usedPercent: 0,
@@ -219,7 +219,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `brief reset summary wraps to terminal width`() {
+    func brief_reset_summary_wraps_to_terminal_width() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let card = CLICardModel(
             provider: .alibabatokenplan,
@@ -249,7 +249,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `detail backed quota descriptions are not rendered as resets`() {
+    func detail_backed_quota_descriptions_are_not_rendered_as_resets() {
         let snapshot = UsageSnapshot(
             primary: .init(
                 usedPercent: 25,
@@ -285,7 +285,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `card metrics honor reset display style`() {
+    func card_metrics_honor_reset_display_style() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = UsageSnapshot(
             primary: .init(
@@ -325,7 +325,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `long detail rows stay within card width`() {
+    func long_detail_rows_stay_within_card_width() {
         let card = CLICardModel(
             provider: .clawrouter,
             title: "ClawRouter",
@@ -342,7 +342,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `brief warnings name the actual quota metric`() {
+    func brief_warnings_name_the_actual_quota_metric() {
         let card = CLICardModel(
             provider: .openrouter,
             title: "OpenRouter",
@@ -366,7 +366,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `brief rows preserve account identity`() {
+    func brief_rows_preserve_account_identity() {
         let cards = [
             CLICardModel(
                 provider: .codex,
@@ -402,7 +402,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `brief warnings wrap to terminal width`() {
+    func brief_warnings_wrap_to_terminal_width() {
         let cards = ["OpenRouter", "Antigravity", "CommandCode"].map { title in
             CLICardModel(
                 provider: .openrouter,
@@ -431,7 +431,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `brief summary ignores unparseable reset labels and fits narrow terminals`() {
+    func brief_summary_ignores_unparseable_reset_labels_and_fits_narrow_terminals() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let rows = CLICardsBriefRenderer.makeRows(cards: [
             CLICardModel(
@@ -474,7 +474,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `enhanced brief mode fills bars from used percentage`() {
+    func enhanced_brief_mode_fills_bars_from_used_percentage() {
         let rows = CLICardsBriefRenderer.makeRows(cards: [
             CLICardModel(
                 provider: .codex,
@@ -515,7 +515,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `standard brief mode fills bars from used percentage`() {
+    func standard_brief_mode_fills_bars_from_used_percentage() {
         let rows = CLICardsBriefRenderer.makeRows(cards: [
             CLICardModel(
                 provider: .codex,
@@ -556,7 +556,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `standard card grid shows empty remaining bar at exhaustion`() {
+    func standard_card_grid_shows_empty_remaining_bar_at_exhaustion() {
         let card = CLICardModel(
             provider: .openrouter,
             title: "Exhausted",
@@ -573,7 +573,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `enhanced card grid shows empty remaining bar at exhaustion`() {
+    func enhanced_card_grid_shows_empty_remaining_bar_at_exhaustion() {
         let card = CLICardModel(
             provider: .openrouter,
             title: "Exhausted",
@@ -591,7 +591,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `enhanced mode uses truecolor gradient bars`() {
+    func enhanced_mode_uses_truecolor_gradient_bars() {
         let card = CLICardModel(
             provider: .codex,
             title: "Codex",
@@ -614,7 +614,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `claude swap active account renders without inferred plan`() {
+    func claude_swap_active_account_renders_without_inferred_plan() {
         let snapshot = UsageSnapshot(
             primary: .init(usedPercent: 25, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: nil,
@@ -659,7 +659,7 @@ struct CLICardsRendererTests {
     }
 
     @Test
-    func `claude swap sentinel text survives full and brief projections`() {
+    func claude_swap_sentinel_text_survives_full_and_brief_projections() {
         let account = ProviderAccountUsageSnapshot(
             id: ProviderAccountIdentity(source: "claude-swap", opaqueID: "7"),
             provider: .claude,

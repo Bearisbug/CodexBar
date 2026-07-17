@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct ZaiTokenAccountEnvironmentTests {
     @Test
-    func `zai selected team account injects team scope environment`() {
+    func zai_selected_team_account_injects_team_scope_environment() {
         let settings = Self.makeSettingsStore(suite: "ZaiTokenAccountEnvironmentTests-team-app")
         settings.addTokenAccount(
             provider: .zai,
@@ -32,7 +32,7 @@ struct ZaiTokenAccountEnvironmentTests {
     }
 
     @Test
-    func `zai selected personal account clears inherited team environment`() {
+    func zai_selected_personal_account_clears_inherited_team_environment() {
         let settings = Self.makeSettingsStore(suite: "ZaiTokenAccountEnvironmentTests-personal-app")
         settings.addTokenAccount(
             provider: .zai,
@@ -55,7 +55,7 @@ struct ZaiTokenAccountEnvironmentTests {
     }
 
     @Test
-    func `zai account switched back to personal clears stored team context`() throws {
+    func zai_account_switched_back_to_personal_clears_stored_team_context() throws {
         let settings = Self.makeSettingsStore(suite: "ZaiTokenAccountEnvironmentTests-team-to-personal")
         settings.addTokenAccount(
             provider: .zai,
@@ -80,7 +80,7 @@ struct ZaiTokenAccountEnvironmentTests {
     }
 
     @Test
-    func `zai selected team account overrides app settings snapshot`() {
+    func zai_selected_team_account_overrides_app_settings_snapshot() {
         let settings = Self.makeSettingsStore(suite: "ZaiTokenAccountEnvironmentTests-team-snapshot")
         settings.addTokenAccount(
             provider: .zai,
@@ -98,7 +98,7 @@ struct ZaiTokenAccountEnvironmentTests {
     }
 
     @Test
-    func `zai explicit team account does not inherit provider team context`() {
+    func zai_explicit_team_account_does_not_inherit_provider_team_context() {
         let settings = Self.makeSettingsStore(suite: "ZaiTokenAccountEnvironmentTests-empty-team-snapshot")
         settings.addTokenAccount(
             provider: .zai,
@@ -113,7 +113,7 @@ struct ZaiTokenAccountEnvironmentTests {
     }
 
     @Test
-    func `zai token account usage scope and project id round trip through JSON`() throws {
+    func zai_token_account_usage_scope_and_project_id_round_trip_through_JSON() throws {
         let json = """
         {
           "id": "00000000-0000-0000-0000-000000000001",

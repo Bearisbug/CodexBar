@@ -99,18 +99,18 @@ enum CursorLoginBrowserRouter {
         return applicationURLs[selectedIndex]
     }
 
-    private static func applicationName(_ applicationURL: URL) -> String {
+    private nonisolated static func applicationName(_ applicationURL: URL) -> String {
         let bundle = Bundle(url: applicationURL)
         return (bundle?.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String)
             ?? (bundle?.object(forInfoDictionaryKey: kCFBundleNameKey as String) as? String)
             ?? applicationURL.deletingPathExtension().lastPathComponent
     }
 
-    private static func applicationKey(_ applicationURL: URL) -> String {
+    private nonisolated static func applicationKey(_ applicationURL: URL) -> String {
         applicationURL.standardizedFileURL.path
     }
 
-    private static func applicationSortsBefore(_ lhs: URL, _ rhs: URL) -> Bool {
+    private nonisolated static func applicationSortsBefore(_ lhs: URL, _ rhs: URL) -> Bool {
         let lhsName = self.applicationName(lhs)
         let rhsName = self.applicationName(rhs)
         let nameComparison = lhsName.localizedCaseInsensitiveCompare(rhsName)

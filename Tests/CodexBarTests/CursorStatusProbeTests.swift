@@ -8,7 +8,7 @@ struct CursorStatusProbeTests {
     // MARK: - Usage Summary Parsing
 
     @Test
-    func `parses basic usage summary`() throws {
+    func parses_basic_usage_summary() throws {
         let json = """
         {
             "billingCycleStart": "2025-01-01T00:00:00.000Z",
@@ -52,7 +52,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `parses minimal usage summary`() throws {
+    func parses_minimal_usage_summary() throws {
         let json = """
         {
             "membershipType": "hobby",
@@ -74,7 +74,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `parses enterprise usage summary`() throws {
+    func parses_enterprise_usage_summary() throws {
         let json = """
         {
             "membershipType": "enterprise",
@@ -100,7 +100,7 @@ struct CursorStatusProbeTests {
     // MARK: - User Info Parsing
 
     @Test
-    func `parses user info`() throws {
+    func parses_user_info() throws {
         let json = """
         {
             "email": "user@example.com",
@@ -121,7 +121,7 @@ struct CursorStatusProbeTests {
     // MARK: - Snapshot Conversion
 
     @Test
-    func `prefers plan ratio over percent field`() {
+    func prefers_plan_ratio_over_percent_field() {
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
             .parseUsageSummary(
                 CursorUsageSummary(
@@ -152,7 +152,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `uses percent field when limit missing`() {
+    func uses_percent_field_when_limit_missing() {
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
             .parseUsageSummary(
                 CursorUsageSummary(
@@ -182,7 +182,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `headline total prefers provided total percent over lane average`() {
+    func headline_total_prefers_provided_total_percent_over_lane_average() {
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
             .parseUsageSummary(
                 CursorUsageSummary(
@@ -214,7 +214,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `sub pool percents accept plain percent scale`() {
+    func sub_pool_percents_accept_plain_percent_scale() {
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
             .parseUsageSummary(
                 CursorUsageSummary(
@@ -247,7 +247,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `headline total matches dashboard blend when lanes match totalPercentUsed`() {
+    func headline_total_matches_dashboard_blend_when_lanes_match_totalPercentUsed() {
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
             .parseUsageSummary(
                 CursorUsageSummary(
@@ -279,7 +279,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `live cursor payload keeps fractional percents without scaling`() {
+    func live_cursor_payload_keeps_fractional_percents_without_scaling() {
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
             .parseUsageSummary(
                 CursorUsageSummary(
@@ -324,7 +324,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `converts snapshot to usage snapshot`() throws {
+    func converts_snapshot_to_usage_snapshot() throws {
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 45.0,
             autoPercentUsed: 5.0,
@@ -364,7 +364,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `provider cost includes on demand budget before first spend`() {
+    func provider_cost_includes_on_demand_budget_before_first_spend() {
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 10.0,
             autoPercentUsed: 5.0,
@@ -390,7 +390,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `uses individual on demand when no team usage`() {
+    func uses_individual_on_demand_when_no_team_usage() {
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 10.0,
             autoPercentUsed: 20.0,
@@ -415,7 +415,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `uses team on demand budget when individual usage has no cap`() {
+    func uses_team_on_demand_budget_when_individual_usage_has_no_cap() {
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 0,
             autoPercentUsed: 0,
@@ -440,7 +440,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `formats membership types`() {
+    func formats_membership_types() {
         let testCases: [(input: String, expected: String)] = [
             ("pro", "Cursor Pro"),
             ("hobby", "Cursor Hobby"),
@@ -470,7 +470,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `handles nil on demand limit`() {
+    func handles_nil_on_demand_limit() {
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 50.0,
             planUsedUSD: 25.0,
@@ -498,7 +498,7 @@ struct CursorStatusProbeTests {
     // MARK: - Legacy Request-Based Plan
 
     @Test
-    func `parses legacy request based plan`() {
+    func parses_legacy_request_based_plan() {
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 100.0,
             planUsedUSD: 0,
@@ -532,7 +532,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `legacy plan primary uses requests not dollars`() {
+    func legacy_plan_primary_uses_requests_not_dollars() {
         // Regression: Legacy plans report planPercentUsed as 0 while requests are used
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 0.0, // Dollar-based shows 0
@@ -560,7 +560,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `parse usage summary prefers request total`() {
+    func parse_usage_summary_prefers_request_total() {
         let summary = CursorUsageSummary(
             billingCycleStart: nil,
             billingCycleEnd: nil,
@@ -591,7 +591,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `detects non legacy plan`() {
+    func detects_non_legacy_plan() {
         let snapshot = CursorStatusSnapshot(
             planPercentUsed: 50.0,
             planUsedUSD: 25.0,
@@ -617,7 +617,7 @@ struct CursorStatusProbeTests {
     // MARK: - Session Store Serialization
 
     @Test
-    func `session store saves and loads cookies`() async {
+    func session_store_saves_and_loads_cookies() async {
         let store = CursorSessionStore.shared
 
         // Clear any existing cookies
@@ -652,7 +652,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `session store reloads from disk when needed`() async {
+    func session_store_reloads_from_disk_when_needed() async {
         let store = CursorSessionStore.shared
         await store.resetForTesting()
 
@@ -682,7 +682,7 @@ struct CursorStatusProbeTests {
     }
 
     @Test
-    func `session store has valid session loads from disk`() async {
+    func session_store_has_valid_session_loads_from_disk() async {
         let store = CursorSessionStore.shared
         await store.resetForTesting()
 
@@ -756,7 +756,7 @@ private func makeCursorStatusProbeResponse(
 
 extension CursorStatusProbeTests {
     @Test
-    func `app auth store reads Cursor global state database`() throws {
+    func app_auth_store_reads_Cursor_global_state_database() throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("cursor-app-auth-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -778,7 +778,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `fetch ignores user info failure when usage summary succeeds`() async throws {
+    func fetch_ignores_user_info_failure_when_usage_summary_succeeds() async throws {
         let testSession = CursorStatusProbeTestSession { request in
             let requestURL = try #require(request.url)
 
@@ -821,7 +821,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `fetch fails cleanly when usage summary fails`() async {
+    func fetch_fails_cleanly_when_usage_summary_fails() async {
         let testSession = CursorStatusProbeTestSession { request in
             let requestURL = try #require(request.url)
 
@@ -868,7 +868,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `fetch uses Cursor app local auth when browser cookies are unavailable`() async throws {
+    func fetch_uses_Cursor_app_local_auth_when_browser_cookies_are_unavailable() async throws {
         let accessToken = try makeCursorAppAuthToken()
         let expectedCookie = "WorkosCursorSessionToken=user_test%3A%3A\(accessToken)"
         let testSession = CursorStatusProbeTestSession { request in
@@ -941,7 +941,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `fetch can disable Cursor app auth during browser login verification`() async throws {
+    func fetch_can_disable_Cursor_app_auth_during_browser_login_verification() async throws {
         let testSession = CursorStatusProbeTestSession { request in
             Issue.record("Disabled app auth unexpectedly requested \(request.url?.path ?? "<unknown>")")
             throw URLError(.badURL)
@@ -966,7 +966,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `fetch prefers stored session cookies before Cursor app auth fallback`() async throws {
+    func fetch_prefers_stored_session_cookies_before_Cursor_app_auth_fallback() async throws {
         let store = CursorSessionStore.shared
         await store.clearCookies()
         defer {
@@ -1037,7 +1037,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `fetch with Cursor app auth preserves legacy request quotas`() async throws {
+    func fetch_with_Cursor_app_auth_preserves_legacy_request_quotas() async throws {
         let accessToken = try makeCursorAppAuthToken()
         let expectedCookie = "WorkosCursorSessionToken=user_test%3A%3A\(accessToken)"
         let testSession = CursorStatusProbeTestSession { request in
@@ -1099,7 +1099,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `malformed Cursor app auth token is rejected before network access`() {
+    func malformed_Cursor_app_auth_token_is_rejected_before_network_access() {
         let session = CursorAppAuthSession(accessToken: "not-a-jwt")
         #expect(throws: CursorStatusProbeError.self) {
             _ = try session.cookieHeader()
@@ -1108,7 +1108,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `expired Cursor app auth token is skipped before network access`() async throws {
+    func expired_Cursor_app_auth_token_is_skipped_before_network_access() async throws {
         let testSession = CursorStatusProbeTestSession { request in
             Issue.record("Expired app auth unexpectedly requested \(request.url?.path ?? "<unknown>")")
             throw URLError(.badURL)
@@ -1131,7 +1131,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `Cursor app auth transient failure is preserved`() async throws {
+    func Cursor_app_auth_transient_failure_is_preserved() async throws {
         let testSession = CursorStatusProbeTestSession { request in
             let requestURL = try #require(request.url)
             return makeCursorStatusProbeResponse(
@@ -1162,7 +1162,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `cached session transient failure does not switch to Cursor app auth`() async throws {
+    func cached_session_transient_failure_does_not_switch_to_Cursor_app_auth() async throws {
         CookieHeaderCache.store(provider: .cursor, cookieHeader: "cached=bad", sourceLabel: "test")
         defer {
             CookieHeaderCache.clear(provider: .cursor)
@@ -1204,7 +1204,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `rejected selected session does not fall back to another account`() async throws {
+    func rejected_selected_session_does_not_fall_back_to_another_account() async throws {
         let selectedSession = CursorStatusProbe.BrowserLoginSession(
             cookieHeader: "selected=expired",
             sourceLabel: "Selected browser")
@@ -1247,7 +1247,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `rejected stale request retries a concurrently selected session`() async throws {
+    func rejected_stale_request_retries_a_concurrently_selected_session() async throws {
         let staleSession = CursorStatusProbe.BrowserLoginSession(
             cookieHeader: "selected=stale",
             sourceLabel: "Stale browser")
@@ -1298,7 +1298,7 @@ extension CursorStatusProbeTests {
     }
 
     @Test
-    func `rejected selected session ignores an unselected cache replacement`() async throws {
+    func rejected_selected_session_ignores_an_unselected_cache_replacement() async throws {
         let selectedSession = CursorStatusProbe.BrowserLoginSession(
             cookieHeader: "selected=stale",
             sourceLabel: "Selected browser")

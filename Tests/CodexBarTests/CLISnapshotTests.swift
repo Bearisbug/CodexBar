@@ -6,7 +6,7 @@ import Testing
 // swiftlint:disable:next type_body_length
 struct CLISnapshotTests {
     @Test
-    func `renders Gemini paid plan without changing acronym casing`() {
+    func renders_Gemini_paid_plan_without_changing_acronym_casing() {
         let identity = ProviderIdentitySnapshot(
             providerID: .gemini,
             accountEmail: nil,
@@ -36,7 +36,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Factory token rate billing with time window labels`() {
+    func renders_Factory_token_rate_billing_with_time_window_labels() {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 12, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: .init(usedPercent: 25, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
@@ -61,7 +61,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Factory legacy billing with pool labels`() {
+    func renders_Factory_legacy_billing_with_pool_labels() {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 12, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: .init(usedPercent: 25, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -85,7 +85,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders text snapshot for codex`() {
+    func renders_text_snapshot_for_codex() {
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
             accountEmail: "user@example.com",
@@ -123,7 +123,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Codex limit reset credits`() {
+    func renders_Codex_limit_reset_credits() {
         let now = Date()
         let expiresAt = now.addingTimeInterval(7200)
         let resetCredits = CodexRateLimitResetCreditsSnapshot(
@@ -173,7 +173,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Codex prolite plan with multiplier display name`() {
+    func renders_Codex_prolite_plan_with_multiplier_display_name() {
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
             accountEmail: "user@example.com",
@@ -202,7 +202,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Codex plan only limits as unavailable`() {
+    func renders_Codex_plan_only_limits_as_unavailable() {
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
             accountEmail: "user@example.com",
@@ -233,7 +233,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders text snapshot for claude without weekly`() {
+    func renders_text_snapshot_for_claude_without_weekly() {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 2, windowMinutes: nil, resetsAt: nil, resetDescription: "3pm (Europe/Vienna)"),
             secondary: nil,
@@ -255,7 +255,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Claude Max multiplier without uppercasing x`() {
+    func renders_Claude_Max_multiplier_without_uppercasing_x() {
         let identity = ProviderIdentitySnapshot(
             providerID: .claude,
             accountEmail: nil,
@@ -283,7 +283,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders warp unlimited as detail not reset`() {
+    func renders_warp_unlimited_as_detail_not_reset() {
         let meta = ProviderDescriptorRegistry.descriptor(for: .warp).metadata
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 0, windowMinutes: nil, resetsAt: nil, resetDescription: "Unlimited"),
@@ -312,7 +312,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders warp credits as detail and reset as date`() {
+    func renders_warp_credits_as_detail_and_reset_as_date() {
         let meta = ProviderDescriptorRegistry.descriptor(for: .warp).metadata
         let now = Date(timeIntervalSince1970: 0)
         let snap = UsageSnapshot(
@@ -347,7 +347,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders crof dollar balance as detail not reset`() {
+    func renders_crof_dollar_balance_as_detail_not_reset() {
         let meta = ProviderDescriptorRegistry.descriptor(for: .crof).metadata
         let snap = CrofUsageSnapshot(
             credits: 9.9999,
@@ -372,7 +372,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders qoder reset and credit total separately`() {
+    func renders_qoder_reset_and_credit_total_separately() {
         let meta = ProviderDescriptorRegistry.descriptor(for: .qoder).metadata
         let now = Date(timeIntervalSince1970: 0)
         let snap = UsageSnapshot(
@@ -408,7 +408,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders kilo plan activity and fallback note`() {
+    func renders_kilo_plan_activity_and_fallback_note() {
         let now = Date(timeIntervalSince1970: 0)
         let identity = ProviderIdentitySnapshot(
             providerID: .kilo,
@@ -442,7 +442,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders kilo zero total edge state as detail`() {
+    func renders_kilo_zero_total_edge_state_as_detail() {
         let now = Date(timeIntervalSince1970: 0)
         let snap = KiloUsageSnapshot(
             creditsUsed: 0,
@@ -469,7 +469,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders kilo auto top up only as activity without plan`() {
+    func renders_kilo_auto_top_up_only_as_activity_without_plan() {
         let now = Date(timeIntervalSince1970: 0)
         let identity = ProviderIdentitySnapshot(
             providerID: .kilo,
@@ -498,7 +498,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders pace line when weekly has reset`() {
+    func renders_pace_line_when_weekly_has_reset() {
         let now = Date()
         let snap = UsageSnapshot(
             primary: nil,
@@ -524,7 +524,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `configured work days affect weekly text and JSON pace`() throws {
+    func configured_work_days_affect_weekly_text_and_JSON_pace() throws {
         var calendar = Calendar.current
         calendar.timeZone = .current
         let resetsAt = try #require(calendar.date(from: DateComponents(
@@ -567,7 +567,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Ollama weekly pace line when weekly window has reset`() {
+    func renders_Ollama_weekly_pace_line_when_weekly_window_has_reset() {
         let now = Date()
         let snap = UsageSnapshot(
             primary: .init(
@@ -599,7 +599,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `hides Ollama weekly pace when weekly duration is missing`() {
+    func hides_Ollama_weekly_pace_when_weekly_duration_is_missing() {
         let now = Date()
         let snap = UsageSnapshot(
             primary: nil,
@@ -626,7 +626,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders session pace line when session window has reset`() {
+    func renders_session_pace_line_when_session_window_has_reset() {
         let now = Date()
         let snap = UsageSnapshot(
             primary: .init(
@@ -655,7 +655,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders Claude session pace using five hour default window`() {
+    func renders_Claude_session_pace_using_five_hour_default_window() {
         let now = Date()
         let snap = UsageSnapshot(
             primary: .init(
@@ -684,7 +684,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders session pace deficit with run out estimate`() {
+    func renders_session_pace_deficit_with_run_out_estimate() {
         let now = Date()
         let snap = UsageSnapshot(
             primary: .init(
@@ -714,7 +714,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders session pace on track and lasts until reset`() {
+    func renders_session_pace_on_track_and_lasts_until_reset() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         // Exactly halfway through a 5h window with 50% used => On pace (delta 0); the even rate
         // means the quota lasts precisely to the reset.
@@ -743,7 +743,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `hides session pace for unsupported provider`() {
+    func hides_session_pace_for_unsupported_provider() {
         let now = Date()
         let snap = UsageSnapshot(
             primary: .init(
@@ -769,7 +769,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `hides session pace for non-session primary window`() {
+    func hides_session_pace_for_non_session_primary_window() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         // Claude with no 5-hour data falls a 7-day window back into `primary`; it must not be
         // paced as a "Session" (that would print "Projected empty …" over a weekly window).
@@ -799,7 +799,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders JSON payload`() throws {
+    func renders_JSON_payload() throws {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 50, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: .init(usedPercent: 10, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
@@ -841,7 +841,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `json pace rounds derived numbers to match usage precision`() throws {
+    func json_pace_rounds_derived_numbers_to_match_usage_precision() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         // 13000s elapsed of an 18000s (300m) window => 72.22% expected; used 79 => +6.78 deficit;
         // projected empty in ~3455.7s. Derived fields must be emitted as whole numbers (no float noise).
@@ -880,7 +880,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `json payload includes session and weekly pace with distinct wording`() throws {
+    func json_payload_includes_session_and_weekly_pace_with_distinct_wording() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snap = UsageSnapshot(
             // 1h elapsed of a 5h window => 20% expected vs 50% used => deficit, runs out in 1h.
@@ -935,7 +935,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `json omits pace when not applicable`() throws {
+    func json_omits_pace_when_not_applicable() throws {
         let now = Date()
         let snap = UsageSnapshot(
             primary: .init(
@@ -967,7 +967,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `json includes only session pace when weekly window missing`() throws {
+    func json_includes_only_session_pace_when_weekly_window_missing() throws {
         let now = Date()
         let snap = UsageSnapshot(
             primary: .init(
@@ -1000,7 +1000,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `encodes JSON with secondary null when missing`() throws {
+    func encodes_JSON_with_secondary_null_when_missing() throws {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 0, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: nil,
@@ -1019,21 +1019,21 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `parses output format`() {
+    func parses_output_format() {
         #expect(OutputFormat(argument: "json") == .json)
         #expect(OutputFormat(argument: "TEXT") == .text)
         #expect(OutputFormat(argument: "invalid") == nil)
     }
 
     @Test
-    func `defaults to usage when no command provided`() {
+    func defaults_to_usage_when_no_command_provided() {
         #expect(CodexBarCLI.effectiveArgv([]) == ["usage"])
         #expect(CodexBarCLI.effectiveArgv(["--format", "json"]).first == "usage")
         #expect(CodexBarCLI.effectiveArgv(["usage", "--format", "json"]).first == "usage")
     }
 
     @Test
-    func `status line is last and colored when TTY`() {
+    func status_line_is_last_and_colored_when_TTY() {
         let identity = ProviderIdentitySnapshot(
             providerID: .claude,
             accountEmail: nil,
@@ -1066,7 +1066,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `output has ansi when TTY even without status`() {
+    func output_has_ansi_when_TTY_even_without_status() {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 1, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: nil,
@@ -1087,7 +1087,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `tty output colors header and usage`() {
+    func tty_output_colors_header_and_usage() {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 95, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: .init(usedPercent: 80, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
@@ -1110,7 +1110,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `status line is plain when no TTY`() {
+    func status_line_is_plain_when_no_TTY() {
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
             accountEmail: nil,
@@ -1142,7 +1142,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `renders 5-hour tertiary row for zai`() {
+    func renders_5_hour_tertiary_row_for_zai() {
         let snap = UsageSnapshot(
             primary: .init(usedPercent: 9, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
             secondary: .init(usedPercent: 50, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -1165,7 +1165,7 @@ struct CLISnapshotTests {
     }
 
     @Test
-    func `devin overage balance without primary window omits generic cost line`() {
+    func devin_overage_balance_without_primary_window_omits_generic_cost_line() {
         let snap = UsageSnapshot(
             primary: nil,
             secondary: .init(usedPercent: 42, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),

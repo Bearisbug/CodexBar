@@ -10,7 +10,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `tests suppress real keychain access by default`() {
+    func tests_suppress_real_keychain_access_by_default() {
         guard ProcessInfo.processInfo.environment["CODEXBAR_ALLOW_TEST_KEYCHAIN_ACCESS"] != "1" else { return }
 
         #expect(KeychainCacheStore.canUseRealKeychainForTesting == false)
@@ -29,7 +29,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `implicit test store override stays isolated from explicit test store`() {
+    func implicit_test_store_override_stays_isolated_from_explicit_test_store() {
         let service = "implicit-test-store-\(UUID().uuidString)"
         let key = KeychainCacheStore.Key(category: "test", identifier: UUID().uuidString)
         let explicitEntry = TestEntry(value: "explicit", storedAt: Date(timeIntervalSince1970: 1))
@@ -50,7 +50,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `background interaction keeps real keychain cache available for no UI reads writes and deletes`() {
+    func background_interaction_keeps_real_keychain_cache_available_for_no_UI_reads_writes_and_deletes() {
         KeychainAccessGate.withTaskOverrideForTesting(false) {
             ProviderInteractionContext.$current.withValue(.background) {
                 #expect(KeychainCacheStore.canUseRealKeychainForTesting == true)
@@ -65,7 +65,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `stores and loads entry`() {
+    func stores_and_loads_entry() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -85,7 +85,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `overwrites existing entry`() {
+    func overwrites_existing_entry() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -106,7 +106,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `clear removes entry`() {
+    func clear_removes_entry() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -125,7 +125,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `clear reports whether an entry was removed`() {
+    func clear_reports_whether_an_entry_was_removed() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -138,7 +138,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `keys lists only matching category for current service`() {
+    func keys_lists_only_matching_category_for_current_service() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -168,7 +168,7 @@ struct KeychainCacheStoreTests {
 
     #if os(macOS)
     @Test
-    func `interaction not allowed is treated as temporarily unavailable`() {
+    func interaction_not_allowed_is_treated_as_temporarily_unavailable() {
         let key = KeychainCacheStore.Key(category: "test", identifier: UUID().uuidString)
         let result: KeychainCacheStore.LoadResult<TestEntry> = KeychainCacheStore.loadResultForKeychainReadFailure(
             status: errSecInteractionNotAllowed,
@@ -183,7 +183,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `delete interaction not allowed is non fatal`() {
+    func delete_interaction_not_allowed_is_non_fatal() {
         let key = KeychainCacheStore.Key(category: "test", identifier: UUID().uuidString)
         #expect(KeychainCacheStore.clearResultForKeychainDeleteStatus(
             errSecInteractionNotAllowed,
@@ -191,7 +191,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `load failure override bypasses test store without affecting store or clear`() {
+    func load_failure_override_bypasses_test_store_without_affecting_store_or_clear() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -218,7 +218,7 @@ struct KeychainCacheStoreTests {
     }
 
     @Test
-    func `cache ACL trusts bundled app and CLI helper`() {
+    func cache_ACL_trusts_bundled_app_and_CLI_helper() {
         let root = URL(fileURLWithPath: "/Applications/CodexBar.app")
         let executable = root.appendingPathComponent("Contents/MacOS/CodexBar")
         let helper = root.appendingPathComponent("Contents/Helpers/CodexBarCLI")

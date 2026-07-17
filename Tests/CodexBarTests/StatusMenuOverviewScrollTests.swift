@@ -52,7 +52,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `coarse wheel steps move highlight and respect direction`() throws {
+    func coarse_wheel_steps_move_highlight_and_respect_direction() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-Direction")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -71,7 +71,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `navigation targets only overview rows`() {
+    func navigation_targets_only_overview_rows() {
         let controller = self.makeController(suiteName: "OverviewScroll-Targets")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -96,7 +96,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `precise trackpad scrolling is passed through to native menu scrolling`() throws {
+    func precise_trackpad_scrolling_is_passed_through_to_native_menu_scrolling() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-Precise")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -110,7 +110,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `precise trackpad scrolling clears wheel accumulation`() throws {
+    func precise_trackpad_scrolling_clears_wheel_accumulation() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-PreciseReset")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -126,7 +126,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `coarse wheel lines step immediately`() throws {
+    func coarse_wheel_lines_step_immediately() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-Wheel")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -140,7 +140,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `fast flick is capped per event`() throws {
+    func fast_flick_is_capped_per_event() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-Cap")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -154,7 +154,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `precise flick is passed through instead of being capped into highlight jumps`() throws {
+    func precise_flick_is_passed_through_instead_of_being_capped_into_highlight_jumps() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-PreciseFlick")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -168,7 +168,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `open submenu suspends scroll navigation`() throws {
+    func open_submenu_suspends_scroll_navigation() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-Submenu")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = self.makeOverviewMenu()
@@ -186,7 +186,7 @@ struct StatusMenuOverviewScrollTests {
     }
 
     @Test
-    func `menus without overview rows ignore scrolling`() throws {
+    func menus_without_overview_rows_ignore_scrolling() throws {
         let controller = self.makeController(suiteName: "OverviewScroll-NonOverview")
         defer { controller.releaseStatusItemsForTesting() }
         let menu = NSMenu()

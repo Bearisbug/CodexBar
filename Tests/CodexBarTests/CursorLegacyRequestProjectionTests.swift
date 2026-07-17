@@ -3,7 +3,7 @@ import Testing
 
 struct CursorLegacyRequestProjectionTests {
     @Test
-    func `legacy plan hides token-based auto and api bars`() {
+    func legacy_plan_hides_token_based_auto_and_api_bars() {
         let snapshot = Self.snapshot(requestsUsed: 347, requestsLimit: 500)
 
         let usageSnapshot = snapshot.toUsageSnapshot()
@@ -16,7 +16,7 @@ struct CursorLegacyRequestProjectionTests {
     }
 
     @Test
-    func `unusable legacy request quota preserves token bars`() {
+    func unusable_legacy_request_quota_preserves_token_bars() {
         let requestCases: [(used: Int?, limit: Int?)] = [
             (nil, 500),
             (12, 0),

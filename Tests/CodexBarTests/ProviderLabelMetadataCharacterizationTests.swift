@@ -5,7 +5,7 @@ struct ProviderLabelMetadataCharacterizationTests {
     // MARK: - Label non-empty constraints
 
     @Test
-    func `displayName is non-empty for all providers`() {
+    func displayName_is_non_empty_for_all_providers() {
         for descriptor in ProviderDescriptorRegistry.all {
             #expect(
                 !descriptor.metadata.displayName.isEmpty,
@@ -14,7 +14,7 @@ struct ProviderLabelMetadataCharacterizationTests {
     }
 
     @Test
-    func `sessionLabel is non-empty for all providers`() {
+    func sessionLabel_is_non_empty_for_all_providers() {
         for descriptor in ProviderDescriptorRegistry.all {
             #expect(
                 !descriptor.metadata.sessionLabel.isEmpty,
@@ -25,7 +25,7 @@ struct ProviderLabelMetadataCharacterizationTests {
     // MARK: - Known empty weeklyLabel exceptions
 
     @Test
-    func `weeklyLabel empty providers are explicitly characterized`() {
+    func weeklyLabel_empty_providers_are_explicitly_characterized() {
         // Allowlist of providers known to have empty weeklyLabel on current main.
         // If a new provider is added with empty weeklyLabel, this test fails and
         // requires a deliberate decision to add it here — preventing silent regressions.
@@ -40,7 +40,7 @@ struct ProviderLabelMetadataCharacterizationTests {
     // MARK: - Invariant: supportsOpus implies opusLabel
 
     @Test
-    func `supportsOpus providers declare non-empty opusLabel`() {
+    func supportsOpus_providers_declare_non_empty_opusLabel() {
         for descriptor in ProviderDescriptorRegistry.all where descriptor.metadata.supportsOpus {
             #expect(
                 descriptor.metadata.opusLabel != nil && !descriptor.metadata.opusLabel!.isEmpty,
@@ -51,7 +51,7 @@ struct ProviderLabelMetadataCharacterizationTests {
     // MARK: - opusLabel structural constraint
 
     @Test
-    func `opusLabel is nil or non-empty`() {
+    func opusLabel_is_nil_or_non_empty() {
         for descriptor in ProviderDescriptorRegistry.all {
             if let opusLabel = descriptor.metadata.opusLabel {
                 #expect(

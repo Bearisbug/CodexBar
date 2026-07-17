@@ -13,7 +13,7 @@ struct AdaptiveReplayTraceParserTests {
     }
 
     @Test
-    func `parses a well-formed trace and preserves record order`() throws {
+    func parses_a_well_formed_trace_and_preserves_record_order() throws {
         let records: [AdaptiveRefreshTraceRecord] = [
             .menuOpen(timestamp: Self.referenceNow),
             .decision(
@@ -38,7 +38,7 @@ struct AdaptiveReplayTraceParserTests {
     }
 
     @Test
-    func `ignores blank lines between records`() throws {
+    func ignores_blank_lines_between_records() throws {
         let record = AdaptiveRefreshTraceRecord.menuOpen(timestamp: Self.referenceNow)
         let text = try "\n\(self.encode(record))\n\n"
 
@@ -48,7 +48,7 @@ struct AdaptiveReplayTraceParserTests {
     }
 
     @Test
-    func `strict parsing accepts multiple CRLF records`() throws {
+    func strict_parsing_accepts_multiple_CRLF_records() throws {
         let records: [AdaptiveRefreshTraceRecord] = [
             .menuOpen(timestamp: Self.referenceNow),
             .refreshCompleted(timestamp: Self.referenceNow.addingTimeInterval(1)),
@@ -61,13 +61,13 @@ struct AdaptiveReplayTraceParserTests {
     }
 
     @Test
-    func `empty trace parses to zero records`() throws {
+    func empty_trace_parses_to_zero_records() throws {
         let parsed = try AdaptiveRefreshTraceParser.parse("")
         #expect(parsed.isEmpty)
     }
 
     @Test
-    func `a malformed line fails the whole parse with a line number`() throws {
+    func a_malformed_line_fails_the_whole_parse_with_a_line_number() throws {
         let good = try self.encode(.menuOpen(timestamp: Self.referenceNow))
         let text = "\(good)\nnot json\n\(good)"
 
@@ -87,7 +87,7 @@ struct AdaptiveReplayTraceParserTests {
     }
 
     @Test
-    func `tolerant parsing skips malformed lines instead of failing`() throws {
+    func tolerant_parsing_skips_malformed_lines_instead_of_failing() throws {
         let good = try self.encode(.menuOpen(timestamp: Self.referenceNow))
         let text = "\(good)\nnot json\n\(good)"
 
@@ -97,7 +97,7 @@ struct AdaptiveReplayTraceParserTests {
     }
 
     @Test
-    func `tolerant parsing accepts CRLF and skips only malformed records`() throws {
+    func tolerant_parsing_accepts_CRLF_and_skips_only_malformed_records() throws {
         let menuOpen = try self.encode(.menuOpen(timestamp: Self.referenceNow))
         let refresh = try self.encode(.refreshCompleted(timestamp: Self.referenceNow.addingTimeInterval(1)))
         let text = [menuOpen, "not json", refresh].joined(separator: "\r\n")
@@ -111,7 +111,7 @@ struct AdaptiveReplayTraceParserTests {
     /// `candidateScheduledAt`) and leaves the signal fields (`menuAgeSeconds`,
     /// `lowPowerModeEnabled`, `thermalState`) nil, matching the type's field-presence contract.
     @Test
-    func `parses a timerAdvanced record and preserves its schedule fields`() throws {
+    func parses_a_timerAdvanced_record_and_preserves_its_schedule_fields() throws {
         let record = AdaptiveRefreshTraceRecord.timerAdvanced(
             timestamp: Self.referenceNow,
             previousScheduledAt: Self.referenceNow.addingTimeInterval(1800),
@@ -137,7 +137,7 @@ struct AdaptiveReplayTraceParserTests {
     /// — the "always advance" case `UsageStore.shouldAdvanceAdaptiveTimer` returns for a nil
     /// `scheduledAt` — round-trips the nil correctly rather than defaulting to some sentinel date.
     @Test
-    func `a timerAdvanced record with no previous schedule round-trips a nil previousScheduledAt`() throws {
+    func a_timerAdvanced_record_with_no_previous_schedule_round_trips_a_nil_previousScheduledAt() throws {
         let record = AdaptiveRefreshTraceRecord.timerAdvanced(
             timestamp: Self.referenceNow,
             previousScheduledAt: nil,
@@ -156,7 +156,7 @@ struct AdaptiveReplayTraceParserTests {
     /// old-format `decision` line (no activity keys at all) must still decode, with both new
     /// fields nil rather than failing to parse.
     @Test
-    func `an old-format decision line without activity fields decodes with nil activity signals`() throws {
+    func an_old_format_decision_line_without_activity_fields_decodes_with_nil_activity_signals() throws {
         let oldFormatLine = """
         {"kind":"decision","timestamp":"2026-01-01T00:00:00Z","menuAgeSeconds":30,\
         "lowPowerModeEnabled":false,"thermalState":"nominal","reason":"longIdle","delaySeconds":1800}
@@ -172,7 +172,7 @@ struct AdaptiveReplayTraceParserTests {
 
     /// A `decision` record carrying both activity signals round-trips them exactly.
     @Test
-    func `a decision record with activity signals round-trips both values`() throws {
+    func a_decision_record_with_activity_signals_round_trips_both_values() throws {
         let record = AdaptiveRefreshTraceRecord.decision(
             timestamp: Self.referenceNow,
             menuAgeSeconds: 5,
@@ -193,7 +193,7 @@ struct AdaptiveReplayTraceParserTests {
     /// Encoding must omit nil activity fields rather than emitting explicit `null`s, so old
     /// tooling and hand-inspection of a trace stay unsurprised by fields it doesn't expect.
     @Test
-    func `encoding a decision with nil activity signals omits both keys entirely`() throws {
+    func encoding_a_decision_with_nil_activity_signals_omits_both_keys_entirely() throws {
         let record = AdaptiveRefreshTraceRecord.decision(
             timestamp: Self.referenceNow,
             menuAgeSeconds: 5,
@@ -212,7 +212,7 @@ struct AdaptiveReplayTraceParserTests {
     /// existed — including one already carrying the earlier "A layer" activity-seconds fields —
     /// must still decode, with all six new fields nil.
     @Test
-    func `an old-format decision line without B-layer fields decodes with nil B-layer signals`() throws {
+    func an_old_format_decision_line_without_B_layer_fields_decodes_with_nil_B_layer_signals() throws {
         let oldFormatLine = """
         {"kind":"decision","timestamp":"2026-01-01T00:00:00Z","menuAgeSeconds":30,\
         "lowPowerModeEnabled":false,"thermalState":"nominal","reason":"longIdle","delaySeconds":1800,\
@@ -236,7 +236,7 @@ struct AdaptiveReplayTraceParserTests {
     /// current-format line all parse together — the parser never requires every line in a trace
     /// to share the same schema vintage.
     @Test
-    func `a trace mixing old and new format decision lines parses every line`() throws {
+    func a_trace_mixing_old_and_new_format_decision_lines_parses_every_line() throws {
         let phase1Line = """
         {"kind":"decision","timestamp":"2026-01-01T00:00:00Z","reason":"longIdle","delaySeconds":1800}
         """
@@ -273,7 +273,7 @@ struct AdaptiveReplayTraceParserTests {
 
     /// A `decision` record carrying all six B-layer fields round-trips them exactly.
     @Test
-    func `a decision record with B-layer fields round-trips all six values`() throws {
+    func a_decision_record_with_B_layer_fields_round_trips_all_six_values() throws {
         let record = AdaptiveRefreshTraceRecord.decision(
             timestamp: Self.referenceNow,
             menuAgeSeconds: 5,
@@ -302,7 +302,7 @@ struct AdaptiveReplayTraceParserTests {
     /// Encoding must omit nil B-layer fields rather than emitting explicit `null`s, matching the
     /// A-layer's contract.
     @Test
-    func `encoding a decision with nil B-layer fields omits all six keys entirely`() throws {
+    func encoding_a_decision_with_nil_B_layer_fields_omits_all_six_keys_entirely() throws {
         let record = AdaptiveRefreshTraceRecord.decision(
             timestamp: Self.referenceNow,
             menuAgeSeconds: 5,

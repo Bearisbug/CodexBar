@@ -4,7 +4,7 @@ import Testing
 
 struct CopilotDeviceFlowTests {
     @Test
-    func `prefers verification uri complete when available`() throws {
+    func prefers_verification_uri_complete_when_available() throws {
         let response = try JSONDecoder().decode(
             CopilotDeviceFlow.DeviceCodeResponse.self,
             from: Data(
@@ -23,7 +23,7 @@ struct CopilotDeviceFlowTests {
     }
 
     @Test
-    func `falls back to verification uri when complete url missing`() throws {
+    func falls_back_to_verification_uri_when_complete_url_missing() throws {
         let response = try JSONDecoder().decode(
             CopilotDeviceFlow.DeviceCodeResponse.self,
             from: Data(
@@ -41,7 +41,7 @@ struct CopilotDeviceFlowTests {
     }
 
     @Test
-    func `device flow uses github by default`() throws {
+    func device_flow_uses_github_by_default() throws {
         let flow = CopilotDeviceFlow()
         let deviceCodeURL = try #require(flow.deviceCodeURL)
         let accessTokenURL = try #require(flow.accessTokenURL)
@@ -51,7 +51,7 @@ struct CopilotDeviceFlowTests {
     }
 
     @Test
-    func `device flow uses enterprise host`() throws {
+    func device_flow_uses_enterprise_host() throws {
         let flow = CopilotDeviceFlow(enterpriseHost: "https://octocorp.ghe.com/login")
         let deviceCodeURL = try #require(flow.deviceCodeURL)
         let accessTokenURL = try #require(flow.accessTokenURL)
@@ -61,7 +61,7 @@ struct CopilotDeviceFlowTests {
     }
 
     @Test
-    func `device flow rejects invalid enterprise host without crashing`() {
+    func device_flow_rejects_invalid_enterprise_host_without_crashing() {
         let flow = CopilotDeviceFlow(enterpriseHost: "foo bar")
 
         #expect(flow.deviceCodeURL == nil)
@@ -69,7 +69,7 @@ struct CopilotDeviceFlowTests {
     }
 
     @Test
-    func `device flow preserves enterprise host port`() throws {
+    func device_flow_preserves_enterprise_host_port() throws {
         let flow = CopilotDeviceFlow(enterpriseHost: "https://octocorp.ghe.com:8443/login")
         let deviceCodeURL = try #require(flow.deviceCodeURL)
         let accessTokenURL = try #require(flow.accessTokenURL)
@@ -79,7 +79,7 @@ struct CopilotDeviceFlowTests {
     }
 
     @Test
-    func `usage url uses enterprise api host`() throws {
+    func usage_url_uses_enterprise_api_host() throws {
         let defaultURL = try #require(CopilotUsageFetcher.usageURL(enterpriseHost: nil))
         let enterpriseURL = try #require(CopilotUsageFetcher.usageURL(enterpriseHost: "octocorp.ghe.com"))
         let enterprisePortURL = try #require(CopilotUsageFetcher.usageURL(enterpriseHost: "octocorp.ghe.com:8443"))

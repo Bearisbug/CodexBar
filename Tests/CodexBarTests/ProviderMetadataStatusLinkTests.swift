@@ -3,7 +3,7 @@ import Testing
 
 struct ProviderMetadataStatusLinkTests {
     @Test
-    func `workspace status link matches product ID`() {
+    func workspace_status_link_matches_product_ID() {
         for (provider, meta) in ProviderDefaults.metadata {
             guard let productID = meta.statusWorkspaceProductID else { continue }
             let expected = "https://www.google.com/appsstatus/dashboard/products/\(productID)/history"
@@ -14,7 +14,7 @@ struct ProviderMetadataStatusLinkTests {
     }
 
     @Test
-    func `kimi K2 metadata identifies the unofficial provider and its credits dashboard`() throws {
+    func kimi_K2_metadata_identifies_the_unofficial_provider_and_its_credits_dashboard() throws {
         let meta = try #require(ProviderDefaults.metadata[.kimik2])
 
         #expect(meta.displayName == "Kimi K2 (unofficial)")

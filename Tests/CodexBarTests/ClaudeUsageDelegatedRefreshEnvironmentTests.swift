@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeUsageDelegatedRefreshEnvironmentTests {
     @Test
-    func `oauth delegated retry passes fetcher environment to delegated refresh`() async throws {
+    func oauth_delegated_retry_passes_fetcher_environment_to_delegated_refresh() async throws {
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
             environment: ["CLAUDE_CLI_PATH": "/tmp/rat110-env-claude"],

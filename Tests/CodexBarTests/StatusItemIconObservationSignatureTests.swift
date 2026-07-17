@@ -43,7 +43,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature ignores refresh and status metadata churn`() {
+    func store_icon_observation_signature_ignores_refresh_and_status_metadata_churn() {
         let (_, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-refresh-metadata")
         defer { controller.releaseStatusItemsForTesting() }
@@ -64,7 +64,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature ignores non visual snapshot churn`() {
+    func store_icon_observation_signature_ignores_non_visual_snapshot_churn() {
         let (_, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-snapshot-metadata")
         defer { controller.releaseStatusItemsForTesting() }
@@ -85,7 +85,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `merged store icon observation signature ignores non primary snapshot churn`() throws {
+    func merged_store_icon_observation_signature_ignores_non_primary_snapshot_churn() throws {
         let (settings, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-merged-secondary-snapshot")
         defer { controller.releaseStatusItemsForTesting() }
@@ -112,7 +112,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature changes when icon percentages change`() {
+    func store_icon_observation_signature_changes_when_icon_percentages_change() {
         let (_, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-percent-change")
         defer { controller.releaseStatusItemsForTesting() }
@@ -131,7 +131,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature tracks selected copilot budget`() throws {
+    func store_icon_observation_signature_tracks_selected_copilot_budget() throws {
         let (settings, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-copilot-budget")
         defer { controller.releaseStatusItemsForTesting() }
@@ -158,7 +158,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature changes when credit fallback changes`() {
+    func store_icon_observation_signature_changes_when_credit_fallback_changes() {
         let (_, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-credit-fallback")
         defer { controller.releaseStatusItemsForTesting() }
@@ -179,7 +179,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature ignores unused credit balance`() {
+    func store_icon_observation_signature_ignores_unused_credit_balance() {
         let (_, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-unused-credits")
         defer { controller.releaseStatusItemsForTesting() }
@@ -193,7 +193,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `merged store icon observation signature ignores non primary status changes`() throws {
+    func merged_store_icon_observation_signature_ignores_non_primary_status_changes() throws {
         let (settings, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-merged-secondary-status")
         defer { controller.releaseStatusItemsForTesting() }
@@ -212,7 +212,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature changes when status indicator changes`() {
+    func store_icon_observation_signature_changes_when_status_indicator_changes() {
         let (_, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-status-indicator")
         defer { controller.releaseStatusItemsForTesting() }
@@ -232,7 +232,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `store icon observation signature changes when hide critters toggles`() {
+    func store_icon_observation_signature_changes_when_hide_critters_toggles() {
         let (settings, _, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-hide-critters")
         defer { controller.releaseStatusItemsForTesting() }
@@ -246,7 +246,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `display settings persist cached widget snapshot`() async {
+    func display_settings_persist_cached_widget_snapshot() async {
         let (settings, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-widget-display")
         defer { controller.releaseStatusItemsForTesting() }
@@ -264,7 +264,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `config only settings do not persist cached widget snapshot`() async {
+    func config_only_settings_do_not_persist_cached_widget_snapshot() async {
         let (settings, store, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-widget-config-only")
         defer { controller.releaseStatusItemsForTesting() }
@@ -281,7 +281,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `updateIcons reuses a precomputed store icon signature instead of recomputing it`() {
+    func updateIcons_reuses_a_precomputed_store_icon_signature_instead_of_recomputing_it() {
         let (_, _, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-precomputed-reuse")
         defer { controller.releaseStatusItemsForTesting() }
@@ -295,7 +295,7 @@ struct StatusItemIconObservationSignatureTests {
     }
 
     @Test
-    func `updateIcons recomputes the store icon signature when none is provided`() {
+    func updateIcons_recomputes_the_store_icon_signature_when_none_is_provided() {
         let (_, _, controller) = self.makeController(
             suiteName: "StatusItemIconObservationSignatureTests-recompute-default")
         defer { controller.releaseStatusItemsForTesting() }

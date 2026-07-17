@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageScannerClaudeRegressionTests {
     @Test
-    func `parseClaudeFile snapshots keep the last streaming chunk`() throws {
+    func parseClaudeFile_snapshots_keep_the_last_streaming_chunk() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -64,7 +64,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `parseClaudeFile snapshots keep missing id rows distinct`() throws {
+    func parseClaudeFile_snapshots_keep_missing_id_rows_distinct() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -114,7 +114,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude opus 4 7 issue row gets priced`() throws {
+    func claude_opus_4_7_issue_row_gets_priced() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -162,7 +162,7 @@ struct CostUsageScannerClaudeRegressionTests {
     /// priced to an empty cost because the built-in Claude pricing table had no
     /// claude-opus-4-8 entry (used when the models.dev cache is missing/stale).
     @Test
-    func `claude opus 4 8 issue row gets priced`() throws {
+    func claude_opus_4_8_issue_row_gets_priced() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -207,7 +207,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude streaming keeps the last cumulative chunk`() throws {
+    func claude_streaming_keeps_the_last_cumulative_chunk() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -299,7 +299,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude cross file dedup prefers parent and keeps unique sidechain rows`() throws {
+    func claude_cross_file_dedup_prefers_parent_and_keeps_unique_sidechain_rows() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -413,7 +413,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude forked transcript history dedups globally while new fork rows count`() throws {
+    func claude_forked_transcript_history_dedups_globally_while_new_fork_rows_count() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -509,7 +509,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude cross file dedup uses stable path order for same rank sidechains`() throws {
+    func claude_cross_file_dedup_uses_stable_path_order_for_same_rank_sidechains() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -582,7 +582,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude cross file dedup uses provider ids when session id is missing`() throws {
+    func claude_cross_file_dedup_uses_provider_ids_when_session_id_is_missing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -653,7 +653,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude rescans sessions when a new parent file overlaps cached sidechain data`() throws {
+    func claude_rescans_sessions_when_a_new_parent_file_overlaps_cached_sidechain_data() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -757,7 +757,7 @@ struct CostUsageScannerClaudeRegressionTests {
     }
 
     @Test
-    func `claude sonnet 4 6 pricing is available for base and dated models`() {
+    func claude_sonnet_4_6_pricing_is_available_for_base_and_dated_models() {
         let baseCost = CostUsagePricing.claudeCostUSD(
             model: "claude-sonnet-4-6",
             inputTokens: 1000,

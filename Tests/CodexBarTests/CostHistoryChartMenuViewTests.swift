@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CostHistoryChartMenuViewTests {
     @Test
-    func `Codex chart exposes the estimate disclaimer`() {
+    func Codex_chart_exposes_the_estimate_disclaimer() {
         #expect(
             CostHistoryChartMenuView.estimateDisclaimer(provider: .codex)
                 == "not a subscription bill or plan value")
@@ -15,7 +15,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `model breakdown keeps every item behind a bounded scrolling viewport`() {
+    func model_breakdown_keeps_every_item_behind_a_bounded_scrolling_viewport() {
         let breakdown = (1...6).map { index in
             CostUsageDailyReport.ModelBreakdown(
                 modelName: "model-\(index)",
@@ -41,7 +41,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `menu hosting view publishes measured height through intrinsic size`() {
+    func menu_hosting_view_publishes_measured_height_through_intrinsic_size() {
         let hosting = MenuHostingView(rootView: EmptyView())
         hosting.frame = CGRect(x: 0, y: 0, width: 320, height: 1)
 
@@ -53,7 +53,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `cost history defaults selection to latest day`() {
+    func cost_history_defaults_selection_to_latest_day() {
         let daily = [
             CostUsageDailyReport.Entry(
                 date: "2026-06-07",
@@ -81,7 +81,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `cost history sizes its viewport to the largest breakdown in the range`() {
+    func cost_history_sizes_its_viewport_to_the_largest_breakdown_in_the_range() {
         let threeRows = CostHistoryChartMenuView._detailViewportConfigurationForTesting(
             provider: .codex,
             daily: [Self.entry(date: "2026-06-07", modelCount: 1), Self.entry(date: "2026-06-08", modelCount: 3)])
@@ -108,7 +108,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `cost history expands every row only when the range contains mode details`() {
+    func cost_history_expands_every_row_only_when_the_range_contains_mode_details() {
         let compact = CostHistoryChartMenuView._detailViewportConfigurationForTesting(
             provider: .codex,
             daily: [Self.entry(date: "2026-06-07", modelCount: 2)])
@@ -126,7 +126,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `axis dates span first to last for multi-day data`() {
+    func axis_dates_span_first_to_last_for_multi_day_data() {
         let daily = [
             CostUsageDailyReport.Entry(
                 date: "2026-05-21",
@@ -160,7 +160,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `axis dates collapse to one for single-day data`() {
+    func axis_dates_collapse_to_one_for_single_day_data() {
         let daily = [
             CostUsageDailyReport.Entry(
                 date: "2026-06-17",
@@ -181,7 +181,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `axis dates are empty when there is no cost data`() {
+    func axis_dates_are_empty_when_there_is_no_cost_data() {
         let daily = [
             CostUsageDailyReport.Entry(
                 date: "2026-06-17",
@@ -202,21 +202,21 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `y-axis tick values are empty for flat or no data`() {
+    func y_axis_tick_values_are_empty_for_flat_or_no_data() {
         #expect(CostHistoryChartMenuView._yAxisTickValuesForTesting(maxCostUSD: 0).isEmpty)
         #expect(CostHistoryChartMenuView._yAxisTickValuesForTesting(maxCostUSD: -1).isEmpty)
     }
 
     @Test
     @MainActor
-    func `y-axis tick values use two ticks for small ranges`() {
+    func y_axis_tick_values_use_two_ticks_for_small_ranges() {
         let ticks = CostHistoryChartMenuView._yAxisTickValuesForTesting(maxCostUSD: 0.50)
         #expect(ticks == [0, 0.50])
     }
 
     @Test
     @MainActor
-    func `y-axis tick values use three ticks for ranges at or above one dollar`() {
+    func y_axis_tick_values_use_three_ticks_for_ranges_at_or_above_one_dollar() {
         let ticks = CostHistoryChartMenuView._yAxisTickValuesForTesting(maxCostUSD: 12.0)
         #expect(ticks == [0, 6.0, 12.0])
 
@@ -230,7 +230,7 @@ struct CostHistoryChartMenuViewTests {
         (0.50, "$0.50"),
     ])
     @MainActor
-    func `y-axis cost labels preserve cents only for nonzero sub-dollar values`(
+    func y_axis_cost_labels_preserve_cents_only_for_nonzero_sub_dollar_values(
         value: Double,
         expected: String)
     {
@@ -239,7 +239,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `cost history fitting height stays stable across compact overflow and mode selections`() {
+    func cost_history_fitting_height_stays_stable_across_compact_overflow_and_mode_selections() {
         let compactLatestHasOneModel = [
             Self.entry(date: "2026-06-07", modelCount: 3),
             Self.entry(date: "2026-06-08", modelCount: 1),
@@ -278,7 +278,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `cost history without model breakdown stays compact`() {
+    func cost_history_without_model_breakdown_stays_compact() {
         let noBreakdown = [Self.entry(date: "2026-06-07", modelCount: 0)]
         let withBreakdown = [Self.entry(date: "2026-06-07", modelCount: 1)]
 
@@ -287,7 +287,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `single differing project source remains visible`() {
+    func single_differing_project_source_remains_visible() {
         let matching = Self.project(path: "/tmp/main", sourcePath: "/tmp/main")
         let differing = Self.project(path: "/tmp/main", sourcePath: "/tmp/worktree")
 
@@ -297,7 +297,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint is stable for identical snapshots`() {
+    func render_fingerprint_is_stable_for_identical_snapshots() {
         let snapshot = Self.makeSnapshot(dailyCost: 1.23, projectCount: 5)
         let first = CostHistoryChartMenuView.renderFingerprint(from: snapshot, provider: .codex)
         let second = CostHistoryChartMenuView.renderFingerprint(from: snapshot, provider: .codex)
@@ -309,7 +309,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint changes when daily cost changes`() {
+    func render_fingerprint_changes_when_daily_cost_changes() {
         let before = CostHistoryChartMenuView.renderFingerprint(
             from: Self.makeSnapshot(dailyCost: 1.0),
             provider: .codex)
@@ -322,7 +322,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint changes for total currency history window and label`() {
+    func render_fingerprint_changes_for_total_currency_history_window_and_label() {
         let base = Self.makeSnapshot(dailyCost: 1.0)
         #expect(
             CostHistoryChartMenuView.renderFingerprint(from: base, provider: .codex)
@@ -348,7 +348,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint tracks daily token request and model breakdown fields`() {
+    func render_fingerprint_tracks_daily_token_request_and_model_breakdown_fields() {
         let baseDaily = [Self.entry(date: "2026-06-07", modelCount: 1)]
         let base = Self.fingerprint(dailyCost: 1.0, daily: baseDaily, projects: [])
 
@@ -394,7 +394,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint ignores hidden daily accounting fields and source order`() {
+    func render_fingerprint_ignores_hidden_daily_accounting_fields_and_source_order() {
         let visibleModel = CostUsageDailyReport.ModelBreakdown(
             modelName: "model-visible",
             costUSD: 0.75,
@@ -461,7 +461,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint excludes invalid daily rows that the chart drops`() {
+    func render_fingerprint_excludes_invalid_daily_rows_that_the_chart_drops() {
         let invalidRows = [
             Self.dailyEntry(date: "2026-06-07", costUSD: nil),
             Self.dailyEntry(date: "2026-06-08", costUSD: -1),
@@ -481,7 +481,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint tracks every visible model breakdown field`() {
+    func render_fingerprint_tracks_every_visible_model_breakdown_field() {
         let base = CostUsageDailyReport.ModelBreakdown(
             modelName: "model-visible",
             costUSD: 1,
@@ -557,7 +557,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint excludes projects hidden for non-codex providers`() {
+    func render_fingerprint_excludes_projects_hidden_for_non_codex_providers() {
         let first = Self.fingerprint(
             projects: [Self.makeProject(index: 0, sourceCount: 2)],
             provider: .claude)
@@ -571,7 +571,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint tracks visible project and source fields only`() {
+    func render_fingerprint_tracks_visible_project_and_source_fields_only() {
         let daily = [Self.entry(date: "2026-06-07", modelCount: 1)]
         let projects = Self.makeProjects(count: 6, sourcesPerProject: 3)
         let base = Self.fingerprint(totalCostUSD: 6.0, daily: daily, projects: projects)
@@ -617,7 +617,7 @@ struct CostHistoryChartMenuViewTests {
 
     @Test
     @MainActor
-    func `render fingerprint tracks source visibility and overflow count`() {
+    func render_fingerprint_tracks_source_visibility_and_overflow_count() {
         let daily = [Self.entry(date: "2026-06-07", modelCount: 1)]
         let twoSources = [
             Self.makeProject(index: 0, sourceCount: 2),

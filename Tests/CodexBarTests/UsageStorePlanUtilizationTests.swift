@@ -6,7 +6,7 @@ import Testing
 // swiftlint:disable:next type_body_length
 struct UsageStorePlanUtilizationTests {
     @Test
-    func `coalesces changed usage within hour into single entry`() throws {
+    func coalesces_changed_usage_within_hour_into_single_entry() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -31,7 +31,7 @@ struct UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `changed reset boundary within hour appends new entry`() throws {
+    func changed_reset_boundary_within_hour_appends_new_entry() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -63,7 +63,7 @@ struct UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `first known reset boundary within hour replaces earlier provisional peak even when usage drops`() throws {
+    func first_known_reset_boundary_within_hour_replaces_earlier_provisional_peak_even_when_usage_drops() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -94,7 +94,7 @@ struct UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `trims entry history to retention limit`() throws {
+    func trims_entry_history_to_retention_limit() throws {
         let maxSamples = UsageStore._planUtilizationMaxSamplesForTesting
         let base = Date(timeIntervalSince1970: 1_700_000_000)
         var entries: [PlanUtilizationHistoryEntry] = []
@@ -121,7 +121,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `native chart shows visible series tabs only`() {
+    func native_chart_shows_visible_series_tabs_only() {
         let histories = [
             planSeries(name: .session, windowMinutes: 0, entries: [
                 planEntry(at: Date(timeIntervalSince1970: 1_700_000_000), usedPercent: 90),
@@ -144,7 +144,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `native chart folds near canonical codex windows into single tabs`() {
+    func native_chart_folds_near_canonical_codex_windows_into_single_tabs() {
         let histories = [
             planSeries(name: .session, windowMinutes: 299, entries: [
                 planEntry(at: Date(timeIntervalSince1970: 1_700_000_000), usedPercent: 20),
@@ -170,7 +170,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `claude history tabs match current snapshot bars`() {
+    func claude_history_tabs_match_current_snapshot_bars() {
         let histories = [
             planSeries(name: .session, windowMinutes: 300, entries: [
                 planEntry(at: Date(timeIntervalSince1970: 1_700_000_000), usedPercent: 20),
@@ -200,7 +200,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session chart uses native reset boundaries and fills missing windows`() throws {
+    func session_chart_uses_native_reset_boundaries_and_fills_missing_windows() throws {
         let calendar = Calendar(identifier: .gregorian)
         let firstBoundary = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone.current,
@@ -238,7 +238,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session chart labels only day changes`() throws {
+    func session_chart_labels_only_day_changes() throws {
         let calendar = Calendar(identifier: .gregorian)
         let firstBoundary = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone.current,
@@ -270,7 +270,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session chart labels every second day change`() throws {
+    func session_chart_labels_every_second_day_change() throws {
         let calendar = Calendar(identifier: .gregorian)
         let firstBoundary = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone.current,
@@ -316,7 +316,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `session chart drops trailing day label when it would clip at chart edge`() throws {
+    func session_chart_drops_trailing_day_label_when_it_would_clip_at_chart_edge() throws {
         let calendar = Calendar(identifier: .gregorian)
         let firstBoundary = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone.current,
@@ -362,7 +362,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `detail line shows used and wasted without provenance copy`() {
+    func detail_line_shows_used_and_wasted_without_provenance_copy() {
         let boundary = Date(timeIntervalSince1970: 1_710_000_000)
         let histories = [
             planSeries(name: .session, windowMinutes: 300, entries: [
@@ -384,7 +384,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `detail line shows dash for missing window`() {
+    func detail_line_shows_dash_for_missing_window() {
         let boundary = Date(timeIntervalSince1970: 1_710_000_000)
         let histories = [
             planSeries(name: .session, windowMinutes: 300, entries: [
@@ -403,7 +403,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `detail line keeps zero percent for observed zero usage`() {
+    func detail_line_keeps_zero_percent_for_observed_zero_usage() {
         let boundary = Date(timeIntervalSince1970: 1_710_000_000)
         let histories = [
             planSeries(name: .session, windowMinutes: 300, entries: [
@@ -423,7 +423,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `detail line uses lowercase am pm for session hover`() {
+    func detail_line_uses_lowercase_am_pm_for_session_hover() {
         let previousLanguage = UserDefaults.standard.object(forKey: "appLanguage")
         UserDefaults.standard.set("en", forKey: "appLanguage")
         defer {
@@ -454,7 +454,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `detail line uses lowercase am pm for weekly hover`() {
+    func detail_line_uses_lowercase_am_pm_for_weekly_hover() {
         let previousLanguage = UserDefaults.standard.object(forKey: "appLanguage")
         UserDefaults.standard.set("en", forKey: "appLanguage")
         defer {
@@ -484,20 +484,20 @@ struct UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `chart empty state shows series specific message`() {
+    func chart_empty_state_shows_series_specific_message() {
         let text = PlanUtilizationHistoryChartMenuView._emptyStateTextForTesting(title: "Session")
         #expect(text == "No session utilization data yet.")
     }
 
     @Test
-    func `chart empty state shows series specific message when not refreshing`() {
+    func chart_empty_state_shows_series_specific_message_when_not_refreshing() {
         let text = PlanUtilizationHistoryChartMenuView._emptyStateTextForTesting(title: "Weekly")
         #expect(text == "No weekly utilization data yet.")
     }
 
     @MainActor
     @Test
-    func `plan history selects current account bucket`() throws {
+    func plan_history_selects_current_account_bucket() throws {
         let store = Self.makeStore()
         let aliceSnapshot = Self.makeSnapshot(provider: .codex, email: "alice@example.com")
         let bobSnapshot = Self.makeSnapshot(provider: .codex, email: "bob@example.com")
@@ -541,7 +541,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `cursor automatic history ignores dormant saved token account`() async throws {
+    func cursor_automatic_history_ignores_dormant_saved_token_account() async throws {
         let store = Self.makeStore()
         store.settings.historicalTrackingEnabled = true
         store.settings.addTokenAccount(
@@ -579,7 +579,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `plan utilization menu hides while refreshing without current snapshot`() throws {
+    func plan_utilization_menu_hides_while_refreshing_without_current_snapshot() throws {
         let store = Self.makeStore()
         let claudeKey = try #require(
             UsageStore._planUtilizationAccountKeyForTesting(
@@ -602,7 +602,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `plan utilization menu stays visible with stored snapshot even during refresh`() throws {
+    func plan_utilization_menu_stays_visible_with_stored_snapshot_even_during_refresh() throws {
         let store = Self.makeStore()
         let codexSnapshot = Self.makeSnapshot(provider: .codex, email: "alice@example.com")
         let codexKey = try #require(
@@ -629,7 +629,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex plan utilization menu hides during provider only refresh without snapshot`() {
+    func codex_plan_utilization_menu_hides_during_provider_only_refresh_without_snapshot() {
         let store = Self.makeStore()
         store.refreshingProviders.insert(.codex)
         store._setSnapshotForTesting(nil, provider: .codex)
@@ -640,7 +640,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `record plan history persists named series from snapshot`() async {
+    func record_plan_history_persists_named_series_from_snapshot() async {
         let store = Self.makeStore()
         let primaryReset = Date(timeIntervalSince1970: 1_710_000_000)
         let secondaryReset = Date(timeIntervalSince1970: 1_710_086_400)
@@ -677,7 +677,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `record plan history skips invalid zero minute windows`() async {
+    func record_plan_history_skips_invalid_zero_minute_windows() async {
         let store = Self.makeStore()
         let snapshot = UsageSnapshot(
             primary: RateWindow(
@@ -710,7 +710,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `record plan history keeps semantic codex lanes when durations drift`() async {
+    func record_plan_history_keeps_semantic_codex_lanes_when_durations_drift() async {
         let store = Self.makeStore()
         let primaryReset = Date(timeIntervalSince1970: 1_710_000_000)
         let secondaryReset = Date(timeIntervalSince1970: 1_710_086_400)
@@ -747,7 +747,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `record plan history stores claude opus as separate series`() async {
+    func record_plan_history_stores_claude_opus_as_separate_series() async {
         let store = Self.makeStore()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 10, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
@@ -774,7 +774,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `generic provider weekly lane is persisted to provider history json`() async throws {
+    func generic_provider_weekly_lane_is_persisted_to_provider_history_json() async throws {
         let store = Self.makeStore()
         store.settings.historicalTrackingEnabled = true
         let accountLabel = "zai-history-org"
@@ -825,7 +825,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `generic history opt in controls recording while saved history stays visible`() async throws {
+    func generic_history_opt_in_controls_recording_while_saved_history_stays_visible() async throws {
         let store = Self.makeStore()
         let firstDate = Date(timeIntervalSince1970: 1_700_000_000)
         let before = UsageSnapshot(
@@ -866,7 +866,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `generic provider persists weekly extra window`() async {
+    func generic_provider_persists_weekly_extra_window() async {
         let store = Self.makeStore()
         store.settings.historicalTrackingEnabled = true
         let now = Date(timeIntervalSince1970: 1_700_000_000)
@@ -893,7 +893,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `generic provider ignores unknown weekly extra window`() async {
+    func generic_provider_ignores_unknown_weekly_extra_window() async {
         let store = Self.makeStore()
         store.settings.historicalTrackingEnabled = true
         let now = Date(timeIntervalSince1970: 1_700_000_000)
@@ -920,7 +920,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `generic provider prefers standard weekly window over extra window`() async {
+    func generic_provider_prefers_standard_weekly_window_over_extra_window() async {
         let store = Self.makeStore()
         store.settings.historicalTrackingEnabled = true
         let now = Date(timeIntervalSince1970: 1_700_000_000)
@@ -951,7 +951,7 @@ struct UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `concurrent plan history writes coalesce within single hour bucket per series`() async throws {
+    func concurrent_plan_history_writes_coalesce_within_single_hour_bucket_per_series() async throws {
         let store = Self.makeStore()
         let snapshot = Self.makeSnapshot(provider: .codex, email: "alice@example.com")
         store._setSnapshotForTesting(snapshot, provider: .codex)
@@ -985,7 +985,7 @@ struct UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `runtime does not load unsupported plan history file`() throws {
+    func runtime_does_not_load_unsupported_plan_history_file() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         let directoryURL = root
@@ -1011,7 +1011,7 @@ struct UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `store drops invalid zero minute and empty histories when loading and saving`() throws {
+    func store_drops_invalid_zero_minute_and_empty_histories_when_loading_and_saving() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         let directoryURL = root
@@ -1069,7 +1069,7 @@ struct UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `store round trips account buckets with series entries`() {
+    func store_round_trips_account_buckets_with_series_entries() {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         let directoryURL = root
@@ -1192,7 +1192,7 @@ extension UsageStorePlanUtilizationTests {
 extension UsageStorePlanUtilizationTests {
     @MainActor
     @Test
-    func `global refresh tail does not keep completed provider plan card loading`() {
+    func global_refresh_tail_does_not_keep_completed_provider_plan_card_loading() {
         let store = Self.makeStore()
         store._setSnapshotForTesting(nil, provider: .claude)
         store.isRefreshing = true

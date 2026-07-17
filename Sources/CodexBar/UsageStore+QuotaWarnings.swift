@@ -101,7 +101,7 @@ extension UsageStore {
             return
         }
 
-        let windows = (snapshot.extraRateWindows ?? []).filter(Self.isClaudeNotifiableExtraWindow)
+        let windows = (snapshot.extraRateWindows ?? []).filter { Self.isClaudeNotifiableExtraWindow($0) }
         for named in windows {
             self.handleQuotaWarningTransition(
                 provider: provider,

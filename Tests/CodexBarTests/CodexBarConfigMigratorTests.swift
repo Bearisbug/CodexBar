@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct CodexBarConfigMigratorTests {
     @Test
-    func `legacy secret migration completion flag skips repeated scans`() throws {
+    func legacy_secret_migration_completion_flag_skips_repeated_scans() throws {
         let suite = "CodexBarConfigMigratorTests-skip-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -32,7 +32,7 @@ struct CodexBarConfigMigratorTests {
     }
 
     @Test
-    func `legacy migration completion waits for successful cleanup`() throws {
+    func legacy_migration_completion_waits_for_successful_cleanup() throws {
         let suite = "CodexBarConfigMigratorTests-cleanup-failure-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -58,7 +58,7 @@ struct CodexBarConfigMigratorTests {
     }
 
     @Test
-    func `legacy stores are kept when migrated config save fails`() throws {
+    func legacy_stores_are_kept_when_migrated_config_save_fails() throws {
         let suite = "CodexBarConfigMigratorTests-save-failure-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

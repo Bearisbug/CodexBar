@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct MoonshotUsageFetcherTests {
     @Test
-    func `parses documented response`() throws {
+    func parses_documented_response() throws {
         let json = """
         {
           "code": 0,
@@ -32,7 +32,7 @@ struct MoonshotUsageFetcherTests {
     }
 
     @Test
-    func `negative cash balance is surfaced as deficit`() throws {
+    func negative_cash_balance_is_surfaced_as_deficit() throws {
         let json = """
         {
           "code": 0,
@@ -54,21 +54,25 @@ struct MoonshotUsageFetcherTests {
     }
 
     @Test
-    func `invalid root returns parse error`() {
+    func invalid_root_returns_parse_error() {
         let json = """
         [{ "available_balance": 1 }]
         """
 
-        #expect {
+        do {
             _ = try MoonshotUsageFetcher._parseSummaryForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case MoonshotUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case MoonshotUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `api code failure returns api error`() {
+    func api_code_failure_returns_api_error() {
         let json = """
         {
           "code": 401,
@@ -82,30 +86,34 @@ struct MoonshotUsageFetcherTests {
         }
         """
 
-        #expect {
+        do {
             _ = try MoonshotUsageFetcher._parseSummaryForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case let MoonshotUsageError.apiError(message) = error else { return false }
-            return message == "code 401, scode unauthorized"
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let MoonshotUsageError.apiError(message) = error else { return false }
+                return message == "code 401, scode unauthorized"
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `international host uses moonshot ai`() {
+    func international_host_uses_moonshot_ai() {
         let url = MoonshotUsageFetcher.resolveBalanceURL(region: .international)
 
         #expect(url.absoluteString == "https://api.moonshot.ai/v1/users/me/balance")
     }
 
     @Test
-    func `china host uses moonshot cn`() {
+    func china_host_uses_moonshot_cn() {
         let url = MoonshotUsageFetcher.resolveBalanceURL(region: .china)
 
         #expect(url.absoluteString == "https://api.moonshot.cn/v1/users/me/balance")
     }
 
     @Test
-    func `fetch usage sends bearer token and bounded request`() async throws {
+    func fetch_usage_sends_bearer_token_and_bounded_request() async throws {
         defer {
             MoonshotStubURLProtocol.requests = []
             MoonshotStubURLProtocol.handler = nil
@@ -155,7 +163,7 @@ struct MoonshotUsageFetcherTests {
     }
 
     @Test
-    func `fetch usage surfaces http failure without leaking body`() async throws {
+    func fetch_usage_surfaces_http_failure_without_leaking_body() async throws {
         defer {
             MoonshotStubURLProtocol.requests = []
             MoonshotStubURLProtocol.handler = nil
@@ -176,13 +184,17 @@ struct MoonshotUsageFetcherTests {
             return (response, Data(#"{"error":"secret-ish provider body"}"#.utf8))
         }
 
-        await #expect {
+        do {
             _ = try await MoonshotUsageFetcher.fetchUsage(
                 apiKey: "live-token",
                 session: session)
-        } throws: { error in
-            guard case let MoonshotUsageError.apiError(message) = error else { return false }
-            return message == "HTTP 401"
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let MoonshotUsageError.apiError(message) = error else { return false }
+                return message == "HTTP 401"
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 }

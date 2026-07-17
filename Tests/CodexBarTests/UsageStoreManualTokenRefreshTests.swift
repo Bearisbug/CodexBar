@@ -95,7 +95,7 @@ private actor TokenRefreshRecorder {
 @Suite(.serialized)
 struct UsageStoreManualTokenRefreshTests {
     @Test
-    func `manual refresh waits for token-cost refresh before completing`() async {
+    func manual_refresh_waits_for_token_cost_refresh_before_completing() async {
         let store = Self.makeStore()
         let gate = TokenRefreshGate()
         let completion = CompletionFlag()
@@ -125,7 +125,7 @@ struct UsageStoreManualTokenRefreshTests {
     }
 
     @Test
-    func `manual refresh drains scheduled token-cost refresh before forced pass`() async {
+    func manual_refresh_drains_scheduled_token_cost_refresh_before_forced_pass() async {
         let store = Self.makeStore()
         let scheduledGate = TokenRefreshGate()
         let forcedGate = TokenRefreshGate()
@@ -171,7 +171,7 @@ struct UsageStoreManualTokenRefreshTests {
     }
 
     @Test
-    func `scoped manual refresh drains scheduled token-cost refresh before forced pass`() async {
+    func scoped_manual_refresh_drains_scheduled_token_cost_refresh_before_forced_pass() async {
         let store = Self.makeStore()
         let scheduledGate = TokenRefreshGate()
         let forcedGate = TokenRefreshGate()
@@ -217,7 +217,7 @@ struct UsageStoreManualTokenRefreshTests {
     }
 
     @Test
-    func `scoped manual refresh leaves unrelated scheduled token-cost refresh running`() async {
+    func scoped_manual_refresh_leaves_unrelated_scheduled_token_cost_refresh_running() async {
         let store = Self.makeStore(enabledProviders: [.claude, .codex])
         let scheduledGate = TokenRefreshGate()
         let forcedGate = TokenRefreshGate()
@@ -261,7 +261,7 @@ struct UsageStoreManualTokenRefreshTests {
     }
 
     @Test
-    func `scoped manual refresh preserves an unrelated token sequence before it starts`() async {
+    func scoped_manual_refresh_preserves_an_unrelated_token_sequence_before_it_starts() async {
         let store = Self.makeStore(enabledProviders: [.claude, .codex])
         let recorder = TokenRefreshRecorder()
         store._test_tokenUsageRefreshOverride = { provider, force in
@@ -284,7 +284,7 @@ struct UsageStoreManualTokenRefreshTests {
     }
 
     @Test
-    func `regular refresh schedules token-cost refresh without waiting`() async {
+    func regular_refresh_schedules_token_cost_refresh_without_waiting() async {
         let store = Self.makeStore()
         let gate = TokenRefreshGate()
         store._test_providerRefreshOverride = { _ in }
@@ -308,7 +308,7 @@ struct UsageStoreManualTokenRefreshTests {
     }
 
     @Test
-    func `forced background refresh bypasses a fresh token cache`() async {
+    func forced_background_refresh_bypasses_a_fresh_token_cache() async {
         let store = Self.makeStore()
         let recorder = TokenRefreshRecorder()
         store._test_providerRefreshOverride = { _ in }

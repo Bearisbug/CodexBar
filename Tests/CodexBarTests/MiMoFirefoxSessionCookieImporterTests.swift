@@ -5,7 +5,7 @@ import Testing
 #if os(macOS)
 struct MiMoFirefoxSessionCookieImporterTests {
     @Test
-    func `rejects mismatched decoded size`() throws {
+    func rejects_mismatched_decoded_size() throws {
         let json = #"{"cookies":[]}"#
         var data = self.mozillaLZ4LiteralFile(json)
         var mismatchedSize = UInt32(json.utf8.count + 1).littleEndian
@@ -23,7 +23,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `too small decoded size falls back to valid backup`() throws {
+    func too_small_decoded_size_falls_back_to_valid_backup() throws {
         let (temp, profile, backups) = try self.makeFirefoxProfile()
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -46,7 +46,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `canonical large payload bypasses raw size prefix trap`() throws {
+    func canonical_large_payload_bypasses_raw_size_prefix_trap() throws {
         let padding = String(repeating: "x", count: 65520)
         let json = #"{"cookies":[],"padding":"\#(padding)"}"#
 
@@ -57,7 +57,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `reads only top level cookies`() throws {
+    func reads_only_top_level_cookies() throws {
         let data = Data(#"{"nested":{"cookies":[{"host":".xiaomimimo.com","name":"userId","value":"stale"}]}}"#.utf8)
 
         let records = try MiMoFirefoxSessionCookieImporter.cookieRecords(fromJSONData: data)
@@ -66,7 +66,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `rejects isolated cookie contexts and wrong attribute types`() throws {
+    func rejects_isolated_cookie_contexts_and_wrong_attribute_types() throws {
         let data = Data(#"""
         {"cookies":[
           {"host":".platform.xiaomimimo.com","name":"api-platform_serviceToken",
@@ -94,7 +94,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `cookie count is bounded before filtering`() throws {
+    func cookie_count_is_bounded_before_filtering() throws {
         let data = Data(#"""
         {"cookies":[
           {"host":"example.com","name":"irrelevant","value":"one"},
@@ -114,7 +114,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `mixed cookie array is malformed after applying count bound`() throws {
+    func mixed_cookie_array_is_malformed_after_applying_count_bound() throws {
         let oversized = Data(#"{"cookies":[1,2]}"#.utf8)
         let mixed = Data(#"{"cookies":[{"host":"example.com"},1]}"#.utf8)
 
@@ -140,7 +140,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `input limit stops before older backup`() throws {
+    func input_limit_stops_before_older_backup() throws {
         let (temp, profile, backups) = try self.makeFirefoxProfile()
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -159,7 +159,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `output limit stops before older backup`() throws {
+    func output_limit_stops_before_older_backup() throws {
         let (temp, profile, backups) = try self.makeFirefoxProfile()
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -179,7 +179,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `cookie limit stops before older backup`() throws {
+    func cookie_limit_stops_before_older_backup() throws {
         let (temp, profile, backups) = try self.makeFirefoxProfile()
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -199,7 +199,7 @@ struct MiMoFirefoxSessionCookieImporterTests {
     }
 
     @Test
-    func `candidates follow deterministic firefox order with newest upgrade only`() {
+    func candidates_follow_deterministic_firefox_order_with_newest_upgrade_only() {
         let profile = URL(fileURLWithPath: "/tmp/firefox/profile", isDirectory: true)
         let backups = profile.appendingPathComponent("sessionstore-backups", isDirectory: true)
         let upgrades = [

@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct UsageBreakdownChartMenuViewTests {
     @Test
-    func `valid totals remain visible when service rows are absent`() {
+    func valid_totals_remain_visible_when_service_rows_are_absent() {
         #expect(
             UsageBreakdownChartMenuView.presentationState(
                 hasSummary: true,
@@ -13,7 +13,7 @@ struct UsageBreakdownChartMenuViewTests {
     }
 
     @Test
-    func `service rows select the chart presentation`() {
+    func service_rows_select_the_chart_presentation() {
         #expect(
             UsageBreakdownChartMenuView.presentationState(
                 hasSummary: true,
@@ -21,7 +21,7 @@ struct UsageBreakdownChartMenuViewTests {
     }
 
     @Test
-    func `missing totals and service rows select the empty presentation`() {
+    func missing_totals_and_service_rows_select_the_empty_presentation() {
         #expect(
             UsageBreakdownChartMenuView.presentationState(
                 hasSummary: false,

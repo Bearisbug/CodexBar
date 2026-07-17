@@ -10,7 +10,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `legacy recorded advance validates without evaluation records`() {
+    func legacy_recorded_advance_validates_without_evaluation_records() {
         let menu = self.at(50)
         let trace: [AdaptiveRefreshTraceRecord] = [
             .menuOpen(timestamp: menu),
@@ -30,7 +30,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `accepted and rejected live evaluations audit independently of replay`() {
+    func accepted_and_rejected_live_evaluations_audit_independently_of_replay() {
         let accepted = AdaptiveRefreshTraceRecord.timerAdvanceEvaluated(
             timestamp: self.at(50),
             previousScheduledAt: self.at(1800),
@@ -70,7 +70,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `evaluation whose accepted flag disagrees with schedule comparison fails`() {
+    func evaluation_whose_accepted_flag_disagrees_with_schedule_comparison_fails() {
         let trace: [AdaptiveRefreshTraceRecord] = [
             .timerAdvanceEvaluated(
                 timestamp: self.at(100),
@@ -90,7 +90,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `unequal schedule dates override a contradictory exact lead`() {
+    func unequal_schedule_dates_override_a_contradictory_exact_lead() {
         let event = AdaptiveRefreshTraceRecord(
             kind: .timerAdvanceEvaluated,
             timestamp: self.at(50),
@@ -109,7 +109,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `accepted evaluation without a previous schedule remains valid`() {
+    func accepted_evaluation_without_a_previous_schedule_remains_valid() {
         let event = AdaptiveRefreshTraceRecord.timerAdvanceEvaluated(
             timestamp: self.at(50),
             previousScheduledAt: nil,
@@ -131,7 +131,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `fractional live lead survives whole-second date serialization`() throws {
+    func fractional_live_lead_survives_whole_second_date_serialization() throws {
         let timestamp = self.at(50.2)
         let candidate = self.at(170.2)
         let previous = self.at(170.8)
@@ -160,7 +160,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `legacy equal timestamps are reported as ambiguous instead of mismatched`() {
+    func legacy_equal_timestamps_are_reported_as_ambiguous_instead_of_mismatched() {
         let event = AdaptiveRefreshTraceRecord(
             kind: .timerAdvanceEvaluated,
             timestamp: self.at(50),
@@ -179,7 +179,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `evaluation without a menu-open source fails linkage audit`() {
+    func evaluation_without_a_menu_open_source_fails_linkage_audit() {
         let event = AdaptiveRefreshTraceRecord.timerAdvanceEvaluated(
             timestamp: self.at(50),
             previousScheduledAt: self.at(1800),
@@ -196,7 +196,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `duplicate accepted evaluations require matching advance multiplicity`() {
+    func duplicate_accepted_evaluations_require_matching_advance_multiplicity() {
         let evaluation = AdaptiveRefreshTraceRecord.timerAdvanceEvaluated(
             timestamp: self.at(50),
             previousScheduledAt: self.at(1800),
@@ -224,7 +224,7 @@ struct RecordedScheduleAuditTests {
     }
 
     @Test
-    func `duplicate rejected evaluations require distinct menu opens`() {
+    func duplicate_rejected_evaluations_require_distinct_menu_opens() {
         let evaluation = AdaptiveRefreshTraceRecord.timerAdvanceEvaluated(
             timestamp: self.at(50),
             previousScheduledAt: self.at(170),

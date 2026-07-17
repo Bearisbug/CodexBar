@@ -5,7 +5,7 @@ import Testing
 
 struct CursorMenuCardModelTests {
     @Test
-    func `team pool shows personal spend and changes height fingerprint`() throws {
+    func team_pool_shows_personal_spend_and_changes_height_fingerprint() throws {
         let now = Date(timeIntervalSince1970: 0)
         let metadata = try #require(ProviderDefaults.metadata[.cursor])
 
@@ -57,7 +57,7 @@ struct CursorMenuCardModelTests {
     }
 
     @Test
-    func `cursor billing cycle metrics show deficit and run out details`() throws {
+    func cursor_billing_cycle_metrics_show_deficit_and_run_out_details() throws {
         let now = Date(timeIntervalSince1970: 0)
         let reset = now.addingTimeInterval(6 * 24 * 3600)
         let cycleMinutes = 30 * 24 * 60
@@ -100,7 +100,7 @@ struct CursorMenuCardModelTests {
     }
 
     @Test
-    func `cursor billing cycle metrics hide pace when quota is depleted`() throws {
+    func cursor_billing_cycle_metrics_hide_pace_when_quota_is_depleted() throws {
         let now = Date(timeIntervalSince1970: 0)
         let reset = now.addingTimeInterval(6 * 24 * 3600)
         let cycleMinutes = 30 * 24 * 60
@@ -146,7 +146,7 @@ struct CursorMenuCardModelTests {
     }
 
     @Test
-    func `legacy request plan shows single requests bar with count`() throws {
+    func legacy_request_plan_shows_single_requests_bar_with_count() throws {
         let now = Date(timeIntervalSince1970: 0)
         let reset = now.addingTimeInterval(6 * 24 * 3600)
         let cycleMinutes = 30 * 24 * 60

@@ -5,7 +5,7 @@ import Testing
 
 struct ClaudeResilienceTests {
     @Test
-    func `cancelled Claude refresh never publishes an error`() async throws {
+    func cancelled_Claude_refresh_never_publishes_an_error() async throws {
         try await ClaudeOAuthCredentialsStore.withIsolatedCredentialsFileTrackingForTesting {
             let tempDir = FileManager.default.temporaryDirectory
                 .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -66,7 +66,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `superseded credential change clears prior Claude state after cancellation`() async throws {
+    func superseded_credential_change_clears_prior_Claude_state_after_cancellation() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -173,7 +173,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `suppresses single flake when prior data exists`() {
+    func suppresses_single_flake_when_prior_data_exists() {
         var gate = ConsecutiveFailureGate()
         let firstFailure = gate.shouldSurfaceError(onFailureWithPriorData: true)
         let secondFailure = gate.shouldSurfaceError(onFailureWithPriorData: true)
@@ -182,14 +182,14 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `surfaces failure without prior data`() {
+    func surfaces_failure_without_prior_data() {
         var gate = ConsecutiveFailureGate()
         let shouldSurface = gate.shouldSurfaceError(onFailureWithPriorData: false)
         #expect(shouldSurface)
     }
 
     @Test
-    func `resets after success`() {
+    func resets_after_success() {
         var gate = ConsecutiveFailureGate()
         _ = gate.shouldSurfaceError(onFailureWithPriorData: true)
         gate.recordSuccess()
@@ -198,7 +198,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `timeout keeps prior Claude snapshot without surfacing repeated failure`() async throws {
+    func timeout_keeps_prior_Claude_snapshot_without_surfacing_repeated_failure() async throws {
         try await ClaudeOAuthCredentialsStore.withIsolatedCredentialsFileTrackingForTesting {
             let tempDir = FileManager.default.temporaryDirectory
                 .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -283,7 +283,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `repeated non probe transient failure still surfaces`() async throws {
+    func repeated_non_probe_transient_failure_still_surfaces() async throws {
         try await ClaudeOAuthCredentialsStore.withIsolatedCredentialsFileTrackingForTesting {
             let tempDir = FileManager.default.temporaryDirectory
                 .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -364,7 +364,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `credentials change clears prior Claude snapshot for non transient failure`() async throws {
+    func credentials_change_clears_prior_Claude_snapshot_for_non_transient_failure() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -449,7 +449,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `credentials change clears prior Claude snapshot for transient failure`() async throws {
+    func credentials_change_clears_prior_Claude_snapshot_for_transient_failure() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -534,7 +534,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `keychain change clears prior Claude snapshot for transient failure`() async throws {
+    func keychain_change_clears_prior_Claude_snapshot_for_transient_failure() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -649,7 +649,7 @@ struct ClaudeResilienceTests {
     }
 
     @Test
-    func `keychain removal clears prior Claude snapshot for transient failure`() async throws {
+    func keychain_removal_clears_prior_Claude_snapshot_for_transient_failure() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -764,7 +764,7 @@ struct ClaudeResilienceTests {
 
 extension ClaudeResilienceTests {
     @Test
-    func `keychain probe denial preserves prior Claude snapshot for transient failure`() async throws {
+    func keychain_probe_denial_preserves_prior_Claude_snapshot_for_transient_failure() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -864,7 +864,7 @@ extension ClaudeResilienceTests {
     }
 
     @Test
-    func `keychain change clears once then preserves later reset backfill`() async throws {
+    func keychain_change_clears_once_then_preserves_later_reset_backfill() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -994,7 +994,7 @@ extension ClaudeResilienceTests {
     }
 
     @Test
-    func `credentials change before fetch clears stale reset backfill`() async throws {
+    func credentials_change_before_fetch_clears_stale_reset_backfill() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }
@@ -1072,7 +1072,7 @@ extension ClaudeResilienceTests {
     }
 
     @Test
-    func `credentials change during successful Claude fetch applies fresh snapshot without stale reset`() async throws {
+    func credentials_change_during_successful_Claude_fetch_applies_fresh_snapshot_without_stale_reset() async throws {
         try await KeychainCacheStore.withServiceOverrideForTesting("com.steipete.codexbar.cache.tests.\(UUID())") {
             KeychainCacheStore.setTestStoreForTesting(true)
             defer { KeychainCacheStore.setTestStoreForTesting(false) }

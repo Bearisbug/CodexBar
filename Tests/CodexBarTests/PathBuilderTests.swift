@@ -5,7 +5,7 @@ import Testing
 
 struct PathBuilderTests {
     @Test
-    func `merges login shell path when available`() {
+    func merges_login_shell_path_when_available() {
         let seeded = PathBuilder.effectivePATH(
             purposes: [.rpc],
             env: ["PATH": "/custom/bin:/usr/bin"],
@@ -14,7 +14,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `falls back to existing path when no login path`() {
+    func falls_back_to_existing_path_when_no_login_path() {
         let seeded = PathBuilder.effectivePATH(
             purposes: [.tty],
             env: ["PATH": "/custom/bin:/usr/bin"],
@@ -23,7 +23,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `uses fallback when no path available`() {
+    func uses_fallback_when_no_path_available() {
         let seeded = PathBuilder.effectivePATH(
             purposes: [.tty],
             env: [:],
@@ -32,7 +32,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `debug snapshot async matches sync`() async {
+    func debug_snapshot_async_matches_sync() async {
         let env = [
             "CODEX_CLI_PATH": "/usr/bin/true",
             "CLAUDE_CLI_PATH": "/usr/bin/true",
@@ -45,7 +45,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `login shell cache retries after timed out nil capture`() async {
+    func login_shell_cache_retries_after_timed_out_nil_capture() async {
         let capture = LoginShellPathCaptureStub([
             nil,
             ["/login/bin", "/usr/bin"],
@@ -68,7 +68,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `shell runner drains noisy stdout and stderr`() throws {
+    func shell_runner_drains_noisy_stdout_and_stderr() throws {
         let script = """
         i=0
         while [ "$i" -lt 4000 ]; do
@@ -89,7 +89,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `shell runner terminates background children after normal exit`() throws {
+    func shell_runner_terminates_background_children_after_normal_exit() throws {
         let marker = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-shell-runner-\(UUID().uuidString)")
             .path
@@ -123,7 +123,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves codex from env override`() {
+    func resolves_codex_from_env_override() {
         let overridePath = "/custom/bin/codex"
         let fm = MockFileManager(executables: [overridePath])
 
@@ -136,7 +136,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves codex from login path`() {
+    func resolves_codex_from_login_path() {
         let fm = MockFileManager(executables: ["/login/bin/codex"])
         let resolved = BinaryLocator.resolveCodexBinary(
             env: ["PATH": "/env/bin"],
@@ -147,7 +147,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves codex from env path`() {
+    func resolves_codex_from_env_path() {
         let fm = MockFileManager(executables: ["/env/bin/codex"])
         let resolved = BinaryLocator.resolveCodexBinary(
             env: ["PATH": "/env/bin:/usr/bin"],
@@ -158,7 +158,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves codex from bundled ChatGPT app`() {
+    func resolves_codex_from_bundled_ChatGPT_app() {
         let appPath = "/Applications/ChatGPT.app/Contents/Resources/codex"
         let fm = MockFileManager(executables: [appPath])
 
@@ -175,7 +175,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves codex from user bundled ChatGPT app`() {
+    func resolves_codex_from_user_bundled_ChatGPT_app() {
         let appPath = "/Users/test/Applications/ChatGPT.app/Contents/Resources/codex"
         let fm = MockFileManager(executables: [appPath])
 
@@ -192,7 +192,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `prefers bundled ChatGPT app over legacy Codex app within one scope`() {
+    func prefers_bundled_ChatGPT_app_over_legacy_Codex_app_within_one_scope() {
         let chatGPTPath = "/Applications/ChatGPT.app/Contents/Resources/codex"
         let codexPath = "/Applications/Codex.app/Contents/Resources/codex"
         let fm = MockFileManager(executables: [chatGPTPath, codexPath])
@@ -210,7 +210,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `preserves user app precedence over system ChatGPT app`() {
+    func preserves_user_app_precedence_over_system_ChatGPT_app() {
         let userCodexPath = "/Users/test/Applications/Codex.app/Contents/Resources/codex"
         let systemChatGPTPath = "/Applications/ChatGPT.app/Contents/Resources/codex"
         let fm = MockFileManager(executables: [userCodexPath, systemChatGPTPath])
@@ -228,7 +228,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `skips blocked ChatGPT app and falls back to legacy Codex app`() {
+    func skips_blocked_ChatGPT_app_and_falls_back_to_legacy_Codex_app() {
         let chatGPTPath = "/Users/test/Applications/ChatGPT.app/Contents/Resources/codex"
         let codexPath = "/Users/test/Applications/Codex.app/Contents/Resources/codex"
         let fm = MockFileManager(executables: [chatGPTPath, codexPath])
@@ -251,7 +251,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `skips blocked codex path and falls back to signed app binary`() {
+    func skips_blocked_codex_path_and_falls_back_to_signed_app_binary() {
         let blockedPath = "/usr/local/bin/codex"
         let appPath = "/Applications/Codex.app/Contents/Resources/codex"
         let fm = MockFileManager(executables: [blockedPath, appPath])
@@ -274,7 +274,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `explicit codex override bypasses launch candidate fallback`() {
+    func explicit_codex_override_bypasses_launch_candidate_fallback() {
         let overridePath = "/custom/bin/codex"
         let appPath = "/Applications/Codex.app/Contents/Resources/codex"
         let fm = MockFileManager(executables: [overridePath, appPath])
@@ -295,7 +295,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex CLI strategy availability uses filtered binary resolution`() {
+    func Codex_CLI_strategy_availability_uses_filtered_binary_resolution() {
         let commandV: (String, String?, TimeInterval, FileManager) -> String? = { _, _, _, _ in nil }
         let aliasResolver: (String, String?, TimeInterval, FileManager, String) -> String? = { _, _, _, _, _ in nil }
 
@@ -320,7 +320,7 @@ struct PathBuilderTests {
 
     #if os(macOS)
     @Test
-    func `Codex launch preflight allows quarantined notarized native binary`() {
+    func Codex_launch_preflight_allows_quarantined_notarized_native_binary() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/Applications/Codex.app/Contents/Resources/codex",
             fileManager: MockFileManager(executables: []),
@@ -333,7 +333,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks malware attribute before assessment`() {
+    func Codex_launch_preflight_blocks_malware_attribute_before_assessment() {
         var assessed = false
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/Applications/Codex.app/Contents/Resources/codex",
@@ -351,7 +351,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight validates containing app bundle`() {
+    func Codex_launch_preflight_validates_containing_app_bundle() {
         let executable = "/Applications/ChatGPT.app/Contents/Resources/codex"
         let bundle = "/Applications/ChatGPT.app"
         var assessedPaths: [String] = []
@@ -374,7 +374,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks unexpected app signing identity`() {
+    func Codex_launch_preflight_blocks_unexpected_app_signing_identity() {
         let executable = "/Users/test/Applications/ChatGPT.app/Contents/Resources/codex"
         let bundle = "/Users/test/Applications/ChatGPT.app"
         var assessed = false
@@ -398,7 +398,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks rejected containing app bundle`() {
+    func Codex_launch_preflight_blocks_rejected_containing_app_bundle() {
         let executable = "/Users/test/Applications/ChatGPT.app/Contents/Resources/codex"
         let bundle = "/Users/test/Applications/ChatGPT.app"
 
@@ -417,7 +417,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight requires successful app bundle assessment`() {
+    func Codex_launch_preflight_requires_successful_app_bundle_assessment() {
         let executable = "/Users/test/Applications/ChatGPT.app/Contents/Resources/codex"
         let bundle = "/Users/test/Applications/ChatGPT.app"
 
@@ -436,7 +436,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight rejects indeterminate app assessment`() {
+    func Codex_launch_preflight_rejects_indeterminate_app_assessment() {
         let executable = "/Users/test/Applications/ChatGPT.app/Contents/Resources/codex"
         let bundle = "/Users/test/Applications/ChatGPT.app"
 
@@ -455,7 +455,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight fails closed when app bundle cannot be assessed`() {
+    func Codex_launch_preflight_fails_closed_when_app_bundle_cannot_be_assessed() {
         let executable = "/Users/test/Applications/ChatGPT.app/Contents/Resources/codex"
         let bundle = "/Users/test/Applications/ChatGPT.app"
 
@@ -476,7 +476,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks app bundled executable symlink escaping the bundle`() throws {
+    func Codex_launch_preflight_blocks_app_bundled_executable_symlink_escaping_the_bundle() throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let bundle = root.appendingPathComponent("ChatGPT.app")
         let resources = bundle.appendingPathComponent("Contents/Resources")
@@ -504,7 +504,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks quarantined script without native assessment`() {
+    func Codex_launch_preflight_blocks_quarantined_script_without_native_assessment() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/opt/homebrew/bin/codex",
             fileManager: MockFileManager(executables: []),
@@ -517,7 +517,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks revoked assessment`() {
+    func Codex_launch_preflight_blocks_revoked_assessment() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/Applications/Codex.app/Contents/Resources/codex",
             fileManager: MockFileManager(executables: []),
@@ -530,7 +530,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks generic Gatekeeper rejection`() {
+    func Codex_launch_preflight_blocks_generic_Gatekeeper_rejection() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/opt/homebrew/bin/codex",
             fileManager: MockFileManager(executables: []),
@@ -543,7 +543,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight allows valid signed command line binary assessment`() {
+    func Codex_launch_preflight_allows_valid_signed_command_line_binary_assessment() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/opt/homebrew/bin/codex",
             fileManager: MockFileManager(executables: []),
@@ -560,7 +560,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight blocks revoked assessment even with non app rejection text`() {
+    func Codex_launch_preflight_blocks_revoked_assessment_even_with_non_app_rejection_text() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/opt/homebrew/bin/codex",
             fileManager: MockFileManager(executables: []),
@@ -580,7 +580,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight ignores benign text in path when verdict is generic rejection`() {
+    func Codex_launch_preflight_ignores_benign_text_in_path_when_verdict_is_generic_rejection() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/tmp/code is valid but does not seem to be an app/codex",
             fileManager: MockFileManager(executables: []),
@@ -595,7 +595,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight ignores benign text before verdict separator`() {
+    func Codex_launch_preflight_ignores_benign_text_before_verdict_separator() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/tmp/x: code is valid but does not seem to be an app/codex",
             fileManager: MockFileManager(executables: []),
@@ -610,7 +610,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `Codex launch preflight ignores blocked words in accepted path and source fields`() {
+    func Codex_launch_preflight_ignores_blocked_words_in_accepted_path_and_source_fields() {
         let allowed = CodexLaunchPreflight.isLaunchCandidateAllowed(
             path: "/tmp/rejected/quarantine/codex",
             fileManager: MockFileManager(executables: []),
@@ -632,7 +632,7 @@ struct PathBuilderTests {
     #endif
 
     @Test
-    func `resolves codex from interactive shell`() {
+    func resolves_codex_from_interactive_shell() {
         let fm = MockFileManager(executables: ["/shell/bin/codex"])
         let commandV: (String, String?, TimeInterval, FileManager) -> String? = { tool, shell, timeout, fileManager in
             #expect(tool == "codex")
@@ -652,7 +652,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves claude from interactive shell`() {
+    func resolves_claude_from_interactive_shell() {
         let fm = MockFileManager(executables: ["/shell/bin/claude"])
         let commandV: (String, String?, TimeInterval, FileManager) -> String? = { tool, shell, timeout, fileManager in
             #expect(tool == "claude")
@@ -672,7 +672,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves gemini from interactive shell`() {
+    func resolves_gemini_from_interactive_shell() {
         let fm = MockFileManager(executables: ["/shell/bin/gemini"])
         let commandV: (String, String?, TimeInterval, FileManager) -> String? = { tool, shell, timeout, fileManager in
             #expect(tool == "gemini")
@@ -692,7 +692,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves claude from login path`() {
+    func resolves_claude_from_login_path() {
         let fm = MockFileManager(executables: ["/login/bin/claude"])
         let resolved = BinaryLocator.resolveClaudeBinary(
             env: ["PATH": "/env/bin"],
@@ -703,7 +703,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves claude from alias when other lookups fail`() {
+    func resolves_claude_from_alias_when_other_lookups_fail() {
         let aliasPath = "/home/test/.claude/local/bin/claude"
         let fm = MockFileManager(executables: [aliasPath])
         var aliasCalled = false
@@ -733,7 +733,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves codex from alias when other lookups fail`() {
+    func resolves_codex_from_alias_when_other_lookups_fail() {
         let aliasPath = "/home/test/.codex/bin/codex"
         let fm = MockFileManager(executables: [aliasPath])
         var aliasCalled = false
@@ -763,7 +763,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves claude from well-known cmux path when shell lookups fail`() {
+    func resolves_claude_from_well_known_cmux_path_when_shell_lookups_fail() {
         let cmuxPath = "/Applications/cmux.app/Contents/Resources/bin/claude"
         let fm = MockFileManager(executables: [cmuxPath])
         let commandV: (String, String?, TimeInterval, FileManager) -> String? = { _, _, _, _ in nil }
@@ -780,7 +780,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves claude from well-known home dir path`() {
+    func resolves_claude_from_well_known_home_dir_path() {
         let homePath = "/Users/test/.claude/bin/claude"
         let fm = MockFileManager(executables: [homePath])
         let commandV: (String, String?, TimeInterval, FileManager) -> String? = { _, _, _, _ in nil }
@@ -797,7 +797,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `resolves claude from native installer path`() {
+    func resolves_claude_from_native_installer_path() {
         let nativePath = "/Users/test/.local/bin/claude"
         let fm = MockFileManager(executables: [nativePath])
         let commandV: (String, String?, TimeInterval, FileManager) -> String? = { _, _, _, _ in nil }
@@ -814,7 +814,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `prefers migrated local claude path over legacy home dir path`() {
+    func prefers_migrated_local_claude_path_over_legacy_home_dir_path() {
         let migratedPath = "/Users/test/.claude/local/claude"
         let legacyPath = "/Users/test/.claude/bin/claude"
         let fm = MockFileManager(executables: [migratedPath, legacyPath])
@@ -832,7 +832,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `prefers user managed well-known path over cmux path`() {
+    func prefers_user_managed_well_known_path_over_cmux_path() {
         let homePath = "/Users/test/.claude/bin/claude"
         let cmuxPath = "/Applications/cmux.app/Contents/Resources/bin/claude"
         let fm = MockFileManager(executables: [homePath, cmuxPath])
@@ -850,7 +850,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `prefers homebrew arm path over usr local fallback`() {
+    func prefers_homebrew_arm_path_over_usr_local_fallback() {
         let fm = MockFileManager(executables: [
             "/opt/homebrew/bin/claude",
             "/usr/local/bin/claude",
@@ -869,7 +869,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `prefers well-known paths over interactive shell lookup`() {
+    func prefers_well_known_paths_over_interactive_shell_lookup() {
         let shellPath = "/custom/bin/claude"
         let cmuxPath = "/Applications/cmux.app/Contents/Resources/bin/claude"
         let fm = MockFileManager(executables: [shellPath, cmuxPath])
@@ -890,7 +890,7 @@ struct PathBuilderTests {
     }
 
     @Test
-    func `skips alias when command V resolves`() {
+    func skips_alias_when_command_V_resolves() {
         let path = "/shell/bin/claude"
         let fm = MockFileManager(executables: [path])
         var aliasCalled = false

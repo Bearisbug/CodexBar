@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test(arguments: StableEmailOnlyRefreshFailureCase.allCases)
-    func `stable email only refresh failures preserve public account state`(
+    func stable_email_only_refresh_failures_preserve_public_account_state(
         failure: StableEmailOnlyRefreshFailureCase) async throws
     {
         let suite = "CodexWeeklyResetOwnerTransitionTests-stable-email-only-\(failure.rawValue)"
@@ -58,7 +58,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `rejected reset confirmation never leaves the previous owner public`() async {
+    func rejected_reset_confirmation_never_leaves_the_previous_owner_public() async {
         let suite = "CodexWeeklyResetOwnerTransitionTests-rejected-confirmation"
         let email = "owner-transition@example.com"
         let settings = self.makeSettingsStore(suite: suite)

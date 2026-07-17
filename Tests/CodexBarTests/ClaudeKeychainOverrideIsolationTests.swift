@@ -20,7 +20,7 @@ private actor TwoTaskBarrier {
 
 struct ClaudeKeychainOverrideIsolationTests {
     @Test
-    func `keychain overrides stay isolated across concurrent tasks`() async {
+    func keychain_overrides_stay_isolated_across_concurrent_tasks() async {
         let expected = [Data([0x01]), Data([0x02])]
         let barrier = TwoTaskBarrier()
         let observed = await withTaskGroup(of: Data?.self, returning: [Data].self) { group in

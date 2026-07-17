@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct KiroTransportRaceTests {
     @Test
-    func `empty nonzero pipe exit falls back to PTY`() async throws {
+    func empty_nonzero_pipe_exit_falls_back_to_PTY() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -38,7 +38,7 @@ struct KiroTransportRaceTests {
     }
 
     @Test
-    func `failed PTY cannot preempt a valid slow pipe`() async throws {
+    func failed_PTY_cannot_preempt_a_valid_slow_pipe() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -75,7 +75,7 @@ struct KiroTransportRaceTests {
     }
 
     @Test
-    func `pending failed PTY cannot escape the shared deadline`() async throws {
+    func pending_failed_PTY_cannot_escape_the_shared_deadline() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -99,11 +99,15 @@ struct KiroTransportRaceTests {
             usageProbeTimeout: 0.6,
             pipeTimeoutCap: 0.1)
 
-        await #expect {
+        do {
             try await probe.fetch()
-        } throws: { error in
-            guard case KiroStatusProbeError.timeout = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.timeout = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 

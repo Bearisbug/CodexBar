@@ -5,7 +5,7 @@ import Testing
 
 struct CodexResetCreditsMenuCardTests {
     @Test
-    func `presentation shows only available inventory in stable expiry order`() throws {
+    func presentation_shows_only_available_inventory_in_stable_expiry_order() throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let snapshot = Self.snapshot(
             now: now,
@@ -29,7 +29,7 @@ struct CodexResetCreditsMenuCardTests {
     }
 
     @Test
-    func `no-expiry reset remains visible without a next-expiry date`() throws {
+    func no_expiry_reset_remains_visible_without_a_next_expiry_date() throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let model = try Self.model(
             snapshot: Self.snapshot(
@@ -45,7 +45,7 @@ struct CodexResetCreditsMenuCardTests {
     }
 
     @Test
-    func `inventory respects absolute reset-time style`() throws {
+    func inventory_respects_absolute_reset_time_style() throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let expiresAt = now.addingTimeInterval(86400)
         let model = try Self.model(
@@ -62,7 +62,7 @@ struct CodexResetCreditsMenuCardTests {
     }
 
     @Test
-    func `optional usage preference does not hide reset inventory`() throws {
+    func optional_usage_preference_does_not_hide_reset_inventory() throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let model = try Self.model(
             snapshot: Self.snapshot(
@@ -76,7 +76,7 @@ struct CodexResetCreditsMenuCardTests {
     }
 
     @Test
-    func `compact expiry summary caps visible dates`() throws {
+    func compact_expiry_summary_caps_visible_dates() throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let credits = (1...6).map { day in
             Self.credit(id: "day-\(day)", status: .available, now: now, expiresIn: Double(day * 86400))
@@ -89,7 +89,7 @@ struct CodexResetCreditsMenuCardTests {
     }
 
     @Test
-    func `hosted usage model keeps reset inventory compatible with live refresh`() throws {
+    func hosted_usage_model_keeps_reset_inventory_compatible_with_live_refresh() throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let model = try Self.model(
             snapshot: Self.snapshot(
@@ -102,7 +102,7 @@ struct CodexResetCreditsMenuCardTests {
     }
 
     @Test
-    func `empty filtered inventory does not create hosted reset rows`() throws {
+    func empty_filtered_inventory_does_not_create_hosted_reset_rows() throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let model = try Self.model(
             snapshot: Self.snapshot(

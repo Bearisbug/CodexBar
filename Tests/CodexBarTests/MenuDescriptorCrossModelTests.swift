@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorCrossModelTests {
     @Test
-    func `crossmodel provider contributes balance and usage windows`() throws {
+    func crossmodel_provider_contributes_balance_and_usage_windows() throws {
         let suite = "MenuDescriptorCrossModelTests-usage"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -56,7 +56,7 @@ struct MenuDescriptorCrossModelTests {
     }
 
     @Test
-    func `crossmodel provider preserves non USD menu currency`() throws {
+    func crossmodel_provider_preserves_non_USD_menu_currency() throws {
         let suite = "MenuDescriptorCrossModelTests-eur"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -103,7 +103,7 @@ struct MenuDescriptorCrossModelTests {
 
     @Test
     @MainActor
-    func `crossmodel menu card does not render generic credits bar`() throws {
+    func crossmodel_menu_card_does_not_render_generic_credits_bar() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.crossmodel])
         let usage = CrossModelUsageSnapshot(
@@ -139,7 +139,7 @@ struct MenuDescriptorCrossModelTests {
     }
 
     @Test
-    func `crossmodel menu card preserves balance when optional usage is unavailable`() throws {
+    func crossmodel_menu_card_preserves_balance_when_optional_usage_is_unavailable() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.crossmodel])
         let usage = CrossModelUsageSnapshot(

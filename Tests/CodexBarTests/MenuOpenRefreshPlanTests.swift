@@ -4,7 +4,7 @@ import Testing
 
 struct MenuOpenRefreshPlanTests {
     @Test
-    func `refresh all selects every enabled provider concurrently`() {
+    func refresh_all_selects_every_enabled_provider_concurrently() {
         let plan = MenuOpenRefreshPlan.resolve(.init(
             refreshAllOnOpen: true,
             enabledProviders: [.codex, .claude, .factory],
@@ -19,7 +19,7 @@ struct MenuOpenRefreshPlanTests {
     }
 
     @Test
-    func `refresh all skips dashboard refresh when codex is disabled`() {
+    func refresh_all_skips_dashboard_refresh_when_codex_is_disabled() {
         let plan = MenuOpenRefreshPlan.resolve(.init(
             refreshAllOnOpen: true,
             enabledProviders: [.claude, .factory],
@@ -33,7 +33,7 @@ struct MenuOpenRefreshPlanTests {
     }
 
     @Test
-    func `ordinary refresh selects only visible enabled retries sequentially`() {
+    func ordinary_refresh_selects_only_visible_enabled_retries_sequentially() {
         let plan = MenuOpenRefreshPlan.resolve(.init(
             refreshAllOnOpen: false,
             enabledProviders: [.codex, .claude, .factory],
@@ -48,7 +48,7 @@ struct MenuOpenRefreshPlanTests {
     }
 
     @Test
-    func `ordinary refresh skips fresh providers`() {
+    func ordinary_refresh_skips_fresh_providers() {
         let plan = MenuOpenRefreshPlan.resolve(.init(
             refreshAllOnOpen: false,
             enabledProviders: [.codex],

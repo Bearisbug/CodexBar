@@ -4,7 +4,7 @@ import Testing
 @Suite(.serialized)
 struct QuotaWarningNotificationLogicTests {
     @Test
-    func `quota warning copy includes current remaining and threshold`() {
+    func quota_warning_copy_includes_current_remaining_and_threshold() {
         Self.withAppLanguage("en") {
             let copy = QuotaWarningNotificationLogic.notificationCopy(
                 providerName: "Codex",
@@ -18,7 +18,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `quota warning copy clamps current remaining`() {
+    func quota_warning_copy_clamps_current_remaining() {
         Self.withAppLanguage("en") {
             let copy = QuotaWarningNotificationLogic.notificationCopy(
                 providerName: "Codex",
@@ -32,7 +32,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `quota warning copy includes account when provided`() {
+    func quota_warning_copy_includes_account_when_provided() {
         Self.withAppLanguage("en") {
             let copy = QuotaWarningNotificationLogic.notificationCopy(
                 providerName: "Codex",
@@ -47,7 +47,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `quota warning copy uses the extra-window display label when provided`() {
+    func quota_warning_copy_uses_the_extra_window_display_label_when_provided() {
         Self.withAppLanguage("en") {
             let copy = QuotaWarningNotificationLogic.notificationCopy(
                 providerName: "Claude",
@@ -62,7 +62,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `extra-window notification identifiers are independent`() {
+    func extra_window_notification_identifiers_are_independent() {
         let fable = QuotaWarningEvent(
             window: .weekly,
             threshold: 50,
@@ -83,7 +83,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `quota warning copy follows Traditional Chinese app language`() {
+    func quota_warning_copy_follows_Traditional_Chinese_app_language() {
         Self.withAppLanguage("zh-Hant") {
             let copy = QuotaWarningNotificationLogic.notificationCopy(
                 providerName: "Codex",
@@ -98,7 +98,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `does nothing without crossing`() {
+    func does_nothing_without_crossing() {
         let crossed = QuotaWarningNotificationLogic.crossedThreshold(
             previousRemaining: 60,
             currentRemaining: 55,
@@ -109,7 +109,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `detects downward crossing`() {
+    func detects_downward_crossing() {
         let crossed = QuotaWarningNotificationLogic.crossedThreshold(
             previousRemaining: 55,
             currentRemaining: 45,
@@ -120,7 +120,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `skips already fired thresholds`() {
+    func skips_already_fired_thresholds() {
         let crossed = QuotaWarningNotificationLogic.crossedThreshold(
             previousRemaining: 55,
             currentRemaining: 45,
@@ -131,7 +131,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `chooses most severe threshold when crossing several at once`() {
+    func chooses_most_severe_threshold_when_crossing_several_at_once() {
         let crossed = QuotaWarningNotificationLogic.crossedThreshold(
             previousRemaining: 80,
             currentRemaining: 10,
@@ -142,7 +142,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `startup below threshold warns once at most severe threshold`() {
+    func startup_below_threshold_warns_once_at_most_severe_threshold() {
         let crossed = QuotaWarningNotificationLogic.crossedThreshold(
             previousRemaining: nil,
             currentRemaining: 10,
@@ -153,7 +153,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `warning marks threshold and higher thresholds fired`() {
+    func warning_marks_threshold_and_higher_thresholds_fired() {
         let fired = QuotaWarningNotificationLogic.firedThresholdsAfterWarning(
             threshold: 20,
             thresholds: [50, 20])
@@ -162,7 +162,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `recovery clears only thresholds below current remaining`() {
+    func recovery_clears_only_thresholds_below_current_remaining() {
         let cleared = QuotaWarningNotificationLogic.thresholdsToClear(
             currentRemaining: 30,
             alreadyFired: [50, 20])
@@ -171,7 +171,7 @@ struct QuotaWarningNotificationLogicTests {
     }
 
     @Test
-    func `zero threshold does not post quota warning`() {
+    func zero_threshold_does_not_post_quota_warning() {
         let crossed = QuotaWarningNotificationLogic.crossedThreshold(
             previousRemaining: 10,
             currentRemaining: 0,

@@ -4,7 +4,7 @@ import Testing
 
 struct InstallOriginTests {
     @Test
-    func `detects homebrew caskroom`() {
+    func detects_homebrew_caskroom() {
         #expect(
             InstallOrigin
                 .isHomebrewCask(

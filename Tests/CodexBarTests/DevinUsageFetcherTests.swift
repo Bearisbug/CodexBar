@@ -7,7 +7,7 @@ struct DevinUsageFetcherTests {
     private static let now = Date(timeIntervalSince1970: 1_780_000_000)
 
     @Test
-    func `parses quota usage response into daily and weekly windows`() throws {
+    func parses_quota_usage_response_into_daily_and_weekly_windows() throws {
         let response: [String: Any] = [
             "plan_name": "pro",
             "quota_usage": [
@@ -34,7 +34,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `parses current Devin quota response with reset timestamps`() throws {
+    func parses_current_Devin_quota_response_with_reset_timestamps() throws {
         let response: [String: Any] = [
             "is_quota_plan": true,
             "has_quota_allocation": true,
@@ -54,7 +54,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `parses overage balance into extra usage provider cost`() throws {
+    func parses_overage_balance_into_extra_usage_provider_cost() throws {
         let response: [String: Any] = [
             "daily_percentage": 12,
             "weekly_percentage": 42,
@@ -73,7 +73,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `parses overage balance cents into extra usage provider cost`() throws {
+    func parses_overage_balance_cents_into_extra_usage_provider_cost() throws {
         let response: [String: Any] = [
             "daily_percentage": 12,
             "weekly_percentage": 42,
@@ -87,7 +87,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `omits provider cost when overage balance is absent`() throws {
+    func omits_provider_cost_when_overage_balance_is_absent() throws {
         let response: [String: Any] = [
             "daily_percentage": 12,
             "weekly_percentage": 42,
@@ -100,7 +100,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test(arguments: ["-1", "Infinity", "NaN"])
-    func `omits invalid overage balances`(_ balance: String) throws {
+    func omits_invalid_overage_balances(_ balance: String) throws {
         let response: [String: Any] = [
             "daily_percentage": 12,
             "weekly_percentage": 42,
@@ -114,7 +114,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test(arguments: ["-1", "Infinity", "NaN"])
-    func `omits invalid overage balance cents`(_ balance: String) throws {
+    func omits_invalid_overage_balance_cents(_ balance: String) throws {
         let response: [String: Any] = [
             "daily_percentage": 12,
             "weekly_percentage": 42,
@@ -128,7 +128,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `keeps weekly quota when current plan hides daily quota`() throws {
+    func keeps_weekly_quota_when_current_plan_hides_daily_quota() throws {
         let response: [String: Any] = [
             "weekly_percentage": 25,
             "weekly_reset_at": "2026-06-14T00:00:00-08:00",
@@ -142,7 +142,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `normalizes mixed-scale current percentages at the one-percent boundary`() throws {
+    func normalizes_mixed_scale_current_percentages_at_the_one_percent_boundary() throws {
         let cases: [(input: Double, expected: Double)] = [
             (0.5, 50),
             (1, 1),
@@ -162,7 +162,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `preserves fractional boundaries for fallback quota percentages`() throws {
+    func preserves_fractional_boundaries_for_fallback_quota_percentages() throws {
         let response: [String: Any] = [
             "quota_usage": [
                 "daily_quota": [
@@ -183,7 +183,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `parses zero percentages from JSON response`() throws {
+    func parses_zero_percentages_from_JSON_response() throws {
         let data = Data("""
         {
           "daily_percentage": 0,
@@ -200,7 +200,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `usage snapshot maps Devin quotas to primary and secondary windows`() {
+    func usage_snapshot_maps_Devin_quotas_to_primary_and_secondary_windows() {
         let snapshot = DevinUsageSnapshot(
             daily: DevinQuotaWindow(usedPercent: 12),
             weekly: DevinQuotaWindow(usedPercent: 42),
@@ -222,7 +222,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `fetch sends bearer token and organization header`() async throws {
+    func fetch_sends_bearer_token_and_organization_header() async throws {
         let auth = DevinUsageFetcher.RequestAuth(
             bearerToken: "secret-token",
             organization: "org/example-org",
@@ -255,7 +255,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `fetch does not mask parser failure with fallback endpoint errors`() async {
+    func fetch_does_not_mask_parser_failure_with_fallback_endpoint_errors() async {
         let auth = DevinUsageFetcher.RequestAuth(
             bearerToken: "secret-token",
             organization: "org/example-org",
@@ -289,7 +289,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `normalizes organization inputs`() {
+    func normalizes_organization_inputs() {
         #expect(DevinUsageFetcher.normalizedOrganization("example-org") == "org/example-org")
         #expect(DevinUsageFetcher.normalizedOrganization("org/example-org") == "org/example-org")
         #expect(DevinUsageFetcher.normalizedOrganization("org_GQ6LhcfkW1TSinM6") ==
@@ -301,7 +301,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `manual auth strips Authorization and Bearer prefixes`() throws {
+    func manual_auth_strips_Authorization_and_Bearer_prefixes() throws {
         let auth = try #require(DevinUsageFetcher.manualAuth(
             from: "Authorization: Bearer secret-token",
             organization: "example-org"))
@@ -313,7 +313,7 @@ struct DevinUsageFetcherTests {
 
     #if os(macOS)
     @Test
-    func `empty app organization setting preserves imported organization`() async throws {
+    func empty_app_organization_setting_preserves_imported_organization() async throws {
         try await DevinSessionImporter.withImportSessionOverrideForTesting { _, organizationOverride, _ in
             #expect(organizationOverride == nil)
             return DevinSessionImporter.SessionInfo(
@@ -344,7 +344,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `session importer extracts current auth1 token and matching org`() throws {
+    func session_importer_extracts_current_auth1_token_and_matching_org() throws {
         let accessToken = "auth1_abcdefghijklmnopqrstuvwxyz0123456789"
         let storage = [
             "_https://app.devin.ai\u{0000}\u{0001}auth1_session":
@@ -365,7 +365,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `session importer infers organization from post auth storage`() throws {
+    func session_importer_infers_organization_from_post_auth_storage() throws {
         let accessToken = "eyJhbGciOiJub25lIn0.eyJpc3MiOiJodHRwczovL2F1dGguZGV2aW4uYWkvIn0.signature"
         let storage = [
             "_https://app.devin.ai\u{0000}\u{0001}@@auth0spajs@@::client::audience::scope":
@@ -390,7 +390,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `session importer infers organization from member info storage`() throws {
+    func session_importer_infers_organization_from_member_info_storage() throws {
         let accessToken = "eyJhbGciOiJub25lIn0.eyJpc3MiOiJodHRwczovL2F1dGguZGV2aW4uYWkvIn0.signature"
         let storage = [
             "_https://app.devin.ai\u{0000}\u{0001}@@auth0spajs@@::client::audience::scope":
@@ -415,7 +415,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `session importer falls back to internal organization id`() {
+    func session_importer_falls_back_to_internal_organization_id() {
         let result = DevinSessionImporter.organizationInfo(
             from: [
                 "_https://app.devin.ai\u{0000}\u{0001}feature-flags-cache:org_GQ6LhcfkW1TSinM6": "{}",
@@ -430,7 +430,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `session importer ignores org words inside storage key names`() {
+    func session_importer_ignores_org_words_inside_storage_key_names() {
         let result = DevinSessionImporter.organizationInfo(
             from: [
                 "_https://app.devin.ai\u{0000}\u{0001}last-internal-org-for-external-org-v1-null": "\"null\"",
@@ -443,7 +443,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `session importer deduplicates repeated browser tokens using richest organization metadata`() {
+    func session_importer_deduplicates_repeated_browser_tokens_using_richest_organization_metadata() {
         let sessions = [
             DevinSessionImporter.SessionInfo(
                 accessToken: "auth1_abcdefghijklmnopqrstuvwxyz0123456789",
@@ -466,7 +466,7 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `session importer ranks organization aware profiles first`() {
+    func session_importer_ranks_organization_aware_profiles_first() {
         let incomplete = DevinSessionImporter.SessionInfo(
             accessToken: "auth1_incomplete",
             organization: nil,
@@ -484,13 +484,13 @@ struct DevinUsageFetcherTests {
     }
 
     @Test
-    func `missing organization retries the next browser profile`() {
+    func missing_organization_retries_the_next_browser_profile() {
         #expect(DevinUsageFetcher.shouldTryNextSession(after: DevinUsageError.missingOrganization))
         #expect(!DevinUsageFetcher.shouldTryNextSession(after: DevinUsageError.parseFailed("invalid response")))
     }
 
     @Test
-    func `automatic local storage import does not fall back beyond Chrome`() throws {
+    func automatic_local_storage_import_does_not_fall_back_beyond_Chrome() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: temp) }
 

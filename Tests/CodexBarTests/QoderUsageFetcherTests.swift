@@ -4,7 +4,7 @@ import Testing
 
 struct QoderUsageFetcherTests {
     @Test
-    func `parses documented member quota summary`() throws {
+    func parses_documented_member_quota_summary() throws {
         let snapshot = try QoderUsageFetcher.parseUsage(data: Data(Self.quotaJSON.utf8), now: Self.now)
         let usage = snapshot.toUsageSnapshot()
 
@@ -23,7 +23,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `parses legacy snake case quota summary`() throws {
+    func parses_legacy_snake_case_quota_summary() throws {
         let snapshot = try QoderUsageFetcher.parseUsage(data: Data(Self.legacyQuotaJSON.utf8), now: Self.now)
 
         #expect(snapshot.usedCredits == 125)
@@ -35,7 +35,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `parses numeric reset timestamp`() throws {
+    func parses_numeric_reset_timestamp() throws {
         let json = Self.quotaJSON.replacing(
             "\"2024-09-01T00:00:00Z\"",
             with: "1725148800000")
@@ -45,7 +45,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `folds shared quota into displayed totals`() throws {
+    func folds_shared_quota_into_displayed_totals() throws {
         let snapshot = try QoderUsageFetcher.parseUsage(
             data: Data(Self.sharedQuotaJSON.utf8),
             now: Self.now)
@@ -62,7 +62,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `zero total zero usage without percentage is exhausted`() throws {
+    func zero_total_zero_usage_without_percentage_is_exhausted() throws {
         let snapshot = try QoderUsageFetcher.parseUsage(
             data: Data(Self.zeroTotalQuotaJSON.utf8),
             now: Self.now)
@@ -77,7 +77,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `negative quota values are invalid`() {
+    func negative_quota_values_are_invalid() {
         #expect(throws: QoderUsageError.parseFailed("quota values must be nonnegative")) {
             try QoderUsageFetcher.parseUsage(
                 data: Data(Self.zeroTotalQuotaJSON.replacing("\"usedValue\": 0", with: "\"usedValue\": -1").utf8),
@@ -97,7 +97,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `zero total with positive usage is invalid`() {
+    func zero_total_with_positive_usage_is_invalid() {
         #expect(throws: QoderUsageError.parseFailed("zero total quota must have zero usage and remaining")) {
             try QoderUsageFetcher.parseUsage(
                 data: Data(Self.zeroTotalQuotaJSON.replacing("\"usedValue\": 0", with: "\"usedValue\": 1").utf8),
@@ -112,7 +112,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `fetch sends documented Qoder headers`() async throws {
+    func fetch_sends_documented_Qoder_headers() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.httpMethod == "GET")
             #expect(request.timeoutInterval == 42)
@@ -143,7 +143,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `fetch can target Qoder China site`() async throws {
+    func fetch_can_target_Qoder_China_site() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.url?.absoluteString == "https://qoder.com.cn/api/v2/me/usages/big_model_credits")
             #expect(request.value(forHTTPHeaderField: "Origin") == "https://qoder.com.cn")
@@ -167,7 +167,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `unauthorized response maps to invalid credentials`() async {
+    func unauthorized_response_maps_to_invalid_credentials() async {
         let transport = ProviderHTTPTransportStub { request in
             (
                 Data(),
@@ -184,13 +184,13 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `invalid credentials message is domain neutral`() {
+    func invalid_credentials_message_is_domain_neutral() {
         #expect(QoderUsageError.invalidCredentials
             .localizedDescription == "Qoder session is invalid or expired. Please sign in to Qoder again.")
     }
 
     @Test
-    func `task cancellation propagates`() async {
+    func task_cancellation_propagates() async {
         let transport = ProviderHTTPTransportStub { _ in
             throw CancellationError()
         }
@@ -201,7 +201,7 @@ struct QoderUsageFetcherTests {
     }
 
     @Test
-    func `URL cancellation propagates as task cancellation`() async {
+    func URL_cancellation_propagates_as_task_cancellation() async {
         let transport = ProviderHTTPTransportStub { _ in
             throw URLError(.cancelled)
         }

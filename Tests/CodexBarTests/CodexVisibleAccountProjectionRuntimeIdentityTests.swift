@@ -4,7 +4,7 @@ import Testing
 
 struct CodexVisibleAccountProjectionRuntimeIdentityTests {
     @Test
-    func `runtime provider identity supplies missing managed workspace id`() throws {
+    func runtime_provider_identity_supplies_missing_managed_workspace_id() throws {
         let accountID = UUID()
         let storedAccount = ManagedCodexAccount(
             id: accountID,

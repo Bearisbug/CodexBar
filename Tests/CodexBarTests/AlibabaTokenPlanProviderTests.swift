@@ -4,7 +4,7 @@ import Testing
 
 struct AlibabaTokenPlanSettingsReaderTests {
     @Test
-    func `cookie reads from environment`() {
+    func cookie_reads_from_environment() {
         let cookie = AlibabaTokenPlanSettingsReader.cookieHeader(environment: [
             AlibabaTokenPlanSettingsReader.cookieHeaderKey: "\"login_aliyunid_ticket=ticket\"",
         ])
@@ -12,7 +12,7 @@ struct AlibabaTokenPlanSettingsReaderTests {
     }
 
     @Test
-    func `quota URL infers HTTPS scheme`() {
+    func quota_URL_infers_HTTPS_scheme() {
         let url = AlibabaTokenPlanSettingsReader.quotaURL(environment: [
             AlibabaTokenPlanSettingsReader.quotaURLKey: "quota.token-plan.test/data/api.json",
         ])
@@ -22,7 +22,7 @@ struct AlibabaTokenPlanSettingsReaderTests {
     }
 
     @Test
-    func `quota URL rejects non HTTPS schemes`() {
+    func quota_URL_rejects_non_HTTPS_schemes() {
         let httpURL = AlibabaTokenPlanSettingsReader.quotaURL(environment: [
             AlibabaTokenPlanSettingsReader.quotaURLKey: "http://quota.token-plan.test/data/api.json",
         ])
@@ -35,7 +35,7 @@ struct AlibabaTokenPlanSettingsReaderTests {
     }
 
     @Test
-    func `host override rejects non HTTPS schemes`() {
+    func host_override_rejects_non_HTTPS_schemes() {
         let httpHost = AlibabaTokenPlanSettingsReader.hostOverride(environment: [
             AlibabaTokenPlanSettingsReader.hostKey: "http://dashboard.token-plan.test",
         ])
@@ -52,7 +52,7 @@ struct AlibabaTokenPlanSettingsReaderTests {
     }
 
     @Test
-    func `default quota URL targets subscription summary API`() {
+    func default_quota_URL_targets_subscription_summary_API() {
         let url = AlibabaTokenPlanUsageFetcher.defaultQuotaURL
         #expect(url.host == "modelstudio.console.alibabacloud.com")
         #expect(url.absoluteString.contains("GetSubscriptionSummary"))
@@ -60,7 +60,7 @@ struct AlibabaTokenPlanSettingsReaderTests {
     }
 
     @Test
-    func `default quota URL for china mainland targets bailian`() {
+    func default_quota_URL_for_china_mainland_targets_bailian() {
         let url = AlibabaTokenPlanUsageFetcher.defaultQuotaURL(region: .chinaMainland)
         #expect(url.host == "bailian.console.aliyun.com")
         #expect(url.absoluteString.contains("GetSubscriptionSummary"))
@@ -70,7 +70,7 @@ struct AlibabaTokenPlanSettingsReaderTests {
 
 struct AlibabaTokenPlanCookieHeaderTests {
     @Test
-    func `builds URL scoped headers for API and dashboard`() throws {
+    func builds_URL_scoped_headers_for_API_and_dashboard() throws {
         let cookies = [
             self.cookie(name: "login_aliyunid_ticket", value: "ticket", domain: ".alibabacloud.com"),
             self.cookie(name: "login_current_pk", value: "account", domain: ".alibabacloud.com"),
@@ -90,7 +90,7 @@ struct AlibabaTokenPlanCookieHeaderTests {
     }
 
     @Test
-    func `builds URL scoped headers for china mainland region`() throws {
+    func builds_URL_scoped_headers_for_china_mainland_region() throws {
         let cookies = [
             self.cookie(name: "login_aliyunid_ticket", value: "ticket", domain: ".aliyun.com"),
             self.cookie(name: "login_current_pk", value: "account", domain: ".aliyun.com"),
@@ -110,7 +110,7 @@ struct AlibabaTokenPlanCookieHeaderTests {
     }
 
     @Test
-    func `cached token plan headers preserve URL scoping`() throws {
+    func cached_token_plan_headers_preserve_URL_scoping() throws {
         let headers = AlibabaTokenPlanCookieHeaders(
             apiCookieHeader: "login_aliyunid_ticket=ticket; api_only=api",
             dashboardCookieHeader: "login_aliyunid_ticket=ticket; dashboard_only=dashboard")
@@ -124,7 +124,7 @@ struct AlibabaTokenPlanCookieHeaderTests {
     }
 
     @Test
-    func `builds headers from environment scoped URLs`() throws {
+    func builds_headers_from_environment_scoped_URLs() throws {
         let cookies = [
             self.cookie(name: "login_aliyunid_ticket", value: "ticket", domain: ".token-plan.test"),
             self.cookie(name: "api_only", value: "api", domain: "quota.token-plan.test"),
@@ -170,7 +170,7 @@ struct AlibabaTokenPlanCookieHeaderTests {
 
 struct AlibabaTokenPlanUsageSnapshotTests {
     @Test
-    func `maps used and total quota to primary window`() {
+    func maps_used_and_total_quota_to_primary_window() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let reset = Date(timeIntervalSince1970: 1_700_100_000)
         let snapshot = AlibabaTokenPlanUsageSnapshot(
@@ -190,7 +190,7 @@ struct AlibabaTokenPlanUsageSnapshotTests {
     }
 
     @Test
-    func `does not create primary window from balance only`() {
+    func does_not_create_primary_window_from_balance_only() {
         let snapshot = AlibabaTokenPlanUsageSnapshot(
             planName: "TOKEN PLAN",
             usedQuota: nil,
@@ -209,7 +209,7 @@ struct AlibabaTokenPlanUsageSnapshotTests {
 @Suite(.serialized)
 struct AlibabaTokenPlanUsageParsingTests {
     @Test
-    func `parses subscription summary payload`() throws {
+    func parses_subscription_summary_payload() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -235,7 +235,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `parses nested subscription summary body`() throws {
+    func parses_nested_subscription_summary_body() throws {
         let body = """
         {
           "success": true,
@@ -259,7 +259,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `empty subscription summary stays visible without quota window`() throws {
+    func empty_subscription_summary_stays_visible_without_quota_window() throws {
         let json = """
         {
           "Success": true,
@@ -277,7 +277,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `login payload maps to login required`() {
+    func login_payload_maps_to_login_required() {
         let json = """
         {
           "code": "ConsoleNeedLogin",
@@ -292,7 +292,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `post only token payload maps to login required`() {
+    func post_only_token_payload_maps_to_login_required() {
         let json = """
         {
           "code": "PostonlyOrTokenError",
@@ -307,7 +307,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `nested unsuccessful subscription summary maps to API error`() throws {
+    func nested_unsuccessful_subscription_summary_maps_to_API_error() throws {
         let body = """
         {
           "success": false,
@@ -323,7 +323,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `forbidden payload maps to invalid credentials`() {
+    func forbidden_payload_maps_to_invalid_credentials() {
         let json = """
         {
           "statusCode": 403,
@@ -337,7 +337,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `failed forbidden payload maps to invalid credentials`() {
+    func failed_forbidden_payload_maps_to_invalid_credentials() {
         let json = """
         {
           "successResponse": false,
@@ -352,7 +352,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `html login payload maps to login required`() {
+    func html_login_payload_maps_to_login_required() {
         let html = """
         <html>
           <body>Please login to Alibaba Cloud</body>
@@ -365,14 +365,14 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `non json payload maps to parse failed`() {
+    func non_json_payload_maps_to_parse_failed() {
         #expect(throws: AlibabaTokenPlanUsageError.parseFailed("Invalid JSON response")) {
             try AlibabaTokenPlanUsageFetcher.parseUsageSnapshot(from: Data("not-json".utf8))
         }
     }
 
     @Test
-    func `SEC token preflight falls back to user info`() async throws {
+    func SEC_token_preflight_falls_back_to_user_info() async throws {
         defer {
             AlibabaTokenPlanStubURLProtocol.handler = nil
         }
@@ -454,7 +454,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `SEC token preflight uses injected session`() async throws {
+    func SEC_token_preflight_uses_injected_session() async throws {
         AlibabaTokenPlanStubURLProtocol.handler = { request in
             guard let url = request.url else { throw URLError(.badURL) }
 
@@ -500,7 +500,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `redirect preserves cookie only for same host HTTPS requests`() throws {
+    func redirect_preserves_cookie_only_for_same_host_HTTPS_requests() throws {
         let sourceURL = try #require(URL(string: "https://bailian.console.aliyun.com/data/api.json"))
         let sameHostURL = try #require(URL(string: "https://bailian.console.aliyun.com/redirected"))
         let crossHostURL = try #require(URL(string: "https://signin.aliyun.com/login"))
@@ -535,7 +535,7 @@ struct AlibabaTokenPlanUsageParsingTests {
     }
 
     @Test
-    func `dashboard redirect preserves dashboard cookie header`() throws {
+    func dashboard_redirect_preserves_dashboard_cookie_header() throws {
         let sourceURL = try #require(URL(string: "https://bailian.console.aliyun.com/cn-beijing"))
         let targetURL = try #require(URL(string: "https://bailian.console.aliyun.com/redirected"))
         let response = try #require(HTTPURLResponse(
@@ -611,7 +611,7 @@ struct AlibabaTokenPlanWebStrategyTests {
     }
 
     @Test
-    func `auto web strategy surfaces cookie import errors`() async throws {
+    func auto_web_strategy_surfaces_cookie_import_errors() async throws {
         try await self.withIsolatedCookieCache {
             let strategy = AlibabaTokenPlanWebFetchStrategy()
             let settings = ProviderSettingsSnapshot.make(
@@ -657,7 +657,7 @@ struct AlibabaTokenPlanWebStrategyTests {
     }
 
     @Test
-    func `auto web strategy imports subscription scoped token plan cookies`() throws {
+    func auto_web_strategy_imports_subscription_scoped_token_plan_cookies() throws {
         try self.withIsolatedCookieCache {
             let strategy = AlibabaTokenPlanWebFetchStrategy()
             let settings = ProviderSettingsSnapshot.make(
@@ -722,7 +722,7 @@ struct AlibabaTokenPlanWebStrategyTests {
     }
 
     @Test
-    func `auto web strategy scopes imported cookies to environment overrides`() throws {
+    func auto_web_strategy_scopes_imported_cookies_to_environment_overrides() throws {
         try self.withIsolatedCookieCache {
             let settings = ProviderSettingsSnapshot.make(
                 alibabaTokenPlan: ProviderSettingsSnapshot.AlibabaTokenPlanProviderSettings(
@@ -773,7 +773,7 @@ struct AlibabaTokenPlanWebStrategyTests {
     }
 
     @Test
-    func `cached browser cookies stay isolated by gateway region`() throws {
+    func cached_browser_cookies_stay_isolated_by_gateway_region() throws {
         try self.withIsolatedCookieCache {
             self.clearCookieCaches()
             defer { self.clearCookieCaches() }
@@ -809,7 +809,7 @@ struct AlibabaTokenPlanWebStrategyTests {
     }
 
     @Test
-    func `legacy unscoped cache migrates only to China gateway`() throws {
+    func legacy_unscoped_cache_migrates_only_to_China_gateway() throws {
         try self.withIsolatedCookieCache {
             self.clearCookieCaches()
             defer { self.clearCookieCaches() }

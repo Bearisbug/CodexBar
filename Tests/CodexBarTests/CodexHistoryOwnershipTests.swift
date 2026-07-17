@@ -8,28 +8,28 @@ struct CodexHistoryOwnershipTests {
     private let legacyEmailHash = "b4c9a289323b21a01c3e940f150eb9b8c542587f1abfd8f0e1cc1ffc5e475514"
 
     @Test
-    func `serializes canonical provider-account key`() {
+    func serializes_canonical_provider_account_key() {
         let key = CodexHistoryOwnership.canonicalKey(for: .providerAccount(id: "acct-123"))
 
         #expect(key == "codex:v1:provider-account:acct-123")
     }
 
     @Test
-    func `serializes canonical email-hash key`() {
+    func serializes_canonical_email_hash_key() {
         let key = CodexHistoryOwnership.canonicalKey(for: .emailOnly(normalizedEmail: self.normalizedEmail))
 
         #expect(key == "codex:v1:email-hash:\(self.legacyEmailHash)")
     }
 
     @Test
-    func `unresolved identity has no canonical key`() {
+    func unresolved_identity_has_no_canonical_key() {
         let key = CodexHistoryOwnership.canonicalKey(for: .unresolved)
 
         #expect(key == nil)
     }
 
     @Test
-    func `classifies canonical and legacy persisted keys`() {
+    func classifies_canonical_and_legacy_persisted_keys() {
         let canonical = "codex:v1:provider-account:acct-123"
         let legacy = CodexHistoryOwnership.classifyPersistedKey(
             self.legacyEmailHash,
@@ -46,7 +46,7 @@ struct CodexHistoryOwnershipTests {
     }
 
     @Test
-    func `strict continuity passes for a single aliased email-hash owner`() {
+    func strict_continuity_passes_for_a_single_aliased_email_hash_owner() {
         let canonicalEmailHashKey = "codex:v1:email-hash:\(self.legacyEmailHash)"
 
         let result = CodexHistoryOwnership.hasStrictSingleAccountContinuity(
@@ -60,7 +60,7 @@ struct CodexHistoryOwnershipTests {
     }
 
     @Test
-    func `strict continuity fails with ambiguous owners`() {
+    func strict_continuity_fails_with_ambiguous_owners() {
         let canonicalEmailHashKey = "codex:v1:email-hash:\(self.legacyEmailHash)"
 
         let result = CodexHistoryOwnership.hasStrictSingleAccountContinuity(
@@ -77,7 +77,7 @@ struct CodexHistoryOwnershipTests {
     }
 
     @Test
-    func `strict continuity fails when adjacent persisted evidence vetoes migration`() {
+    func strict_continuity_fails_when_adjacent_persisted_evidence_vetoes_migration() {
         let canonicalEmailHashKey = "codex:v1:email-hash:\(self.legacyEmailHash)"
 
         let result = CodexHistoryOwnership.hasStrictSingleAccountContinuity(
@@ -91,7 +91,7 @@ struct CodexHistoryOwnershipTests {
     }
 
     @Test
-    func `provider-account target inherits email continuity`() {
+    func provider_account_target_inherits_email_continuity() {
         let providerAccountKey = "codex:v1:provider-account:acct-123"
         let canonicalEmailHashKey = "codex:v1:email-hash:\(self.legacyEmailHash)"
 

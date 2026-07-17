@@ -4,7 +4,7 @@ import Testing
 
 struct MiniMaxAPISettingsReaderTests {
     @Test
-    func `api token prefers coding plan specific environment key`() {
+    func api_token_prefers_coding_plan_specific_environment_key() {
         let token = MiniMaxAPISettingsReader.apiToken(environment: [
             "MINIMAX_API_KEY": "sk-api-standard",
             "MINIMAX_CODING_API_KEY": "sk-cp-coding-plan",
@@ -15,7 +15,7 @@ struct MiniMaxAPISettingsReaderTests {
     }
 
     @Test
-    func `api token falls back to generic environment key`() {
+    func api_token_falls_back_to_generic_environment_key() {
         let token = MiniMaxAPISettingsReader.apiToken(environment: [
             "MINIMAX_API_KEY": "\"sk-api-standard\"",
         ])
@@ -27,7 +27,7 @@ struct MiniMaxAPISettingsReaderTests {
 
 struct MiniMaxEndpointOverrideSettingsTests {
     @Test
-    func `strict endpoint overrides reject non MiniMax hosts`() {
+    func strict_endpoint_overrides_reject_non_MiniMax_hosts() {
         let env = [
             MiniMaxSettingsReader.requireProviderEndpointOverridesKey: "true",
             MiniMaxSettingsReader.hostKey: "https://attacker.example",
@@ -43,7 +43,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `endpoint overrides reject encoded host delimiters before suffix matching`() {
+    func endpoint_overrides_reject_encoded_host_delimiters_before_suffix_matching() {
         let encodedSlash = "https://attacker.example%2f.platform.minimax.io"
         let doubleEncodedSlash = "https://attacker.example%252f.platform.minimax.io"
         let env = [
@@ -63,7 +63,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `endpoint overrides reject whitespace and control characters in hosts`() {
+    func endpoint_overrides_reject_whitespace_and_control_characters_in_hosts() {
         for host in ["https://bad host", "https://bad%20host", "https://bad%09host"] {
             #expect(MiniMaxSettingsReader.hostOverride(environment: [
                 MiniMaxSettingsReader.hostKey: host,
@@ -75,7 +75,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `endpoint overrides require https and no userinfo`() {
+    func endpoint_overrides_require_https_and_no_userinfo() {
         #expect(MiniMaxSettingsReader.hostOverride(environment: [
             MiniMaxSettingsReader.hostKey: "http://platform.minimax.io",
         ]) == nil)
@@ -88,7 +88,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `endpoint overrides allow MiniMax and custom https hosts`() {
+    func endpoint_overrides_allow_MiniMax_and_custom_https_hosts() {
         let env = [
             MiniMaxSettingsReader.hostKey: "platform.minimaxi.com",
             MiniMaxSettingsReader.remainsURLKey: "https://platform.minimax.io/custom/remains",
@@ -107,7 +107,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `host endpoint overrides preserve explicit port`() {
+    func host_endpoint_overrides_preserve_explicit_port() {
         let env = [MiniMaxSettingsReader.hostKey: "proxy.example.test:8443"]
 
         #expect(MiniMaxSettingsReader.hostOverride(environment: env) == "proxy.example.test:8443")
@@ -120,7 +120,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `subscription metadata accepts host names beginning with http`() throws {
+    func subscription_metadata_accepts_host_names_beginning_with_http() throws {
         let url = try MiniMaxSubscriptionMetadataFetcher.resolveComboURL(
             region: .global,
             environment: [MiniMaxSettingsReader.hostKey: "https://http-proxy.example.test"])
@@ -130,7 +130,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `scheme less endpoint preserves colon in path`() {
+    func scheme_less_endpoint_preserves_colon_in_path() {
         let env = [MiniMaxSettingsReader.remainsURLKey: "proxy.example.test/api:v1"]
 
         #expect(
@@ -139,7 +139,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `custom https endpoints allow bracketed IPv6 literals`() {
+    func custom_https_endpoints_allow_bracketed_IPv6_literals() {
         let env = [
             MiniMaxSettingsReader.hostKey: "[::1]:8443",
             MiniMaxSettingsReader.remainsURLKey: "https://[::1]:8443/remains",
@@ -151,7 +151,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `strict provider endpoint mode rejects custom hosts`() {
+    func strict_provider_endpoint_mode_rejects_custom_hosts() {
         let env = [
             MiniMaxSettingsReader.requireProviderEndpointOverridesKey: "true",
             MiniMaxSettingsReader.hostKey: "proxy.example.test",
@@ -164,7 +164,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `custom https compatibility mode still rejects http and userinfo`() {
+    func custom_https_compatibility_mode_still_rejects_http_and_userinfo() {
         #expect(MiniMaxSettingsReader.hostOverride(environment: [
             MiniMaxSettingsReader.hostKey: "http://proxy.example.test",
         ]) == nil)
@@ -174,7 +174,7 @@ struct MiniMaxEndpointOverrideSettingsTests {
     }
 
     @Test
-    func `explicit endpoint override rejects invalid scheme before network`() async {
+    func explicit_endpoint_override_rejects_invalid_scheme_before_network() async {
         await #expect(throws: ProviderEndpointOverrideError.minimax(MiniMaxSettingsReader.codingPlanURLKey)) {
             _ = try await MiniMaxUsageFetcher.fetchUsage(
                 cookieHeader: "session=abc123",
@@ -200,7 +200,7 @@ struct MiniMaxProviderStrategyTests {
     }
 
     @Test
-    func `browser cookie import is user initiated app only`() {
+    func browser_cookie_import_is_user_initiated_app_only() {
         let appContext = self.makeContext(runtime: .app)
         let cliContext = self.makeContext(runtime: .cli)
 
@@ -232,35 +232,35 @@ struct MiniMaxProviderStrategyTests {
 
 struct MiniMaxCookieHeaderTests {
     @Test
-    func `normalizes raw cookie header`() {
+    func normalizes_raw_cookie_header() {
         let raw = "foo=bar; session=abc123"
         let normalized = MiniMaxCookieHeader.normalized(from: raw)
         #expect(normalized == "foo=bar; session=abc123")
     }
 
     @Test
-    func `extracts from cookie header line`() {
+    func extracts_from_cookie_header_line() {
         let raw = "Cookie: foo=bar; session=abc123"
         let normalized = MiniMaxCookieHeader.normalized(from: raw)
         #expect(normalized == "foo=bar; session=abc123")
     }
 
     @Test
-    func `extracts from curl header`() {
+    func extracts_from_curl_header() {
         let raw = "curl https://platform.minimax.io -H 'Cookie: foo=bar; session=abc123' -H 'accept: */*'"
         let normalized = MiniMaxCookieHeader.normalized(from: raw)
         #expect(normalized == "foo=bar; session=abc123")
     }
 
     @Test
-    func `extracts from curl cookie flag`() {
+    func extracts_from_curl_cookie_flag() {
         let raw = "curl https://platform.minimax.io --cookie 'foo=bar; session=abc123'"
         let normalized = MiniMaxCookieHeader.normalized(from: raw)
         #expect(normalized == "foo=bar; session=abc123")
     }
 
     @Test
-    func `extracts auth and group ID from curl`() {
+    func extracts_auth_and_group_ID_from_curl() {
         let raw = """
         curl 'https://platform.minimax.io/v1/api/openplatform/coding_plan/remains?GroupId=123456' \
           -H 'authorization: Bearer token123' \
@@ -273,7 +273,7 @@ struct MiniMaxCookieHeaderTests {
     }
 
     @Test
-    func `extracts auth from uppercase header`() {
+    func extracts_auth_from_uppercase_header() {
         let raw = """
         curl 'https://platform.minimax.io/v1/api/openplatform/coding_plan/remains?GROUP_ID=98765' \
           -H 'Authorization: Bearer token-abc' \
@@ -285,7 +285,7 @@ struct MiniMaxCookieHeaderTests {
     }
 
     @Test
-    func `extracts group ID from combo curl header and cookie`() {
+    func extracts_group_ID_from_combo_curl_header_and_cookie() {
         let raw = """
         curl 'https://www.minimaxi.com/v1/api/openplatform/charge/combo/cycle_audio_resource_package' \
           -b 'foo=bar; minimax_group_id_v2=2013894056999916075' \
@@ -299,7 +299,7 @@ struct MiniMaxCookieHeaderTests {
 
 struct MiniMaxUsageParserTests {
     @Test
-    func `signed out check ignores login copy inside scripts`() {
+    func signed_out_check_ignores_login_copy_inside_scripts() {
         let html = """
         <html>
           <head>
@@ -330,7 +330,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `signed out check still detects visible login copy`() {
+    func signed_out_check_still_detects_visible_login_copy() {
         let html = """
         <html>
           <head><script>{"landing_common_login":"登录"}</script></head>
@@ -342,7 +342,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses planName from concrete fields in remains response`() throws {
+    func parses_planName_from_concrete_fields_in_remains_response() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
 
         // 1. plan_name
@@ -402,7 +402,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `toUsageSnapshot maps planName to loginMethod`() {
+    func toUsageSnapshot_maps_planName_to_loginMethod() {
         let now = Date()
         let snapshot1 = MiniMaxUsageSnapshot(
             planName: "MiniMax Star",
@@ -430,7 +430,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses coding plan snapshot`() throws {
+    func parses_coding_plan_snapshot() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let html = """
         <div>Coding Plan</div>
@@ -454,7 +454,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses coding plan remains response`() throws {
+    func parses_coding_plan_remains_response() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let start = 1_700_000_000_000
         let end = start + 5 * 60 * 60 * 1000
@@ -487,7 +487,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses model remains services using used quota semantics`() throws {
+    func parses_model_remains_services_using_used_quota_semantics() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let start = 1_700_000_000_000
         let end = start + 5 * 60 * 60 * 1000
@@ -520,7 +520,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `text generation includes weekly window when provided`() throws {
+    func text_generation_includes_weekly_window_when_provided() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let start = 1_700_000_000_000
         let end = start + 5 * 60 * 60 * 1000
@@ -559,7 +559,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `legacy plan hides weekly when weekly total is missing or zero`() throws {
+    func legacy_plan_hides_weekly_when_weekly_total_is_missing_or_zero() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let start = 1_700_000_000_000
         let end = start + 5 * 60 * 60 * 1000
@@ -586,7 +586,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses multi service payload and utc offset reset`() throws {
+    func parses_multi_service_payload_and_utc_offset_reset() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(secondsFromGMT: 8 * 3600))
         let now = try #require(calendar.date(from: DateComponents(
@@ -639,7 +639,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses coding plan remains from data wrapper`() throws {
+    func parses_coding_plan_remains_from_data_wrapper() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_100)
         let start = 1_700_000_000_000
         let end = start + 5 * 60 * 60 * 1000
@@ -675,7 +675,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses coding plan from next data`() throws {
+    func parses_coding_plan_from_next_data() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let start = 1_700_000_000_000
         let end = start + 5 * 60 * 60 * 1000
@@ -719,7 +719,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `parses HTML with used prefix and reset time`() throws {
+    func parses_HTML_with_used_prefix_and_reset_time() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "UTC") ?? .current
         let now = try #require(calendar.date(from: DateComponents(year: 2025, month: 1, day: 1, hour: 10, minute: 0)))
@@ -747,7 +747,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `throws on missing cookie response`() {
+    func throws_on_missing_cookie_response() {
         let json = """
         {
           "base_resp": { "status_code": 1004, "status_msg": "cookie is missing, log in again" }
@@ -760,7 +760,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `throws on string status code when logged out`() {
+    func throws_on_string_status_code_when_logged_out() {
         let json = """
         {
           "base_resp": { "status_code": "1004", "status_msg": "login required" }
@@ -773,7 +773,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `throws on error in data wrapper`() {
+    func throws_on_error_in_data_wrapper() {
         let json = """
         {
           "data": {
@@ -788,7 +788,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `billing history aggregates records locally`() throws {
+    func billing_history_aggregates_records_locally() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(secondsFromGMT: 0))
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
@@ -844,7 +844,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `billing history preserves date only days in local calendar`() throws {
+    func billing_history_preserves_date_only_days_in_local_calendar() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(secondsFromGMT: -7 * 60 * 60))
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
@@ -873,7 +873,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `billing history filters failed records`() throws {
+    func billing_history_filters_failed_records() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(secondsFromGMT: 0))
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
@@ -940,7 +940,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `web usage fetch attaches billing history when available`() async throws {
+    func web_usage_fetch_attaches_billing_history_when_available() async throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -983,7 +983,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `web usage fetch keeps paginating billing history until 30 day cutoff`() async throws {
+    func web_usage_fetch_keeps_paginating_billing_history_until_30_day_cutoff() async throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -1028,7 +1028,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `web usage fetch skips billing history when optional usage is disabled`() async throws {
+    func web_usage_fetch_skips_billing_history_when_optional_usage_is_disabled() async throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -1054,7 +1054,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `web usage fetch keeps quota when billing history is forbidden`() async throws {
+    func web_usage_fetch_keeps_quota_when_billing_history_is_forbidden() async throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -1079,7 +1079,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `web usage fetch preserves stale bearer failure during billing history`() async throws {
+    func web_usage_fetch_preserves_stale_bearer_failure_during_billing_history() async throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -1105,7 +1105,7 @@ struct MiniMaxUsageParserTests {
     }
 
     @Test
-    func `web usage fetch preserves billing history cancellation`() async throws {
+    func web_usage_fetch_preserves_billing_history_cancellation() async throws {
         let now = try #require(ISO8601DateFormatter().date(from: "2026-05-17T12:00:00Z"))
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -1164,7 +1164,7 @@ struct MiniMaxUsageParserTests {
 
 struct MiniMaxAPIRegionTests {
     @Test
-    func `defaults to global hosts`() {
+    func defaults_to_global_hosts() {
         let codingPlan = MiniMaxUsageFetcher.resolveCodingPlanURL(region: .global, environment: [:])
         let remains = MiniMaxUsageFetcher.resolveRemainsURL(region: .global, environment: [:])
         #expect(codingPlan.host == "platform.minimax.io")
@@ -1172,7 +1172,7 @@ struct MiniMaxAPIRegionTests {
     }
 
     @Test
-    func `uses china mainland hosts`() {
+    func uses_china_mainland_hosts() {
         let codingPlan = MiniMaxUsageFetcher.resolveCodingPlanURL(region: .chinaMainland, environment: [:])
         let remains = MiniMaxUsageFetcher.resolveRemainsURL(region: .chinaMainland, environment: [:])
         #expect(codingPlan.host == "platform.minimaxi.com")
@@ -1181,7 +1181,7 @@ struct MiniMaxAPIRegionTests {
     }
 
     @Test
-    func `resolves web remains fallback hosts`() {
+    func resolves_web_remains_fallback_hosts() {
         let global = MiniMaxUsageFetcher.resolveRemainsURLs(region: .global, environment: [:])
         let china = MiniMaxUsageFetcher.resolveRemainsURLs(region: .chinaMainland, environment: [:])
 
@@ -1192,14 +1192,14 @@ struct MiniMaxAPIRegionTests {
     }
 
     @Test
-    func `resolves official token plan remains URL`() {
+    func resolves_official_token_plan_remains_URL() {
         let url = MiniMaxUsageFetcher.resolveTokenPlanRemainsURL(region: .chinaMainland)
         #expect(url.host == "api.minimaxi.com")
         #expect(url.path == "/v1/token_plan/remains")
     }
 
     @Test
-    func `host override wins for remains and coding plan`() {
+    func host_override_wins_for_remains_and_coding_plan() {
         let env = [MiniMaxSettingsReader.hostKey: "api.minimaxi.com"]
         let codingPlan = MiniMaxUsageFetcher.resolveCodingPlanURL(region: .global, environment: env)
         let remains = MiniMaxUsageFetcher.resolveRemainsURL(region: .global, environment: env)
@@ -1208,7 +1208,7 @@ struct MiniMaxAPIRegionTests {
     }
 
     @Test
-    func `billing history url uses account amount endpoint`() {
+    func billing_history_url_uses_account_amount_endpoint() {
         let url = MiniMaxUsageFetcher.resolveBillingHistoryURL(region: .chinaMainland, environment: [:], page: 2)
         #expect(url.host == "platform.minimaxi.com")
         #expect(url.path == "/account/amount")
@@ -1218,14 +1218,14 @@ struct MiniMaxAPIRegionTests {
     }
 
     @Test
-    func `remains url override beats host`() {
+    func remains_url_override_beats_host() {
         let env = [MiniMaxSettingsReader.remainsURLKey: "https://platform.minimaxi.com/custom/remains"]
         let remains = MiniMaxUsageFetcher.resolveRemainsURL(region: .global, environment: env)
         #expect(remains.absoluteString == "https://platform.minimaxi.com/custom/remains")
     }
 
     @Test
-    func `origin uses coding plan override host`() {
+    func origin_uses_coding_plan_override_host() {
         let env = [MiniMaxSettingsReader.codingPlanURLKey: "https://api.minimaxi.com/custom/path?cycle_type=3"]
         let codingPlan = MiniMaxUsageFetcher.resolveCodingPlanURL(region: .global, environment: env)
         let origin = MiniMaxUsageFetcher.originURL(from: codingPlan)
@@ -1233,7 +1233,7 @@ struct MiniMaxAPIRegionTests {
     }
 
     @Test
-    func `origin strips host override path`() {
+    func origin_strips_host_override_path() {
         let env = [MiniMaxSettingsReader.hostKey: "https://api.minimaxi.com/custom/path"]
         let codingPlan = MiniMaxUsageFetcher.resolveCodingPlanURL(region: .global, environment: env)
         let origin = MiniMaxUsageFetcher.originURL(from: codingPlan)

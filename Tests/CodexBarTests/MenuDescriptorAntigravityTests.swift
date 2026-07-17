@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorAntigravityTests {
     @Test
-    func `antigravity identity only snapshot shows limits unavailable`() throws {
+    func antigravity_identity_only_snapshot_shows_limits_unavailable() throws {
         let suite = "MenuDescriptorAntigravityTests-unavailable"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -52,7 +52,7 @@ struct MenuDescriptorAntigravityTests {
     }
 
     @Test
-    func `antigravity menu does not add unavailable notes for missing families`() throws {
+    func antigravity_menu_does_not_add_unavailable_notes_for_missing_families() throws {
         let suite = "MenuDescriptorAntigravityTests-missing-gemini"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -106,7 +106,7 @@ struct MenuDescriptorAntigravityTests {
     }
 
     @Test
-    func `antigravity descriptor does not render session pace for weekly primary window`() throws {
+    func antigravity_descriptor_does_not_render_session_pace_for_weekly_primary_window() throws {
         let suite = "MenuDescriptorAntigravityTests-weekly-primary-pace"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

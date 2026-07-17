@@ -10,7 +10,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `readme local documentation destinations resolve`() throws {
+    func readme_local_documentation_destinations_resolve() throws {
         let root = try Self.repoRoot()
         let readme = try String(contentsOf: root.appending(path: "README.md"), encoding: .utf8)
         let links = try (
@@ -26,7 +26,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `provider overview detail docs resolve`() throws {
+    func provider_overview_detail_docs_resolve() throws {
         let root = try Self.repoRoot()
         let providers = try String(
             contentsOf: root.appending(path: "docs/providers.md"),
@@ -40,7 +40,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `markdown links support standard destination syntax`() throws {
+    func markdown_links_support_standard_destination_syntax() throws {
         let markdown = [
             "[fragment](#section)",
             "[query](docs/guide%20name.md?mode=print#topic)",
@@ -68,7 +68,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `markdown images support standard inline destination syntax`() {
+    func markdown_images_support_standard_inline_destination_syntax() {
         let markdown = """
         ![simple](docs/simple.png)
         ![query](docs/query.png?raw=1#preview)
@@ -89,7 +89,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `html links support quoted and unquoted destinations`() {
+    func html_links_support_quoted_and_unquoted_destinations() {
         let html = """
         <img src="docs/double.png" alt="double">
         <a href='docs/single.md#section'>single</a>
@@ -110,7 +110,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `local documentation paths normalize safely`() throws {
+    func local_documentation_paths_normalize_safely() throws {
         let root = URL(filePath: "/tmp/CodexBar-documentation-links", directoryHint: .isDirectory)
 
         let target = try Self.localDocURL(
@@ -126,7 +126,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `markdown fragments resolve to rendered heading anchors`() throws {
+    func markdown_fragments_resolve_to_rendered_heading_anchors() throws {
         let root = FileManager.default.temporaryDirectory
             .appending(path: "DocumentationLinkTests-\(UUID().uuidString)", directoryHint: .isDirectory)
         let docs = root.appending(path: "docs", directoryHint: .isDirectory)
@@ -160,7 +160,7 @@ struct DocumentationLinkTests {
     }
 
     @Test
-    func `provider detail extraction ignores unrelated inline code`() {
+    func provider_detail_extraction_ignores_unrelated_inline_code() {
         let markdown = """
         - Details: `docs/first.md#section`.
         - Example: `docs/not-a-detail.md`.

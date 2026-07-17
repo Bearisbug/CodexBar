@@ -6,7 +6,7 @@ import Testing
 extension UsageStorePlanUtilizationTests {
     @MainActor
     @Test
-    func `codex weekly reset detector does not derive an owner for default refreshes`() async {
+    func codex_weekly_reset_detector_does_not_derive_an_owner_for_default_refreshes() async {
         let store = Self.makeStore()
         let email = "shared-default@example.com"
         let observedAt = Date(timeIntervalSince1970: 1_700_050_000)
@@ -40,7 +40,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly reset detector separates workspace accounts and ignores plan changes`() async throws {
+    func codex_weekly_reset_detector_separates_workspace_accounts_and_ignores_plan_changes() async throws {
         let store = Self.makeStore()
         let email = "shared-workspace@example.com"
         let ownerA = try #require(CodexLimitResetOwnerKey(
@@ -78,7 +78,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly reset detector fails closed without workspace ids`() async {
+    func codex_weekly_reset_detector_fails_closed_without_workspace_ids() async {
         let store = Self.makeStore()
         let email = "shared-auth@example.com"
         let observedAt = Date(timeIntervalSince1970: 1_700_100_000)
@@ -102,7 +102,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `codex weekly reset detector keeps workspace ownership across token refreshes`() async throws {
+    func codex_weekly_reset_detector_keeps_workspace_ownership_across_token_refreshes() async throws {
         let store = Self.makeStore()
         let email = "managed-refresh@example.com"
         let observedAt = Date(timeIntervalSince1970: 1_700_200_000)

@@ -5,7 +5,7 @@ import Testing
 
 struct GrokMenuCardModelTests {
     @Test
-    func `weekly CLI quota shows projection and pace marker`() throws {
+    func weekly_CLI_quota_shows_projection_and_pace_marker() throws {
         let now = Date(timeIntervalSince1970: 0)
         let model = try Self.model(
             now: now,
@@ -24,7 +24,7 @@ struct GrokMenuCardModelTests {
     }
 
     @Test
-    func `weekly web quota infers projection from reset date`() throws {
+    func weekly_web_quota_infers_projection_from_reset_date() throws {
         let now = Date(timeIntervalSince1970: 0)
         let model = try Self.model(
             now: now,
@@ -43,7 +43,7 @@ struct GrokMenuCardModelTests {
     }
 
     @Test
-    func `weekly web quota beyond default duration does not show projection`() throws {
+    func weekly_web_quota_beyond_default_duration_does_not_show_projection() throws {
         let now = Date(timeIntervalSince1970: 0)
         let model = try Self.model(
             now: now,
@@ -61,7 +61,7 @@ struct GrokMenuCardModelTests {
     }
 
     @Test
-    func `monthly quota does not show weekly projection`() throws {
+    func monthly_quota_does_not_show_weekly_projection() throws {
         let now = Date(timeIntervalSince1970: 0)
         let model = try Self.model(
             now: now,
@@ -79,7 +79,7 @@ struct GrokMenuCardModelTests {
     }
 
     @Test
-    func `unclassified quota does not show weekly projection`() throws {
+    func unclassified_quota_does_not_show_weekly_projection() throws {
         let now = Date(timeIntervalSince1970: 0)
         let model = try Self.model(
             now: now,

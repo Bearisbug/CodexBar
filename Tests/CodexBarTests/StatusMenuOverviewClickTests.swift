@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuOverviewClickTests {
     @Test
-    func `routes runtime click without gesture recognizer`() {
+    func routes_runtime_click_without_gesture_recognizer() {
         var clicked = false
         let view = MenuCardItemHostingView(
             rootView: Text("Overview row"),
@@ -21,7 +21,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `routes gpu selection runtime click without gesture recognizer`() {
+    func routes_gpu_selection_runtime_click_without_gesture_recognizer() {
         var clicked = false
         let wrapped = MenuCardSectionContainerView(
             highlightState: MenuCardHighlightState(),
@@ -42,7 +42,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `gpu tracking activates only for mouseUp inside row`() {
+    func gpu_tracking_activates_only_for_mouseUp_inside_row() {
         let wrapped = MenuCardSectionContainerView(
             highlightState: MenuCardHighlightState(),
             showsSubmenuIndicator: false,
@@ -64,7 +64,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `gpu tracking cancels when release leaves row`() {
+    func gpu_tracking_cancels_when_release_leaves_row() {
         let wrapped = MenuCardSectionContainerView(
             highlightState: MenuCardHighlightState(),
             showsSubmenuIndicator: true,
@@ -85,7 +85,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `gpu tracking yields an outside drag to native submenu tracking`() {
+    func gpu_tracking_yields_an_outside_drag_to_native_submenu_tracking() {
         let wrapped = MenuCardSectionContainerView(
             highlightState: MenuCardHighlightState(),
             showsSubmenuIndicator: true,
@@ -108,7 +108,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `hitTest preserves button targets in standard hosting view`() {
+    func hitTest_preserves_button_targets_in_standard_hosting_view() {
         let view = MenuCardItemHostingView(
             rootView: Text("Overview row"),
             highlightState: MenuCardHighlightState(),
@@ -124,7 +124,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `hitTest preserves button targets in gpu selection hosting view`() {
+    func hitTest_preserves_button_targets_in_gpu_selection_hosting_view() {
         let wrapped = MenuCardSectionContainerView(
             highlightState: MenuCardHighlightState(),
             showsSubmenuIndicator: false,
@@ -148,7 +148,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `gpu hosting preserves nested SwiftUI button target`() {
+    func gpu_hosting_preserves_nested_SwiftUI_button_target() {
         let interactiveRegionStore = MenuCardInteractiveRegionStore()
         let content = Button("Copy") {}
             .frame(width: 80, height: 30)
@@ -181,7 +181,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `standard hosting forwards nested SwiftUI control events without invoking row`() {
+    func standard_hosting_forwards_nested_SwiftUI_control_events_without_invoking_row() {
         var rowClicked = false
         let interactiveRegionStore = MenuCardInteractiveRegionStore()
         let content = Button("Copy") {}
@@ -221,7 +221,7 @@ struct StatusMenuOverviewClickTests {
     }
 
     @Test
-    func `hidden SwiftUI button region keeps row clickable`() {
+    func hidden_SwiftUI_button_region_keeps_row_clickable() {
         var rowClicked = false
         let interactiveRegionStore = MenuCardInteractiveRegionStore()
         let content = Button("Hidden copy") {}

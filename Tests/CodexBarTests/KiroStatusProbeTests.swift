@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import Foundation
 import Testing
 @testable import CodexBarCore
@@ -17,7 +18,7 @@ private func waitForFile(_ url: URL) async throws {
 @Suite(.serialized)
 struct KiroStatusProbeTests {
     @Test
-    func `fetch returns usage when account probe times out`() async throws {
+    func fetch_returns_usage_when_account_probe_times_out() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -52,7 +53,7 @@ struct KiroStatusProbeTests {
     }
 
     @Test
-    func `pipe and PTY share the account deadline`() async throws {
+    func pipe_and_PTY_share_the_account_deadline() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -89,7 +90,7 @@ struct KiroStatusProbeTests {
     }
 
     @Test
-    func `accepted pipe output cannot overrun the usage deadline`() async throws {
+    func accepted_pipe_output_cannot_overrun_the_usage_deadline() async throws {
         let pipePIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-deadline-\(UUID().uuidString).pid")
         let ptyMarker = FileManager.default.temporaryDirectory
@@ -139,11 +140,15 @@ struct KiroStatusProbeTests {
             usageProbeTimeout: 0.8,
             pipeTimeoutCap: 0.4)
 
-        await #expect {
+        do {
             _ = try await probe.fetch()
-        } throws: { error in
-            guard case KiroStatusProbeError.timeout = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.timeout = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
 
         #expect(startedAt.duration(to: clock.now) < .seconds(2))
@@ -154,7 +159,7 @@ struct KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch preserves account info when account probe succeeds`() async throws {
+    func fetch_preserves_account_info_when_account_probe_succeeds() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -188,7 +193,7 @@ struct KiroStatusProbeTests {
 
 extension KiroStatusProbeTests {
     @Test
-    func `fetch supports kiro cli that only completes through pipes`() async throws {
+    func fetch_supports_kiro_cli_that_only_completes_through_pipes() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -226,7 +231,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `slow pipe remains viable after PTY fallback starts`() async throws {
+    func slow_pipe_remains_viable_after_PTY_fallback_starts() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -260,7 +265,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch falls back to PTY for older kiro cli`() async throws {
+    func fetch_falls_back_to_PTY_for_older_kiro_cli() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -300,7 +305,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch falls back to PTY after incomplete pipe output`() async throws {
+    func fetch_falls_back_to_PTY_after_incomplete_pipe_output() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -342,7 +347,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `pipe cleanup finishes before PTY fallback starts`() async throws {
+    func pipe_cleanup_finishes_before_PTY_fallback_starts() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-pipe-child-\(UUID().uuidString).pid")
         let ptyMarker = FileManager.default.temporaryDirectory
@@ -398,7 +403,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `shutdown registry terminates an active pipe probe`() async throws {
+    func shutdown_registry_terminates_an_active_pipe_probe() async throws {
         let pipePIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-shutdown-\(UUID().uuidString).pid")
         let cliURL = try self.makeCLI(
@@ -459,7 +464,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch combines pipe stdout with stderr warnings`() async throws {
+    func fetch_combines_pipe_stdout_with_stderr_warnings() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -493,7 +498,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch falls back to PTY after pipe requires a terminal`() async throws {
+    func fetch_falls_back_to_PTY_after_pipe_requires_a_terminal() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -529,7 +534,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `pipe auth failure on stderr remains authoritative`() async throws {
+    func pipe_auth_failure_on_stderr_remains_authoritative() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -555,16 +560,20 @@ extension KiroStatusProbeTests {
             """)
         defer { try? FileManager.default.removeItem(at: cliURL.deletingLastPathComponent()) }
 
-        await #expect {
+        do {
             _ = try await KiroStatusProbe(cliBinaryResolver: { cliURL.path }).fetch()
-        } throws: { error in
-            guard case KiroStatusProbeError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `fetch rejects account markers from failed whoami`() async throws {
+    func fetch_rejects_account_markers_from_failed_whoami() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -595,7 +604,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch rejects valid-looking usage from failed command`() async throws {
+    func fetch_rejects_valid_looking_usage_from_failed_command() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -633,16 +642,20 @@ extension KiroStatusProbeTests {
         defer { try? FileManager.default.removeItem(at: cliURL.deletingLastPathComponent()) }
 
         let probe = KiroStatusProbe(cliBinaryResolver: { cliURL.path })
-        await #expect {
+        do {
             _ = try await probe.fetch()
-        } throws: { error in
-            guard case KiroStatusProbeError.cliFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.cliFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `fetch preserves not logged in when usage fails without auth detail`() async throws {
+    func fetch_preserves_not_logged_in_when_usage_fails_without_auth_detail() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -664,16 +677,20 @@ extension KiroStatusProbeTests {
         defer { try? FileManager.default.removeItem(at: cliURL.deletingLastPathComponent()) }
 
         let probe = KiroStatusProbe(cliBinaryResolver: { cliURL.path })
-        await #expect {
+        do {
             _ = try await probe.fetch()
-        } throws: { error in
-            guard case KiroStatusProbeError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `fetch preserves not logged in when whoami idles after login marker`() async throws {
+    func fetch_preserves_not_logged_in_when_whoami_idles_after_login_marker() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -696,16 +713,20 @@ extension KiroStatusProbeTests {
         defer { try? FileManager.default.removeItem(at: cliURL.deletingLastPathComponent()) }
 
         let probe = KiroStatusProbe(cliBinaryResolver: { cliURL.path }, accountProbeTimeout: 2)
-        await #expect {
+        do {
             _ = try await probe.fetch()
-        } throws: { error in
-            guard case KiroStatusProbeError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `fetch preserves not logged in when usage output cannot be parsed`() async throws {
+    func fetch_preserves_not_logged_in_when_usage_output_cannot_be_parsed() async throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -727,16 +748,20 @@ extension KiroStatusProbeTests {
         defer { try? FileManager.default.removeItem(at: cliURL.deletingLastPathComponent()) }
 
         let probe = KiroStatusProbe(cliBinaryResolver: { cliURL.path })
-        await #expect {
+        do {
             _ = try await probe.fetch()
-        } throws: { error in
-            guard case KiroStatusProbeError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `fetch cancellation during context probe is preserved`() async throws {
+    func fetch_cancellation_during_context_probe_is_preserved() async throws {
         let contextStarted = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-context-\(UUID().uuidString).started")
         let cliURL = try self.makeCLI(
@@ -782,7 +807,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `cancellation during pipe cleanup wins over an expired context deadline`() async throws {
+    func cancellation_during_pipe_cleanup_wins_over_an_expired_context_deadline() async throws {
         let cleanupStarted = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-cleanup-\(UUID().uuidString).started")
         let unblockCleanup = DispatchSemaphore(value: 0)
@@ -832,7 +857,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch cancellation while waiting for account probe is preserved`() async throws {
+    func fetch_cancellation_while_waiting_for_account_probe_is_preserved() async throws {
         let accountStarted = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-account-\(UUID().uuidString).started")
         let cliURL = try self.makeCLI(
@@ -877,7 +902,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `fetch returns promptly when usage helper spawns a detached child`() async throws {
+    func fetch_returns_promptly_when_usage_helper_spawns_a_detached_child() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-pipe-\(UUID().uuidString)", isDirectory: true)
         let childPIDFile = root.appendingPathComponent("child.pid")
@@ -972,7 +997,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `tty runner hard stops a process that ignores SIGTERM`() throws {
+    func tty_runner_hard_stops_a_process_that_ignores_SIGTERM() throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -995,7 +1020,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `tty runner kills a pipe holder that escapes the process group`() async throws {
+    func tty_runner_kills_a_pipe_holder_that_escapes_the_process_group() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-escaped-\(UUID().uuidString).pid")
         let cliURL = try self.makeCLI(
@@ -1046,7 +1071,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `tty runner cleans a same group helper after normal exit`() async throws {
+    func tty_runner_cleans_a_same_group_helper_after_normal_exit() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-normal-exit-\(UUID().uuidString).pid")
         let cliURL = try self.makeCLI(
@@ -1097,7 +1122,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `tty runner preserves completed no-output failure status`() throws {
+    func tty_runner_preserves_completed_no_output_failure_status() throws {
         let cliURL = try self.makeCLI(
             """
             #!/bin/sh
@@ -1115,7 +1140,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `tty runner cancellation terminates the process`() async throws {
+    func tty_runner_cancellation_terminates_the_process() async throws {
         let pidFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-cancel-\(UUID().uuidString).pid")
         let cliURL = try self.makeCLI(
@@ -1161,7 +1186,7 @@ extension KiroStatusProbeTests {
     // MARK: - Happy Path Parsing
 
     @Test
-    func `parses basic usage output`() throws {
+    func parses_basic_usage_output() throws {
         let output = """
         | KIRO FREE                                          |
         ████████████████████████████████████████████████████ 25%
@@ -1193,7 +1218,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses output with bonus credits`() throws {
+    func parses_output_with_bonus_credits() throws {
         let output = """
         | KIRO PRO                                           |
         ████████████████████████████████████████████████████ 80%
@@ -1215,7 +1240,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses output without percent fallbacks to credits ratio`() throws {
+    func parses_output_without_percent_fallbacks_to_credits_ratio() throws {
         let output = """
         | KIRO FREE                                          |
         (12.50 of 50 covered in plan), resets on 01/15
@@ -1228,7 +1253,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses bonus credits without expiry`() throws {
+    func parses_bonus_credits_without_expiry() throws {
         let output = """
         | KIRO FREE                                          |
         ████████████████████████████████████████████████████ 60%
@@ -1245,7 +1270,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses output with ANSI codes`() throws {
+    func parses_output_with_ANSI_codes() throws {
         let output = """
         \u{001B}[32m| KIRO FREE                                          |\u{001B}[0m
         \u{001B}[38;5;11m████████████████████████████████████████████████████\u{001B}[0m 50%
@@ -1262,7 +1287,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses output with single day`() throws {
+    func parses_output_with_single_day() throws {
         let output = """
         | KIRO FREE                                          |
         ████████████████████████████████████████████████████ 10%
@@ -1277,7 +1302,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `rejects output missing usage markers`() throws {
+    func rejects_output_missing_usage_markers() throws {
         let output = """
         | KIRO FREE                                          |
         """
@@ -1291,7 +1316,7 @@ extension KiroStatusProbeTests {
     // MARK: - New Format (kiro-cli 1.24+, Q Developer)
 
     @Test
-    func `parses Q developer managed plan`() throws {
+    func parses_Q_developer_managed_plan() throws {
         let output = """
         Plan: Q Developer Pro
         Your plan is managed by admin
@@ -1311,7 +1336,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses Q developer free plan`() throws {
+    func parses_Q_developer_free_plan() throws {
         let output = """
         Plan: Q Developer Free
         Your plan is managed by admin
@@ -1325,7 +1350,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses new format with ANSI codes`() throws {
+    func parses_new_format_with_ANSI_codes() throws {
         let output = """
         \u{001B}[38;5;141mPlan: Q Developer Pro\u{001B}[0m
         Your plan is managed by admin
@@ -1338,7 +1363,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `rejects header only new format without managed marker`() {
+    func rejects_header_only_new_format_without_managed_marker() {
         let output = """
         Plan: Q Developer Pro
         Tip: to see context window usage, run /context
@@ -1351,7 +1376,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `preserves parsed usage for managed plan with metrics`() throws {
+    func preserves_parsed_usage_for_managed_plan_with_metrics() throws {
         let output = """
         Plan: Q Developer Enterprise
         Your plan is managed by admin
@@ -1370,7 +1395,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses kiro cli two usage format`() throws {
+    func parses_kiro_cli_two_usage_format() throws {
         let output = """
         \u{001B}[1mEstimated Usage\u{001B}[0m | resets on 2026-06-01 | \u{001B}[mKIRO FREE\u{001B}[0m
 
@@ -1407,7 +1432,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses kiro overage credits and estimated cost`() throws {
+    func parses_kiro_overage_credits_and_estimated_cost() throws {
         let output = """
         Estimated Usage | resets on 2026-06-01 | KIRO PRO
         Credits (1000.00 of 1000 covered in plan)
@@ -1432,7 +1457,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `parses context usage`() throws {
+    func parses_context_usage() throws {
         let output = """
         Context window: 1.3% used (estimated)
         ██████████████████████████████████████████████████████████████████████████████ 1.3%
@@ -1456,7 +1481,7 @@ extension KiroStatusProbeTests {
     // MARK: - Snapshot Conversion
 
     @Test
-    func `converts snapshot to usage snapshot`() throws {
+    func converts_snapshot_to_usage_snapshot() throws {
         let now = Date()
         let resetDate = try #require(Calendar.current.date(byAdding: .day, value: 7, to: now))
 
@@ -1483,7 +1508,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `converts snapshot without bonus credits`() {
+    func converts_snapshot_without_bonus_credits() {
         let snapshot = KiroUsageSnapshot(
             planName: "KIRO FREE",
             creditsUsed: 10.0,
@@ -1504,7 +1529,7 @@ extension KiroStatusProbeTests {
     // MARK: - Error Cases
 
     @Test
-    func `empty output throws parse error`() {
+    func empty_output_throws_parse_error() {
         let probe = KiroStatusProbe()
 
         #expect(throws: KiroStatusProbeError.self) {
@@ -1513,7 +1538,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `warning output throws parse error`() {
+    func warning_output_throws_parse_error() {
         let output = """
         \u{001B}[38;5;11m⚠️  Warning: Could not retrieve usage information from backend
         \u{001B}[38;5;8mError: dispatch failure (io error): an i/o error occurred
@@ -1527,7 +1552,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `unrecognized format throws parse error`() {
+    func unrecognized_format_throws_parse_error() {
         // Simulates a CLI format change where none of the expected patterns match
         let output = """
         Welcome to Kiro!
@@ -1537,16 +1562,20 @@ extension KiroStatusProbeTests {
 
         let probe = KiroStatusProbe()
 
-        #expect {
+        do {
             try probe.parse(output: output)
-        } throws: { error in
-            guard case let KiroStatusProbeError.parseError(msg) = error else { return false }
-            return msg.contains("No recognizable usage patterns")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let KiroStatusProbeError.parseError(msg) = error else { return false }
+                return msg.contains("No recognizable usage patterns")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `login prompt throws not logged in`() {
+    func login_prompt_throws_not_logged_in() {
         let output = """
         Failed to initialize auth portal.
         Please try again with: kiro-cli login --use-device-flow
@@ -1555,66 +1584,86 @@ extension KiroStatusProbeTests {
 
         let probe = KiroStatusProbe()
 
-        #expect {
+        do {
             try probe.parse(output: output)
-        } throws: { error in
-            guard case KiroStatusProbeError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     // MARK: - WhoAmI Validation
 
     @Test
-    func `whoami not logged in throws`() {
+    func whoami_not_logged_in_throws() {
         let probe = KiroStatusProbe()
 
-        #expect {
+        do {
             try probe.validateWhoAmIOutput(stdout: "Not logged in", stderr: "", terminationStatus: 1)
-        } throws: { error in
-            guard case KiroStatusProbeError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `whoami login required throws`() {
+    func whoami_login_required_throws() {
         let probe = KiroStatusProbe()
 
-        #expect {
+        do {
             try probe.validateWhoAmIOutput(stdout: "login required", stderr: "", terminationStatus: 1)
-        } throws: { error in
-            guard case KiroStatusProbeError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `whoami empty output with zero status throws`() {
+    func whoami_empty_output_with_zero_status_throws() {
         let probe = KiroStatusProbe()
 
-        #expect {
+        do {
             try probe.validateWhoAmIOutput(stdout: "", stderr: "", terminationStatus: 0)
-        } throws: { error in
-            guard case KiroStatusProbeError.cliFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.cliFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `whoami non zero status with message throws`() {
+    func whoami_non_zero_status_with_message_throws() {
         let probe = KiroStatusProbe()
 
-        #expect {
+        do {
             try probe.validateWhoAmIOutput(stdout: "", stderr: "Connection error", terminationStatus: 1)
-        } throws: { error in
-            guard case KiroStatusProbeError.cliFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KiroStatusProbeError.cliFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `whoami success does not throw`() throws {
+    func whoami_success_does_not_throw() throws {
         let probe = KiroStatusProbe()
 
         let account = try probe.validateWhoAmIOutput(
@@ -1630,7 +1679,7 @@ extension KiroStatusProbeTests {
     }
 
     @Test
-    func `whoami legacy bare email parses account`() throws {
+    func whoami_legacy_bare_email_parses_account() throws {
         let probe = KiroStatusProbe()
 
         let account = try probe.validateWhoAmIOutput(
@@ -1645,7 +1694,7 @@ extension KiroStatusProbeTests {
 
 extension KiroStatusProbeTests {
     @Test
-    func `fetch cancellation while joining account after usage failure is preserved`() async throws {
+    func fetch_cancellation_while_joining_account_after_usage_failure_is_preserved() async throws {
         let accountStarted = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-kiro-failed-usage-account-\(UUID().uuidString).started")
         let cliURL = try self.makeCLI(

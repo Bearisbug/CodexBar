@@ -4,7 +4,7 @@ import Testing
 
 struct CopilotUsageFetcherTests {
     @Test
-    func `fetchGitHubIdentity uses shared client`() async throws {
+    func fetchGitHubIdentity_uses_shared_client() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard request.value(forHTTPHeaderField: "Authorization") == "token test-token-placeholder" else {
                 throw URLError(.userAuthenticationRequired)
@@ -29,7 +29,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `fetch returns unavailable snapshot for business token billing placeholders`() async throws {
+    func fetch_returns_unavailable_snapshot_for_business_token_billing_placeholders() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "token test-token-placeholder")
             let response = try HTTPURLResponse(
@@ -70,7 +70,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `fetch omits explicitly unlimited only chat quota without failing`() async throws {
+    func fetch_omits_explicitly_unlimited_only_chat_quota_without_failing() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "token test-token-placeholder")
             let response = try HTTPURLResponse(
@@ -105,7 +105,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `fetch keeps finite premium quota and omits unlimited chat quota`() async throws {
+    func fetch_keeps_finite_premium_quota_and_omits_unlimited_chat_quota() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "token test-token-placeholder")
             let response = try HTTPURLResponse(
@@ -148,7 +148,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `fetch uses finite monthly chat quota when direct chat quota is unlimited`() async throws {
+    func fetch_uses_finite_monthly_chat_quota_when_direct_chat_quota_is_unlimited() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "token test-token-placeholder")
             let response = try HTTPURLResponse(
@@ -187,7 +187,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `fetch attaches quota reset date to copilot windows`() async throws {
+    func fetch_attaches_quota_reset_date_to_copilot_windows() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "token test-token-placeholder")
             let response = try HTTPURLResponse(
@@ -230,7 +230,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `makeRateWindow drops business token billing placeholder quota`() {
+    func makeRateWindow_drops_business_token_billing_placeholder_quota() {
         // entitlement=0/remaining=0/percent_remaining=100 must not become a "0% used"
         // rate window for Copilot Business token-based billing accounts. (#1258)
         let placeholder = CopilotUsageResponse.QuotaSnapshot(
@@ -242,7 +242,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `makeRateWindow drops unlimited quota`() {
+    func makeRateWindow_drops_unlimited_quota() {
         let unlimited = CopilotUsageResponse.QuotaSnapshot(
             entitlement: 0,
             remaining: 0,
@@ -254,7 +254,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `makeRateWindow keeps real quota window`() {
+    func makeRateWindow_keeps_real_quota_window() {
         let real = CopilotUsageResponse.QuotaSnapshot(
             entitlement: 500,
             remaining: 125,
@@ -265,7 +265,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `makeRateWindow carries reset date`() {
+    func makeRateWindow_carries_reset_date() {
         let resetDate = Date(timeIntervalSince1970: 1_783_468_800)
         let real = CopilotUsageResponse.QuotaSnapshot(
             entitlement: 500,
@@ -280,7 +280,7 @@ struct CopilotUsageFetcherTests {
     }
 
     @Test
-    func `parseQuotaResetDate supports date only and ISO timestamps`() throws {
+    func parseQuotaResetDate_supports_date_only_and_ISO_timestamps() throws {
         let dateOnly = try #require(ISO8601DateFormatter().date(from: "2026-07-01T00:00:00Z"))
         let iso = try #require(ISO8601DateFormatter().date(from: "2026-07-01T08:30:45Z"))
         let fractionalFormatter = ISO8601DateFormatter()

@@ -3,7 +3,7 @@ import Testing
 
 struct ProviderPlanLineParsingTests {
     @Test
-    func `Claude plan matching does not bridge usage lines`() {
+    func Claude_plan_matching_does_not_bridge_usage_lines() {
         let usageText = """
         Skills, subagents, plugins, and MCP servers
         Noattributiondatayet·accumulatesasyouuseClaude
@@ -20,7 +20,7 @@ struct ProviderPlanLineParsingTests {
     }
 
     @Test
-    func `Claude plan matching keeps single line phrases`() {
+    func Claude_plan_matching_keeps_single_line_phrases() {
         let identity = ClaudeStatusProbe.parseIdentity(
             usageText: nil,
             statusText: "Sonnet 4.6 · Claude Max · you@example.com")
@@ -29,7 +29,7 @@ struct ProviderPlanLineParsingTests {
     }
 
     @Test
-    func `Kiro legacy plan matching does not bridge lines`() throws {
+    func Kiro_legacy_plan_matching_does_not_bridge_lines() throws {
         let output = """
         |
         KIRO FREE
@@ -43,7 +43,7 @@ struct ProviderPlanLineParsingTests {
     }
 
     @Test
-    func `Kiro estimated usage plan matching does not bridge lines`() throws {
+    func Kiro_estimated_usage_plan_matching_does_not_bridge_lines() throws {
         let output = """
         Estimated Usage | resets on 2026-06-01 |
         KIRO FREE
@@ -57,7 +57,7 @@ struct ProviderPlanLineParsingTests {
     }
 
     @Test
-    func `Kiro labeled plan matching does not bridge lines`() throws {
+    func Kiro_labeled_plan_matching_does_not_bridge_lines() throws {
         let output = """
         Plan:
         Q Developer Pro

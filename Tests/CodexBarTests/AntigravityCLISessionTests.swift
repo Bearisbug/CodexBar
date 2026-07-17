@@ -434,7 +434,7 @@ private final class AntigravityManualSleeper: @unchecked Sendable {
 
 struct AntigravityCLISessionTests {
     @Test
-    func `reuses alive process for same binary`() async throws {
+    func reuses_alive_process_for_same_binary() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -451,7 +451,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `relaunches when binary changes`() async throws {
+    func relaunches_when_binary_changes() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
         fixture.identity.setIdentity(pid: 11, executablePath: "/new/agy", startEpoch: 101)
@@ -467,7 +467,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `replacement launch waits for in progress teardown`() async throws {
+    func replacement_launch_waits_for_in_progress_teardown() async throws {
         let fixture = self.makeFixture(
             manualSleep: true,
             terminationGracePeriod: 1,
@@ -506,7 +506,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `replacement waits for active probe before relaunching`() async throws {
+    func replacement_waits_for_active_probe_before_relaunching() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/old/agy", startEpoch: 100)
         fixture.identity.setIdentity(pid: 11, executablePath: "/new/agy", startEpoch: 101)
@@ -532,7 +532,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `queued replacement hard stops a signed out process`() async throws {
+    func queued_replacement_hard_stops_a_signed_out_process() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/old/agy", startEpoch: 100)
         fixture.identity.setIdentity(pid: 11, executablePath: "/new/agy", startEpoch: 101)
@@ -558,7 +558,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `replacement ignores queued starters while waiting for active probe`() async throws {
+    func replacement_ignores_queued_starters_while_waiting_for_active_probe() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/old/agy", startEpoch: 100)
         fixture.identity.setIdentity(pid: 11, executablePath: "/new/agy", startEpoch: 101)
@@ -593,7 +593,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `relaunches when existing process is dead`() async throws {
+    func relaunches_when_existing_process_is_dead() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
         fixture.identity.setIdentity(pid: 11, executablePath: "/bin/agy", startEpoch: 101)
@@ -609,7 +609,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `pty launcher creates dedicated process group before returning`() throws {
+    func pty_launcher_creates_dedicated_process_group_before_returning() throws {
         let launcher = AntigravityPTYProcessLauncher()
         let handle = try launcher.launch(binary: "/bin/cat")
         defer {
@@ -623,7 +623,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `pty launcher resets termination signals for child process`() {
+    func pty_launcher_resets_termination_signals_for_child_process() {
         var signals = AntigravityPTYProcessLauncher.defaultSignalsForSpawn()
 
         #expect(sigismember(&signals, SIGINT) == 1)
@@ -632,7 +632,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `pty launcher retries transient text busy spawn errors`() {
+    func pty_launcher_retries_transient_text_busy_spawn_errors() {
         var attempts = 0
 
         let result = AntigravityPTYProcessLauncher.spawnWithTextBusyRetry(retryDelay: 0) {
@@ -645,7 +645,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `pty launcher does not retry other spawn errors`() {
+    func pty_launcher_does_not_retry_other_spawn_errors() {
         var attempts = 0
 
         let result = AntigravityPTYProcessLauncher.spawnWithTextBusyRetry(retryDelay: 0) {
@@ -658,7 +658,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `pty launcher uses home and closes unrelated descriptors`() throws {
+    func pty_launcher_uses_home_and_closes_unrelated_descriptors() throws {
         let tempDirectory = FileManager.default.temporaryDirectory
             .appendingPathComponent("antigravity-spawn-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
@@ -714,7 +714,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `spawned PTY drain is bounded per call`() throws {
+    func spawned_PTY_drain_is_bounded_per_call() throws {
         let temp = FileManager.default.temporaryDirectory
             .appendingPathComponent("antigravity-drain-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: temp) }
@@ -745,7 +745,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `session keeps one rolling PTY buffer across concurrent probes`() async throws {
+    func session_keeps_one_rolling_PTY_buffer_across_concurrent_probes() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -767,7 +767,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `authentication prompt matcher tolerates prompt casing and spacing`() {
+    func authentication_prompt_matcher_tolerates_prompt_casing_and_spacing() {
         #expect(AntigravityCLIHTTPSFetchStrategy.containsAuthenticationPrompt(
             Data("select  LOGIN\nmethod :".utf8)))
         #expect(AntigravityCLIHTTPSFetchStrategy.containsAuthenticationPrompt(
@@ -777,7 +777,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `session returns complete new output before retaining only its tail`() async throws {
+    func session_returns_complete_new_output_before_retaining_only_its_tail() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -798,7 +798,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `registration failure tears down launched process`() async {
+    func registration_failure_tears_down_launched_process() async {
         let fixture = self.makeFixture()
         fixture.registry.setShouldRegister(false)
 
@@ -815,7 +815,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `launch remains usable when coordination lock is unavailable`() async throws {
+    func launch_remains_usable_when_coordination_lock_is_unavailable() async throws {
         let fixture = self.makeFixture(launchLock: FailingAntigravitySessionLaunchLock())
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -827,7 +827,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `launch remains usable when ownership record cannot be saved`() async throws {
+    func launch_remains_usable_when_ownership_record_cannot_be_saved() async throws {
         let store = MemoryAntigravitySessionRecordStore(failSaves: true)
         let fixture = self.makeFixture(store: store)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
@@ -840,7 +840,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `idle window tears down warm process`() async throws {
+    func idle_window_tears_down_warm_process() async throws {
         let fixture = self.makeFixture(idleWindow: 0.05, manualSleep: true)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -856,7 +856,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `host idle window extends the default session lifetime`() async throws {
+    func host_idle_window_extends_the_default_session_lifetime() async throws {
         let fixture = self.makeFixture(idleWindow: 180)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -867,7 +867,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `active probe prevents idle teardown until finish`() async throws {
+    func active_probe_prevents_idle_teardown_until_finish() async throws {
         let fixture = self.makeFixture(idleWindow: 0.05, manualSleep: true)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -887,7 +887,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `manual reset waits for active probe to finish`() async throws {
+    func manual_reset_waits_for_active_probe_to_finish() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -901,7 +901,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `reset reaps persisted stale session when no in memory process exists`() async {
+    func reset_reaps_persisted_stale_session_when_no_in_memory_process_exists() async {
         let store = MemoryAntigravitySessionRecordStore(record: AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",
@@ -920,7 +920,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `reset preserves persisted session owned by another live process`() async {
+    func reset_preserves_persisted_session_owned_by_another_live_process() async {
         let store = MemoryAntigravitySessionRecordStore(record: AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",
@@ -944,7 +944,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `launch tracks an independent session while another process is live`() async throws {
+    func launch_tracks_an_independent_session_while_another_process_is_live() async throws {
         let protectedRecord = AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",
@@ -976,7 +976,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `different binary tracks an independent session while another process is live`() async throws {
+    func different_binary_tracks_an_independent_session_while_another_process_is_live() async throws {
         let protectedRecord = AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",
@@ -1007,7 +1007,7 @@ struct AntigravityCLISessionTests {
     }
 
     @Test
-    func `concurrent hosts atomically track independent sessions`() async {
+    func concurrent_hosts_atomically_track_independent_sessions() async {
         let store = MemoryAntigravitySessionRecordStore()
         let launchLock = MemoryAntigravitySessionLaunchLock()
         let identity = FakeAntigravityIdentityProvider()
@@ -1046,7 +1046,7 @@ struct AntigravityCLISessionTests {
 
 extension AntigravityCLISessionTests {
     @Test
-    func `warm reuse reaps a crashed peer session`() async throws {
+    func warm_reuse_reaps_a_crashed_peer_session() async throws {
         let store = MemoryAntigravitySessionRecordStore()
         let launchLock = MemoryAntigravitySessionLaunchLock()
         let identity = FakeAntigravityIdentityProvider()
@@ -1083,7 +1083,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `file store migrates legacy record and preserves independent owners`() throws {
+    func file_store_migrates_legacy_record_and_preserves_independent_owners() throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBarAntigravitySessionTests-\(UUID().uuidString)", isDirectory: true)
         let fileURL = directory.appendingPathComponent("agy-session.json")
@@ -1124,7 +1124,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `session reaps stale owner before launch`() async throws {
+    func session_reaps_stale_owner_before_launch() async throws {
         let protectedRecord = AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",
@@ -1160,7 +1160,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `reset rechecks protected persisted session after owner exits`() async {
+    func reset_rechecks_protected_persisted_session_after_owner_exits() async {
         let store = MemoryAntigravitySessionRecordStore(record: AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",
@@ -1188,7 +1188,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `teardown preserves record written by another live session`() async throws {
+    func teardown_preserves_record_written_by_another_live_session() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1206,7 +1206,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `force killed process is polled again so the child can be reaped`() async throws {
+    func force_killed_process_is_polled_again_so_the_child_can_be_reaped() async throws {
         let fixture = self.makeFixture(terminateRootStopsProcess: false)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
         fixture.identity.setIdentity(pid: 900, executablePath: "/app/CodexBar", startEpoch: 1)
@@ -1223,7 +1223,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `one shot CLI reset tears down after fetch`() async throws {
+    func one_shot_CLI_reset_tears_down_after_fetch() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1235,7 +1235,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `one shot CLI reset is deferred until all active probes finish`() async throws {
+    func one_shot_CLI_reset_is_deferred_until_all_active_probes_finish() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1252,7 +1252,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `authentication reset never writes interactive exit input`() async throws {
+    func authentication_reset_never_writes_interactive_exit_input() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1267,7 +1267,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `failed reset never writes interactive exit input`() async throws {
+    func failed_reset_never_writes_interactive_exit_input() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1281,7 +1281,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `concurrent success preserves a failed probes deferred hard reset`() async throws {
+    func concurrent_success_preserves_a_failed_probes_deferred_hard_reset() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1299,7 +1299,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `idle timeout hard stops a previously failed process`() async throws {
+    func idle_timeout_hard_stops_a_previously_failed_process() async throws {
         let fixture = self.makeFixture(idleWindow: 0.05, manualSleep: true)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1315,7 +1315,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `repeated probe failures relaunch session`() async throws {
+    func repeated_probe_failures_relaunch_session() async throws {
         let fixture = self.makeFixture(failureRelaunchThreshold: 2)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
         fixture.identity.setIdentity(pid: 11, executablePath: "/bin/agy", startEpoch: 101)
@@ -1333,7 +1333,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `session reset reasons distinguish authentication from unhealthy probes`() {
+    func session_reset_reasons_distinguish_authentication_from_unhealthy_probes() {
         #expect(AntigravityCLISession.resetCause(
             authenticationRequired: true,
             resetAfterFetch: true,
@@ -1353,7 +1353,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `deferred unhealthy reset preserves its cause after a concurrent success`() async throws {
+    func deferred_unhealthy_reset_preserves_its_cause_after_a_concurrent_success() async throws {
         let fixture = self.makeFixture(failureRelaunchThreshold: 1)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1366,7 +1366,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `deferred authentication reset preserves its cause after a concurrent success`() async throws {
+    func deferred_authentication_reset_preserves_its_cause_after_a_concurrent_success() async throws {
         let fixture = self.makeFixture()
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1379,7 +1379,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `success resets failure counter`() async throws {
+    func success_resets_failure_counter() async throws {
         let fixture = self.makeFixture(failureRelaunchThreshold: 2)
         fixture.identity.setIdentity(pid: 10, executablePath: "/bin/agy", startEpoch: 100)
 
@@ -1395,7 +1395,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `matching persisted stale process is reaped when resolved binary changed`() async throws {
+    func matching_persisted_stale_process_is_reaped_when_resolved_binary_changed() async throws {
         let store = MemoryAntigravitySessionRecordStore(record: AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/old/agy",
@@ -1415,7 +1415,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `matching persisted stale process is reaped before launch`() async throws {
+    func matching_persisted_stale_process_is_reaped_before_launch() async throws {
         let store = MemoryAntigravitySessionRecordStore(record: AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",
@@ -1435,7 +1435,7 @@ extension AntigravityCLISessionTests {
     }
 
     @Test
-    func `non matching persisted process is not reaped`() async throws {
+    func non_matching_persisted_process_is_not_reaped() async throws {
         let store = MemoryAntigravitySessionRecordStore(record: AntigravityCLISessionRecord(
             pid: 777,
             requestedBinaryPath: "/bin/agy",

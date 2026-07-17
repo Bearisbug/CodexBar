@@ -8,7 +8,7 @@ import Testing
 /// resolution, startup validation, and the constant-time bearer-token gate.
 struct CLIServeAuthTests {
     @Test
-    func `serve help documents dashboard token transport honestly`() {
+    func serve_help_documents_dashboard_token_transport_honestly() {
         let serve = CodexBarCLI.serveHelp(version: "0.0.0")
         let root = CodexBarCLI.rootHelp(version: "0.0.0")
 
@@ -24,7 +24,7 @@ struct CLIServeAuthTests {
     }
 
     @Test
-    func `serve host option parses and normalizes`() {
+    func serve_host_option_parses_and_normalizes() {
         #expect(CodexBarCLI.decodeServeHost(from: ParsedValues(
             positional: [],
             options: [:],
@@ -74,7 +74,7 @@ struct CLIServeAuthTests {
     }
 
     @Test
-    func `serve flags parse through the real commander signature`() throws {
+    func serve_flags_parse_through_the_real_commander_signature() throws {
         // Guards the ParsedValues key contract: keys are property names, so a
         // mismatch between --allow-plain-http and its decode key would silently
         // drop the flag. Parse real argv instead of hand-building ParsedValues.
@@ -95,7 +95,7 @@ struct CLIServeAuthTests {
     }
 
     @Test
-    func `dashboard token resolution prefers the environment and rejects blanks`() {
+    func dashboard_token_resolution_prefers_the_environment_and_rejects_blanks() {
         let flagValues = ParsedValues(
             positional: [],
             options: ["dashboardBearer": [" flag-token "]],
@@ -124,7 +124,7 @@ struct CLIServeAuthTests {
     }
 
     @Test
-    func `serve startup validation enforces the token and plain-http matrix`() {
+    func serve_startup_validation_enforces_the_token_and_plain_http_matrix() {
         // Loopback binds serve regardless of token or acceptance flag.
         #expect(CodexBarCLI.validateServeStartup(
             host: "127.0.0.1",
@@ -157,7 +157,7 @@ struct CLIServeAuthTests {
     }
 
     @Test
-    func `dashboard auth compares constant-time digests and fails closed`() {
+    func dashboard_auth_compares_constant_time_digests_and_fails_closed() {
         let auth = CLIServeDashboardAuth(bearer: "secret")
         let unconfigured = CLIServeDashboardAuth(bearer: nil)
 
@@ -191,7 +191,7 @@ struct CLIServeAuthTests {
     }
 
     @Test
-    func `adding no-store preserves an existing cache-control header`() {
+    func adding_no_store_preserves_an_existing_cache_control_header() {
         let plain = CLILocalHTTPResponse(status: .ok, body: Data("[]".utf8))
         let declared = CLILocalHTTPResponse(
             status: .ok,
@@ -207,7 +207,7 @@ struct CLIServeAuthTests {
     }
 
     @Test
-    func `unauthorized response advertises bearer challenge and no-store`() {
+    func unauthorized_response_advertises_bearer_challenge_and_no_store() {
         let response = CodexBarCLI.serveUnauthorizedResponse()
 
         #expect(response.status == .unauthorized)

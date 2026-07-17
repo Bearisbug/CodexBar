@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `stale stacked projection collapse runs single codex fetch`() async throws {
+    func stale_stacked_projection_collapse_runs_single_codex_fetch() async throws {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-stacked-collapse-single-fetch")
@@ -60,7 +60,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh discards selected success after managed auth file is removed`() async throws {
+    func stacked_visible_refresh_discards_selected_success_after_managed_auth_file_is_removed() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-selected-managed-auth-file-removed")
         settings.refreshFrequency = .manual
@@ -158,7 +158,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `startup snapshot hydration refreshes managed auth fingerprint with composite disk owner`() throws {
+    func startup_snapshot_hydration_refreshes_managed_auth_fingerprint_with_composite_disk_owner() throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-startup-managed-auth-hydration")
         settings.refreshFrequency = .manual
@@ -243,7 +243,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `snapshot hydration never crosses members of the same provider workspace`() {
+    func snapshot_hydration_never_crosses_members_of_the_same_provider_workspace() {
         let snapshotURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-provider-member-isolation-\(UUID().uuidString).json")
         defer { try? FileManager.default.removeItem(at: snapshotURL) }

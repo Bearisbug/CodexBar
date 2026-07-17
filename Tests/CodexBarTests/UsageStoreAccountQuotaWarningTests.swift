@@ -22,7 +22,7 @@ struct UsageStoreAccountQuotaWarningTests {
     }
 
     @Test
-    func `ordinary refresh keeps selected token account warning episodes independent`() async {
+    func ordinary_refresh_keeps_selected_token_account_warning_episodes_independent() async {
         let settings = testSettingsStore(
             suiteName: "UsageStoreAccountQuotaWarningTests-selected-account",
             tokenAccountStore: InMemoryTokenAccountStore())
@@ -68,7 +68,7 @@ struct UsageStoreAccountQuotaWarningTests {
     }
 
     @Test
-    func `selected outcome keeps token account warning episodes independent`() async throws {
+    func selected_outcome_keeps_token_account_warning_episodes_independent() async throws {
         let settings = testSettingsStore(
             suiteName: "UsageStoreAccountQuotaWarningTests-selected-outcome",
             tokenAccountStore: InMemoryTokenAccountStore())

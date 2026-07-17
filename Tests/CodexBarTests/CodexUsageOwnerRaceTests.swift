@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `credits completion retires usage from another workspace member`() async {
+    func credits_completion_retires_usage_from_another_workspace_member() async {
         let suite = "CodexUsageOwnerRaceTests-credits-first"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -63,7 +63,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard cleanup retires cli usage from another workspace member`() async {
+    func dashboard_cleanup_retires_cli_usage_from_another_workspace_member() async {
         let suite = "CodexUsageOwnerRaceTests-dashboard-cleanup"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -99,7 +99,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stale usage rejection preserves newer owner credits`() async {
+    func stale_usage_rejection_preserves_newer_owner_credits() async {
         let suite = "CodexUsageOwnerRaceTests-stale-usage-new-credits"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -144,7 +144,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked stale selection preserves newer selected account credits`() async throws {
+    func stacked_stale_selection_preserves_newer_selected_account_credits() async throws {
         let suite = "CodexUsageOwnerRaceTests-stacked-stale-selection"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -213,7 +213,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `in flight success retires prior usage after owner switch`() async {
+    func in_flight_success_retires_prior_usage_after_owner_switch() async {
         let suite = "CodexUsageOwnerRaceTests-in-flight-success"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -251,7 +251,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `in flight failure retires prior usage after owner switch`() async {
+    func in_flight_failure_retires_prior_usage_after_owner_switch() async {
         let suite = "CodexUsageOwnerRaceTests-in-flight-failure"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -289,7 +289,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `in flight confirmation retires prior usage after owner switch`() async {
+    func in_flight_confirmation_retires_prior_usage_after_owner_switch() async {
         let suite = "CodexUsageOwnerRaceTests-in-flight-confirmation"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -341,7 +341,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `unresolved live publication remains stable across the next failed refresh`() async throws {
+    func unresolved_live_publication_remains_stable_across_the_next_failed_refresh() async throws {
         let suite = "CodexUsageOwnerRaceTests-unresolved-continuity"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -370,7 +370,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `fresh failure is retired before attaching credits to another owner`() async {
+    func fresh_failure_is_retired_before_attaching_credits_to_another_owner() async {
         let suite = "CodexUsageOwnerRaceTests-fresh-failure-then-credits"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual
@@ -408,7 +408,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked fresh failure follows its owner across credits attachment`() async {
+    func stacked_fresh_failure_follows_its_owner_across_credits_attachment() async {
         let suite = "CodexUsageOwnerRaceTests-stacked-failure-then-credits"
         let settings = self.makeSettingsStore(suite: suite)
         settings.refreshFrequency = .manual

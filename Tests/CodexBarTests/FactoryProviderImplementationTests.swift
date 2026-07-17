@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct FactoryProviderImplementationTests {
     @Test
-    func `extra usage balance respects optional usage setting`() throws {
+    func extra_usage_balance_respects_optional_usage_setting() throws {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,

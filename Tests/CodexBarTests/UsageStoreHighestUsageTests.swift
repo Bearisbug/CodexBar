@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct UsageStoreHighestUsageTests {
     @Test
-    func `selects highest usage among enabled providers`() {
+    func selects_highest_usage_among_enabled_providers() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-selects"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -48,7 +48,7 @@ struct UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `skips fully used providers`() {
+    func skips_fully_used_providers() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-skips"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -85,7 +85,7 @@ struct UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric uses rate limit for kimi when ranking highest usage`() {
+    func automatic_metric_uses_rate_limit_for_kimi_when_ranking_highest_usage() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-kimi-automatic"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -123,7 +123,7 @@ struct UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric ignores antigravity tertiary when compact icon has no quota summary`() {
+    func automatic_metric_ignores_antigravity_tertiary_when_compact_icon_has_no_quota_summary() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-antigravity-tertiary"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -162,7 +162,7 @@ struct UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric ignores unclassified antigravity compact fallback until exhausted priority is enabled`()
+    func automatic_metric_ignores_unclassified_antigravity_compact_fallback_until_exhausted_priority_is_enabled()
         throws
     {
         let settings = SettingsStore(
@@ -217,7 +217,7 @@ struct UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric ignores legacy antigravity family lanes without quota summary`() {
+    func automatic_metric_ignores_legacy_antigravity_family_lanes_without_quota_summary() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-antigravity-constrained-gemini"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -258,7 +258,7 @@ struct UsageStoreHighestUsageTests {
 
 extension UsageStoreHighestUsageTests {
     @Test
-    func `antigravity automatic ranking keeps usable first until exhausted priority is enabled`() {
+    func antigravity_automatic_ranking_keeps_usable_first_until_exhausted_priority_is_enabled() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-antigravity-all-summary"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -335,7 +335,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `opt in automatic metric excludes antigravity only when every summary family is blocked`() {
+    func opt_in_automatic_metric_excludes_antigravity_only_when_every_summary_family_is_blocked() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-antigravity-summary-usable"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -392,7 +392,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric ignores antigravity legacy detail rows`() {
+    func automatic_metric_ignores_antigravity_legacy_detail_rows() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-antigravity-fallback-detail"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -451,7 +451,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric skips antigravity with no quota lanes`() {
+    func automatic_metric_skips_antigravity_with_no_quota_lanes() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-antigravity-empty"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -495,7 +495,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric uses zai 5-hour token lane when ranking highest usage`() {
+    func automatic_metric_uses_zai_5_hour_token_lane_when_ranking_highest_usage() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-zai-automatic-tertiary"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -535,7 +535,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric keeps copilot most constrained ranking`() {
+    func automatic_metric_keeps_copilot_most_constrained_ranking() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-copilot-automatic"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -573,7 +573,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric does not exclude partially available copilot at hundred percent`() {
+    func automatic_metric_does_not_exclude_partially_available_copilot_at_hundred_percent() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-copilot-partial-100"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -611,7 +611,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric excludes copilot when both lanes are exhausted`() {
+    func automatic_metric_excludes_copilot_when_both_lanes_are_exhausted() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-copilot-both-100"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -649,7 +649,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric uses tertiary when it is most constrained for cursor`() {
+    func automatic_metric_uses_tertiary_when_it_is_most_constrained_for_cursor() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-cursor-tertiary"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -688,7 +688,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric keeps perplexity in highest usage when purchased credits remain`() {
+    func automatic_metric_keeps_perplexity_in_highest_usage_when_purchased_credits_remain() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-perplexity-purchased"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -727,7 +727,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric ignores exhausted recurring perplexity lane when fallback remains`() {
+    func automatic_metric_ignores_exhausted_recurring_perplexity_lane_when_fallback_remains() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-perplexity-recurring-exhausted"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -766,7 +766,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric prefers purchased perplexity credits before bonus in highest usage`() {
+    func automatic_metric_prefers_purchased_perplexity_credits_before_bonus_in_highest_usage() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-perplexity-purchased-before-bonus"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -805,7 +805,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `primary metric keeps exhausted recurring perplexity lane in highest usage selection`() {
+    func primary_metric_keeps_exhausted_recurring_perplexity_lane_in_highest_usage_selection() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-perplexity-primary-exhausted"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -844,7 +844,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `automatic metric excludes cursor when all opus lanes are exhausted`() {
+    func automatic_metric_excludes_cursor_when_all_opus_lanes_are_exhausted() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-cursor-all-100"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -883,7 +883,7 @@ extension UsageStoreHighestUsageTests {
     }
 
     @Test
-    func `cursor highest usage keeps provider when saved tertiary falls back to automatic`() {
+    func cursor_highest_usage_keeps_provider_when_saved_tertiary_falls_back_to_automatic() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-cursor-missing-tertiary"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -971,7 +971,7 @@ extension UsageStoreHighestUsageTests {
 
 extension UsageStoreHighestUsageTests {
     @Test
-    func `explicit antigravity metric remains authoritative for highest usage`() {
+    func explicit_antigravity_metric_remains_authoritative_for_highest_usage() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "UsageStoreHighestUsageTests-antigravity-explicit"),
             zaiTokenStore: NoopZaiTokenStore(),

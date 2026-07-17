@@ -67,7 +67,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher routes runtime clicks after overview round-trip`() throws {
+    func merged_switcher_routes_runtime_clicks_after_overview_round_trip() throws {
         // Regression test for #867: after Provider → Overview, subsequent runtime clicks on a
         // sub-provider tab dropped through NSButton's tracking and never updated state.
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
@@ -130,7 +130,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher commits selection on matching mouse up`() throws {
+    func merged_switcher_commits_selection_on_matching_mouse_up() throws {
         var selections: [ProviderSwitcherSelection] = []
         let switcher = ProviderSwitcherView(
             providers: [.codex, .claude],
@@ -150,7 +150,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `menu tracking routes switcher pointer sequence before AppKit menu dispatch`() throws {
+    func menu_tracking_routes_switcher_pointer_sequence_before_AppKit_menu_dispatch() throws {
         var selected: ProviderSwitcherSelection?
         let switcher = ProviderSwitcherView(
             providers: [.codex, .claude],
@@ -192,7 +192,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher runtime click defers icon rendering until after event handling`() async throws {
+    func merged_switcher_runtime_click_defers_icon_rendering_until_after_event_handling() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -243,7 +243,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher click marks menu stale before deferred rebuild`() throws {
+    func merged_switcher_click_marks_menu_stale_before_deferred_rebuild() throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -300,7 +300,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher runtime click updates loading animation state after event handling`() async throws {
+    func merged_switcher_runtime_click_updates_loading_animation_state_after_event_handling() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -365,7 +365,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher switches provider while overview chart submenu is open`() async throws {
+    func merged_switcher_switches_provider_while_overview_chart_submenu_is_open() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -455,7 +455,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher handles left and right arrow keyboard navigation`() async throws {
+    func merged_switcher_handles_left_and_right_arrow_keyboard_navigation() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -530,7 +530,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `merged switcher handles command number shortcuts in visible order`() async throws {
+    func merged_switcher_handles_command_number_shortcuts_in_visible_order() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -586,7 +586,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `provider shortcut monitor is removed when tracked menu closes after switcher rebuild`() {
+    func provider_shortcut_monitor_is_removed_when_tracked_menu_closes_after_switcher_rebuild() {
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.setMenuRefreshEnabledForTesting(true)
         defer {
@@ -607,7 +607,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `switcher shortcut monitor is removed from direct close cleanup`() {
+    func switcher_shortcut_monitor_is_removed_from_direct_close_cleanup() {
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.setMenuRefreshEnabledForTesting(true)
         defer {
@@ -627,7 +627,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `switcher hover styling keeps layout stable`() {
+    func switcher_hover_styling_keeps_layout_stable() {
         let view = ProviderSwitcherView(
             providers: [.codex, .claude, .cursor, .factory, .zai, .minimax, .alibaba],
             selected: .provider(.codex),
@@ -650,7 +650,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `switcher quota indicator preserves remaining percentage`() throws {
+    func switcher_quota_indicator_preserves_remaining_percentage() throws {
         let view = ProviderSwitcherView(
             providers: [.claude, .grok],
             selected: .provider(.claude),
@@ -678,7 +678,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `switcher quota indicator refresh updates fill ratios`() throws {
+    func switcher_quota_indicator_refresh_updates_fill_ratios() throws {
         var claudeRemaining = 5.0
         var grokRemaining = 95.0
         let view = ProviderSwitcherView(
@@ -716,7 +716,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `switcher quota indicator renders zero remaining empty`() {
+    func switcher_quota_indicator_renders_zero_remaining_empty() {
         var grokRemaining = 50.0
         let view = ProviderSwitcherView(
             providers: [.claude, .grok],
@@ -749,7 +749,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `switcher keeps stable height when remaining becomes unavailable`() throws {
+    func switcher_keeps_stable_height_when_remaining_becomes_unavailable() throws {
         var grokRemaining: Double? = 50
         let noQuotaView = ProviderSwitcherView(
             providers: [.claude, .grok],
@@ -792,7 +792,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `text only switcher keeps stable height with quota bars`() throws {
+    func text_only_switcher_keeps_stable_height_with_quota_bars() throws {
         let providers: [UsageProvider] = [.claude, .grok]
         let textOnlyWithoutQuota = ProviderSwitcherView(
             providers: providers,
@@ -819,7 +819,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `multi row switcher quota bars stay inside bounds`() {
+    func multi_row_switcher_quota_bars_stay_inside_bounds() {
         let view = ProviderSwitcherView(
             providers: [.codex, .claude, .cursor, .factory, .zai, .minimax, .alibaba],
             selected: .provider(.codex),
@@ -867,7 +867,7 @@ struct StatusMenuSwitcherClickTests {
     }
 
     @Test
-    func `multi-row switcher uses compact height and stays inside bounds`() {
+    func multi_row_switcher_uses_compact_height_and_stays_inside_bounds() {
         // 14 providers + Overview forces the four-row path and includes multi-word titles.
         let view = ProviderSwitcherView(
             providers: [

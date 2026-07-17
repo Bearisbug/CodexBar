@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct GeminiPrimaryWindowTests {
     @Test
-    func `flash-only account does not fabricate a phantom 0% primary window`() {
+    func flash_only_account_does_not_fabricate_a_phantom_0_primary_window() {
         let snapshot = GeminiStatusSnapshot(
             modelQuotas: [
                 GeminiModelQuota(modelId: "gemini-2.5-flash", percentLeft: 5, resetTime: nil, resetDescription: nil),
@@ -24,7 +24,7 @@ struct GeminiPrimaryWindowTests {
     }
 
     @Test
-    func `pro quota still populates the primary window`() {
+    func pro_quota_still_populates_the_primary_window() {
         let snapshot = GeminiStatusSnapshot(
             modelQuotas: [
                 GeminiModelQuota(modelId: "gemini-2.5-pro", percentLeft: 30, resetTime: nil, resetDescription: nil),

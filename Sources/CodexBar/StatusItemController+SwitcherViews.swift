@@ -177,7 +177,7 @@ final class ProviderSwitcherView: NSView {
         let layoutCount = Self.layoutCount(for: self.segments.count, rows: self.rowCount)
         let requiredUniformWidth = self.stackedIcons
             ? nil
-            : self.buttons.map(Self.maxToggleWidth(for:)).max()
+            : self.buttons.map { Self.maxToggleWidth(for: $0) }.max()
         let layoutMetrics = Self.switcherLayoutMetrics(
             for: width,
             count: layoutCount,
@@ -1011,7 +1011,7 @@ extension ProviderSwitcherView {
     }
 
     func _test_buttonDesiredWidths() -> [CGFloat] {
-        self.buttons.map(Self.maxToggleWidth(for:))
+        self.buttons.map { Self.maxToggleWidth(for: $0) }
     }
 
     func _test_buttonContentFrames() -> [NSRect?] {

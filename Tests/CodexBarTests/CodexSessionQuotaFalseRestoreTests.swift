@@ -9,7 +9,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     private let start = Date(timeIntervalSince1970: 1_700_000_000)
 
     @Test
-    func `same future boundary suppresses restore and duplicate depletion`() throws {
+    func same_future_boundary_suppresses_restore_and_duplicate_depletion() throws {
         let owner = try self.owner("same-boundary")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -25,7 +25,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `advanced boundary before trusted expiry stays suppressed`() throws {
+    func advanced_boundary_before_trusted_expiry_stays_suppressed() throws {
         let owner = try self.owner("early-advanced")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let advanced = boundary.addingTimeInterval(5 * 3600)
@@ -42,7 +42,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `depleted boundary stays frozen until its reset can be proven`() throws {
+    func depleted_boundary_stays_frozen_until_its_reset_can_be_proven() throws {
         let owner = try self.owner("depleted-advanced")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let advanced = boundary.addingTimeInterval(5 * 3600)
@@ -62,7 +62,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `depleted observation recovers a missing trusted boundary`() throws {
+    func depleted_observation_recovers_a_missing_trusted_boundary() throws {
         let owner = try self.owner("depleted-recovered-boundary")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -81,7 +81,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `expired baseline boundary cannot produce a single sample restore`() throws {
+    func expired_baseline_boundary_cannot_produce_a_single_sample_restore() throws {
         let owner = try self.owner("expired-baseline")
         let expired = self.start.addingTimeInterval(-60)
         let future = self.start.addingTimeInterval(5 * 3600)
@@ -104,7 +104,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `boundary expired before evaluation is not trusted`() throws {
+    func boundary_expired_before_evaluation_is_not_trusted() throws {
         let owner = try self.owner("expired-before-evaluation")
         let observedAt = self.start.addingTimeInterval(60)
         let boundary = self.start.addingTimeInterval(120)
@@ -123,7 +123,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `depletion cannot advance a still future trusted boundary`() throws {
+    func depletion_cannot_advance_a_still_future_trusted_boundary() throws {
         let owner = try self.owner("depletion-advanced")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let advanced = boundary.addingTimeInterval(5 * 3600)
@@ -141,7 +141,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `pre boundary observation cannot advance metadata when processed later`() throws {
+    func pre_boundary_observation_cannot_advance_metadata_when_processed_later() throws {
         let owner = try self.owner("delayed-observation")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let advanced = boundary.addingTimeInterval(5 * 3600)
@@ -160,7 +160,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test(arguments: [false, true])
-    func `ambiguous post expiry restore requires two fresh observations`(boundaryPresent: Bool) throws {
+    func ambiguous_post_expiry_restore_requires_two_fresh_observations(boundaryPresent: Bool) throws {
         let owner = try self.owner(boundaryPresent ? "expired-equivalent" : "expired-missing")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -190,7 +190,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `boundaryless restore requires two fresh observations`() throws {
+    func boundaryless_restore_requires_two_fresh_observations() throws {
         let owner = try self.owner("boundaryless")
         let notifier = SessionQuotaNotifierSpy()
         let store = Self.makeStore(notifier: notifier)
@@ -207,7 +207,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `advanced post expiry boundary restores exactly once`() throws {
+    func advanced_post_expiry_boundary_restores_exactly_once() throws {
         let owner = try self.owner("post-expiry-advanced")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let advanced = boundary.addingTimeInterval(5 * 3600)
@@ -224,7 +224,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `advanced boundary expired at observation time requires confirmation`() throws {
+    func advanced_boundary_expired_at_observation_time_requires_confirmation() throws {
         let owner = try self.owner("advanced-expired-at-observation")
         let boundary = self.start.addingTimeInterval(100)
         let candidate = self.start.addingTimeInterval(250)
@@ -253,7 +253,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `regressed post expiry boundary requires two fresh observations`() throws {
+    func regressed_post_expiry_boundary_requires_two_fresh_observations() throws {
         let owner = try self.owner("regressed")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let regressed = self.start.addingTimeInterval(10 * 60)
@@ -274,7 +274,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `older and equal observations cannot change the depleted baseline`() throws {
+    func older_and_equal_observations_cannot_change_the_depleted_baseline() throws {
         let owner = try self.owner("observation-order")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -292,7 +292,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `owner change establishes a new baseline without restoring`() throws {
+    func owner_change_establishes_a_new_baseline_without_restoring() throws {
         let ownerA = try self.owner("owner-a")
         let ownerB = try self.owner("owner-b")
         let boundary = self.start.addingTimeInterval(5 * 3600)
@@ -309,7 +309,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `source change establishes a new reducer baseline`() throws {
+    func source_change_establishes_a_new_reducer_baseline() throws {
         let owner = try self.owner("source-change")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let previous = SessionQuotaTransitionState(
@@ -338,7 +338,7 @@ struct CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `missing owner fails closed and clears prior state`() throws {
+    func missing_owner_fails_closed_and_clears_prior_state() throws {
         let owner = try self.owner("missing-owner")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -370,7 +370,7 @@ struct CodexSessionQuotaFalseRestoreTests {
 
 extension CodexSessionQuotaFalseRestoreTests {
     @Test
-    func `missing owner keeps stale observations behind the fresh baseline barrier`() throws {
+    func missing_owner_keeps_stale_observations_behind_the_fresh_baseline_barrier() throws {
         let owner = try self.owner("missing-owner-watermark")
         let notifier = SessionQuotaNotifierSpy()
         let store = Self.makeStore(notifier: notifier)
@@ -399,7 +399,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `windowless Codex result advances a matching depleted baseline watermark`() throws {
+    func windowless_Codex_result_advances_a_matching_depleted_baseline_watermark() throws {
         let owner = try self.owner("windowless-partial")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -435,7 +435,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `windowless Codex result blocks stale boundaryless restore confirmation`() throws {
+    func windowless_Codex_result_blocks_stale_boundaryless_restore_confirmation() throws {
         let owner = try self.owner("windowless-boundaryless")
         let notifier = SessionQuotaNotifierSpy()
         let store = Self.makeStore(notifier: notifier)
@@ -470,7 +470,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `disabled provider cleanup does not refire Codex depletion`() throws {
+    func disabled_provider_cleanup_does_not_refire_Codex_depletion() throws {
         let owner = try self.owner("disabled-provider-cleanup")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -491,7 +491,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `unavailable provider cleanup does not refire Codex depletion`() throws {
+    func unavailable_provider_cleanup_does_not_refire_Codex_depletion() throws {
         let owner = try self.owner("unavailable-provider-cleanup")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -514,7 +514,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `cleanup after a positive Codex baseline still reports depletion on recovery`() throws {
+    func cleanup_after_a_positive_Codex_baseline_still_reports_depletion_on_recovery() throws {
         let owner = try self.owner("positive-provider-cleanup")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
@@ -533,7 +533,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `cleanup without a prior Codex baseline keeps startup depletion semantics`() throws {
+    func cleanup_without_a_prior_Codex_baseline_keeps_startup_depletion_semantics() throws {
         let owner = try self.owner("startup-cleanup")
         let notifier = SessionQuotaNotifierSpy()
         let store = Self.makeStore(notifier: notifier)
@@ -549,7 +549,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `notifications disabled keep stale observations behind the fresh baseline barrier`() throws {
+    func notifications_disabled_keep_stale_observations_behind_the_fresh_baseline_barrier() throws {
         let owner = try self.owner("disabled-watermark")
         let notifier = SessionQuotaNotifierSpy()
         let store = Self.makeStore(notifier: notifier)
@@ -591,7 +591,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `non Codex providers preserve immediate restore semantics`() {
+    func non_Codex_providers_preserve_immediate_restore_semantics() {
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let notifier = SessionQuotaNotifierSpy()
         let store = Self.makeStore(notifier: notifier)
@@ -616,7 +616,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `non Codex providers preserve disabled baseline tracking`() {
+    func non_Codex_providers_preserve_disabled_baseline_tracking() {
         let notifier = SessionQuotaNotifierSpy()
         let store = Self.makeStore(notifier: notifier)
         store.settings.sessionQuotaNotificationsEnabled = false
@@ -643,7 +643,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `selected Codex account caller forwards its stable owner`() async throws {
+    func selected_Codex_account_caller_forwards_its_stable_owner() async throws {
         let expectedOwner = try self.owner("selected-caller")
         let limitResetOwner = try #require(CodexLimitResetOwnerKey(
             identity: .providerAccount(id: "workspace-fixture-selected-caller"),
@@ -683,7 +683,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `selected Codex accounts keep independent quota warning episodes`() async throws {
+    func selected_Codex_accounts_keep_independent_quota_warning_episodes() async throws {
         let managedAccountID = try #require(UUID(uuidString: "00000000-0000-0000-0000-000000000002"))
         let firstAccount = CodexVisibleAccount(
             id: "live:first-quota-account",
@@ -755,7 +755,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `selected email only Codex account keeps session notifications`() async {
+    func selected_email_only_Codex_account_keeps_session_notifications() async {
         let email = "email-only-session@example.test"
         let account = CodexVisibleAccount(
             id: "live:email-only-session",
@@ -804,7 +804,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `email only notification owners isolate source and credential rotation`() throws {
+    func email_only_notification_owners_isolate_source_and_credential_rotation() throws {
         let email = "email-only-owner@example.test"
         let identity = CodexIdentity.emailOnly(normalizedEmail: email)
         let liveA = try #require(CodexSessionQuotaOwnerKey(refreshGuard: CodexAccountScopedRefreshGuard(
@@ -846,7 +846,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `email only credential rotation establishes a new baseline`() throws {
+    func email_only_credential_rotation_establishes_a_new_baseline() throws {
         let email = "rotating-email-only-owner@example.test"
         let identity = CodexIdentity.emailOnly(normalizedEmail: email)
         let oldGuard = CodexAccountScopedRefreshGuard(
@@ -908,7 +908,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `provider owner survives source and credential changes`() throws {
+    func provider_owner_survives_source_and_credential_changes() throws {
         let email = "provider-source-owner@example.test"
         let identity = CodexIdentity.providerAccount(id: "workspace-provider-source-owner")
         let oldGuard = CodexAccountScopedRefreshGuard(
@@ -963,7 +963,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `regular refresh owner builder supports email only identity`() throws {
+    func regular_refresh_owner_builder_supports_email_only_identity() throws {
         let email = "regular-email-only-owner@example.test"
         let refreshGuard = CodexAccountScopedRefreshGuard(
             source: .liveSystem,
@@ -976,7 +976,7 @@ extension CodexSessionQuotaFalseRestoreTests {
     }
 
     @Test
-    func `clearing published Codex usage clears typed transition state`() throws {
+    func clearing_published_Codex_usage_clears_typed_transition_state() throws {
         let owner = try self.owner("cleanup")
         let boundary = self.start.addingTimeInterval(5 * 3600)
         let store = Self.makeStore(notifier: SessionQuotaNotifierSpy())

@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct DeepgramProviderTests {
     @Test
-    func `deepgram field kinds and bindings`() throws {
+    func deepgram_field_kinds_and_bindings() throws {
         let suite = "DeepgramProviderTests-field-kinds"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -61,7 +61,7 @@ struct DeepgramProviderTests {
     }
 
     @Test
-    nonisolated func `parses usage breakdown response into visible usage notes`() throws {
+    nonisolated func parses_usage_breakdown_response_into_visible_usage_notes() throws {
         let body = #"""
         {
           "start": "2025-01-16",
@@ -124,7 +124,7 @@ struct DeepgramProviderTests {
     }
 
     @Test
-    nonisolated func `fetch usage calls breakdown endpoint with token auth`() async throws {
+    nonisolated func fetch_usage_calls_breakdown_endpoint_with_token_auth() async throws {
         let transport = ProviderHTTPTransportStub { request in
             guard let url = request.url else { throw URLError(.badURL) }
             #expect(url.path == "/v1/projects/project-123/usage/breakdown")
@@ -172,7 +172,7 @@ struct DeepgramProviderTests {
     }
 
     @Test
-    nonisolated func `fetch usage discovers projects when project id is omitted`() async throws {
+    nonisolated func fetch_usage_discovers_projects_when_project_id_is_omitted() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             #expect(request.value(forHTTPHeaderField: "Authorization") == "Token dg-test")

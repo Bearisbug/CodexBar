@@ -5,7 +5,7 @@ import Testing
 
 struct MiniMaxCurrentTokenPlanResponseTests {
     @Test
-    func `coarse html plan name does not replace remains api plan name`() {
+    func coarse_html_plan_name_does_not_replace_remains_api_plan_name() {
         let remainsSnapshot = MiniMaxUsageSnapshot(
             planName: "Token Plan Pro",
             availablePrompts: nil,
@@ -22,7 +22,7 @@ struct MiniMaxCurrentTokenPlanResponseTests {
     }
 
     @Test
-    func `parses token plan boosted weekly lane with permille spelling`() throws {
+    func parses_token_plan_boosted_weekly_lane_with_permille_spelling() throws {
         let now = Date(timeIntervalSince1970: 1_782_050_596)
 
         let snapshot = try MiniMaxUsageParser.parseCodingPlanRemains(
@@ -42,7 +42,7 @@ struct MiniMaxCurrentTokenPlanResponseTests {
     }
 
     @Test
-    func `web usage fetch enriches parsed html without service quota data from remains api`() async throws {
+    func web_usage_fetch_enriches_parsed_html_without_service_quota_data_from_remains_api() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -76,7 +76,7 @@ struct MiniMaxCurrentTokenPlanResponseTests {
     }
 
     @Test
-    func `web usage fetch preserves auth failure from parseable html remains fallback`() async throws {
+    func web_usage_fetch_preserves_auth_failure_from_parseable_html_remains_fallback() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             if url.path.contains("coding-plan") {
@@ -107,7 +107,7 @@ struct MiniMaxCurrentTokenPlanResponseTests {
     }
 
     @Test
-    func `web usage fetch preserves cancellation from parseable html remains fallback`() async throws {
+    func web_usage_fetch_preserves_cancellation_from_parseable_html_remains_fallback() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             if url.path.contains("coding-plan") {

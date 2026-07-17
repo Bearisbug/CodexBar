@@ -4,32 +4,32 @@ import Testing
 
 struct ZaiSettingsReaderTests {
     @Test
-    func `api token reads from environment`() {
+    func api_token_reads_from_environment() {
         let token = ZaiSettingsReader.apiToken(environment: ["Z_AI_API_KEY": "abc123"])
         #expect(token == "abc123")
     }
 
     @Test
-    func `api token strips quotes`() {
+    func api_token_strips_quotes() {
         let token = ZaiSettingsReader.apiToken(environment: ["Z_AI_API_KEY": "\"token-xyz\""])
         #expect(token == "token-xyz")
     }
 
     @Test
-    func `api host reads from environment`() {
+    func api_host_reads_from_environment() {
         let host = ZaiSettingsReader.apiHost(environment: [ZaiSettingsReader.apiHostKey: " open.bigmodel.cn "])
         #expect(host == "open.bigmodel.cn")
     }
 
     @Test
-    func `quota URL infers scheme`() {
+    func quota_URL_infers_scheme() {
         let url = ZaiSettingsReader
             .quotaURL(environment: [ZaiSettingsReader.quotaURLKey: "open.bigmodel.cn/api/coding"])
         #expect(url?.absoluteString == "https://open.bigmodel.cn/api/coding")
     }
 
     @Test
-    func `endpoint override validation accepts HTTPS and bare hosts`() throws {
+    func endpoint_override_validation_accepts_HTTPS_and_bare_hosts() throws {
         try ZaiSettingsReader.validateEndpointOverrides(environment: [
             ZaiSettingsReader.quotaURLKey: "https://open.bigmodel.cn/api/coding",
         ])
@@ -39,7 +39,7 @@ struct ZaiSettingsReaderTests {
     }
 
     @Test
-    func `endpoint override validation rejects insecure URLs`() {
+    func endpoint_override_validation_rejects_insecure_URLs() {
         #expect(throws: ZaiSettingsError.invalidEndpointOverride(ZaiSettingsReader.quotaURLKey)) {
             try ZaiSettingsReader.validateEndpointOverrides(environment: [
                 ZaiSettingsReader.quotaURLKey: "http://attacker.test/quota",
@@ -55,7 +55,7 @@ struct ZaiSettingsReaderTests {
 
 struct ZaiUsageSnapshotTests {
     @Test
-    func `maps usage snapshot windows`() {
+    func maps_usage_snapshot_windows() {
         let reset = Date(timeIntervalSince1970: 123)
         let tokenLimit = ZaiLimitEntry(
             type: .tokensLimit,
@@ -97,7 +97,7 @@ struct ZaiUsageSnapshotTests {
     }
 
     @Test
-    func `maps usage snapshot windows with missing fields`() {
+    func maps_usage_snapshot_windows_with_missing_fields() {
         let reset = Date(timeIntervalSince1970: 123)
         let tokenLimit = ZaiLimitEntry(
             type: .tokensLimit,
@@ -125,7 +125,7 @@ struct ZaiUsageSnapshotTests {
     }
 
     @Test
-    func `maps usage snapshot windows with missing remaining uses current value`() {
+    func maps_usage_snapshot_windows_with_missing_remaining_uses_current_value() {
         let reset = Date(timeIntervalSince1970: 123)
         let tokenLimit = ZaiLimitEntry(
             type: .tokensLimit,
@@ -149,7 +149,7 @@ struct ZaiUsageSnapshotTests {
     }
 
     @Test
-    func `maps usage snapshot windows with missing current value uses remaining`() {
+    func maps_usage_snapshot_windows_with_missing_current_value_uses_remaining() {
         let reset = Date(timeIntervalSince1970: 123)
         let tokenLimit = ZaiLimitEntry(
             type: .tokensLimit,
@@ -173,7 +173,7 @@ struct ZaiUsageSnapshotTests {
     }
 
     @Test
-    func `maps usage snapshot windows with missing remaining and current value falls back to percentage`() {
+    func maps_usage_snapshot_windows_with_missing_remaining_and_current_value_falls_back_to_percentage() {
         let reset = Date(timeIntervalSince1970: 123)
         let tokenLimit = ZaiLimitEntry(
             type: .tokensLimit,
@@ -199,17 +199,21 @@ struct ZaiUsageSnapshotTests {
 
 struct ZaiUsageParsingTests {
     @Test
-    func `empty body returns parse failed`() {
-        #expect {
+    func empty_body_returns_parse_failed() {
+        do {
             _ = try ZaiUsageFetcher.parseUsageSnapshot(from: Data())
-        } throws: { error in
-            guard case let ZaiUsageError.parseFailed(message) = error else { return false }
-            return message == "Empty response body"
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let ZaiUsageError.parseFailed(message) = error else { return false }
+                return message == "Empty response body"
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `parses usage response`() throws {
+    func parses_usage_response() throws {
         let json = """
         {
           "code": 200,
@@ -258,7 +262,7 @@ struct ZaiUsageParsingTests {
     }
 
     @Test
-    func `zai mcp time limit displays monthly instead of one minute window`() throws {
+    func zai_mcp_time_limit_displays_monthly_instead_of_one_minute_window() throws {
         let json = """
         {
           "code": 200,
@@ -297,49 +301,61 @@ struct ZaiUsageParsingTests {
     }
 
     @Test
-    func `missing data returns api error`() {
+    func missing_data_returns_api_error() {
         let json = """
         { "code": 1001, "msg": "Authorization Token Missing", "success": false }
         """
 
-        #expect {
+        do {
             _ = try ZaiUsageFetcher.parseUsageSnapshot(from: Data(json.utf8))
-        } throws: { error in
-            guard case let ZaiUsageError.apiError(message) = error else { return false }
-            return message == "Authorization Token Missing"
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let ZaiUsageError.apiError(message) = error else { return false }
+                return message == "Authorization Token Missing"
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `failed response without message reports the API code`() {
+    func failed_response_without_message_reports_the_API_code() {
         let json = """
         { "code": 1001, "success": false }
         """
 
-        #expect {
+        do {
             _ = try ZaiUsageFetcher.parseUsageSnapshot(from: Data(json.utf8))
-        } throws: { error in
-            guard case let ZaiUsageError.apiError(message) = error else { return false }
-            return message == "Z.ai quota API returned code 1001"
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let ZaiUsageError.apiError(message) = error else { return false }
+                return message == "Z.ai quota API returned code 1001"
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `success without data returns parse failed`() {
+    func success_without_data_returns_parse_failed() {
         let json = """
         { "code": 200, "msg": "Operation successful", "success": true }
         """
 
-        #expect {
+        do {
             _ = try ZaiUsageFetcher.parseUsageSnapshot(from: Data(json.utf8))
-        } throws: { error in
-            guard case let ZaiUsageError.parseFailed(message) = error else { return false }
-            return message == "Missing data"
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let ZaiUsageError.parseFailed(message) = error else { return false }
+                return message == "Missing data"
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `success without limits parses empty usage`() throws {
+    func success_without_limits_parses_empty_usage() throws {
         let json = """
         {
           "code": 200,
@@ -357,7 +373,7 @@ struct ZaiUsageParsingTests {
     }
 
     @Test
-    func `parses new schema with missing token limit fields`() throws {
+    func parses_new_schema_with_missing_token_limit_fields() throws {
         let json = """
         {
           "code": 200,
@@ -403,7 +419,7 @@ struct ZaiUsageParsingTests {
     }
 
     @Test
-    func `parses BigModel CN quota response without message`() throws {
+    func parses_BigModel_CN_quota_response_without_message() throws {
         let json = """
         {
           "code": 200,
@@ -456,7 +472,7 @@ struct ZaiUsageParsingTests {
 
 struct ZaiBigModelTeamScopeTests {
     @Test
-    func `team scope appends type 2 and sends BigModel project headers`() async throws {
+    func team_scope_appends_type_2_and_sends_BigModel_project_headers() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let json = """
             {
@@ -527,7 +543,7 @@ struct ZaiBigModelTeamScopeTests {
     }
 
     @Test
-    func `personal scope keeps existing quota URL and omits team headers`() async throws {
+    func personal_scope_keeps_existing_quota_URL_and_omits_team_headers() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let json = """
             {
@@ -575,7 +591,7 @@ struct ZaiBigModelTeamScopeTests {
     }
 
     @Test
-    func `team scope requires complete BigModel context`() async {
+    func team_scope_requires_complete_BigModel_context() async {
         let transport = ProviderHTTPTransportStub { request in
             (
                 Data(),
@@ -621,7 +637,7 @@ struct ZaiBigModelTeamScopeTests {
     }
 
     @Test
-    func `team model usage appends type 3 and sends BigModel project headers`() async throws {
+    func team_model_usage_appends_type_3_and_sends_BigModel_project_headers() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let json = """
             {
@@ -669,7 +685,7 @@ struct ZaiBigModelTeamScopeTests {
     }
 
     @Test
-    func `team quota rejects insecure override before sending credentials`() async throws {
+    func team_quota_rejects_insecure_override_before_sending_credentials() async throws {
         let transport = ProviderHTTPTransportStub { request in
             Issue.record("Unexpected z.ai team quota request to \(request.url?.absoluteString ?? "<nil>")")
             throw URLError(.badURL)
@@ -692,7 +708,7 @@ struct ZaiBigModelTeamScopeTests {
     }
 
     @Test
-    func `team model usage rejects insecure API host before sending credentials`() async throws {
+    func team_model_usage_rejects_insecure_API_host_before_sending_credentials() async throws {
         let transport = ProviderHTTPTransportStub { request in
             Issue.record("Unexpected z.ai team model usage request to \(request.url?.absoluteString ?? "<nil>")")
             throw URLError(.badURL)
@@ -726,7 +742,7 @@ struct ZaiBigModelTeamScopeTests {
     }
 
     @Test
-    func `team context can be resolved from environment`() {
+    func team_context_can_be_resolved_from_environment() {
         let env = [
             ZaiSettingsReader.bigModelOrganizationKey: " org-env ",
             ZaiSettingsReader.bigModelProjectKey: " proj-env ",
@@ -739,7 +755,7 @@ struct ZaiBigModelTeamScopeTests {
 
 struct ZaiHourlyUsageTests {
     @Test
-    func `model usage parser decodes hourly model payload`() throws {
+    func model_usage_parser_decodes_hourly_model_payload() throws {
         let json = """
         {
           "code": 200,
@@ -764,7 +780,7 @@ struct ZaiHourlyUsageTests {
     }
 
     @Test
-    func `today hourly bars filter earlier days and skip empty hours`() {
+    func today_hourly_bars_filter_earlier_days_and_skip_empty_hours() {
         let reference = Self.localDate(year: 2026, month: 5, day: 14, hour: 12)
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: reference) ?? reference
         let modelData = ZaiModelUsageData(
@@ -786,7 +802,7 @@ struct ZaiHourlyUsageTests {
     }
 
     @Test
-    func `last 24 hour bars filter data outside trailing window`() {
+    func last_24_hour_bars_filter_data_outside_trailing_window() {
         let reference = Self.localDate(year: 2026, month: 5, day: 14, hour: 12)
         let old = Calendar.current.date(byAdding: .hour, value: -25, to: reference) ?? reference
         let inWindow = Calendar.current.date(byAdding: .hour, value: -23, to: reference) ?? reference
@@ -827,7 +843,7 @@ struct ZaiHourlyUsageTests {
 
 struct ZaiThreeLimitTests {
     @Test
-    func `parses three limit entries into session weekly and mcp slots`() throws {
+    func parses_three_limit_entries_into_session_weekly_and_mcp_slots() throws {
         let json = """
         {
           "code": 200,
@@ -897,7 +913,7 @@ struct ZaiThreeLimitTests {
     }
 
     @Test
-    func `unit 6 maps to weeks with correct window minutes`() {
+    func unit_6_maps_to_weeks_with_correct_window_minutes() {
         let entry = ZaiLimitEntry(
             type: .tokensLimit,
             unit: .weeks,
@@ -914,7 +930,7 @@ struct ZaiThreeLimitTests {
     }
 
     @Test
-    func `two limit entries remain backward compatible`() throws {
+    func two_limit_entries_remain_backward_compatible() throws {
         let json = """
         {
           "code": 200,
@@ -959,7 +975,7 @@ struct ZaiThreeLimitTests {
 
 struct ZaiAPIRegionTests {
     @Test
-    func `dashboard URLs follow selected region`() {
+    func dashboard_URLs_follow_selected_region() {
         #expect(
             ZaiAPIRegion.global.dashboardURL.absoluteString ==
                 "https://z.ai/manage-apikey/coding-plan/personal/my-plan")
@@ -972,33 +988,33 @@ struct ZaiAPIRegionTests {
     }
 
     @Test
-    func `defaults to global endpoint`() {
+    func defaults_to_global_endpoint() {
         let url = ZaiUsageFetcher.resolveQuotaURL(region: .global, environment: [:])
         #expect(url.absoluteString == "https://api.z.ai/api/monitor/usage/quota/limit")
     }
 
     @Test
-    func `uses big model region when selected`() {
+    func uses_big_model_region_when_selected() {
         let url = ZaiUsageFetcher.resolveQuotaURL(region: .bigmodelCN, environment: [:])
         #expect(url.absoluteString == "https://open.bigmodel.cn/api/monitor/usage/quota/limit")
     }
 
     @Test
-    func `quota url environment override wins`() {
+    func quota_url_environment_override_wins() {
         let env = [ZaiSettingsReader.quotaURLKey: "https://open.bigmodel.cn/api/coding/paas/v4"]
         let url = ZaiUsageFetcher.resolveQuotaURL(region: .global, environment: env)
         #expect(url.absoluteString == "https://open.bigmodel.cn/api/coding/paas/v4")
     }
 
     @Test
-    func `api host environment appends quota path`() {
+    func api_host_environment_appends_quota_path() {
         let env = [ZaiSettingsReader.apiHostKey: "open.bigmodel.cn"]
         let url = ZaiUsageFetcher.resolveQuotaURL(region: .global, environment: env)
         #expect(url.absoluteString == "https://open.bigmodel.cn/api/monitor/usage/quota/limit")
     }
 
     @Test
-    func `dashboard follows known endpoint overrides`() {
+    func dashboard_follows_known_endpoint_overrides() {
         let china = ZaiUsageFetcher.resolveDashboardURL(
             region: .global,
             environment: [ZaiSettingsReader.apiHostKey: "open.bigmodel.cn"])
@@ -1011,7 +1027,7 @@ struct ZaiAPIRegionTests {
     }
 
     @Test
-    func `dashboard keeps selected region for custom endpoint override`() {
+    func dashboard_keeps_selected_region_for_custom_endpoint_override() {
         let dashboard = ZaiUsageFetcher.resolveDashboardURL(
             region: .bigmodelCN,
             environment: [ZaiSettingsReader.apiHostKey: "zai.internal.example"])

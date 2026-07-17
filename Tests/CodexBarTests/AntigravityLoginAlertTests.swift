@@ -5,7 +5,7 @@ import Testing
 
 struct AntigravityLoginAlertTests {
     @Test
-    func `authorization URL asks Google to select an account`() throws {
+    func authorization_URL_asks_Google_to_select_an_account() throws {
         let redirectURL = try #require(URL(string: "http://127.0.0.1:54321/callback"))
         let url = try AntigravityLoginRunner.makeAuthorizationURL(
             redirectURL: redirectURL,
@@ -21,14 +21,14 @@ struct AntigravityLoginAlertTests {
     }
 
     @Test
-    func `returns alert for timeout`() {
+    func returns_alert_for_timeout() {
         let result = AntigravityLoginRunner.Result(outcome: .timedOut)
         let info = StatusItemController.antigravityLoginAlertInfo(for: result)
         #expect(info?.title == "Antigravity login timed out")
     }
 
     @Test
-    func `returns alert for launch failure`() {
+    func returns_alert_for_launch_failure() {
         let result = AntigravityLoginRunner.Result(outcome: .launchFailed("https://example.com/login"))
         let info = StatusItemController.antigravityLoginAlertInfo(for: result)
         #expect(info?.title == "Could not open browser for Antigravity")
@@ -36,7 +36,7 @@ struct AntigravityLoginAlertTests {
     }
 
     @Test
-    func `returns alert for auth failure`() {
+    func returns_alert_for_auth_failure() {
         let result = AntigravityLoginRunner.Result(outcome: .failed("permission denied"))
         let info = StatusItemController.antigravityLoginAlertInfo(for: result)
         #expect(info?.title == "Antigravity login failed")
@@ -44,7 +44,7 @@ struct AntigravityLoginAlertTests {
     }
 
     @Test
-    func `returns nil on success`() {
+    func returns_nil_on_success() {
         let result = AntigravityLoginRunner.Result(outcome: .success("user@example.com"))
         let info = StatusItemController.antigravityLoginAlertInfo(for: result)
         #expect(info == nil)

@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuCodexCostHistoryRefreshTests {
     @Test
-    func `codex cost history preserves identity when hidden project nested data changes`() throws {
+    func codex_cost_history_preserves_identity_when_hidden_project_nested_data_changes() throws {
         try self.assertCodexCostHistoryPreservesIdentity(
             mutate: { snapshot in
                 var projects = snapshot.projects
@@ -21,7 +21,7 @@ struct StatusMenuCodexCostHistoryRefreshTests {
     }
 
     @Test
-    func `codex cost history preserves identity when visible project nested data changes`() throws {
+    func codex_cost_history_preserves_identity_when_visible_project_nested_data_changes() throws {
         try self.assertCodexCostHistoryPreservesIdentity(
             mutate: { snapshot in
                 var projects = snapshot.projects
@@ -35,7 +35,7 @@ struct StatusMenuCodexCostHistoryRefreshTests {
     }
 
     @Test
-    func `codex cost history rebuilds when daily cost changes`() throws {
+    func codex_cost_history_rebuilds_when_daily_cost_changes() throws {
         try self.assertCodexCostHistoryRebuilds(
             mutate: { snapshot in
                 Self.copySnapshot(snapshot, dailyCost: 9.87)
@@ -43,7 +43,7 @@ struct StatusMenuCodexCostHistoryRefreshTests {
     }
 
     @Test
-    func `hydrated codex cost history stores the same fingerprint as refresh`() throws {
+    func hydrated_codex_cost_history_stores_the_same_fingerprint_as_refresh() throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousMenuCardRendering }

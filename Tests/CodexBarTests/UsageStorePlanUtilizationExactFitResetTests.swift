@@ -6,7 +6,7 @@ import Testing
 struct UsageStorePlanUtilizationExactFitResetTests {
     @MainActor
     @Test
-    func `weekly chart uses reset date as bar date`() {
+    func weekly_chart_uses_reset_date_as_bar_date() {
         let firstBoundary = Date(timeIntervalSince1970: 1_710_000_000)
         let secondBoundary = firstBoundary.addingTimeInterval(7 * 24 * 60 * 60)
         let thirdBoundary = secondBoundary.addingTimeInterval(7 * 24 * 60 * 60)
@@ -34,7 +34,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `chart keeps maximum usage for each effective period`() {
+    func chart_keeps_maximum_usage_for_each_effective_period() {
         let firstBoundary = Date(timeIntervalSince1970: 1_710_000_000)
         let secondBoundary = firstBoundary.addingTimeInterval(5 * 60 * 60)
         let histories = [
@@ -63,7 +63,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `chart prefers reset backed entry when usage ties within period`() {
+    func chart_prefers_reset_backed_entry_when_usage_ties_within_period() {
         let boundary = Date(timeIntervalSince1970: 1_710_000_000)
         let histories = [
             planSeries(name: .session, windowMinutes: 300, entries: [
@@ -84,7 +84,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `chart adds synthetic current bar when current period has no observation`() {
+    func chart_adds_synthetic_current_bar_when_current_period_has_no_observation() {
         let firstBoundary = Date(timeIntervalSince1970: 1_710_000_000)
         let currentBoundary = firstBoundary.addingTimeInterval(10 * 60 * 60)
         let referenceDate = currentBoundary.addingTimeInterval(-30 * 60)
@@ -110,7 +110,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `weekly chart shows zero bars for missing reset periods`() {
+    func weekly_chart_shows_zero_bars_for_missing_reset_periods() {
         let firstBoundary = Date(timeIntervalSince1970: 1_710_000_000)
         let secondBoundary = firstBoundary.addingTimeInterval(7 * 24 * 60 * 60)
         let fourthBoundary = secondBoundary.addingTimeInterval(14 * 24 * 60 * 60)
@@ -133,7 +133,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `weekly chart starts axis labels from first bar`() {
+    func weekly_chart_starts_axis_labels_from_first_bar() {
         let firstBoundary = Date(timeIntervalSince1970: 1_710_000_000)
         let secondBoundary = firstBoundary.addingTimeInterval(7 * 24 * 60 * 60)
         let thirdBoundary = secondBoundary.addingTimeInterval(7 * 24 * 60 * 60)
@@ -158,7 +158,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `weekly chart keeps observed current boundary when reset times drift slightly`() {
+    func weekly_chart_keeps_observed_current_boundary_when_reset_times_drift_slightly() {
         let firstBoundary = Date(timeIntervalSince1970: 1_710_000_055)
         let secondBoundary = firstBoundary.addingTimeInterval(7 * 24 * 60 * 60 + 88)
         let histories = [
@@ -179,7 +179,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `weekly chart prefers reset backed history over legacy synthetic points`() {
+    func weekly_chart_prefers_reset_backed_history_over_legacy_synthetic_points() {
         let legacyCapturedAt = Date(timeIntervalSince1970: 1_742_100_000)
         let firstBoundary = Date(timeIntervalSince1970: 1_742_356_855) // 2026-03-18T17:00:55Z
         let secondBoundary = Date(timeIntervalSince1970: 1_742_961_343) // 2026-03-25T17:02:23Z
@@ -202,7 +202,7 @@ struct UsageStorePlanUtilizationExactFitResetTests {
 
     @MainActor
     @Test
-    func `chart keeps legacy history before first reset backed boundary`() {
+    func chart_keeps_legacy_history_before_first_reset_backed_boundary() {
         let firstLegacyCapturedAt = Date(timeIntervalSince1970: 1_739_692_800) // 2026-02-23T07:00:00Z
         let secondLegacyCapturedAt = firstLegacyCapturedAt.addingTimeInterval(7 * 24 * 60 * 60)
         let firstBoundary = secondLegacyCapturedAt.addingTimeInterval(7 * 24 * 60 * 60 + 55)

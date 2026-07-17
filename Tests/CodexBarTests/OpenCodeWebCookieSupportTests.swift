@@ -3,7 +3,7 @@ import Testing
 
 struct OpenCodeWebCookieSupportTests {
     @Test
-    func `request cookie header keeps only opencode auth cookies`() {
+    func request_cookie_header_keeps_only_opencode_auth_cookies() {
         let header = OpenCodeWebCookieSupport.requestCookieHeader(
             from: "provider=google; auth=session123; theme=dark; __Host-auth=host456")
 
@@ -11,7 +11,7 @@ struct OpenCodeWebCookieSupportTests {
     }
 
     @Test
-    func `request cookie header returns nil when auth cookie is missing`() {
+    func request_cookie_header_returns_nil_when_auth_cookie_is_missing() {
         let header = OpenCodeWebCookieSupport.requestCookieHeader(from: "provider=google; theme=dark")
 
         #expect(header == nil)

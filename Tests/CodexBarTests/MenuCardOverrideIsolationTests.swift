@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct MenuCardOverrideIsolationTests {
     @Test
-    func `nil snapshot account card does not inherit ambient Claude costs`() throws {
+    func nil_snapshot_account_card_does_not_inherit_ambient_Claude_costs() throws {
         let suite = "MenuCardOverrideIsolationTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -47,7 +47,7 @@ struct MenuCardOverrideIsolationTests {
     }
 
     @Test
-    func `account card without its own error does not inherit the ambient Claude error`() throws {
+    func account_card_without_its_own_error_does_not_inherit_the_ambient_Claude_error() throws {
         let suite = "MenuCardOverrideIsolationTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -90,7 +90,7 @@ struct MenuCardOverrideIsolationTests {
     }
 
     @Test
-    func `failed stacked token account card keeps its configured label`() throws {
+    func failed_stacked_token_account_card_keeps_its_configured_label() throws {
         let suite = "MenuCardOverrideIsolationTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -130,7 +130,7 @@ struct MenuCardOverrideIsolationTests {
     }
 
     @Test
-    func `successful stacked token account card prefers fetched identity over configured label`() throws {
+    func successful_stacked_token_account_card_prefers_fetched_identity_over_configured_label() throws {
         let suite = "MenuCardOverrideIsolationTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

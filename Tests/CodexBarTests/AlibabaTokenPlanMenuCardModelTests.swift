@@ -5,7 +5,7 @@ import Testing
 
 struct AlibabaTokenPlanMenuCardModelTests {
     @Test
-    func `monthly quota shows deficit and run out details`() throws {
+    func monthly_quota_shows_deficit_and_run_out_details() throws {
         let now = Date(timeIntervalSince1970: 10_368_000) // 1970-05-01T00:00:00Z
         let snapshot = AlibabaTokenPlanUsageSnapshot(
             planName: "TOKEN PLAN",

@@ -6,7 +6,7 @@ import Testing
 extension UsageStorePlanUtilizationTests {
     @MainActor
     @Test
-    func `Claude weekly celebration ignores a stale high and duplicate low after reset`() async throws {
+    func Claude_weekly_celebration_ignores_a_stale_high_and_duplicate_low_after_reset() async throws {
         let store = Self.makeStore()
         let accountLabel = "claude-weekly-dedup-account"
         let recorder = ClaudeWeeklyResetEventRecorder(accountLabel: accountLabel)
@@ -52,7 +52,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `Claude weekly recovery confirmation persists and later permits a new reset`() async throws {
+    func Claude_weekly_recovery_confirmation_persists_and_later_permits_a_new_reset() async throws {
         let firstStore = Self.makeStore()
         let accountLabel = "claude-weekly-persisted-dedup-account"
         let recorder = ClaudeWeeklyResetEventRecorder(accountLabel: accountLabel)
@@ -147,7 +147,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `Claude weekly recovery confirmation is isolated by account`() async {
+    func Claude_weekly_recovery_confirmation_is_isolated_by_account() async {
         let store = Self.makeStore()
         let firstAccount = "claude-weekly-dedup-account-a"
         let secondAccount = "claude-weekly-dedup-account-b"
@@ -210,7 +210,7 @@ extension UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `legacy reset detector state decodes without recovery state`() throws {
+    func legacy_reset_detector_state_decodes_without_recovery_state() throws {
         let suiteName = "ClaudeWeeklyResetDedupLegacy-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
@@ -231,7 +231,7 @@ extension UsageStorePlanUtilizationTests {
     }
 
     @Test
-    func `legacy Claude weekly low state migrates into recovery confirmation`() throws {
+    func legacy_Claude_weekly_low_state_migrates_into_recovery_confirmation() throws {
         let suiteName = "ClaudeWeeklyResetDedupLowMigration-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }

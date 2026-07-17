@@ -24,7 +24,7 @@ struct PerplexityCookieCacheTests {
     // MARK: - Cache round-trip
 
     @Test
-    func `cache round trip produces valid cookie override`() {
+    func cache_round_trip_produces_valid_cookie_override() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer {
             CookieHeaderCache.clear(provider: .perplexity)
@@ -48,7 +48,7 @@ struct PerplexityCookieCacheTests {
     // MARK: - isAvailable returns true when cache has entry
 
     @Test
-    func `is available returns true when cache populated`() {
+    func is_available_returns_true_when_cache_populated() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer {
             CookieHeaderCache.clear(provider: .perplexity)
@@ -72,7 +72,7 @@ struct PerplexityCookieCacheTests {
     // MARK: - Cache cleared on invalidToken
 
     @Test
-    func `cache cleared on invalid token`() {
+    func cache_cleared_on_invalid_token() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer {
             CookieHeaderCache.clear(provider: .perplexity)
@@ -96,7 +96,7 @@ struct PerplexityCookieCacheTests {
     // MARK: - Cache NOT cleared on non-auth errors
 
     @Test
-    func `cache not cleared on network error`() {
+    func cache_not_cleared_on_network_error() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer {
             CookieHeaderCache.clear(provider: .perplexity)
@@ -121,7 +121,7 @@ struct PerplexityCookieCacheTests {
     }
 
     @Test
-    func `cache not cleared on API error`() {
+    func cache_not_cleared_on_API_error() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer {
             CookieHeaderCache.clear(provider: .perplexity)
@@ -148,7 +148,7 @@ struct PerplexityCookieCacheTests {
     // MARK: - Bare token stored as default cookie name
 
     @Test
-    func `bare token round trips with default cookie name`() {
+    func bare_token_round_trips_with_default_cookie_name() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer {
             CookieHeaderCache.clear(provider: .perplexity)
@@ -168,7 +168,7 @@ struct PerplexityCookieCacheTests {
     }
 
     @Test
-    func `off mode ignores cached session cookie`() async {
+    func off_mode_ignores_cached_session_cookie() async {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer {
             CookieHeaderCache.clear(provider: .perplexity)

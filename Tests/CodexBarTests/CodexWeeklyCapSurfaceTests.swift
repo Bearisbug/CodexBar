@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct CodexWeeklyCapSurfaceTests {
     @Test
-    func `menu card session metric shows weekly cap and reset`() throws {
+    func menu_card_session_metric_shows_weekly_cap_and_reset() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let weeklyReset = now.addingTimeInterval(4 * 24 * 60 * 60)
@@ -66,7 +66,7 @@ struct CodexWeeklyCapSurfaceTests {
     }
 
     @Test
-    func `primary menu bar metric and credits follow binding weekly reset`() {
+    func primary_menu_bar_metric_and_credits_follow_binding_weekly_reset() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "CodexWeeklyCapSurfaceTests-menu-bar"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -128,7 +128,7 @@ struct CodexWeeklyCapSurfaceTests {
     }
 
     @Test
-    func `combined menu bar modes ignore exhausted weekly lane after its reset`() throws {
+    func combined_menu_bar_modes_ignore_exhausted_weekly_lane_after_its_reset() throws {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "CodexWeeklyCapSurfaceTests-combined-reset"),
             zaiTokenStore: NoopZaiTokenStore(),

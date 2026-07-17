@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageScannerClaudeDesktopTests {
     @Test
-    func `claude daily report includes nested desktop local agent projects`() throws {
+    func claude_daily_report_includes_nested_desktop_local_agent_projects() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -108,7 +108,7 @@ struct CostUsageScannerClaudeDesktopTests {
     }
 
     @Test
-    func `current desktop shared claude projects root remains discovered`() throws {
+    func current_desktop_shared_claude_projects_root_remains_discovered() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

@@ -85,7 +85,9 @@ final class AppNotifications {
 
         let center = self.centerProvider()
         return await withCheckedContinuation { continuation in
-            center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+            // @Sendable: UNUserNotificationCenter calls back on its own queue; the closure
+            // must not inherit MainActor isolation or the runtime executor check traps.
+            center.requestAuthorization(options: [.alert, .sound, .badge]) { @Sendable granted, _ in
                 continuation.resume(returning: granted)
             }
         }
@@ -94,7 +96,7 @@ final class AppNotifications {
     private func notificationAuthorizationStatus() async -> UNAuthorizationStatus? {
         let center = self.centerProvider()
         return await withCheckedContinuation { continuation in
-            center.getNotificationSettings { settings in
+            center.getNotificationSettings { @Sendable settings in
                 continuation.resume(returning: settings.authorizationStatus)
             }
         }

@@ -8,7 +8,7 @@ import Testing
 
 struct ClinePassProviderLinuxTests {
     @Test
-    func `parses all rate windows`() throws {
+    func parses_all_rate_windows() throws {
         let body = #"""
         {
           "data": {
@@ -55,7 +55,7 @@ struct ClinePassProviderLinuxTests {
     }
 
     @Test
-    func `leaves missing rate windows nil`() throws {
+    func leaves_missing_rate_windows_nil() throws {
         let body = #"""
         {
           "data": {
@@ -79,7 +79,7 @@ struct ClinePassProviderLinuxTests {
     }
 
     @Test
-    func `rejects malformed payload`() {
+    func rejects_malformed_payload() {
         let body = #"""
         {
           "data": {
@@ -94,16 +94,19 @@ struct ClinePassProviderLinuxTests {
         }
         """#
 
-        #expect {
+        do {
             _ = try ClinePassUsageFetcher._parseSnapshotForTesting(Data(body.utf8))
-        } throws: { error in
-            guard case ClinePassUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected parseFailed")
+        } catch {
+            guard case ClinePassUsageError.parseFailed = error else {
+                Issue.record("expected parseFailed, got \(error)")
+                return
+            }
         }
     }
 
     @Test
-    func `reads both environment keys and config override`() {
+    func reads_both_environment_keys_and_config_override() {
         #expect(ClinePassSettingsReader.apiKey(environment: [
             ClinePassSettingsReader.apiKeyEnvironmentKey: " primary ",
             ClinePassSettingsReader.alternateAPIKeyEnvironmentKey: "alternate",
@@ -124,7 +127,7 @@ struct ClinePassProviderLinuxTests {
     }
 
     @Test
-    func `registers descriptor and CLI selection`() throws {
+    func registers_descriptor_and_CLI_selection() throws {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .clinepass)
         let selection = try #require(ProviderSelection(argument: "clinepass"))
 
@@ -137,7 +140,7 @@ struct ClinePassProviderLinuxTests {
     }
 
     @Test
-    func `fetches usage with bearer authentication`() async throws {
+    func fetches_usage_with_bearer_authentication() async throws {
         let body = #"""
         {
           "data": {
@@ -170,7 +173,7 @@ struct ClinePassProviderLinuxTests {
     }
 
     @Test
-    func `requires authentication and rejects unauthorized response`() async {
+    func requires_authentication_and_rejects_unauthorized_response() async {
         let unusedTransport = ProviderHTTPTransportHandler { _ in
             Issue.record("Transport should not be called without an API key")
             throw URLError(.userAuthenticationRequired)

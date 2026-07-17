@@ -6,7 +6,7 @@ import Testing
 
 struct CursorLinuxTests {
     @Test
-    func `Cursor database path honors absolute XDG config home`() {
+    func Cursor_database_path_honors_absolute_XDG_config_home() {
         let path = CursorAppAuthStore.resolveDefaultDBPath(
             home: "/home/test",
             environment: ["XDG_CONFIG_HOME": "/custom/config"])
@@ -14,7 +14,7 @@ struct CursorLinuxTests {
     }
 
     @Test
-    func `Cursor database path falls back to dot config`() {
+    func Cursor_database_path_falls_back_to_dot_config() {
         let path = CursorAppAuthStore.resolveDefaultDBPath(
             home: "/home/test",
             environment: [:])
@@ -22,7 +22,7 @@ struct CursorLinuxTests {
     }
 
     @Test
-    func `Cursor database path rejects relative XDG config home`() {
+    func Cursor_database_path_rejects_relative_XDG_config_home() {
         let path = CursorAppAuthStore.resolveDefaultDBPath(
             home: "/home/test",
             environment: ["XDG_CONFIG_HOME": "relative/config"])
@@ -30,7 +30,7 @@ struct CursorLinuxTests {
     }
 
     @Test
-    func `Cursor automatic source does not require macOS web support`() {
+    func Cursor_automatic_source_does_not_require_macOS_web_support() {
         #expect(!CodexBarCLI.sourceModeRequiresWebSupport(
             .auto,
             provider: .cursor,
@@ -39,12 +39,12 @@ struct CursorLinuxTests {
     }
 
     @Test
-    func `Cursor descriptor accepts explicit web source`() {
+    func Cursor_descriptor_accepts_explicit_web_source() {
         #expect(CursorProviderDescriptor.descriptor.fetchPlan.sourceModes.contains(.web))
     }
 
     @Test
-    func `Cursor manual cookie does not require macOS web support`() {
+    func Cursor_manual_cookie_does_not_require_macOS_web_support() {
         #expect(!CodexBarCLI.sourceModeRequiresWebSupport(
             .web,
             provider: .cursor,
@@ -55,7 +55,7 @@ struct CursorLinuxTests {
     }
 
     @Test
-    func `disabled Cursor web source still requires macOS web support`() {
+    func disabled_Cursor_web_source_still_requires_macOS_web_support() {
         #expect(CodexBarCLI.sourceModeRequiresWebSupport(
             .web,
             provider: .cursor,

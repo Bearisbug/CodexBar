@@ -73,7 +73,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex account ordering keeps workspace groups contiguous`() {
+    func codex_account_ordering_keeps_workspace_groups_contiguous() {
         let teamActive = CodexVisibleAccount(
             id: "team-a-active",
             email: "active@example.com",
@@ -137,7 +137,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex stacked menu orders by quota and groups workspaces`() throws {
+    func codex_stacked_menu_orders_by_quota_and_groups_workspaces() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -217,7 +217,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex stacked menu surfaces account health labels`() throws {
+    func codex_stacked_menu_surfaces_account_health_labels() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -256,7 +256,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex account snapshot store hydrates current visible accounts`() {
+    func codex_account_snapshot_store_hydrates_current_visible_accounts() {
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: fileURL) }
 
@@ -287,7 +287,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex account snapshot store rejects mismatched workspace records`() {
+    func codex_account_snapshot_store_rejects_mismatched_workspace_records() {
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: fileURL) }
 
@@ -330,7 +330,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex account snapshot store keeps same composite owner after auth fingerprint changes`() {
+    func codex_account_snapshot_store_keeps_same_composite_owner_after_auth_fingerprint_changes() {
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: fileURL) }
 
@@ -373,7 +373,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex account snapshot store rejects legacy workspace records without identity`() throws {
+    func codex_account_snapshot_store_rejects_legacy_workspace_records_without_identity() throws {
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: fileURL) }
         let payload = """
@@ -411,7 +411,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex account snapshot store rejects normalized legacy email ids without composite owner`() throws {
+    func codex_account_snapshot_store_rejects_normalized_legacy_email_ids_without_composite_owner() throws {
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: fileURL) }
         let payload = """
@@ -444,7 +444,7 @@ struct StatusMenuCodexSwitcherPresentationTests {
     }
 
     @Test
-    func `codex account snapshot store rejects legacy stable ids crossing workspace members`() throws {
+    func codex_account_snapshot_store_rejects_legacy_stable_ids_crossing_workspace_members() throws {
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: fileURL) }
 

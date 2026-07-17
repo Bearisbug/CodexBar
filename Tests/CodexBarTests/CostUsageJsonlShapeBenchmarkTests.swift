@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CostUsageJsonlShapeBenchmarkTests {
     @Test
-    func `scanner benchmark covers codex session history shape`() throws {
+    func scanner_benchmark_covers_codex_session_history_shape() throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(
             "codexbar-cost-jsonl-shape-\(UUID().uuidString)",
             isDirectory: true)
@@ -75,7 +75,7 @@ struct CostUsageJsonlShapeBenchmarkTests {
     }
 
     @Test
-    func `synthetic codex rows preserve model attribution`() throws {
+    func synthetic_codex_rows_preserve_model_attribution() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

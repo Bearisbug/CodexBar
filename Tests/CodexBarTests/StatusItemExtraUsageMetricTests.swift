@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct StatusItemExtraUsageMetricTests {
     @Test
-    func `menu bar extra usage preference uses cursor on demand budget`() {
+    func menu_bar_extra_usage_preference_uses_cursor_on_demand_budget() {
         let (store, controller) = self.makeCursorController(suiteName: "StatusItemExtraUsageMetricTests-budget")
         defer { controller.releaseStatusItemsForTesting() }
         let snapshot = UsageSnapshot(
@@ -30,7 +30,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `menu bar extra usage preference falls back to automatic when cursor on demand budget is missing`() {
+    func menu_bar_extra_usage_preference_falls_back_to_automatic_when_cursor_on_demand_budget_is_missing() {
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-missing-budget",
             provider: .cursor)
@@ -51,7 +51,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `menu bar extra usage preference honors percent used display for cursor`() {
+    func menu_bar_extra_usage_preference_honors_percent_used_display_for_cursor() {
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-cursor-spend-text",
             provider: .cursor)
@@ -76,7 +76,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `menu bar extra usage preference honors percent remaining display for cursor`() {
+    func menu_bar_extra_usage_preference_honors_percent_remaining_display_for_cursor() {
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-cursor-remaining-text",
             provider: .cursor)
@@ -102,7 +102,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `menu bar extra usage preference keeps cursor currency fallback in pace mode`() {
+    func menu_bar_extra_usage_preference_keeps_cursor_currency_fallback_in_pace_mode() {
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-cursor-pace-spend-text",
             provider: .cursor)
@@ -128,7 +128,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `menu bar extra usage preference uses percent in combined mode`() {
+    func menu_bar_extra_usage_preference_uses_percent_in_combined_mode() {
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-cursor-combined-text",
             provider: .cursor)
@@ -154,7 +154,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `menu bar extra usage preference preserves claude currency display`() {
+    func menu_bar_extra_usage_preference_preserves_claude_currency_display() {
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-claude-spend-text",
             provider: .claude)
@@ -180,7 +180,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `menu bar extra usage preference falls back to existing percent text when provider cost is unavailable`() {
+    func menu_bar_extra_usage_preference_falls_back_to_existing_percent_text_when_provider_cost_is_unavailable() {
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-fallback-percent",
             provider: .cursor)
@@ -201,7 +201,7 @@ struct StatusItemExtraUsageMetricTests {
     }
 
     @Test
-    func `reset time mode uses extra usage reset instead of spend`() {
+    func reset_time_mode_uses_extra_usage_reset_instead_of_spend() {
         let resetsAt = Date().addingTimeInterval(2 * 24 * 3600)
         let (store, controller) = self.makeController(
             suiteName: "StatusItemExtraUsageMetricTests-reset-time",

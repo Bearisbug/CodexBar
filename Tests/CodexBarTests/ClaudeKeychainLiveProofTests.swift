@@ -9,7 +9,7 @@ struct ClaudeKeychainLiveProofTests {
     }
 
     @Test
-    func `live background Auto skips the opaque Claude Keychain boundary`() async {
+    func live_background_Auto_skips_the_opaque_Claude_Keychain_boundary() async {
         guard Self.isEnabled else { return }
         let mode = ClaudeOAuthKeychainPromptPreference.storedMode()
         guard mode == .onlyOnUserAction || mode == .never else {
@@ -27,7 +27,7 @@ struct ClaudeKeychainLiveProofTests {
     }
 
     @Test
-    func `live explicit user auth probe reports Claude login`() async throws {
+    func live_explicit_user_auth_probe_reports_Claude_login() async throws {
         guard Self.isEnabled else { return }
         let binary = try #require(TTYCommandRunner.which("claude"))
 

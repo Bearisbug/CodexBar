@@ -16,14 +16,14 @@ struct GeminiStatusProbeTests {
     // MARK: - Legacy CLI parsing tests (kept for fallback support)
 
     @Test
-    func `parses minimum percent from multiple models`() throws {
+    func parses_minimum_percent_from_multiple_models() throws {
         let snap = try GeminiStatusProbe.parse(text: Self.sampleStatsOutput)
         #expect(snap.dailyPercentLeft == 99.8)
         #expect(snap.resetDescription == "Resets in 20h 37m")
     }
 
     @Test
-    func `parses lower percent correctly`() throws {
+    func parses_lower_percent_correctly() throws {
         let output = """
         │  Model Usage                                                  Reqs                  Usage left  │
         │  gemini-2.5-flash                                               10       85.5% (Resets in 12h)  │
@@ -35,7 +35,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `handles zero percent usage`() throws {
+    func handles_zero_percent_usage() throws {
         let output = """
         │  gemini-2.5-flash                                               50        0.0% (Resets in 6h)  │
         │  gemini-2.5-pro                                                 20       15.0% (Resets in 6h)  │
@@ -46,7 +46,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `handles100 percent remaining`() throws {
+    func handles100_percent_remaining() throws {
         let output = """
         │  gemini-2.5-flash                                                -      100.0% (Resets in 24h)  │
         """
@@ -55,14 +55,14 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `throws on empty output`() {
+    func throws_on_empty_output() {
         #expect(throws: GeminiStatusProbeError.self) {
             try GeminiStatusProbe.parse(text: "")
         }
     }
 
     @Test
-    func `throws on no usage data`() {
+    func throws_on_no_usage_data() {
         let output = """
         Welcome to Gemini CLI!
         Type /help for available commands.
@@ -73,7 +73,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `strips ANSI codes before parsing`() throws {
+    func strips_ANSI_codes_before_parsing() throws {
         let output =
             "\u{1B}[32m│\u{1B}[0m  gemini-2.5-flash                                                -       75.5% " +
             "(Resets in 18h)  │"
@@ -82,7 +82,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `preserves raw text`() throws {
+    func preserves_raw_text() throws {
         let snap = try GeminiStatusProbe.parse(text: Self.sampleStatsOutput)
         #expect(snap.rawText == Self.sampleStatsOutput)
         #expect(snap.accountEmail == nil) // Legacy parse doesn't extract email
@@ -90,7 +90,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `parses various reset descriptions`() throws {
+    func parses_various_reset_descriptions() throws {
         let cases: [(String, String)] = [
             ("Resets in 24h", "Resets in 24h"),
             ("Resets in 1h 30m", "Resets in 1h 30m"),
@@ -106,7 +106,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `throws not logged in on auth prompt`() {
+    func throws_not_logged_in_on_auth_prompt() {
         let authOutputs = [
             "Waiting for auth... (Press ESC or CTRL+C to cancel)",
             "Login with Google\nUse Gemini API key",
@@ -122,7 +122,7 @@ struct GeminiStatusProbeTests {
     // MARK: - Model quota grouping tests
 
     @Test
-    func `parses models into quota array`() throws {
+    func parses_models_into_quota_array() throws {
         let snap = try GeminiStatusProbe.parse(text: Self.sampleStatsOutput)
         // Should parse multiple models (exact count may change as Google adds/removes models)
         #expect(snap.modelQuotas.count >= 2)
@@ -134,14 +134,14 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `lowest percent left returns minimum`() throws {
+    func lowest_percent_left_returns_minimum() throws {
         let snap = try GeminiStatusProbe.parse(text: Self.sampleStatsOutput)
         // Flash models are 99.8%, Pro models are 100%, so min should be 99.8
         #expect(snap.lowestPercentLeft == 99.8)
     }
 
     @Test
-    func `tier grouping by keyword`() throws {
+    func tier_grouping_by_keyword() throws {
         // Test that flash/pro keyword filtering works (model names may change)
         let snap = try GeminiStatusProbe.parse(text: Self.sampleStatsOutput)
 
@@ -156,7 +156,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `tier minimum calculation`() throws {
+    func tier_minimum_calculation() throws {
         // Use controlled test data to verify min-per-tier logic
         // Model names must start with "gemini-" to match the parser regex
         let output = """
@@ -178,7 +178,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `quotas have reset descriptions`() throws {
+    func quotas_have_reset_descriptions() throws {
         let snap = try GeminiStatusProbe.parse(text: Self.sampleStatsOutput)
 
         // At least some quotas should have reset descriptions
@@ -187,7 +187,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `to usage snapshot creates separate flash and flash lite meters`() throws {
+    func to_usage_snapshot_creates_separate_flash_and_flash_lite_meters() throws {
         let snap = try GeminiStatusProbe.parse(text: Self.sampleStatsOutput)
         let usage = snap.toUsageSnapshot()
 
@@ -202,7 +202,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `to usage snapshot does not let flash lite contaminate flash bucket`() throws {
+    func to_usage_snapshot_does_not_let_flash_lite_contaminate_flash_bucket() throws {
         let output = """
         │  gemini-2.5-flash                           10       91.0% (Resets in 12h)  │
         │  gemini-2.5-flash-lite                       5       33.0% (Resets in 6h)   │
@@ -218,7 +218,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `to usage snapshot omits tertiary when no flash lite exists`() throws {
+    func to_usage_snapshot_omits_tertiary_when_no_flash_lite_exists() throws {
         let output = """
         │  gemini-2.5-flash                           10       85.0% (Resets in 12h)  │
         │  gemini-2.5-pro                              2       95.0% (Resets in 24h)  │
@@ -231,7 +231,7 @@ struct GeminiStatusProbeTests {
     }
 
     @Test
-    func `to usage snapshot uses lowest remaining quota per tier`() throws {
+    func to_usage_snapshot_uses_lowest_remaining_quota_per_tier() throws {
         let output = """
         │  gemini-a-flash                            10       91.0% (Resets in 12h)  │
         │  gemini-b-flash                             5       74.0% (Resets in 10h)  │
@@ -253,7 +253,7 @@ struct GeminiStatusProbeTests {
     // MARK: - Live API test
 
     @Test
-    func `live gemini fetch`() async throws {
+    func live_gemini_fetch() async throws {
         guard ProcessInfo.processInfo.environment["LIVE_GEMINI_FETCH"] == "1" else {
             return
         }

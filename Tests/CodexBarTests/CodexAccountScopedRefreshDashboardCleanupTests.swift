@@ -5,7 +5,7 @@ import Testing
 
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `dashboard refresh accepted via unresolved routing fallback during account scoped refresh`() async throws {
+    func dashboard_refresh_accepted_via_unresolved_routing_fallback_during_account_scoped_refresh() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-dashboard-unresolved-routing-fallback")
         let isolatedHome = FileManager.default.temporaryDirectory
@@ -56,7 +56,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard fail closed clears dashboard derived usage credits cache and visible dashboard`() async throws {
+    func dashboard_fail_closed_clears_dashboard_derived_usage_credits_cache_and_visible_dashboard() async throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -121,7 +121,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard fail closed cleanup applies after same account managed token rotation`() async throws {
+    func dashboard_fail_closed_cleanup_applies_after_same_account_managed_token_rotation() async throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -207,7 +207,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard fail closed cleanup applies after same live account email changes during token rotation`() async {
+    func dashboard_fail_closed_cleanup_applies_after_same_live_account_email_changes_during_token_rotation() async {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 

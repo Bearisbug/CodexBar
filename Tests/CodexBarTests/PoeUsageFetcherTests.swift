@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct PoeUsageFetcherTests {
     @Test
-    func `parse snapshot extracts current point balance`() throws {
+    func parse_snapshot_extracts_current_point_balance() throws {
         let json = #"{"current_point_balance": 1500}"#
         let data = Data(json.utf8)
         let snapshot = try PoeUsageFetcher._parseSnapshotForTesting(data)
@@ -13,31 +13,35 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `parse snapshot accepts string-encoded balance`() throws {
+    func parse_snapshot_accepts_string_encoded_balance() throws {
         let json = #"{"current_point_balance": "2500"}"#
         let snapshot = try PoeUsageFetcher._parseSnapshotForTesting(Data(json.utf8))
         #expect(snapshot.currentPointBalance == 2500)
     }
 
     @Test
-    func `parse snapshot returns nil balance when absent`() throws {
+    func parse_snapshot_returns_nil_balance_when_absent() throws {
         let json = #"{}"#
         let snapshot = try PoeUsageFetcher._parseSnapshotForTesting(Data(json.utf8))
         #expect(snapshot.currentPointBalance == nil)
     }
 
     @Test
-    func `parse snapshot throws on malformed JSON`() {
-        #expect {
+    func parse_snapshot_throws_on_malformed_JSON() {
+        do {
             _ = try PoeUsageFetcher._parseSnapshotForTesting(Data("not-json".utf8))
-        } throws: { error in
-            guard case PoeUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case PoeUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `snapshot maps balance to identity loginMethod only, not RateWindow`() {
+    func snapshot_maps_balance_to_identity_loginMethod_only_not_RateWindow() {
         let snapshot = PoeUsageSnapshot(
             currentPointBalance: 500,
             updatedAt: Date())
@@ -53,7 +57,7 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `snapshot hides balance when balance is absent`() {
+    func snapshot_hides_balance_when_balance_is_absent() {
         let snapshot = PoeUsageSnapshot(
             currentPointBalance: nil,
             updatedAt: Date())
@@ -64,7 +68,7 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `missing credentials fetch call throws missing credentials`() async {
+    func missing_credentials_fetch_call_throws_missing_credentials() async {
         do {
             _ = try await PoeUsageFetcher.fetchUsage(apiKey: "   ")
             Issue.record("Expected missingCredentials error")
@@ -79,14 +83,14 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `compact number formats thousands with no decimals`() {
+    func compact_number_formats_thousands_with_no_decimals() {
         #expect(PoeUsageSnapshot.compactNumber(1500) == "1,500")
         #expect(PoeUsageSnapshot.compactNumber(999) == "999")
         #expect(PoeUsageSnapshot.compactNumber(10000) == "10,000")
     }
 
     @Test
-    func `history page parser extracts entries and cursor`() throws {
+    func history_page_parser_extracts_entries_and_cursor() throws {
         let json = """
         {
           "data": [
@@ -121,7 +125,7 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `history parser derives cursor from has_more and last query id`() throws {
+    func history_parser_derives_cursor_from_has_more_and_last_query_id() throws {
         let json = """
         {
           "has_more": true,
@@ -150,7 +154,7 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `history daily aggregation groups by utc day`() {
+    func history_daily_aggregation_groups_by_utc_day() {
         let entries = [
             PoeUsageHistorySnapshot.Entry(
                 id: "1",
@@ -176,7 +180,7 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `fetch usage returns balance when points history endpoint fails`() async throws {
+    func fetch_usage_returns_balance_when_points_history_endpoint_fails() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             let path = url.path
@@ -203,7 +207,7 @@ struct PoeUsageFetcherTests {
     }
 
     @Test
-    func `fetch usage surfaces history snapshot when history endpoint succeeds`() async throws {
+    func fetch_usage_surfaces_history_snapshot_when_history_endpoint_succeeds() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             let path = url.path

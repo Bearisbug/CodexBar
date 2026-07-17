@@ -41,7 +41,7 @@ struct BrowserDetectionTests {
     @Test(.disabled(
         if: ProcessInfo.processInfo.environment[BrowserCookieAccessGate.allowTestCookieAccessEnvironmentKey] == "1",
         "Default-home cookie access is explicitly enabled for this test run."))
-    func `default home detection is suppressed before profile probes`() throws {
+    func default_home_detection_is_suppressed_before_profile_probes() throws {
         let probeCount = OSAllocatedUnfairLock(initialState: 0)
         let defaultHome = try #require(BrowserCookieClient.defaultHomeDirectories().first)
         let detection = BrowserDetection(
@@ -63,7 +63,7 @@ struct BrowserDetectionTests {
     @Test(.disabled(
         if: ProcessInfo.processInfo.environment[BrowserCookieAccessGate.allowTestCookieAccessEnvironmentKey] == "1",
         "Default-home cookie access is explicitly enabled for this test run."))
-    func `default client reports structured suppression before store discovery`() {
+    func default_client_reports_structured_suppression_before_store_discovery() {
         let client = BrowserCookieClient()
 
         #expect(throws: BrowserCookieStoreAccessSuppressedError.self) {
@@ -77,7 +77,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `cookie store decision allows production and explicit test opt in`() {
+    func cookie_store_decision_allows_production_and_explicit_test_opt_in() {
         let defaultHomes = BrowserCookieClient.defaultHomeDirectories()
         let testProcess = "swiftpm-testing-helper"
 
@@ -98,7 +98,7 @@ struct BrowserDetectionTests {
     @Test(.disabled(
         if: ProcessInfo.processInfo.environment[BrowserCookieAccessGate.allowTestCookieAccessEnvironmentKey] == "1",
         "Default-home cookie access is explicitly enabled for this test run."))
-    func `safari is installed but default cookie access is disabled during tests`() {
+    func safari_is_installed_but_default_cookie_access_is_disabled_during_tests() {
         #expect(BrowserDetection(cacheTTL: 0).isAppInstalled(.safari) == true)
         #expect(BrowserDetection(cacheTTL: 0).isCookieSourceAvailable(.safari) == false)
     }
@@ -106,20 +106,20 @@ struct BrowserDetectionTests {
     @Test(.disabled(
         if: ProcessInfo.processInfo.environment[BrowserCookieAccessGate.allowTestCookieAccessEnvironmentKey] == "1",
         "Default-home cookie access is explicitly enabled for this test run."))
-    func `default cookie candidates exclude safari during tests`() {
+    func default_cookie_candidates_exclude_safari_during_tests() {
         let detection = BrowserDetection(cacheTTL: 0)
         let browsers: [Browser] = [.safari, .chrome, .firefox]
         #expect(browsers.cookieImportCandidates(using: detection).contains(.safari) == false)
     }
 
     @Test
-    func `explicit isolated home keeps safari cookie source available`() {
+    func explicit_isolated_home_keeps_safari_cookie_source_available() {
         let detection = BrowserDetection(homeDirectory: "/tmp/codexbar-browser-detection", cacheTTL: 0)
         #expect(detection.isCookieSourceAvailable(.safari))
     }
 
     @Test
-    func `cookie client permits isolated chromium stores during tests`() throws {
+    func cookie_client_permits_isolated_chromium_stores_during_tests() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let profile = temp
             .appendingPathComponent("Library/Application Support/Google/Chrome/Default/Network")
@@ -139,7 +139,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `filter preserves order`() {
+    func filter_preserves_order() {
         BrowserCookieAccessGate.resetForTesting()
 
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -164,7 +164,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `chrome requires profile data`() throws {
+    func chrome_requires_profile_data() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: temp, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: temp) }
@@ -187,7 +187,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `process filters chromium candidates despite false global keychain override`() throws {
+    func process_filters_chromium_candidates_despite_false_global_keychain_override() throws {
         guard ProcessInfo.processInfo.environment["CODEXBAR_ALLOW_TEST_KEYCHAIN_ACCESS"] != "1" else { return }
         KeychainAccessGate.resetOverrideForTesting()
         defer { KeychainAccessGate.resetOverrideForTesting() }
@@ -215,7 +215,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `keychain interaction suppresses chromium family during cooldown`() {
+    func keychain_interaction_suppresses_chromium_family_during_cooldown() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -249,7 +249,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `background cookie import skips chromium before keychain preflight`() {
+    func background_cookie_import_skips_chromium_before_keychain_preflight() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -271,7 +271,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `background cookie import skips chromium without probing keychain interaction`() {
+    func background_cookie_import_skips_chromium_without_probing_keychain_interaction() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -293,7 +293,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `recorded browser denial suppresses automatic family and permits explicit source retry`() {
+    func recorded_browser_denial_suppresses_automatic_family_and_permits_explicit_source_retry() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -332,7 +332,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `denied explicit cookie read closes retry scope`() {
+    func denied_explicit_cookie_read_closes_retry_scope() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -355,7 +355,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `chrome keychain preflight queries only chrome labels`() {
+    func chrome_keychain_preflight_queries_only_chrome_labels() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -380,7 +380,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `dia keychain preflight queries only dia labels`() {
+    func dia_keychain_preflight_queries_only_dia_labels() {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -405,7 +405,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `browser keychain interaction suppresses family and permits scoped explicit retry`() throws {
+    func browser_keychain_interaction_suppresses_family_and_permits_scoped_explicit_retry() throws {
         BrowserCookieAccessGate.resetForTesting()
         defer { BrowserCookieAccessGate.resetForTesting() }
 
@@ -452,7 +452,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `dia requires profile data`() throws {
+    func dia_requires_profile_data() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: temp, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: temp) }
@@ -475,7 +475,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `removed browser with stale cookies is not a candidate`() throws {
+    func removed_browser_with_stale_cookies_is_not_a_candidate() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let cookies = temp
             .appendingPathComponent("Library/Application Support/Dia/User Data/Default/Network/Cookies")
@@ -493,7 +493,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `browser uninstall invalidates cookie source immediately`() throws {
+    func browser_uninstall_invalidates_cookie_source_immediately() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let cookies = temp
             .appendingPathComponent("Library/Application Support/Google/Chrome/Default/Network/Cookies")
@@ -523,7 +523,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `registered browser outside Applications is a candidate`() throws {
+    func registered_browser_outside_Applications_is_a_candidate() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let cookies = temp
             .appendingPathComponent("Library/Application Support/Google/Chrome/Default/Network/Cookies")
@@ -553,7 +553,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `interactive source accepts an installed browser before its cookie store exists`() {
+    func interactive_source_accepts_an_installed_browser_before_its_cookie_store_exists() {
         let home = "/tmp/codexbar-fresh-browser-profile"
         let profileRoot = "\(home)/Library/Application Support/Google/Chrome"
         let applicationPath = "/Applications/Google Chrome.app"
@@ -594,7 +594,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `interactive source treats a missing production profile path as fresh`() throws {
+    func interactive_source_treats_a_missing_production_profile_path_as_fresh() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: temp, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: temp) }
@@ -613,7 +613,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `stale registered browser outside Applications is not a candidate`() throws {
+    func stale_registered_browser_outside_Applications_is_not_a_candidate() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let cookies = temp
             .appendingPathComponent("Library/Application Support/Google/Chrome/Default/Network/Cookies")
@@ -646,7 +646,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `installed browser reports denied profile access`() {
+    func installed_browser_reports_denied_profile_access() {
         let home = "/tmp/codexbar-denied-browser-profile"
         let profileRoot = "\(home)/Library/Application Support/Google/Chrome"
         let detection = BrowserDetection(
@@ -666,7 +666,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `firefox requires default profile dir`() throws {
+    func firefox_requires_default_profile_dir() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: temp, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: temp) }
@@ -688,7 +688,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `firefox developer edition unlocks the shared Firefox cookie store`() {
+    func firefox_developer_edition_unlocks_the_shared_Firefox_cookie_store() {
         let home = "/tmp/codexbar-firefox-developer-edition"
         let profiles = "\(home)/Library/Application Support/Firefox/Profiles"
         let cookieDB = "\(profiles)/abc.default-release/cookies.sqlite"
@@ -711,7 +711,7 @@ struct BrowserDetectionTests {
     }
 
     @Test
-    func `zen accepts uppercase default profile dir`() throws {
+    func zen_accepts_uppercase_default_profile_dir() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: temp, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: temp) }
@@ -737,12 +737,12 @@ struct BrowserDetectionTests {
 
 struct BrowserDetectionTests {
     @Test
-    func `non mac OS returns no browsers`() {
+    func non_mac_OS_returns_no_browsers() {
         #expect(BrowserDetection(cacheTTL: 0).isCookieSourceAvailable(Browser()) == false)
     }
 
     @Test
-    func `non mac OS filter returns empty`() {
+    func non_mac_OS_filter_returns_empty() {
         let detection = BrowserDetection(cacheTTL: 0)
         let browsers = [Browser(), Browser()]
         #expect(browsers.cookieImportCandidates(using: detection).isEmpty == true)

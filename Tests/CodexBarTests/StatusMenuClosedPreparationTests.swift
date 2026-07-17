@@ -31,7 +31,7 @@ private final class ClosedMenuManualRefreshGate {
 
 extension StatusMenuTests {
     @Test
-    func `stale data refresh suppresses icon attached closed menu preparation`() async {
+    func stale_data_refresh_suppresses_icon_attached_closed_menu_preparation() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -82,7 +82,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `stale refresh completion requeues required closed menu preparation blocked by refresh`() async {
+    func stale_refresh_completion_requeues_required_closed_menu_preparation_blocked_by_refresh() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -144,7 +144,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `manual refresh completion requeues required closed menu preparation`() async throws {
+    func manual_refresh_completion_requeues_required_closed_menu_preparation() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -205,7 +205,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `closed menu prewarm waits for other menu tracking to end`() async {
+    func closed_menu_prewarm_waits_for_other_menu_tracking_to_end() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -257,7 +257,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `data refresh while persistent menu is open rebuilds on close`() async {
+    func data_refresh_while_persistent_menu_is_open_rebuilds_on_close() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false

@@ -838,7 +838,7 @@ extension CostHistoryChartMenuView {
             daily: snapshot.daily
                 .filter { self.chartPointInput(for: $0) != nil }
                 .sorted { $0.date < $1.date }
-                .map(self.visibleDailyFingerprint),
+                .map { self.visibleDailyFingerprint($0) },
             projects: Array(projects.prefix(self.maxVisibleProjectRows)).map { project in
                 let visibleSources = self.visibleProjectSources(project)
                 return VisibleProjectFingerprint(

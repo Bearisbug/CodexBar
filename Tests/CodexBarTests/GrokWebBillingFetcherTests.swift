@@ -23,12 +23,12 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `provider exposes cli and web source modes`() {
+    func provider_exposes_cli_and_web_source_modes() {
         #expect(GrokProviderDescriptor.descriptor.fetchPlan.sourceModes == [.auto, .cli, .web])
     }
 
     @Test
-    func `descriptor uses Credits label for primary usage window`() {
+    func descriptor_uses_Credits_label_for_primary_usage_window() {
         let metadata = GrokProviderDescriptor.descriptor.metadata
         #expect(metadata.sessionLabel == "Credits")
         #expect(metadata.weeklyLabel == "On-demand")
@@ -36,7 +36,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `primaryLabel derives Weekly or Monthly from resetsAt`() {
+    func primaryLabel_derives_Weekly_or_Monthly_from_resetsAt() {
         let now = Date()
         let in6Days = now.addingTimeInterval(6 * 86400)
         let in30Days = now.addingTimeInterval(30 * 86400)
@@ -55,7 +55,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `cli runtime does not import browser cookies unless explicitly enabled`() {
+    func cli_runtime_does_not_import_browser_cookies_unless_explicitly_enabled() {
         #expect(GrokWebFetchStrategy.canImportBrowserCookies(runtime: .app, env: [:]))
         #expect(!GrokWebFetchStrategy.canImportBrowserCookies(runtime: .cli, env: [:]))
         #expect(GrokWebFetchStrategy.canImportBrowserCookies(
@@ -64,7 +64,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web strategy tries later browser session when first cookie is stale`() async throws {
+    func web_strategy_tries_later_browser_session_when_first_cookie_is_stale() async throws {
         let stale = try #require(Self.cookie(name: "sso", value: "stale"))
         let valid = try #require(Self.cookie(name: "sso", value: "valid"))
         let sessions = [
@@ -89,7 +89,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `cookie authenticated web billing does not reuse auth file identity`() {
+    func cookie_authenticated_web_billing_does_not_reuse_auth_file_identity() {
         #expect(GrokWebFetchStrategy.credentialsForWebBillingSnapshot(
             credentials: Self.credentials,
             authenticatedByAuthFile: false) == nil)
@@ -100,7 +100,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `parses grok grpc web billing frame`() throws {
+    func parses_grok_grpc_web_billing_frame() throws {
         let reset = UInt64(1_800_000_000)
         let payload = Self.protobufPayload(usedPercent: 42.5, resetEpoch: reset)
         let data = Self.grpcFrame(payload)
@@ -114,7 +114,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `parses unframed grok billing protobuf payload`() throws {
+    func parses_unframed_grok_billing_protobuf_payload() throws {
         let hex =
             "0a3f0d7f6a9c3f12001a002206088097f3d0062a060880b191d2063a07080215a9389b3f3a07080115d6ea183c" +
             "421208011206088097f3d0061a060880b191d206"
@@ -129,7 +129,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `parses unframed zero percent payload that resembles an empty grpc frame`() throws {
+    func parses_unframed_zero_percent_payload_that_resembles_an_empty_grpc_frame() throws {
         let reset = UInt64(1_800_000_000)
         let payload = Self.protobufPayload(usedPercent: 0, resetEpoch: reset)
 
@@ -144,12 +144,12 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `does not treat grpc frame prefix as raw protobuf`() {
+    func does_not_treat_grpc_frame_prefix_as_raw_protobuf() {
         #expect(!GrokWebBillingFetcher.looksLikeProtobufPayload(Data([0, 0, 0, 0, 10])))
     }
 
     @Test
-    func `web strategy tries cookie plus bearer before cookie only`() async throws {
+    func web_strategy_tries_cookie_plus_bearer_before_cookie_only() async throws {
         let cookie = try #require(Self.cookie(name: "sso", value: "session"))
         let sessions = [GrokCookieImporter.SessionInfo(cookies: [cookie], sourceLabel: "Chrome")]
         var attempts: [String] = []
@@ -171,11 +171,11 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `cookie session loop preserves team unsupported billing`() async throws {
+    func cookie_session_loop_preserves_team_unsupported_billing() async throws {
         let cookie = try #require(Self.cookie(name: "sso", value: "team-session"))
         let sessions = [GrokCookieImporter.SessionInfo(cookies: [cookie], sourceLabel: "Chrome")]
 
-        await #expect {
+        do {
             _ = try await GrokWebFetchStrategy.fetchFirstValidCookieSession(
                 sessions,
                 credentials: Self.credentials)
@@ -185,14 +185,18 @@ struct GrokWebBillingFetcherTests {
                 }
                 throw GrokWebBillingError.rpcFailed(9, "No personal team")
             }
-        } throws: { error in
-            guard case GrokWebBillingError.teamUsageUnsupported = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case GrokWebBillingError.teamUsageUnsupported = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `web strategy skips expired bearer for browser cookies`() async throws {
+    func web_strategy_skips_expired_bearer_for_browser_cookies() async throws {
         let cookie = try #require(Self.cookie(name: "sso", value: "session"))
         let sessions = [GrokCookieImporter.SessionInfo(cookies: [cookie], sourceLabel: "Chrome")]
         let expired = GrokCredentials(
@@ -223,7 +227,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web strategy preserves malformed auth file error`() async throws {
+    func web_strategy_preserves_malformed_auth_file_error() async throws {
         let grokHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBar-GrokWebBilling-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: grokHome, withIntermediateDirectories: true)
@@ -244,23 +248,27 @@ struct GrokWebBillingFetcherTests {
             claudeFetcher: ClaudeUsageFetcher(browserDetection: browserDetection),
             browserDetection: browserDetection)
 
-        await #expect {
+        do {
             _ = try await GrokWebFetchStrategy().fetch(context)
-        } throws: { error in
-            guard case GrokCredentialsError.decodeFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case GrokCredentialsError.decodeFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `status seven scope failure is not classified as bad credentials`() {
+    func status_seven_scope_failure_is_not_classified_as_bad_credentials() {
         #expect(!GrokWebBillingError.isAuthenticationFailure(
             status: 7,
             message: "OAuth2 access token lacks the required billing scope"))
     }
 
     @Test
-    func `only a team principal with no personal team gets unsupported billing guidance`() {
+    func only_a_team_principal_with_no_personal_team_gets_unsupported_billing_guidance() {
         #expect(GrokWebBillingFetcher.isTeamBillingUnavailable(
             status: 9,
             message: "No personal team"))
@@ -280,7 +288,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `team principal status nine response is classified as unsupported billing`() async throws {
+    func team_principal_status_nine_response_is_classified_as_unsupported_billing() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -307,14 +315,18 @@ struct GrokWebBillingFetcherTests {
             return (response, body)
         }
 
-        await #expect {
+        do {
             _ = try await GrokWebBillingFetcher.fetch(
                 credentials: Self.credentials,
                 session: session,
                 endpoint: endpoint)
-        } throws: { error in
-            guard case GrokWebBillingError.teamUsageUnsupported = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case GrokWebBillingError.teamUsageUnsupported = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
 
         let expiredCredentials = GrokCredentials(
@@ -333,30 +345,38 @@ struct GrokWebBillingFetcherTests {
             expiresAt: .distantPast,
             createTime: Self.credentials.createTime)
 
-        await #expect {
+        do {
             _ = try await GrokWebBillingFetcher.fetch(
                 cookieHeader: "sso=team-session",
                 credentials: expiredCredentials,
                 session: session,
                 endpoint: endpoint)
-        } throws: { error in
-            guard case let GrokWebBillingError.rpcFailed(status, message) = error else { return false }
-            return status == 9 && message == "No personal team."
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let GrokWebBillingError.rpcFailed(status, message) = error else { return false }
+                return status == 9 && message == "No personal team."
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
 
-        await #expect {
+        do {
             _ = try await GrokWebBillingFetcher.fetch(
                 credentials: expiredCredentials,
                 session: session,
                 endpoint: endpoint)
-        } throws: { error in
-            guard case let GrokWebBillingError.rpcFailed(status, message) = error else { return false }
-            return status == 9 && message == "No personal team."
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let GrokWebBillingError.rpcFailed(status, message) = error else { return false }
+                return status == 9 && message == "No personal team."
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `web strategy publishes identity-only result for team billing`() async throws {
+    func web_strategy_publishes_identity_only_result_for_team_billing() async throws {
         let grokHome = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBar-GrokTeamFallback-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: grokHome, withIntermediateDirectories: true)
@@ -403,7 +423,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `ignores grpc web trailer frames`() {
+    func ignores_grpc_web_trailer_frames() {
         let payload = Self.protobufPayload(usedPercent: 12.25, resetEpoch: 1_800_000_001)
         let trailer = Data("grpc-status: 0\r\n".utf8)
         let data = Self.grpcFrame(payload) + Self.grpcFrame(trailer, flags: 0x80)
@@ -414,7 +434,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web fetch turns grpc unauthenticated trailer into reauth guidance`() async throws {
+    func web_fetch_turns_grpc_unauthenticated_trailer_into_reauth_guidance() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -441,18 +461,22 @@ struct GrokWebBillingFetcherTests {
             return (response, body)
         }
 
-        await #expect {
+        do {
             _ = try await GrokWebBillingFetcher.fetch(
                 credentials: Self.credentials,
                 session: session,
                 endpoint: endpoint)
-        } throws: { error in
-            error.localizedDescription.contains("grok login")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error.localizedDescription.contains("grok login")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `web fetch turns grpc unauthenticated headers into reauth guidance`() async throws {
+    func web_fetch_turns_grpc_unauthenticated_headers_into_reauth_guidance() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -480,18 +504,22 @@ struct GrokWebBillingFetcherTests {
             return (response, Data())
         }
 
-        await #expect {
+        do {
             _ = try await GrokWebBillingFetcher.fetch(
                 credentials: Self.credentials,
                 session: session,
                 endpoint: endpoint)
-        } throws: { error in
-            error.localizedDescription.contains("grok login")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error.localizedDescription.contains("grok login")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `web fetch turns grpc permission denied bad credentials into reauth guidance`() async throws {
+    func web_fetch_turns_grpc_permission_denied_bad_credentials_into_reauth_guidance() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -520,34 +548,42 @@ struct GrokWebBillingFetcherTests {
             return (response, body)
         }
 
-        await #expect {
+        do {
             _ = try await GrokWebBillingFetcher.fetch(
                 credentials: Self.credentials,
                 session: session,
                 endpoint: endpoint)
-        } throws: { error in
-            error.localizedDescription.contains("grok.com") &&
-                error.localizedDescription.contains("grok login") &&
-                !error.localizedDescription.contains("status 7")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error.localizedDescription.contains("grok.com") &&
+                    error.localizedDescription.contains("grok login") &&
+                    !error.localizedDescription.contains("status 7")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `rejects reset only billing because it cannot render usage`() {
+    func rejects_reset_only_billing_because_it_cannot_render_usage() {
         var payload = Data()
         payload.append(0x10) // field 2, varint reset timestamp
         payload.append(contentsOf: Self.varint(1_800_000_001))
 
-        #expect {
+        do {
             _ = try GrokWebBillingFetcher.parseGRPCWebResponse(Self.grpcFrame(payload))
-        } throws: { error in
-            guard case GrokWebBillingError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case GrokWebBillingError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `parses grok no usage yet billing response as zero percent`() throws {
+    func parses_grok_no_usage_yet_billing_response_as_zero_percent() throws {
         let data = Data([
             0x00, 0x00, 0x00, 0x00, 0x37, 0x0A, 0x35, 0x12,
             0x00, 0x1A, 0x00, 0x22, 0x06, 0x08, 0x80, 0xDA,
@@ -570,7 +606,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `parses omitted zero percent with current billing period`() throws {
+    func parses_omitted_zero_percent_with_current_billing_period() throws {
         let data = Data([
             0x00, 0x00, 0x00, 0x00, 0x2A, 0x0A, 0x28, 0x12,
             0x00, 0x1A, 0x00, 0x22, 0x06, 0x08, 0x80, 0x97,
@@ -592,7 +628,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `uses billing field one instead of earlier unrelated float`() throws {
+    func uses_billing_field_one_instead_of_earlier_unrelated_float() throws {
         var payload = Data()
         payload.append(0x4D) // field 9, fixed32 unrelated in-range float
         var unrelatedBits = Float(7).bitPattern.littleEndian
@@ -609,7 +645,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `chooses future billing end instead of recent billing start`() throws {
+    func chooses_future_billing_end_instead_of_recent_billing_start() throws {
         let recentStart = UInt64(1_800_000_000)
         let billingEnd = UInt64(1_802_592_000)
         var payload = Data()
@@ -629,7 +665,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web fetch posts grpc web request with bearer token`() async throws {
+    func web_fetch_posts_grpc_web_request_with_bearer_token() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -677,7 +713,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web fetch retries transient grpc timeout once`() async throws {
+    func web_fetch_retries_transient_grpc_timeout_once() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -722,7 +758,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web fetch retries grpc deadline exceeded without message`() async throws {
+    func web_fetch_retries_grpc_deadline_exceeded_without_message() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -761,7 +797,7 @@ struct GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web fetch retries HTTP gateway timeout once`() async throws {
+    func web_fetch_retries_HTTP_gateway_timeout_once() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -803,7 +839,7 @@ struct GrokWebBillingFetcherTests {
 
 extension GrokWebBillingFetcherTests {
     @Test
-    func `web fetch can authenticate with browser cookies`() async throws {
+    func web_fetch_can_authenticate_with_browser_cookies() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -839,7 +875,7 @@ extension GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web fetch sends browser cookies with bearer credentials`() async throws {
+    func web_fetch_sends_browser_cookies_with_bearer_credentials() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -874,7 +910,7 @@ extension GrokWebBillingFetcherTests {
     }
 
     @Test
-    func `web fetch turns unauthorized response into reauth guidance`() async throws {
+    func web_fetch_turns_unauthorized_response_into_reauth_guidance() async throws {
         defer {
             GrokWebBillingStubURLProtocol.requests = []
             GrokWebBillingStubURLProtocol.requestBodies = []
@@ -898,18 +934,22 @@ extension GrokWebBillingFetcherTests {
             return (response, Data("unauthorized".utf8))
         }
 
-        await #expect {
+        do {
             _ = try await GrokWebBillingFetcher.fetch(
                 credentials: Self.credentials,
                 session: session,
                 endpoint: endpoint)
-        } throws: { error in
-            error.localizedDescription.contains("grok login")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error.localizedDescription.contains("grok login")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `usage snapshot maps web billing when cli billing is absent`() {
+    func usage_snapshot_maps_web_billing_when_cli_billing_is_absent() {
         let snapshot = GrokUsageSnapshot(
             billing: nil,
             webBilling: GrokWebBillingSnapshot(

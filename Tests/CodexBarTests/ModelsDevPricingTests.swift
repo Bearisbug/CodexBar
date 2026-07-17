@@ -7,7 +7,7 @@ import Testing
 
 struct ModelsDevPricingTests {
     @Test
-    func `parses models dev subset`() throws {
+    func parses_models_dev_subset() throws {
         let catalog = try Self.fixtureCatalog()
 
         #expect(catalog.providers["openai"]?.name == "OpenAI")
@@ -16,7 +16,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `looks up pricing by provider and model`() throws {
+    func looks_up_pricing_by_provider_and_model() throws {
         let catalog = try Self.fixtureCatalog()
 
         let openAI = try #require(catalog.pricing(providerID: "openai", modelID: "shared-model"))
@@ -29,7 +29,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `does not fall back across providers`() throws {
+    func does_not_fall_back_across_providers() throws {
         let catalog = try Self.fixtureCatalog()
 
         #expect(catalog.pricing(providerID: "openai", modelID: "claude-sonnet-4-6") == nil)
@@ -37,7 +37,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `supports provider scoped model normalization`() throws {
+    func supports_provider_scoped_model_normalization() throws {
         let catalog = try Self.fixtureCatalog()
 
         let anthropic = try #require(catalog.pricing(
@@ -53,7 +53,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `converts models dev per million token prices to per token prices`() throws {
+    func converts_models_dev_per_million_token_prices_to_per_token_prices() throws {
         let pricing = try #require(try Self.fixtureCatalog().pricing(
             providerID: "anthropic",
             modelID: "claude-sonnet-4-6")?
@@ -71,7 +71,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `stale cache is still readable`() throws {
+    func stale_cache_is_still_readable() throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: old, cacheRoot: root)
@@ -86,7 +86,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `pipeline lookup reads cached pricing`() throws {
+    func pipeline_lookup_reads_cached_pricing() throws {
         let root = try Self.cacheRoot()
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: Date(), cacheRoot: root)
 
@@ -99,7 +99,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `network failure preserves last valid cache`() async throws {
+    func network_failure_preserves_last_valid_cache() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: old, cacheRoot: root)
@@ -118,7 +118,7 @@ struct ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh preserves cache when fetched catalog drops cached provider`() async throws {
+    func refresh_preserves_cache_when_fetched_catalog_drops_cached_provider() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: old, cacheRoot: root)
@@ -154,7 +154,7 @@ struct ModelsDevPricingTests {
 
 extension ModelsDevPricingTests {
     @Test
-    func `unknown model refresh makes newly published pricing available`() async throws {
+    func unknown_model_refresh_makes_newly_published_pricing_available() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 10000)
         try ModelsDevCache.save(
@@ -195,7 +195,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `unknown model refresh is bounded per provider cache`() async throws {
+    func unknown_model_refresh_is_bounded_per_provider_cache() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 20000)
         try ModelsDevCache.save(
@@ -226,7 +226,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `known requested model does not mask an unresolved unknown model`() async throws {
+    func known_requested_model_does_not_mask_an_unresolved_unknown_model() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 25000)
         let catalog = try Self.catalog("""
@@ -265,7 +265,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `pricing added by a completed background refresh requests a rescan`() async throws {
+    func pricing_added_by_a_completed_background_refresh_requests_a_rescan() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 30000)
         let refreshed = Data("""
@@ -296,7 +296,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `ttl and unknown model refreshes share one download`() async throws {
+    func ttl_and_unknown_model_refreshes_share_one_download() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 40000)
         try ModelsDevCache.save(
@@ -324,7 +324,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `completed ttl refresh bounds a following unknown model refresh`() async throws {
+    func completed_ttl_refresh_bounds_a_following_unknown_model_refresh() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 45000)
         try ModelsDevCache.save(
@@ -352,7 +352,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `failed ttl refresh bounds a following unknown model refresh within cooldown`() async throws {
+    func failed_ttl_refresh_bounds_a_following_unknown_model_refresh_within_cooldown() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 46000)
         try ModelsDevCache.save(
@@ -378,7 +378,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `failed unknown model refresh bounds a following ttl refresh within cooldown`() async throws {
+    func failed_unknown_model_refresh_bounds_a_following_ttl_refresh_within_cooldown() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 47000)
         try ModelsDevCache.save(
@@ -404,7 +404,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `ttl refresh rechecks cache freshness after coordination`() async throws {
+    func ttl_refresh_rechecks_cache_freshness_after_coordination() async throws {
         let root = try Self.cacheRoot()
         let now = Date(timeIntervalSince1970: 48000)
         try ModelsDevCache.save(
@@ -425,7 +425,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `failed cache save does not report pricing available`() async {
+    func failed_cache_save_does_not_report_pricing_available() async {
         let root = URL(fileURLWithPath: "/dev/null", isDirectory: true)
         let now = Date(timeIntervalSince1970: 50000)
         let refreshed = Data("""
@@ -453,7 +453,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh accepts model churn and preserves removed pricing as fallback`() async throws {
+    func refresh_accepts_model_churn_and_preserves_removed_pricing_as_fallback() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: old, cacheRoot: root)
@@ -518,7 +518,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `accumulated fallback models do not freeze later refreshes`() async throws {
+    func accumulated_fallback_models_do_not_freeze_later_refreshes() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         let cachedCatalog = try Self.catalog("""
@@ -593,7 +593,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `historical fallback does not overwrite a refreshed model that reuses its map key`() async throws {
+    func historical_fallback_does_not_overwrite_a_refreshed_model_that_reuses_its_map_key() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         let cachedCatalog = try Self.catalog("""
@@ -650,7 +650,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh updates cache when fetched catalog renames model key but keeps id`() async throws {
+    func refresh_updates_cache_when_fetched_catalog_renames_model_key_but_keeps_id() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: old, cacheRoot: root)
@@ -710,7 +710,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh preserves cache when fetched matching model is not priceable`() async throws {
+    func refresh_preserves_cache_when_fetched_matching_model_is_not_priceable() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: old, cacheRoot: root)
@@ -774,7 +774,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh updates cache when fetched catalog canonicalizes alias model id`() async throws {
+    func refresh_updates_cache_when_fetched_catalog_canonicalizes_alias_model_id() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         let cachedCatalog = try Self.catalog("""
@@ -869,7 +869,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `fallback merge treats default alias as the canonical base model`() throws {
+    func fallback_merge_treats_default_alias_as_the_canonical_base_model() throws {
         let cachedCatalog = try Self.catalog("""
         {
           "anthropic": {
@@ -907,7 +907,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `fallback merge treats provider version alias as the canonical base model`() throws {
+    func fallback_merge_treats_provider_version_alias_as_the_canonical_base_model() throws {
         let cachedCatalog = try Self.catalog("""
         {
           "openai": {
@@ -945,7 +945,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh keeps historical pinned pricing while accepting a new snapshot`() async throws {
+    func refresh_keeps_historical_pinned_pricing_while_accepting_a_new_snapshot() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         let cachedCatalog = try Self.catalog("""
@@ -1014,7 +1014,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh preserves dated snapshot when fetched catalog only keeps base model`() async throws {
+    func refresh_preserves_dated_snapshot_when_fetched_catalog_only_keeps_base_model() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         let cachedCatalog = try Self.catalog("""
@@ -1083,7 +1083,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `compact snapshot alias prefers snapshot pricing over base pricing`() throws {
+    func compact_snapshot_alias_prefers_snapshot_pricing_over_base_pricing() throws {
         let catalog = try Self.catalog("""
         {
           "openai": {
@@ -1111,7 +1111,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `refresh ignores unpriceable models in old cache continuity check`() async throws {
+    func refresh_ignores_unpriceable_models_in_old_cache_continuity_check() async throws {
         let root = try Self.cacheRoot()
         let old = Date(timeIntervalSince1970: 1)
         let cachedCatalog = try Self.catalog("""
@@ -1169,7 +1169,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `fresh cache does not refresh`() async throws {
+    func fresh_cache_does_not_refresh() async throws {
         let root = try Self.cacheRoot()
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: Date(), cacheRoot: root)
         let transport = TrackingTransport(result: .failure(MockError.failed))
@@ -1183,7 +1183,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `corrupt cache is ignored safely`() throws {
+    func corrupt_cache_is_ignored_safely() throws {
         let root = try Self.cacheRoot()
         let url = ModelsDevCache.cacheFileURL(cacheRoot: root)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -1197,7 +1197,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `serves decoded catalog from memo while the file is unchanged`() throws {
+    func serves_decoded_catalog_from_memo_while_the_file_is_unchanged() throws {
         let root = try Self.cacheRoot()
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: Date(), cacheRoot: root)
         let url = ModelsDevCache.cacheFileURL(cacheRoot: root)
@@ -1225,7 +1225,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `saving a new catalog invalidates the memo`() throws {
+    func saving_a_new_catalog_invalidates_the_memo() throws {
         let root = try Self.cacheRoot()
         try ModelsDevCache.save(catalog: Self.fixtureCatalog(), fetchedAt: Date(), cacheRoot: root)
         #expect(ModelsDevCache.load(cacheRoot: root).artifact?.catalog.providers["openai"] != nil)
@@ -1239,7 +1239,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `serves a failed load from memo while the file is unchanged`() throws {
+    func serves_a_failed_load_from_memo_while_the_file_is_unchanged() throws {
         let root = try Self.cacheRoot()
         let url = ModelsDevCache.cacheFileURL(cacheRoot: root)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -1263,7 +1263,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `client fetches with mock transport`() async throws {
+    func client_fetches_with_mock_transport() async throws {
         let data = try Self.fixtureData()
         let client = ModelsDevClient(transport: MockTransport(result: .success((data, Self.response(status: 200)))))
 
@@ -1273,7 +1273,7 @@ extension ModelsDevPricingTests {
     }
 
     @Test
-    func `client reports http and json failures`() async throws {
+    func client_reports_http_and_json_failures() async throws {
         let data = try Self.fixtureData()
         let httpClient = ModelsDevClient(transport: MockTransport(result: .success((data, Self.response(status: 500)))))
         let jsonClient = ModelsDevClient(transport: MockTransport(

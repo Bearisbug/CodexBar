@@ -1,10 +1,14 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.0
 import Foundation
 import PackageDescription
 
 let sweetCookieKitPath = "../SweetCookieKit"
+// Fork note: default to the sibling checkout when present — upstream SweetCookieKit
+// releases require Swift tools 6.2, and this fork builds with Xcode 16.2 (tools 6.0)
+// against a locally tools-downgraded clone.
 let useLocalSweetCookieKit =
     ProcessInfo.processInfo.environment["CODEXBAR_USE_LOCAL_SWEETCOOKIEKIT"] == "1"
+        || FileManager.default.fileExists(atPath: sweetCookieKitPath)
 let sweetCookieKitDependency: Package.Dependency =
     useLocalSweetCookieKit && FileManager.default.fileExists(atPath: sweetCookieKitPath)
     ? .package(path: sweetCookieKitPath)
@@ -47,8 +51,10 @@ let package = Package(
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.9.3"),
         .package(url: "https://github.com/steipete/Commander", from: "0.2.1"),
         .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0"),
-        .package(url: "https://github.com/apple/swift-log", from: "1.13.2"),
-        .package(url: "https://github.com/sindresorhus/KeyboardShortcuts", from: "2.4.0"),
+        // Pinned to 1.8.0: newer swift-log needs Swift tools 6.1/6.2, this fork builds with Xcode 16.2.
+        .package(url: "https://github.com/apple/swift-log", exact: "1.8.0"),
+        // Pinned to 2.3.0: 2.4.0 needs Swift tools 6.1, this fork builds with Xcode 16.2 (tools 6.0).
+        .package(url: "https://github.com/sindresorhus/KeyboardShortcuts", exact: "2.3.0"),
         .package(url: "https://github.com/zats/Vortex", revision: "ef5392088d4aeb255c4eee83157dbdafcd31bf07"),
         sweetCookieKitDependency,
     ],
@@ -70,7 +76,6 @@ let package = Package(
                     .product(name: "SweetCookieKit", package: "SweetCookieKit"),
                 ],
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ],
                 linkerSettings: sqlite3LinkerSettings),
             .executableTarget(
@@ -82,7 +87,6 @@ let package = Package(
                 ],
                 path: "Sources/CodexBarCLI",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ],
                 linkerSettings: sqlite3LinkerSettings),
             // Sole owner of the adaptive refresh decision table. Package-internal so the app and
@@ -92,7 +96,6 @@ let package = Package(
                 dependencies: [],
                 path: "Sources/AdaptiveRefreshCore",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ]),
             // Offline adaptive-refresh replay harness: pure Foundation,
             // no CodexBar/CodexBarCore dependency, so it builds anywhere CodexBarCore does.
@@ -102,21 +105,18 @@ let package = Package(
                 path: "Sources/AdaptiveReplayKit",
                 exclude: ["README.md"],
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ]),
             .executableTarget(
                 name: "AdaptiveReplayCLI",
                 dependencies: ["AdaptiveReplayKit"],
                 path: "Sources/AdaptiveReplayCLI",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ]),
             .testTarget(
                 name: "AdaptiveReplayCLITests",
                 dependencies: ["AdaptiveReplayCLI", "AdaptiveReplayKit"],
                 path: "Tests/AdaptiveReplayCLITests",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                     .enableExperimentalFeature("SwiftTesting"),
                 ]),
             .testTarget(
@@ -124,7 +124,6 @@ let package = Package(
                 dependencies: ["AdaptiveRefreshCore", "AdaptiveReplayKit"],
                 path: "Tests/AdaptiveReplayKitTests",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                     .enableExperimentalFeature("SwiftTesting"),
                 ]),
             .testTarget(
@@ -136,7 +135,6 @@ let package = Package(
                 ],
                 path: "TestsLinux",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                     .enableExperimentalFeature("SwiftTesting"),
                 ]),
         ]
@@ -148,7 +146,6 @@ let package = Package(
                 dependencies: [],
                 path: "Sources/CodexBarClaudeWatchdog",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ]),
             .executableTarget(
                 name: "CodexBar",
@@ -165,7 +162,6 @@ let package = Package(
                 ],
                 swiftSettings: [
                     // Opt into Swift 6 strict concurrency (approachable migration path).
-                    .enableUpcomingFeature("StrictConcurrency"),
                     .define("ENABLE_SPARKLE"),
                 ]),
             .executableTarget(
@@ -173,14 +169,12 @@ let package = Package(
                 dependencies: ["CodexBarCore"],
                 path: "Sources/CodexBarWidget",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ]),
             .executableTarget(
                 name: "CodexBarClaudeWebProbe",
                 dependencies: ["CodexBarCore"],
                 path: "Sources/CodexBarClaudeWebProbe",
                 swiftSettings: [
-                    .enableUpcomingFeature("StrictConcurrency"),
                 ]),
         ])
 
@@ -193,7 +187,6 @@ let package = Package(
                 .copy("CodexBarTests/Fixtures"),
             ],
             swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency"),
                 .enableExperimentalFeature("SwiftTesting"),
             ]))
         #endif

@@ -8,7 +8,7 @@ struct InlineUsageDashboardBarColorTests {
     /// The inline usage bars must be tinted with each provider's branding color (the same color
     /// used by the switcher tab and the detailed cost-history chart) rather than a fixed palette.
     @Test
-    func `bar color matches branding for every provider`() {
+    func bar_color_matches_branding_for_every_provider() {
         for provider in UsageProvider.allCases {
             let branding = ProviderDescriptorRegistry.descriptor(for: provider).branding.color
             let expected = Color(red: branding.red, green: branding.green, blue: branding.blue)
@@ -21,7 +21,7 @@ struct InlineUsageDashboardBarColorTests {
     /// The resolved dashboard model must actually carry the provider's branding color, and two
     /// providers with different branding must end up with different bar colors.
     @Test
-    func `resolved dashboard carries provider branding color`() throws {
+    func resolved_dashboard_carries_provider_branding_color() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let daily = [
             CostUsageDailyReport.Entry(

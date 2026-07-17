@@ -4,7 +4,7 @@ import Testing
 
 struct OpenCodeUsageParserTests {
     @Test
-    func `parses workspace I ds`() {
+    func parses_workspace_I_ds() {
         let text = ";0x00000089;((self.$R=self.$R||{})[\"codexbar\"]=[]," +
             "($R=>$R[0]=[$R[1]={id:\"wrk_01K6AR1ZET89H8NB691FQ2C2VB\",name:\"Default\",slug:null}])" +
             "($R[\"codexbar\"]))"
@@ -13,7 +13,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `parses subscription usage`() throws {
+    func parses_subscription_usage() throws {
         let text = "$R[16]($R[30],$R[41]={rollingUsage:$R[42]={status:\"ok\",resetInSec:5944,usagePercent:17}," +
             "weeklyUsage:$R[43]={status:\"ok\",resetInSec:278201,usagePercent:75}});"
         let now = Date(timeIntervalSince1970: 0)
@@ -25,7 +25,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `parses subscription from JSON with reset at`() throws {
+    func parses_subscription_from_JSON_with_reset_at() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let resetAt = now.addingTimeInterval(3600)
         let formatter = ISO8601DateFormatter()
@@ -54,7 +54,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test(arguments: ["1e309", "1e308"])
-    func `ignores reset timestamps outside integer range`(resetAt: String) throws {
+    func ignores_reset_timestamps_outside_integer_range(resetAt: String) throws {
         let text = """
         {
           "rollingUsage": { "usagePercent": 17, "resetAt": "\(resetAt)" },
@@ -73,7 +73,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `parses subscription from candidate windows`() throws {
+    func parses_subscription_from_candidate_windows() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "windows": [
@@ -99,7 +99,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `computes usage percent from totals`() throws {
+    func computes_usage_percent_from_totals() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "rollingUsage": [
@@ -123,7 +123,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `parse subscription throws when fields missing`() {
+    func parse_subscription_throws_when_fields_missing() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let text = "{\"ok\":true}"
 
@@ -133,7 +133,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `renewsAt parses from ISO8601 renewAt key`() throws {
+    func renewsAt_parses_from_ISO8601_renewAt_key() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -153,7 +153,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `renewsAt parses from renew_at key`() throws {
+    func renewsAt_parses_from_renew_at_key() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -173,7 +173,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `renewsAt is nil when absent`() throws {
+    func renewsAt_is_nil_when_absent() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "rollingUsage": ["usagePercent": 10, "resetInSec": 600],
@@ -188,7 +188,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `top level renewAt is preserved for nested usage object`() throws {
+    func top_level_renewAt_is_preserved_for_nested_usage_object() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -209,7 +209,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `top level renew_at is preserved for nested usage object`() throws {
+    func top_level_renew_at_is_preserved_for_nested_usage_object() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -230,7 +230,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `child renewAt overrides parent renewAt`() throws {
+    func child_renewAt_overrides_parent_renewAt() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let parentRenewAt = now.addingTimeInterval(86400 * 30)
         let childRenewAt = now.addingTimeInterval(86400 * 45)
@@ -253,7 +253,7 @@ struct OpenCodeUsageParserTests {
     }
 
     @Test
-    func `toUsageSnapshot includes renewal NamedRateWindow when renewsAt present`() throws {
+    func toUsageSnapshot_includes_renewal_NamedRateWindow_when_renewsAt_present() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()

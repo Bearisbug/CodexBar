@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct ManagedCodexAccountCoordinatorTests {
     @Test
-    func `coordinator exposes in flight state and rejects overlapping managed authentication`() async throws {
+    func coordinator_exposes_in_flight_state_and_rejects_overlapping_managed_authentication() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -40,7 +40,7 @@ struct ManagedCodexAccountCoordinatorTests {
     }
 
     @Test
-    func `coordinator clears in flight state after managed login timeout`() async throws {
+    func coordinator_clears_in_flight_state_after_managed_login_timeout() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 

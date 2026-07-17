@@ -3,7 +3,7 @@ import Testing
 
 struct CursorLoginAccountSelectorTests {
     @Test
-    func `labels include available identity metadata and always include the source`() {
+    func labels_include_available_identity_metadata_and_always_include_the_source() {
         let choices = CursorLoginAccountSelector.choices(for: [
             .init(
                 selectionID: "name-and-email",
@@ -30,7 +30,7 @@ struct CursorLoginAccountSelectorTests {
     }
 
     @Test
-    func `same email candidates from different sources remain separate choices`() {
+    func same_email_candidates_from_different_sources_remain_separate_choices() {
         let candidates: [CursorLoginAccountSelector.Candidate] = [
             .init(
                 selectionID: "account-comet",
@@ -54,7 +54,7 @@ struct CursorLoginAccountSelectorTests {
     }
 
     @Test
-    func `identical account labels use human ordinals while stable IDs remain mapping only`() {
+    func identical_account_labels_use_human_ordinals_while_stable_IDs_remain_mapping_only() {
         let choices = CursorLoginAccountSelector.choices(for: [
             .init(
                 selectionID: "stable-b",
@@ -76,7 +76,7 @@ struct CursorLoginAccountSelectorTests {
     }
 
     @Test
-    func `choice ordering is deterministic regardless of candidate order`() {
+    func choice_ordering_is_deterministic_regardless_of_candidate_order() {
         let candidates: [CursorLoginAccountSelector.Candidate] = [
             .init(selectionID: "z", name: "Zed", email: nil, sourceLabel: "Safari"),
             .init(selectionID: "a", name: "Alpha", email: nil, sourceLabel: "Comet"),
@@ -87,7 +87,7 @@ struct CursorLoginAccountSelectorTests {
     }
 
     @Test
-    func `non UI selection helper maps confirmation and cancellation`() {
+    func non_UI_selection_helper_maps_confirmation_and_cancellation() {
         let choices: [CursorLoginAccountSelector.Choice] = [
             .init(selectionID: "first", displayLabel: "First · Safari"),
             .init(selectionID: "second", displayLabel: "Second · Comet"),
@@ -113,7 +113,7 @@ struct CursorLoginAccountSelectorTests {
 
     @Test
     @MainActor
-    func `injected chooser maps only a presented stable selection ID`() {
+    func injected_chooser_maps_only_a_presented_stable_selection_ID() {
         let candidates: [CursorLoginAccountSelector.Candidate] = [
             .init(selectionID: "first", name: nil, email: "a@example.com", sourceLabel: "Safari"),
             .init(selectionID: "second", name: nil, email: "b@example.com", sourceLabel: "Comet"),

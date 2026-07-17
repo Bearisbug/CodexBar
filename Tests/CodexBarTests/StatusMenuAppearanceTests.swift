@@ -15,7 +15,7 @@ struct StatusMenuAppearanceTests {
     }
 
     @Test
-    func `pin uses the exact application effective appearance`() {
+    func pin_uses_the_exact_application_effective_appearance() {
         let menu = NSMenu()
         let effectiveAppearance = NSApplication.shared.effectiveAppearance
 
@@ -25,7 +25,7 @@ struct StatusMenuAppearanceTests {
     }
 
     @Test
-    func `pin reassigns an appearance even when its name is unchanged`() throws {
+    func pin_reassigns_an_appearance_even_when_its_name_is_unchanged() throws {
         let menu = AppearanceTrackingMenu()
         let appearance = try #require(NSAppearance(named: .aqua))
         menu.appearance = appearance
@@ -38,7 +38,7 @@ struct StatusMenuAppearanceTests {
     }
 
     @Test
-    func `submenus inherit each refreshed root appearance`() throws {
+    func submenus_inherit_each_refreshed_root_appearance() throws {
         let menu = NSMenu()
         let submenu = NSMenu()
         let item = NSMenuItem(title: "Details", action: nil, keyEquivalent: "")

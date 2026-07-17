@@ -13,7 +13,7 @@ import Glibc
 // swiftlint:disable:next type_body_length
 struct CLIServeRouterTests {
     @Test
-    func `local HTTP connection gate caps pre-auth clients`() {
+    func local_HTTP_connection_gate_caps_pre_auth_clients() {
         let gate = CLILocalHTTPConnectionGate(maximumConnections: 2)
 
         #expect(gate.tryAcquire())
@@ -29,7 +29,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `usage operation fingerprint separates dashboard account mode`() {
+    func usage_operation_fingerprint_separates_dashboard_account_mode() {
         let allAccounts = CodexBarCLI.serveUsageOperationFingerprint(
             configFingerprint: "config",
             includeAllCodexAccounts: true)
@@ -44,12 +44,12 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `termination monitor handles interactive and hangup signals`() {
+    func termination_monitor_handles_interactive_and_hangup_signals() {
         #expect(CLITerminationSignalMonitor.signalNumbers == [SIGINT, SIGTERM, SIGHUP])
     }
 
     @Test
-    func `local http parser accepts only loopback host headers`() throws {
+    func local_http_parser_accepts_only_loopback_host_headers() throws {
         let allowedHosts = [
             "localhost",
             "localhost.",
@@ -68,7 +68,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `local http parser rejects hostile missing and duplicate hosts`() {
+    func local_http_parser_rejects_hostile_missing_and_duplicate_hosts() {
         Self.expectParseFailure(raw: "GET /usage HTTP/1.1\r\n\r\n", .missingHost)
         Self.expectParseFailure(raw: "GET /usage HTTP/1.1\r\nHost: evil.test\r\n\r\n", .disallowedHost)
         Self.expectParseFailure(raw: "GET /usage HTTP/1.1\r\nHost: localhost, evil.test\r\n\r\n", .disallowedHost)
@@ -79,7 +79,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `local http parser captures a single authorization header`() throws {
+    func local_http_parser_captures_a_single_authorization_header() throws {
         let raw = [
             "GET /usage HTTP/1.1",
             "Host: localhost",
@@ -97,7 +97,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `local http parser extends the allowed host set without replacing loopback`() throws {
+    func local_http_parser_extends_the_allowed_host_set_without_replacing_loopback() throws {
         let raw = "GET /usage HTTP/1.1\r\nHost: 192.168.1.10:8080\r\n\r\n"
 
         Self.expectParseFailure(raw: raw, .disallowedHost)
@@ -128,7 +128,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `routes health usage and cost endpoints`() throws {
+    func routes_health_usage_and_cost_endpoints() throws {
         #expect(try CLIServeRouter.route(method: "GET", path: "/health", queryItems: [:]) == .health)
         #expect(try CLIServeRouter.route(method: "GET", path: "/usage", queryItems: [:]) == .usage(provider: nil))
         #expect(
@@ -149,7 +149,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `rejects non get methods`() {
+    func rejects_non_get_methods() {
         do {
             _ = try CLIServeRouter.route(method: "POST", path: "/usage", queryItems: [:])
             Issue.record("Expected methodNotAllowed")
@@ -161,7 +161,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `rejects unknown paths`() {
+    func rejects_unknown_paths() {
         do {
             _ = try CLIServeRouter.route(method: "GET", path: "/missing", queryItems: [:])
             Issue.record("Expected notFound")
@@ -173,7 +173,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `health response reports ok status and build version`() throws {
+    func health_response_reports_ok_status_and_build_version() throws {
         let response = CodexBarCLI.serveHealthResponse(version: "1.2.3")
         #expect(response.status == .ok)
         let object = try JSONSerialization.jsonObject(with: response.body) as? [String: Any]
@@ -182,7 +182,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `health response omits version detail when unavailable`() throws {
+    func health_response_omits_version_detail_when_unavailable() throws {
         let response = CodexBarCLI.serveHealthResponse(version: nil)
         #expect(response.status == .ok)
         let object = try JSONSerialization.jsonObject(with: response.body) as? [String: Any]
@@ -191,7 +191,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve numeric options reject malformed values`() {
+    func serve_numeric_options_reject_malformed_values() {
         #expect(CodexBarCLI.decodeServePort(from: ParsedValues(
             positional: [],
             options: ["port": ["abc"]],
@@ -261,7 +261,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve help documents request timeout option`() {
+    func serve_help_documents_request_timeout_option() {
         let serve = CodexBarCLI.serveHelp(version: "0.0.0")
         let root = CodexBarCLI.rootHelp(version: "0.0.0")
 
@@ -271,7 +271,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve config snapshot reflects provider changes`() throws {
+    func serve_config_snapshot_reflects_provider_changes() throws {
         let store = testConfigStore(suiteName: "CLIServeRouterTests-serve-config-freshness-\(UUID().uuidString)")
         defer { try? store.deleteIfPresent() }
         var firstConfig = CodexBarConfig.makeDefault()
@@ -296,7 +296,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache skips provider error payloads`() {
+    func serve_cache_skips_provider_error_payloads() {
         let success = CLILocalHTTPResponse(
             status: .ok,
             body: Data(#"[{"provider":"codex","source":"local"}]"#.utf8))
@@ -313,7 +313,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve provider timeout stays below the request deadline`() throws {
+    func serve_provider_timeout_stays_below_the_request_deadline() throws {
         let thirtySecondTimeout = try #require(CodexBarCLI.serveProviderTimeout(requestTimeout: 30))
         let tenSecondTimeout = try #require(CodexBarCLI.serveProviderTimeout(requestTimeout: 10))
         #expect(abs(thirtySecondTimeout - 24) < 1e-9)
@@ -336,7 +336,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve usage collection bounds a hung provider without blocking others`() async {
+    func serve_usage_collection_bounds_a_hung_provider_without_blocking_others() async {
         let providers: [UsageProvider] = [.codex, .claude, .gemini]
         let start = Date()
         let output = await CodexBarCLI.serveCollectUsageOutputs(
@@ -369,7 +369,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve usage collection adds no join bound when request deadline is disabled`() async {
+    func serve_usage_collection_adds_no_join_bound_when_request_deadline_is_disabled() async {
         let output = await CodexBarCLI.serveCollectUsageOutputs(
             providers: [.codex, .claude],
             providerTimeout: nil)
@@ -386,7 +386,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache uses stable Codex account identities`() {
+    func serve_cache_uses_stable_Codex_account_identities() {
         let storedID = UUID()
         let firstProjection = Self.codexVisibleAccount(
             id: "email-shaped-id",
@@ -465,7 +465,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache coalesces concurrent cache misses`() async {
+    func serve_cache_coalesces_concurrent_cache_misses() async {
         let cache = CLIServeResponseCache()
         let counter = ServeTestCounter()
 
@@ -499,7 +499,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache prunes expired config token entries`() async throws {
+    func serve_cache_prunes_expired_config_token_entries() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -524,7 +524,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache does not cache timeouts and recovers on next success`() async {
+    func serve_cache_does_not_cache_timeouts_and_recovers_on_next_success() async {
         let cache = CLIServeResponseCache()
         let counter = ServeTestCounter()
 
@@ -581,7 +581,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache resumes coalesced waiters on timeout`() async {
+    func serve_cache_resumes_coalesced_waiters_on_timeout() async {
         let cache = CLIServeResponseCache()
         let counter = ServeTestCounter()
 
@@ -615,7 +615,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache serves last good payload when refresh fails`() async {
+    func serve_cache_serves_last_good_payload_when_refresh_fails() async {
         let cache = CLIServeResponseCache()
         let counter = ServeTestCounter()
 
@@ -667,7 +667,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `cost refresh timeout serves the last good payload`() async throws {
+    func cost_refresh_timeout_serves_the_last_good_payload() async throws {
         let cache = CLIServeResponseCache()
         let counter = ServeTestCounter()
 
@@ -704,7 +704,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `cost refresh keeps fresh providers while replacing timed out rows`() async throws {
+    func cost_refresh_keeps_fresh_providers_while_replacing_timed_out_rows() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -756,7 +756,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache replaces only failed provider account rows`() async throws {
+    func serve_cache_replaces_only_failed_provider_account_rows() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -799,7 +799,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache retains newer per-row success across all-error refresh`() async throws {
+    func serve_cache_retains_newer_per_row_success_across_all_error_refresh() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -852,7 +852,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache fails closed on timeout after merged rows`() async {
+    func serve_cache_fails_closed_on_timeout_after_merged_rows() async {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -900,7 +900,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache fails closed on timeout after a partial refresh`() async {
+    func serve_cache_fails_closed_on_timeout_after_a_partial_refresh() async {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -943,7 +943,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache does not reconstruct usage rows after timeout`() async {
+    func serve_cache_does_not_reconstruct_usage_rows_after_timeout() async {
         let cache = CLIServeResponseCache()
         let policy = CLIServeResponseCache.CachePolicy(ttl: 0, staleTTL: 10)
         let startedAt = Date(timeIntervalSince1970: 1000)
@@ -987,7 +987,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache preserves newer row when another failed row has no fallback`() async throws {
+    func serve_cache_preserves_newer_row_when_another_failed_row_has_no_fallback() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1035,7 +1035,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache keeps fresh rows when a failed row has no stale match`() async throws {
+    func serve_cache_keeps_fresh_rows_when_a_failed_row_has_no_stale_match() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1069,7 +1069,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache does not merge duplicate provider account labels`() async throws {
+    func serve_cache_does_not_merge_duplicate_provider_account_labels() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1115,7 +1115,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache follows stable account identity across label changes`() async throws {
+    func serve_cache_follows_stable_account_identity_across_label_changes() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1147,7 +1147,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache does not reuse a label for a different account identity`() async throws {
+    func serve_cache_does_not_reuse_a_label_for_a_different_account_identity() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1184,7 +1184,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache does not use whole fallback after an account switch`() async throws {
+    func serve_cache_does_not_use_whole_fallback_after_an_account_switch() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1231,7 +1231,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache prunes accounts absent from a successful snapshot`() async throws {
+    func serve_cache_prunes_accounts_absent_from_a_successful_snapshot() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1274,7 +1274,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache fails closed when all-error rows have ambiguous identities`() async throws {
+    func serve_cache_fails_closed_when_all_error_rows_have_ambiguous_identities() async throws {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1329,7 +1329,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache does not whole-fallback ambiguous usage after timeout`() async {
+    func serve_cache_does_not_whole_fallback_ambiguous_usage_after_timeout() async {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1362,7 +1362,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache mixed identities do not enable timeout fallback`() async {
+    func serve_cache_mixed_identities_do_not_enable_timeout_fallback() async {
         let cache = CLIServeResponseCache()
 
         _ = await CodexBarCLI.cachedServeResponse(
@@ -1397,7 +1397,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve stale ttl is bounded and disabled without caching`() {
+    func serve_stale_ttl_is_bounded_and_disabled_without_caching() {
         #expect(CodexBarCLI.serveStaleTTL(refreshInterval: 0) == 0)
         #expect(CodexBarCLI.serveStaleTTL(refreshInterval: 1) == 300)
         #expect(CodexBarCLI.serveStaleTTL(refreshInterval: 60) == 600)
@@ -1407,7 +1407,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve cache prunes stale variants from old configurations`() async {
+    func serve_cache_prunes_stale_variants_from_old_configurations() async {
         let cache = CLIServeResponseCache()
         let startedAt = Date(timeIntervalSince1970: 1000)
         let policy = CLIServeResponseCache.CachePolicy(
@@ -1443,14 +1443,14 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve helper idle window outlives the refresh cadence`() {
+    func serve_helper_idle_window_outlives_the_refresh_cadence() {
         #expect(CodexBarCLI.serveCLISessionIdleWindow(refreshInterval: 0) == 180)
         #expect(CodexBarCLI.serveCLISessionIdleWindow(refreshInterval: 60) == 180)
         #expect(CodexBarCLI.serveCLISessionIdleWindow(refreshInterval: 300) == 360)
     }
 
     @Test
-    func `local HTTP server stops its accept loop`() async throws {
+    func local_HTTP_server_stops_its_accept_loop() async throws {
         let listening = ServeListeningSignal()
         let server = CLILocalHTTPServer(host: "127.0.0.1", port: 0) { _ in
             Self.response(#"{"status":"ok"}"#)
@@ -1467,7 +1467,7 @@ struct CLIServeRouterTests {
     }
 
     @Test
-    func `serve request timeout zero disables the deadline`() async {
+    func serve_request_timeout_zero_disables_the_deadline() async {
         let cache = CLIServeResponseCache()
 
         let response = await CodexBarCLI.cachedServeResponse(

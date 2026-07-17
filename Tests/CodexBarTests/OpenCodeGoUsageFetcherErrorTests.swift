@@ -44,7 +44,7 @@ private final class OpenCodeGoContinuationBox<Value: Sendable>: @unchecked Senda
 @Suite(.serialized)
 struct OpenCodeGoUsageFetcherErrorTests {
     @Test
-    func `dashboard URL uses normalized workspace ID`() {
+    func dashboard_URL_uses_normalized_workspace_ID() {
         #expect(
             OpenCodeGoUsageFetcher.dashboardURL(workspaceID: "https://opencode.ai/workspace/wrk_abc123/go")
                 .absoluteString == "https://opencode.ai/workspace/wrk_abc123/go")
@@ -68,7 +68,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `redirect guard allows only same-host https redirects`() {
+    func redirect_guard_allows_only_same_host_https_redirects() {
         #expect(OpenCodeGoUsageFetcher.allowsRedirect(
             from: URL(string: "https://opencode.ai/_server"),
             to: URL(string: "https://opencode.ai/workspace/wrk_TEST123/go")))
@@ -83,7 +83,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `extracts api error from detail field`() async throws {
+    func extracts_api_error_from_detail_field() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -113,7 +113,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `workspace get missing ids falls back to post before loading go page`() async throws {
+    func workspace_get_missing_ids_falls_back_to_post_before_loading_go_page() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -173,7 +173,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `workspace get public actor error is treated as invalid credentials without post retry`() async throws {
+    func workspace_get_public_actor_error_is_treated_as_invalid_credentials_without_post_retry() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -214,7 +214,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `go page missing usage fields returns parse failed without post retry`() async throws {
+    func go_page_missing_usage_fields_returns_parse_failed_without_post_retry() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -250,7 +250,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `zen only account waits for balance beyond optional grace`() async throws {
+    func zen_only_account_waits_for_balance_beyond_optional_grace() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -292,7 +292,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `zen only account fetches required balance when optional usage is disabled`() async throws {
+    func zen_only_account_fetches_required_balance_when_optional_usage_is_disabled() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -328,7 +328,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `zen only account propagates invalid credentials from required balance fetch`() async throws {
+    func zen_only_account_propagates_invalid_credentials_from_required_balance_fetch() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -364,7 +364,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `zen only account falls back after final subscription parse failure`() async throws {
+    func zen_only_account_falls_back_after_final_subscription_parse_failure() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -403,7 +403,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `zen only fallback promptly cancels when balance task ignores cancellation`() async throws {
+    func zen_only_fallback_promptly_cancels_when_balance_task_ignores_cancellation() async throws {
         let balanceStarted = AsyncStream<Void>.makeStream(of: Void.self)
         let balanceContinuation = OpenCodeGoContinuationBox<Double?>()
         let balanceTask = Task<Double?, Error> {
@@ -444,7 +444,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `normalizes workspace override from URL into go page path`() async throws {
+    func normalizes_workspace_override_from_URL_into_go_page_path() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -479,7 +479,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `fetcher attaches optional zen balance from workspace root`() async throws {
+    func fetcher_attaches_optional_zen_balance_from_workspace_root() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -515,7 +515,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `fetcher falls back to billing server when workspace page omits balance`() async throws {
+    func fetcher_falls_back_to_billing_server_when_workspace_page_omits_balance() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -567,7 +567,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `optional zen balance helper uses normalized cookie and workspace override`() async throws {
+    func optional_zen_balance_helper_uses_normalized_cookie_and_workspace_override() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -595,7 +595,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `optional zen balance failure does not fail subscription usage`() async throws {
+    func optional_zen_balance_failure_does_not_fail_subscription_usage() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -630,7 +630,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `optional zen balance does not stall subscription usage`() async throws {
+    func optional_zen_balance_does_not_stall_subscription_usage() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -670,7 +670,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `optional zen balance can be skipped by settings`() async throws {
+    func optional_zen_balance_can_be_skipped_by_settings() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -703,7 +703,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `optional zen balance cancellation propagates`() async throws {
+    func optional_zen_balance_cancellation_propagates() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }
@@ -766,7 +766,7 @@ struct OpenCodeGoUsageFetcherErrorTests {
     }
 
     @Test
-    func `fetcher sends only auth cookie to opencode host`() async throws {
+    func fetcher_sends_only_auth_cookie_to_opencode_host() async throws {
         defer {
             OpenCodeGoStubURLProtocol.handler = nil
         }

@@ -5,14 +5,14 @@ import Testing
 
 struct CLIOutputTests {
     @Test
-    func `output preferences json only forces JSON`() {
+    func output_preferences_json_only_forces_JSON() {
         let output = CLIOutputPreferences.from(argv: ["--json-only"])
         #expect(output.jsonOnly == true)
         #expect(output.format == .json)
     }
 
     @Test
-    func `cli error payload is JSON array`() throws {
+    func cli_error_payload_is_JSON_array() throws {
         let payload = CodexBarCLI.makeCLIErrorPayload(
             message: "Nope",
             code: .failure,
@@ -29,14 +29,14 @@ struct CLIOutputTests {
     }
 
     @Test
-    func `exit omits generic error when command already emitted payload`() {
+    func exit_omits_generic_error_when_command_already_emitted_payload() {
         #expect(!CodexBarCLI.shouldPrintExitError(code: .success, message: nil))
         #expect(!CodexBarCLI.shouldPrintExitError(code: .failure, message: nil))
         #expect(CodexBarCLI.shouldPrintExitError(code: .failure, message: "Nope"))
     }
 
     @Test
-    func `text renderer includes deepgram usage metrics`() {
+    func text_renderer_includes_deepgram_usage_metrics() {
         let deepgram = DeepgramUsageSnapshot(
             projectID: "project-123",
             start: "2026-05-10",
@@ -66,7 +66,7 @@ struct CLIOutputTests {
     }
 
     @Test
-    func `text renderer includes amp credits without free tier usage`() {
+    func text_renderer_includes_amp_credits_without_free_tier_usage() {
         let snapshot = AmpUsageSnapshot(
             freeQuota: nil,
             freeUsed: nil,
@@ -97,7 +97,7 @@ struct CLIOutputTests {
     }
 
     @Test
-    func `text renderer shows mimo balance without quota or reset text`() {
+    func text_renderer_shows_mimo_balance_without_quota_or_reset_text() {
         let snapshot = MiMoUsageSnapshot(
             balance: 25.51,
             currency: "USD",
@@ -123,7 +123,7 @@ struct CLIOutputTests {
     }
 
     @Test
-    func `text renderer shows mimo token credits and balance`() {
+    func text_renderer_shows_mimo_token_credits_and_balance() {
         let snapshot = MiMoUsageSnapshot(
             balance: 25.51,
             currency: "USD",
@@ -151,7 +151,7 @@ struct CLIOutputTests {
     }
 
     @Test
-    func `text renderer preserves compact mimo local summary casing`() {
+    func text_renderer_preserves_compact_mimo_local_summary_casing() {
         let summary = "Local · 1.5k total · 42 sessions · stale 34d"
         let snapshot = MiMoUsageSnapshot(
             balance: 0,
@@ -176,7 +176,7 @@ struct CLIOutputTests {
     }
 
     @Test
-    func `text renderer includes crossmodel balance and usage`() {
+    func text_renderer_includes_crossmodel_balance_and_usage() {
         let snapshot = CrossModelUsageSnapshot(
             currency: "USD",
             balance: 8.059489,
@@ -205,7 +205,7 @@ struct CLIOutputTests {
     }
 
     @Test
-    func `text renderer preserves crossmodel non USD currency`() {
+    func text_renderer_preserves_crossmodel_non_USD_currency() {
         let snapshot = CrossModelUsageSnapshot(
             currency: "EUR",
             balance: 8.059489,

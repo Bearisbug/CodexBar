@@ -8,7 +8,7 @@ import Testing
 struct OpenAIAPIProjectScopeTests {
     @Test
     @MainActor
-    func `token account strips configured project in app environment builder`() {
+    func token_account_strips_configured_project_in_app_environment_builder() {
         let settings = Self.makeSettingsStore(suite: "OpenAIAPIProjectScopeTests-app")
         settings.openAIAPIKey = "config-token"
         settings.openAIAPIProjectID = "proj_config"
@@ -29,7 +29,7 @@ struct OpenAIAPIProjectScopeTests {
     }
 
     @Test
-    func `token account strips configured project in CLI environment builder`() throws {
+    func token_account_strips_configured_project_in_CLI_environment_builder() throws {
         let account = ProviderTokenAccount(
             id: UUID(),
             label: "Project account",
@@ -60,7 +60,7 @@ struct OpenAIAPIProjectScopeTests {
 
     @Test
     @MainActor
-    func `configured app project scopes admin usage strategy`() async throws {
+    func configured_app_project_scopes_admin_usage_strategy() async throws {
         let settings = Self.makeSettingsStore(suite: "OpenAIAPIProjectScopeTests-configured-project")
         settings.openAIAPIKey = "config-token"
         settings.openAIAPIProjectID = "proj_config"
@@ -97,7 +97,7 @@ struct OpenAIAPIProjectScopeTests {
     }
 
     @Test
-    func `legacy API key environment can scope admin usage by project`() async throws {
+    func legacy_API_key_environment_can_scope_admin_usage_by_project() async throws {
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in
                 #expect(credential.apiKey == "sk-admin-legacy")
@@ -131,7 +131,7 @@ struct OpenAIAPIProjectScopeTests {
     }
 
     @Test
-    func `ambient project with legacy API key preserves billing fallback`() async throws {
+    func ambient_project_with_legacy_API_key_preserves_billing_fallback() async throws {
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in
                 #expect(credential.apiKey == "sk-ambient")
@@ -162,7 +162,7 @@ struct OpenAIAPIProjectScopeTests {
     }
 
     @Test
-    func `project filtered admin usage does not fall back on service failure`() async {
+    func project_filtered_admin_usage_does_not_fall_back_on_service_failure() async {
         let usageFailure = OpenAIAPIUsageError.apiError(endpoint: "costs", statusCode: 500)
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in
@@ -197,7 +197,7 @@ struct OpenAIAPIProjectScopeTests {
     }
 
     @Test
-    func `project filtered admin usage does not fall back on credential rejection`() async {
+    func project_filtered_admin_usage_does_not_fall_back_on_credential_rejection() async {
         let usageFailure = OpenAIAPIUsageError.apiError(endpoint: "costs", statusCode: 403)
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in
@@ -231,7 +231,7 @@ struct OpenAIAPIProjectScopeTests {
     }
 
     @Test
-    func `project filtered admin usage reports project source label`() async throws {
+    func project_filtered_admin_usage_reports_project_source_label() async throws {
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, _ in
                 #expect(credential.apiKey == "sk-test")
@@ -263,7 +263,7 @@ struct OpenAIAPIProjectScopeTests {
     }
 
     @Test
-    func `project scope follows final environment even when selected account flag is present`() async throws {
+    func project_scope_follows_final_environment_even_when_selected_account_flag_is_present() async throws {
         let accountID = UUID()
         let strategy = OpenAIAPIBalanceFetchStrategy(
             usageFetcher: { credential, historyDays in

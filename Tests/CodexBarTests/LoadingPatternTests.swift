@@ -4,7 +4,7 @@ import Testing
 
 struct LoadingPatternTests {
     @Test
-    func `values stay within bounds`() {
+    func values_stay_within_bounds() {
         for pattern in LoadingPattern.allCases {
             for phase in stride(from: 0.0, through: Double.pi * 2, by: Double.pi / 6) {
                 let v = pattern.value(phase: phase)
@@ -14,7 +14,7 @@ struct LoadingPatternTests {
     }
 
     @Test
-    func `knight rider ping pongs`() {
+    func knight_rider_ping_pongs() {
         let pattern = LoadingPattern.knightRider
         let mid = pattern.value(phase: 0) // sin 0 = 0 => 50
         let min = pattern.value(phase: -Double.pi / 2) // sin -pi/2 = -1 => 0
@@ -25,7 +25,7 @@ struct LoadingPatternTests {
     }
 
     @Test
-    func `secondary offset differs`() {
+    func secondary_offset_differs() {
         let pattern = LoadingPattern.cylon
         let primary = pattern.value(phase: 0)
         let secondary = pattern.value(phase: pattern.secondaryOffset)

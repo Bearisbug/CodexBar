@@ -3,7 +3,7 @@ import Testing
 
 struct GeminiLoginAlertTests {
     @Test
-    func `returns alert for missing binary`() {
+    func returns_alert_for_missing_binary() {
         let result = GeminiLoginRunner.Result(outcome: .missingBinary)
         let info = StatusItemController.geminiLoginAlertInfo(for: result)
         #expect(info?.title == "Gemini CLI not found")
@@ -11,7 +11,7 @@ struct GeminiLoginAlertTests {
     }
 
     @Test
-    func `returns alert for launch failure`() {
+    func returns_alert_for_launch_failure() {
         let result = GeminiLoginRunner.Result(outcome: .launchFailed("Boom"))
         let info = StatusItemController.geminiLoginAlertInfo(for: result)
         #expect(info?.title == "Could not open Terminal for Gemini")
@@ -19,7 +19,7 @@ struct GeminiLoginAlertTests {
     }
 
     @Test
-    func `returns nil on success`() {
+    func returns_nil_on_success() {
         let result = GeminiLoginRunner.Result(outcome: .success)
         let info = StatusItemController.geminiLoginAlertInfo(for: result)
         #expect(info == nil)

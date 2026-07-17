@@ -4,7 +4,7 @@ import Testing
 
 struct FactoryProviderDescriptorTests {
     @Test
-    func `descriptor keeps legacy labels by default`() {
+    func descriptor_keeps_legacy_labels_by_default() {
         let metadata = FactoryProviderDescriptor.descriptor.metadata
 
         #expect(metadata.sessionLabel == "Standard")
@@ -16,7 +16,7 @@ struct FactoryProviderDescriptorTests {
 
 struct FactoryStatusSnapshotTests {
     @Test
-    func `maps usage snapshot windows and login method`() {
+    func maps_usage_snapshot_windows_and_login_method() {
         let periodEnd = Date(timeIntervalSince1970: 1_738_368_000) // Feb 1, 2025
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 50,
@@ -44,7 +44,7 @@ struct FactoryStatusSnapshotTests {
     }
 
     @Test
-    func `treats large allowances as unlimited`() {
+    func treats_large_allowances_as_unlimited() {
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 50_000_000,
             standardOrgTokens: 0,
@@ -67,7 +67,7 @@ struct FactoryStatusSnapshotTests {
     }
 
     @Test
-    func `prefers API used ratio when allowance missing`() {
+    func prefers_API_used_ratio_when_allowance_missing() {
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 72_311_737,
             standardOrgTokens: 72_311_737,
@@ -93,7 +93,7 @@ struct FactoryStatusSnapshotTests {
     }
 
     @Test
-    func `uses percent scale ratio when allowance missing`() {
+    func uses_percent_scale_ratio_when_allowance_missing() {
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 0,
             standardOrgTokens: 0,
@@ -118,7 +118,7 @@ struct FactoryStatusSnapshotTests {
     }
 
     @Test
-    func `falls back to calculation when API ratio is zero but usage and allowance are present`() {
+    func falls_back_to_calculation_when_API_ratio_is_zero_but_usage_and_allowance_are_present() {
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 5_826_293,
             standardOrgTokens: 0,
@@ -145,7 +145,7 @@ struct FactoryStatusSnapshotTests {
     }
 
     @Test
-    func `falls back to calculation when API ratio missing`() {
+    func falls_back_to_calculation_when_API_ratio_missing() {
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 50_000_000,
             standardOrgTokens: 0,
@@ -170,7 +170,7 @@ struct FactoryStatusSnapshotTests {
     }
 
     @Test
-    func `falls back when API ratio is invalid`() {
+    func falls_back_when_API_ratio_is_invalid() {
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 50_000_000,
             standardOrgTokens: 0,
@@ -195,7 +195,7 @@ struct FactoryStatusSnapshotTests {
     }
 
     @Test
-    func `clamps slightly out of range ratios`() {
+    func clamps_slightly_out_of_range_ratios() {
         let snapshot = FactoryStatusSnapshot(
             standardUserTokens: 100_000_000,
             standardOrgTokens: 0,
@@ -222,7 +222,7 @@ struct FactoryStatusSnapshotTests {
 
 struct FactoryStatusProbeWorkOSTests {
     @Test
-    func `detects missing refresh token payload`() {
+    func detects_missing_refresh_token_payload() {
         let payload = Data("""
         {"error":"invalid_request","error_description":"Missing refresh token."}
         """.utf8)

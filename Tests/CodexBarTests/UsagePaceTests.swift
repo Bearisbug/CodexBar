@@ -4,7 +4,7 @@ import Testing
 
 struct UsagePaceTests {
     @Test
-    func `weekly pace computes delta and eta`() {
+    func weekly_pace_computes_delta_and_eta() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,
@@ -26,7 +26,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `weekly pace marks lasts to reset when usage is low`() {
+    func weekly_pace_marks_lasts_to_reset_when_usage_is_low() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 5,
@@ -46,7 +46,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `weekly pace speed headroom uses remaining burn capacity`() throws {
+    func weekly_pace_speed_headroom_uses_remaining_burn_capacity() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 70,
@@ -62,7 +62,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `historical pace speed headroom uses projected remaining usage`() {
+    func historical_pace_speed_headroom_uses_projected_remaining_usage() {
         let pace = UsagePace.historical(
             expectedUsedPercent: 45,
             actualUsedPercent: 20,
@@ -75,7 +75,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `weekly pace hides when reset missing or outside window`() {
+    func weekly_pace_hides_when_reset_missing_or_outside_window() {
         let now = Date(timeIntervalSince1970: 0)
         let missing = RateWindow(
             usedPercent: 10,
@@ -93,7 +93,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `weekly pace hides when usage exists but no elapsed`() {
+    func weekly_pace_hides_when_usage_exists_but_no_elapsed() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 12,
@@ -109,7 +109,7 @@ struct UsagePaceTests {
     // MARK: - Workday-aware pace
 
     @Test
-    func `workday aware pace shows on track for five day user on friday`() throws {
+    func workday_aware_pace_shows_on_track_for_five_day_user_on_friday() throws {
         // Window: Sun Jun 7 00:00 → Sun Jun 14 00:00 (7 days).
         // "now" is Friday Jun 12 18:00 → elapsed = 5.75 days.
         // 7-day linear: expected ≈ 82.1%, actual = 100% → ~18% deficit.
@@ -152,7 +152,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware pace shows on track midweek`() throws {
+    func workday_aware_pace_shows_on_track_midweek() throws {
         // Window: Sun Jun 7 00:00 → Sun Jun 14 00:00.
         // "now" is Thu Jun 11 00:00 → 3 full workdays (Mon-Wed) elapsed of 5.
         // 5-day model: expected ≈ 60%.
@@ -190,7 +190,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware exhausted quota does not last through weekend`() throws {
+    func workday_aware_exhausted_quota_does_not_last_through_weekend() throws {
         let calendar = Self.utcCalendar
 
         let resetsAt = try #require(calendar.date(from: DateComponents(
@@ -223,7 +223,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware eta excludes non workday elapsed time`() throws {
+    func workday_aware_eta_excludes_non_workday_elapsed_time() throws {
         let calendar = Self.utcCalendar
 
         let resetsAt = try #require(calendar.date(from: DateComponents(
@@ -256,7 +256,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware eta maps work time across a weekend`() throws {
+    func workday_aware_eta_maps_work_time_across_a_weekend() throws {
         let calendar = Self.utcCalendar
         let resetsAt = try Self.date(
             year: 2026,
@@ -288,7 +288,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware pace stays flat on non workdays`() throws {
+    func workday_aware_pace_stays_flat_on_non_workdays() throws {
         let calendar = Self.utcCalendar
         let resetsAt = try Self.date(
             year: 2026,
@@ -330,7 +330,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `zero usage becomes safe only after the first configured workday begins`() throws {
+    func zero_usage_becomes_safe_only_after_the_first_configured_workday_begins() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "America/Los_Angeles"))
         let resetsAt = try Self.date(
@@ -376,7 +376,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware pace does not declare zero usage safe before first workday`() throws {
+    func workday_aware_pace_does_not_declare_zero_usage_safe_before_first_workday() throws {
         let calendar = Self.utcCalendar
 
         let resetsAt = try #require(calendar.date(from: DateComponents(
@@ -410,7 +410,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware exhausted quota stays exhausted before first workday`() throws {
+    func workday_aware_exhausted_quota_stays_exhausted_before_first_workday() throws {
         let calendar = Self.utcCalendar
 
         let resetsAt = try #require(calendar.date(from: DateComponents(
@@ -443,7 +443,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware pace splits a non midnight reset at local day boundaries`() throws {
+    func workday_aware_pace_splits_a_non_midnight_reset_at_local_day_boundaries() throws {
         let calendar = Self.utcCalendar
 
         let resetsAt = try #require(calendar.date(from: DateComponents(
@@ -479,7 +479,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware pace falls back to linear when workDays is nil or 7`() throws {
+    func workday_aware_pace_falls_back_to_linear_when_workDays_is_nil_or_7() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,
@@ -497,7 +497,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workdays off linear weekly pace keeps deficit sign`() throws {
+    func workdays_off_linear_weekly_pace_keeps_deficit_sign() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 88,
@@ -514,7 +514,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `workday aware pace ignores non weekly windows`() throws {
+    func workday_aware_pace_ignores_non_weekly_windows() throws {
         let now = Date(timeIntervalSince1970: 0)
         // 300-minute session window — workDays should have no effect
         let window = RateWindow(
@@ -532,7 +532,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `session pace computes delta and eta for five hour window`() {
+    func session_pace_computes_delta_and_eta_for_five_hour_window() {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,
@@ -551,7 +551,7 @@ struct UsagePaceTests {
     }
 
     @Test
-    func `one work day falls back to linear pace`() throws {
+    func one_work_day_falls_back_to_linear_pace() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 50,

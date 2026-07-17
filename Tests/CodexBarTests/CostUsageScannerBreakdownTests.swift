@@ -141,7 +141,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report parses token counts and caches`() throws {
+    func codex_daily_report_parses_token_counts_and_caches() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -236,7 +236,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex project breakdowns group by cwd and preserve daily totals`() throws {
+    func codex_project_breakdowns_group_by_cwd_and_preserve_daily_totals() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -418,7 +418,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex incremental append falls back to rescan when fork metadata appears late`() throws {
+    func codex_incremental_append_falls_back_to_rescan_when_fork_metadata_appears_late() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -488,7 +488,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report reprices cached sessions when models dev pricing changes`() throws {
+    func codex_daily_report_reprices_cached_sessions_when_models_dev_pricing_changes() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -586,7 +586,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report reprices cached costs when cost formula version changes`() throws {
+    func codex_daily_report_reprices_cached_costs_when_cost_formula_version_changes() throws {
         // Costs are persisted per file as precomputed nanos and only recomputed when the pricing
         // key changes. A formula-only fix (rates unchanged) must still invalidate caches written
         // by an older formula, otherwise stale (e.g. inflated) costs would be reused indefinitely.
@@ -657,7 +657,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex incremental cache preserves divergent total baseline`() throws {
+    func codex_incremental_cache_preserves_divergent_total_baseline() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -722,7 +722,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex incremental cache migrates legacy rows before appending delta costs`() throws {
+    func codex_incremental_cache_migrates_legacy_rows_before_appending_delta_costs() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -833,7 +833,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex incremental cost migration retains row identities for archive dedupe`() throws {
+    func codex_incremental_cost_migration_retains_row_identities_for_archive_dedupe() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -913,7 +913,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex split cache migration does not double count existing cost maps`() throws {
+    func codex_split_cache_migration_does_not_double_count_existing_cost_maps() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1002,7 +1002,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex narrow full rescan preserves cached days outside scan window`() throws {
+    func codex_narrow_full_rescan_preserves_cached_days_outside_scan_window() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1070,7 +1070,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex turn id cache migration narrows retained cache window`() throws {
+    func codex_turn_id_cache_migration_narrows_retained_cache_window() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1151,7 +1151,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex project metadata migration drops unscanned legacy files`() throws {
+    func codex_project_metadata_migration_drops_unscanned_legacy_files() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1244,7 +1244,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex long turn context preserves model attribution`() throws {
+    func codex_long_turn_context_preserves_model_attribution() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1290,7 +1290,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex oversized turn context prefix preserves model attribution`() throws {
+    func codex_oversized_turn_context_prefix_preserves_model_attribution() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1318,7 +1318,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex oversized turn context prefix supports nested info model`() throws {
+    func codex_oversized_turn_context_prefix_supports_nested_info_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1346,7 +1346,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex oversized turn context ignores prompt model examples`() throws {
+    func codex_oversized_turn_context_ignores_prompt_model_examples() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1377,7 +1377,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex token count model applies without turn context model`() throws {
+    func codex_token_count_model_applies_without_turn_context_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1404,7 +1404,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex token count without model remains explicitly unknown`() throws {
+    func codex_token_count_without_model_remains_explicitly_unknown() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1429,7 +1429,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex turn context remains authoritative over conflicting token model`() throws {
+    func codex_turn_context_remains_authoritative_over_conflicting_token_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1456,7 +1456,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex turn context blank model falls through to model name`() throws {
+    func codex_turn_context_blank_model_falls_through_to_model_name() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1491,7 +1491,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex turn context blank payload fields fall through to nested model name`() throws {
+    func codex_turn_context_blank_payload_fields_fall_through_to_nested_model_name() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1530,7 +1530,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex oversized turn context blank fields fall through to nested model name`() throws {
+    func codex_oversized_turn_context_blank_fields_fall_through_to_nested_model_name() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1560,7 +1560,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex all blank turn context clears stale model for event evidence`() throws {
+    func codex_all_blank_turn_context_clears_stale_model_for_event_evidence() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1600,7 +1600,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex all blank turn context clears stale model to unattributed`() throws {
+    func codex_all_blank_turn_context_clears_stale_model_to_unattributed() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1634,7 +1634,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex incomplete oversized blank context preserves stale model`() throws {
+    func codex_incomplete_oversized_blank_context_preserves_stale_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1665,7 +1665,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex oversized closed blank payload clears stale model`() throws {
+    func codex_oversized_closed_blank_payload_clears_stale_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1696,7 +1696,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex foundation fallback skips blank turn context candidates`() throws {
+    func codex_foundation_fallback_skips_blank_turn_context_candidates() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1730,7 +1730,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex foundation fallback all blank context clears stale model`() throws {
+    func codex_foundation_fallback_all_blank_context_clears_stale_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
         let day = try env.makeLocalNoon(year: 2026, month: 5, day: 18)
@@ -1762,7 +1762,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex blank token count model preserves turn context`() throws {
+    func codex_blank_token_count_model_preserves_turn_context() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1789,7 +1789,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex blank model falls through to model name`() throws {
+    func codex_blank_model_falls_through_to_model_name() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1826,7 +1826,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report writes corrected cache artifact for oversized turn context`() throws {
+    func codex_daily_report_writes_corrected_cache_artifact_for_oversized_turn_context() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1886,7 +1886,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report prefers last token usage over divergent totals`() throws {
+    func codex_daily_report_prefers_last_token_usage_over_divergent_totals() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1949,7 +1949,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex repeated total token snapshots do not recount last usage`() throws {
+    func codex_repeated_total_token_snapshots_do_not_recount_last_usage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1990,7 +1990,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex repeated divergent snapshots do not recount last usage`() throws {
+    func codex_repeated_divergent_snapshots_do_not_recount_last_usage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2021,7 +2021,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex total only after divergent totals uses raw delta when it continues`() throws {
+    func codex_total_only_after_divergent_totals_uses_raw_delta_when_it_continues() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2059,7 +2059,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex total only after divergent totals preserves zero raw dimensions`() throws {
+    func codex_total_only_after_divergent_totals_preserves_zero_raw_dimensions() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2098,7 +2098,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex total only after divergent totals can resume from counted baseline`() throws {
+    func codex_total_only_after_divergent_totals_can_resume_from_counted_baseline() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2136,7 +2136,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex total only after last only counts from last based baseline`() throws {
+    func codex_total_only_after_last_only_counts_from_last_based_baseline() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2168,7 +2168,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex interleaved cumulative lineages do not recount the gap`() throws {
+    func codex_interleaved_cumulative_lineages_do_not_recount_the_gap() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2215,7 +2215,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex alternating repeated snapshots count zero`() throws {
+    func codex_alternating_repeated_snapshots_count_zero() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2269,7 +2269,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex totals only growth below watermark is conservatively dropped`() throws {
+    func codex_totals_only_growth_below_watermark_is_conservatively_dropped() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2311,7 +2311,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex single lineage counter reset undercounts but never inflates`() throws {
+    func codex_single_lineage_counter_reset_undercounts_but_never_inflates() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2357,7 +2357,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex interleaved fork child caps last by contained total delta`() throws {
+    func codex_interleaved_fork_child_caps_last_by_contained_total_delta() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2413,7 +2413,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex root interleaved caps last much larger than watermark delta`() throws {
+    func codex_root_interleaved_caps_last_much_larger_than_watermark_delta() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2455,7 +2455,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex fork interleaved caps last much larger than watermark delta`() throws {
+    func codex_fork_interleaved_caps_last_much_larger_than_watermark_delta() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2508,7 +2508,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex interleaved replay after sixty five unique snapshots stays contained`() throws {
+    func codex_interleaved_replay_after_sixty_five_unique_snapshots_stays_contained() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2560,7 +2560,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex interleaved totals only sequences stay within containment bound`() throws {
+    func codex_interleaved_totals_only_sequences_stay_within_containment_bound() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2609,7 +2609,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex incremental append preserves interleave containment across boundary`() throws {
+    func codex_incremental_append_preserves_interleave_containment_across_boundary() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2711,7 +2711,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex missing watermark or interleaved flag forces full rescan`() throws {
+    func codex_missing_watermark_or_interleaved_flag_forces_full_rescan() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2803,7 +2803,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex missing optional seen set keeps incremental resume safe`() throws {
+    func codex_missing_optional_seen_set_keeps_incremental_resume_safe() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2892,7 +2892,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex divergent cache entry without watermark forces full rescan`() throws {
+    func codex_divergent_cache_entry_without_watermark_forces_full_rescan() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -2973,7 +2973,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report includes archived sessions and dedupes`() throws {
+    func codex_daily_report_includes_archived_sessions_and_dedupes() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3044,7 +3044,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex active session stub does not hide archived usage`() throws {
+    func codex_active_session_stub_does_not_hide_archived_usage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3104,7 +3104,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex active session partial file keeps distinct archived rows`() throws {
+    func codex_active_session_partial_file_keeps_distinct_archived_rows() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3200,7 +3200,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex active archive dedupe preserves identical same turn deltas`() throws {
+    func codex_active_archive_dedupe_preserves_identical_same_turn_deltas() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3274,7 +3274,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex files without session metadata do not dedupe each other`() throws {
+    func codex_files_without_session_metadata_do_not_dedupe_each_other() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3312,7 +3312,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex warm cache rechecks active archive row overlap`() throws {
+    func codex_warm_cache_rechecks_active_archive_row_overlap() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3443,7 +3443,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex narrow warm overlap does not duplicate cached days outside scan window`() throws {
+    func codex_narrow_warm_overlap_does_not_duplicate_cached_days_outside_scan_window() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3545,7 +3545,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex narrow rowless rescan retains cached days outside scan window`() throws {
+    func codex_narrow_rowless_rescan_retains_cached_days_outside_scan_window() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3631,7 +3631,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report includes long lived sessions stored under older date partitions`() throws {
+    func codex_daily_report_includes_long_lived_sessions_stored_under_older_date_partitions() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3693,7 +3693,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex cold cache includes very old active date partition session`() throws {
+    func codex_cold_cache_includes_very_old_active_date_partition_session() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3732,7 +3732,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex cold cache includes recent legacy file in mixed root`() throws {
+    func codex_cold_cache_includes_recent_legacy_file_in_mixed_root() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3780,7 +3780,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex forked child subtracts parent totals at fork timestamp`() throws {
+    func codex_forked_child_subtracts_parent_totals_at_fork_timestamp() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -3941,7 +3941,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex warm cache invalidates fork when parent baseline and child file change`() throws {
+    func codex_warm_cache_invalidates_fork_when_parent_baseline_and_child_file_change() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4046,7 +4046,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex warm cache invalidates fork when missing parent appears`() throws {
+    func codex_warm_cache_invalidates_fork_when_missing_parent_appears() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4125,7 +4125,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex warm cache invalidates fork when parent file selection changes`() throws {
+    func codex_warm_cache_invalidates_fork_when_parent_file_selection_changes() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4220,7 +4220,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex parent dependency key stays bound to parsed snapshots`() throws {
+    func codex_parent_dependency_key_stays_bound_to_parsed_snapshots() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4267,7 +4267,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex unstable parent snapshot keeps fork dependency uncached`() throws {
+    func codex_unstable_parent_snapshot_keeps_fork_dependency_uncached() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4325,7 +4325,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex forked child skips cumulative totals when parent session is missing`() throws {
+    func codex_forked_child_skips_cumulative_totals_when_parent_session_is_missing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4385,7 +4385,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex fork with total usage ignores replayed last snapshots`() throws {
+    func codex_fork_with_total_usage_ignores_replayed_last_snapshots() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4447,7 +4447,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex subagent with restarted totals counts its full usage`() throws {
+    func codex_subagent_with_restarted_totals_counts_its_full_usage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4502,7 +4502,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex metadata lookahead recognizes a total-only explicit subagent counter`() throws {
+    func codex_metadata_lookahead_recognizes_a_total_only_explicit_subagent_counter() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4555,7 +4555,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex bare parent thread id with continuing totals keeps fork baseline`() throws {
+    func codex_bare_parent_thread_id_with_continuing_totals_keeps_fork_baseline() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4601,7 +4601,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex subagent provenance matrix preserves explicit source and parser parity`() throws {
+    func codex_subagent_provenance_matrix_preserves_explicit_source_and_parser_parity() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4667,7 +4667,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex nested source subagent counts without resolving a missing parent`() throws {
+    func codex_nested_source_subagent_counts_without_resolving_a_missing_parent() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4716,7 +4716,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex subagent with only last-token records counts full usage`() throws {
+    func codex_subagent_with_only_last_token_records_counts_full_usage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4761,7 +4761,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report sums parent and restarted subagent totals`() throws {
+    func codex_daily_report_sums_parent_and_restarted_subagent_totals() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4885,7 +4885,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex fork skips last usage when parent baseline is unresolved`() throws {
+    func codex_fork_skips_last_usage_when_parent_baseline_is_unresolved() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4929,7 +4929,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex unresolved fork ignores duplicated total and last replay after prefix`() throws {
+    func codex_unresolved_fork_ignores_duplicated_total_and_last_replay_after_prefix() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -4990,7 +4990,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex empty fork parent id still counts cumulative totals`() throws {
+    func codex_empty_fork_parent_id_still_counts_cumulative_totals() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -5042,7 +5042,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex forked child inherits counted parent totals when totals diverge`() throws {
+    func codex_forked_child_inherits_counted_parent_totals_when_totals_diverge() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -5119,7 +5119,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex forked child subtracts inherited replay from last token usage`() throws {
+    func codex_forked_child_subtracts_inherited_replay_from_last_token_usage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -5281,7 +5281,7 @@ struct CostUsageScannerBreakdownTests {
 
     @Test
     // swiftlint:disable:next function_body_length
-    func `codex forked child ignores replayed parent prefix sequence`() throws {
+    func codex_forked_child_ignores_replayed_parent_prefix_sequence() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -5498,7 +5498,7 @@ struct CostUsageScannerBreakdownTests {
 
     @Test
     // swiftlint:disable:next function_body_length
-    func `codex forked child subtracts inherited replay even when session meta appears late`() throws {
+    func codex_forked_child_subtracts_inherited_replay_even_when_session_meta_appears_late() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -5699,7 +5699,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex forked child resolves parent when parent session file is a symlink`() throws {
+    func codex_forked_child_resolves_parent_when_parent_session_file_is_a_symlink() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -5850,7 +5850,7 @@ struct CostUsageScannerBreakdownTests {
 
     @Test
     // swiftlint:disable:next function_body_length
-    func `codex forked child resolves parent by exact session meta id`() throws {
+    func codex_forked_child_resolves_parent_by_exact_session_meta_id() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -6024,7 +6024,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex forked child compares parent snapshots by parsed timestamp`() throws {
+    func codex_forked_child_compares_parent_snapshots_by_parsed_timestamp() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -6162,7 +6162,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex first refresh keeps unrelated archived sessions out of cache`() throws {
+    func codex_first_refresh_keeps_unrelated_archived_sessions_out_of_cache() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -6246,7 +6246,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex root switch reloads long lived sessions from older partitions`() throws {
+    func codex_root_switch_reloads_long_lived_sessions_from_older_partitions() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -6368,7 +6368,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `claude daily report parses usage and caches`() throws {
+    func claude_daily_report_parses_usage_and_caches() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -6421,7 +6421,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex daily report preserves full sorted model breakdowns`() throws {
+    func codex_daily_report_preserves_full_sorted_model_breakdowns() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -6543,7 +6543,7 @@ struct CostUsageScannerBreakdownTests {
     }
 
     @Test
-    func `codex force rescan finds stale nested legacy sessions`() throws {
+    func codex_force_rescan_finds_stale_nested_legacy_sessions() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

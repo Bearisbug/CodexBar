@@ -36,7 +36,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu card enabled state follows interaction affordances`() {
+    func menu_card_enabled_state_follows_interaction_affordances() {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
 
@@ -68,7 +68,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `embedded controls stay enabled without highlighting the card`() {
+    func embedded_controls_stay_enabled_without_highlighting_the_card() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -101,7 +101,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `merged menu width uses widest provider action set`() {
+    func merged_menu_width_uses_widest_provider_action_set() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         let controller = self.makeRecyclingController(settings: settings)
@@ -127,7 +127,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu width normalization includes usage history submenu row`() {
+    func menu_width_normalization_includes_usage_history_submenu_row() {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -157,7 +157,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `rendered menu width keeps tracked window width after AppKit shrink`() {
+    func rendered_menu_width_keeps_tracked_window_width_after_AppKit_shrink() {
         let width = StatusItemController.resolvedRenderedMenuWidth(
             menuWidth: 310,
             trackedWindowWidth: 356)
@@ -169,7 +169,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `data only repopulate reuses menu card hosting views`() {
+    func data_only_repopulate_reuses_menu_card_hosting_views() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -206,7 +206,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `merged data tick keeps row count and card views stable`() {
+    func merged_data_tick_keeps_row_count_and_card_views_stable() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -255,7 +255,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `reconcile keeps matching edge rows when the middle differs`() {
+    func reconcile_keeps_matching_edge_rows_when_the_middle_differs() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -303,7 +303,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `cached provider content replaces native image rows and preserves switch back items`() {
+    func cached_provider_content_replaces_native_image_rows_and_preserves_switch_back_items() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         let controller = self.makeRecyclingController(settings: settings)
@@ -334,7 +334,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `cached provider content swap preserves both item sets for switch back`() {
+    func cached_provider_content_swap_preserves_both_item_sets_for_switch_back() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         let controller = self.makeRecyclingController(settings: settings)
@@ -379,7 +379,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `reconcile preserves highlight on a retained custom action row`() {
+    func reconcile_preserves_highlight_on_a_retained_custom_action_row() {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         let controller = self.makeRecyclingController(settings: settings)
@@ -411,7 +411,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `reconcile restores highlight on a retained recycled card`() {
+    func reconcile_restores_highlight_on_a_retained_recycled_card() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -453,7 +453,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `reconcile clears highlight when a retained card becomes disabled`() {
+    func reconcile_clears_highlight_when_a_retained_card_becomes_disabled() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -493,7 +493,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `harvesting consumes only the displaced selection cache entry`() {
+    func harvesting_consumes_only_the_displaced_selection_cache_entry() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -534,7 +534,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `harvesting consumes displaced cache when card rendering is disabled`() {
+    func harvesting_consumes_displaced_cache_when_card_rendering_is_disabled() {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = false
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -568,7 +568,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `type compatible leftover is adopted across card identifiers`() {
+    func type_compatible_leftover_is_adopted_across_card_identifiers() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -594,7 +594,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `recycled card keeps its hosting view and highlight state`() {
+    func recycled_card_keeps_its_hosting_view_and_highlight_state() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -632,7 +632,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `recycled card clears button role when click action is removed`() {
+    func recycled_card_clears_button_role_when_click_action_is_removed() {
         let highlightState = MenuCardHighlightState()
         let hosting = MenuCardItemHostingView(
             rootView: Text("clickable"),
@@ -651,7 +651,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `harvesting a highlighted card clears its highlight and tracking entry`() {
+    func harvesting_a_highlighted_card_clears_its_highlight_and_tracking_entry() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -687,7 +687,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `same id with different content type builds a fresh view`() {
+    func same_id_with_different_content_type_builds_a_fresh_view() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
@@ -715,7 +715,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `gpu selection highlight bypasses swiftui highlight state`() {
+    func gpu_selection_highlight_bypasses_swiftui_highlight_state() {
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true

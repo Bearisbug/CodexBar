@@ -22,7 +22,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser login candidates return every valid unique session without committing cache`() async throws {
+    func browser_login_candidates_return_every_valid_unique_session_without_committing_cache() async throws {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let strictPersonal = Self.makeSessionInfo(sourceLabel: "Comet Default", cookieValue: "personal")
         let strictTeam = Self.makeSessionInfo(sourceLabel: "Comet Profile 1", cookieValue: "team")
@@ -82,7 +82,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser login candidates keep valid results when another profile has a transient failure`() async throws {
+    func browser_login_candidates_keep_valid_results_when_another_profile_has_a_transient_failure() async throws {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let valid = Self.makeSessionInfo(sourceLabel: "Comet Default", cookieValue: "valid")
         let transient = Self.makeSessionInfo(sourceLabel: "Comet Profile 1", cookieValue: "transient")
@@ -109,7 +109,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser login candidates return earlier result when later profile reaches deadline`() async throws {
+    func browser_login_candidates_return_earlier_result_when_later_profile_reaches_deadline() async throws {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let valid = Self.makeSessionInfo(sourceLabel: "Comet Default", cookieValue: "valid")
         let slow = Self.makeSessionInfo(sourceLabel: "Comet Profile 1", cookieValue: "slow")
@@ -136,7 +136,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser login candidates skip identity-less success when another profile is valid`() async throws {
+    func browser_login_candidates_skip_identity_less_success_when_another_profile_is_valid() async throws {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let incomplete = Self.makeSessionInfo(sourceLabel: "Comet Default", cookieValue: "incomplete")
         let valid = Self.makeSessionInfo(sourceLabel: "Comet Profile 1", cookieValue: "valid")
@@ -160,7 +160,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser login candidate deadline fails closed before validating later profiles`() async {
+    func browser_login_candidate_deadline_fails_closed_before_validating_later_profiles() async {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let first = Self.makeSessionInfo(sourceLabel: "Comet Default", cookieValue: "first")
         let second = Self.makeSessionInfo(sourceLabel: "Comet Profile 1", cookieValue: "second")
@@ -194,7 +194,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser fallback cannot publish or overwrite a login committed during an earlier request`() async {
+    func browser_fallback_cannot_publish_or_overwrite_a_login_committed_during_an_earlier_request() async {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let background = Self.makeSessionInfo(sourceLabel: "Background", cookieValue: "background")
         let service = "cursor-login-race-\(UUID().uuidString)"
@@ -235,7 +235,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `imported session scan continues after non auth failure until later success`() async {
+    func imported_session_scan_continues_after_non_auth_failure_until_later_success() async {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let expected = CursorStatusSnapshot(
             planPercentUsed: 0.441025641025641,
@@ -278,7 +278,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `imported session scan preserves first non auth failure after exhausting sessions`() async {
+    func imported_session_scan_preserves_first_non_auth_failure_after_exhausting_sessions() async {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
 
         let result = await probe.scanImportedSessions([
@@ -315,7 +315,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser scan stops importing after later browser succeeds`() async {
+    func browser_scan_stops_importing_after_later_browser_succeeds() async {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let expected = CursorStatusSnapshot(
             planPercentUsed: 42,
@@ -370,7 +370,7 @@ struct CursorImportedSessionScanningTests {
     }
 
     @Test
-    func `browser scan keeps trying later sources within the same browser`() async {
+    func browser_scan_keeps_trying_later_sources_within_the_same_browser() async {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let expected = CursorStatusSnapshot(
             planPercentUsed: 12,

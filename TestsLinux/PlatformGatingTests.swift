@@ -6,7 +6,7 @@ import Testing
 @Suite
 struct PlatformGatingTests {
     @Test
-    func `shell probe requests a detached Linux session`() {
+    func shell_probe_requests_a_detached_Linux_session() {
         #if os(Linux)
         #expect(ShellCommandLocator.test_shellSpawnFlags == 0x80)
         #else
@@ -86,7 +86,7 @@ struct PlatformGatingTests {
     }
 
     @Test(arguments: [ProviderSourceMode.auto, .cli])
-    func `Claude CLI runtime skips logged out interactive fallback`(sourceMode: ProviderSourceMode) async throws {
+    func Claude_CLI_runtime_skips_logged_out_interactive_fallback(sourceMode: ProviderSourceMode) async throws {
         #if os(Linux)
         let invocationLog = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-cli-runtime-invocations-\(UUID().uuidString).log")

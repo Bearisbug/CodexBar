@@ -54,7 +54,7 @@ struct StatusItemCombinedMetricPlaceholderTests {
     }
 
     @Test
-    func `combined metric ignores the claude web null-session placeholder in percent mode`() {
+    func combined_metric_ignores_the_claude_web_null_session_placeholder_in_percent_mode() {
         let (controller, store) = self.makeClaudeCombinedController(
             suiteName: "StatusItemCombinedMetricPlaceholderTests-percent",
             displayMode: .percent,
@@ -88,7 +88,7 @@ struct StatusItemCombinedMetricPlaceholderTests {
     }
 
     @Test
-    func `combined metric ignores the claude web null-session placeholder in both mode`() {
+    func combined_metric_ignores_the_claude_web_null_session_placeholder_in_both_mode() {
         let (controller, store) = self.makeClaudeCombinedController(
             suiteName: "StatusItemCombinedMetricPlaceholderTests-both",
             displayMode: .both,
@@ -122,7 +122,7 @@ struct StatusItemCombinedMetricPlaceholderTests {
     }
 
     @Test
-    func `combined metric keeps a real freshly reset claude session lane`() {
+    func combined_metric_keeps_a_real_freshly_reset_claude_session_lane() {
         let (controller, store) = self.makeClaudeCombinedController(
             suiteName: "StatusItemCombinedMetricPlaceholderTests-fresh",
             displayMode: .percent,
@@ -153,7 +153,7 @@ struct StatusItemCombinedMetricPlaceholderTests {
     }
 
     @Test
-    func `combined metric keeps an unflagged zero-usage session sharing the placeholder shape`() {
+    func combined_metric_keeps_an_unflagged_zero_usage_session_sharing_the_placeholder_shape() {
         // Precision guard: a real empty session can share the placeholder's exact RateWindow shape
         // (0% used, 5h cadence, no reset) — e.g. the Claude CLI scrape, where session reset text can be
         // absent. Because the drop keys on the explicit `isSyntheticPlaceholder` marker (set only at the

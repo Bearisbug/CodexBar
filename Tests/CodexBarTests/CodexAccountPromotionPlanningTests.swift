@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexAccountPromotionPlanningTests {
     @Test
-    func `planner converges from direct auth identities without snapshot help`() async throws {
+    func planner_converges_from_direct_auth_identities_without_snapshot_help() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPlanningTests-converges")
         defer { container.tearDown() }
@@ -30,7 +30,7 @@ struct CodexAccountPromotionPlanningTests {
     }
 
     @Test
-    func `planner refreshes already managed account when readable home identity matches live`() async throws {
+    func planner_refreshes_already_managed_account_when_readable_home_identity_matches_live() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPlanningTests-refresh")
         defer { container.tearDown() }
@@ -59,7 +59,7 @@ struct CodexAccountPromotionPlanningTests {
     }
 
     @Test
-    func `planner uses repair for persisted provider match before any import fallback`() async throws {
+    func planner_uses_repair_for_persisted_provider_match_before_any_import_fallback() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPlanningTests-repair-before-import")
         defer { container.tearDown() }
@@ -94,7 +94,7 @@ struct CodexAccountPromotionPlanningTests {
     }
 
     @Test
-    func `planner rejects persisted provider match when readable home belongs to a different account`() async throws {
+    func planner_rejects_persisted_provider_match_when_readable_home_belongs_to_a_different_account() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPlanningTests-conflicting-readable-home")
         defer { container.tearDown() }
@@ -123,7 +123,7 @@ struct CodexAccountPromotionPlanningTests {
     }
 
     @Test
-    func `planner uses legacy email repair instead of import when provider account upgrades old record`() async throws {
+    func planner_uses_legacy_email_repair_instead_of_import_when_provider_account_upgrades_old_record() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPlanningTests-legacy-repair")
         defer { container.tearDown() }
@@ -158,7 +158,7 @@ struct CodexAccountPromotionPlanningTests {
     }
 
     @Test
-    func `planner imports when same email belongs to a different provider account workspace`() async throws {
+    func planner_imports_when_same_email_belongs_to_a_different_provider_account_workspace() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPlanningTests-import",
             workspaceIdentities: [
@@ -188,7 +188,7 @@ struct CodexAccountPromotionPlanningTests {
     }
 
     @Test
-    func `planner rejects api key only live auth`() async throws {
+    func planner_rejects_api_key_only_live_auth() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionPlanningTests-api-key")
         defer { container.tearDown() }

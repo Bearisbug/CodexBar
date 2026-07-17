@@ -4,7 +4,7 @@ import Testing
 @MainActor
 struct ProviderRefreshCoordinatorTests {
     @Test
-    func `replacement cancels and orders predecessor while advancing current generation`() async {
+    func replacement_cancels_and_orders_predecessor_while_advancing_current_generation() async {
         let coordinator = ProviderRefreshCoordinator<String>()
         let first = coordinator.beginReplacingRequest(for: "codex")
         let firstTask = Task {
@@ -25,7 +25,7 @@ struct ProviderRefreshCoordinatorTests {
     }
 
     @Test
-    func `invalidation cancels work without dropping waiter completion`() async {
+    func invalidation_cancels_work_without_dropping_waiter_completion() async {
         let coordinator = ProviderRefreshCoordinator<String>()
         let request = coordinator.beginReplacingRequest(for: "codex")
         let gate = ProviderRefreshCoordinatorGate()
@@ -51,7 +51,7 @@ struct ProviderRefreshCoordinatorTests {
     }
 
     @Test
-    func `coalescing returns latest request independently per key`() {
+    func coalescing_returns_latest_request_independently_per_key() {
         let coordinator = ProviderRefreshCoordinator<String>()
         let firstCodex = coordinator.beginReplacingRequest(for: "codex")
         let claude = coordinator.beginReplacingRequest(for: "claude")
@@ -63,7 +63,7 @@ struct ProviderRefreshCoordinatorTests {
     }
 
     @Test
-    func `canceling one of two waiters keeps shared task alive`() async {
+    func canceling_one_of_two_waiters_keeps_shared_task_alive() async {
         let coordinator = ProviderRefreshCoordinator<String>()
         let request = coordinator.beginReplacingRequest(for: "codex")
         let gate = ProviderRefreshCoordinatorGate()
@@ -91,7 +91,7 @@ struct ProviderRefreshCoordinatorTests {
     }
 
     @Test
-    func `wait result exposes retry without leaking task state`() async {
+    func wait_result_exposes_retry_without_leaking_task_state() async {
         let coordinator = ProviderRefreshCoordinator<String>()
         let request = coordinator.beginReplacingRequest(for: "codex")
         let task = Task {}
@@ -104,7 +104,7 @@ struct ProviderRefreshCoordinatorTests {
     }
 
     @Test
-    func `completed request is not offered for coalescing before deferred removal`() {
+    func completed_request_is_not_offered_for_coalescing_before_deferred_removal() {
         let coordinator = ProviderRefreshCoordinator<String>()
         let request = coordinator.beginReplacingRequest(for: "codex")
         let task = Task {}
@@ -116,7 +116,7 @@ struct ProviderRefreshCoordinatorTests {
     }
 
     @Test
-    func `completion removal and activity counts are key scoped`() async {
+    func completion_removal_and_activity_counts_are_key_scoped() async {
         let coordinator = ProviderRefreshCoordinator<String>()
         let codex = coordinator.beginReplacingRequest(for: "codex")
         let claude = coordinator.beginReplacingRequest(for: "claude")

@@ -4,7 +4,7 @@ import Testing
 
 struct CodexExecutableResolverTests {
     @Test
-    func `explicit native override skips login path capture`() {
+    func explicit_native_override_skips_login_path_capture() {
         let resolved = resolveCodexExecutableForRPC(
             environment: ["CODEX_CLI_PATH": "/usr/bin/true"],
             executable: "codex",
@@ -18,7 +18,7 @@ struct CodexExecutableResolverTests {
     }
 
     @Test
-    func `explicit script override captures login path for env based launchers`() throws {
+    func explicit_script_override_captures_login_path_for_env_based_launchers() throws {
         let scriptURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-script-override-\(UUID().uuidString)")
         try Data("#!/usr/bin/env node\n".utf8).write(to: scriptURL)

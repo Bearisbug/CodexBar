@@ -4,7 +4,7 @@ import Testing
 
 struct AgentSessionParserTests {
     @Test
-    func `ps parser deduplicates desktop wrapper and excludes app server and helpers`() throws {
+    func ps_parser_deduplicates_desktop_wrapper_and_excludes_app_server_and_helpers() throws {
         let output = try Self.fixtureString("agent-sessions-ps", extension: "txt")
         let records = AgentPSOutputParser.parse(output)
         let agents = AgentPSOutputParser.agentProcesses(from: records)
@@ -19,7 +19,7 @@ struct AgentSessionParserTests {
     }
 
     @Test
-    func `lsof parser maps batched cwd records`() throws {
+    func lsof_parser_maps_batched_cwd_records() throws {
         let output = try Self.fixtureString("agent-sessions-lsof", extension: "txt")
         let paths = LSOFCWDOutputParser.parse(output)
 
@@ -28,7 +28,7 @@ struct AgentSessionParserTests {
     }
 
     @Test
-    func `same cwd processes remain uncorrelated when ownership is ambiguous`() {
+    func same_cwd_processes_remain_uncorrelated_when_ownership_is_ambiguous() {
         let olderStart = Date(timeIntervalSince1970: 100)
         let newerStart = Date(timeIntervalSince1970: 200)
         let older = AgentProcessRecord(pid: 10, ppid: 1, startedAt: olderStart, command: "claude")
@@ -49,7 +49,7 @@ struct AgentSessionParserTests {
     }
 
     @Test
-    func `newest process sorts first for rollout correlation`() {
+    func newest_process_sorts_first_for_rollout_correlation() {
         let older = AgentProcessRecord(
             pid: 10,
             ppid: 1,

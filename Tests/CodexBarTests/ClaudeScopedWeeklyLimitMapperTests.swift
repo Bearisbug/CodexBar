@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeScopedWeeklyLimitMapperTests {
     @Test
-    func `model id provides a stable safe identifier and duplicate limits collapse`() throws {
+    func model_id_provides_a_stable_safe_identifier_and_duplicate_limits_collapse() throws {
         let reset = Date(timeIntervalSince1970: 1_783_507_200)
         let limits = [
             Self.limit(modelID: "claude/fable.5:promo", modelName: "Fable", resetsAt: reset),
@@ -24,7 +24,7 @@ struct ClaudeScopedWeeklyLimitMapperTests {
     }
 
     @Test
-    func `display name supplies the identifier when the API omits a model id`() throws {
+    func display_name_supplies_the_identifier_when_the_API_omits_a_model_id() throws {
         let windows = ClaudeScopedWeeklyLimitMapper.extraRateWindows(from: [
             Self.limit(modelID: "  ", modelName: " Team / Research "),
         ])
@@ -35,7 +35,7 @@ struct ClaudeScopedWeeklyLimitMapperTests {
     }
 
     @Test
-    func `unrelated malformed and unnamed limits are ignored`() {
+    func unrelated_malformed_and_unnamed_limits_are_ignored() {
         let limits = [
             Self.limit(kind: "session", modelName: "Fable"),
             Self.limit(group: "monthly", modelName: "Fable"),
@@ -47,7 +47,7 @@ struct ClaudeScopedWeeklyLimitMapperTests {
     }
 
     @Test
-    func `all models scope stays in the primary weekly lane`() {
+    func all_models_scope_stays_in_the_primary_weekly_lane() {
         let limits = [
             Self.limit(modelID: nil, modelName: "All models"),
             Self.limit(modelID: "claude/all_models", modelName: "Weekly"),

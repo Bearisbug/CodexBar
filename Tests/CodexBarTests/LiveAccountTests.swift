@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct LiveAccountTests {
     @Test(.disabled("Set LIVE_TEST=1 to run live Codex account checks."))
-    func `codex account email is present`() async throws {
+    func codex_account_email_is_present() async throws {
         guard ProcessInfo.processInfo.environment["LIVE_TEST"] == "1" else { return }
 
         let fetcher = UsageFetcher()

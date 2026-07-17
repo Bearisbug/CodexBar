@@ -7,7 +7,7 @@ import Testing
 
 struct CostUsageFetcherUnknownModelPricingTests {
     @Test
-    func `fetcher reprices an unknown model after an on demand catalog refresh`() async throws {
+    func fetcher_reprices_an_unknown_model_after_an_on_demand_catalog_refresh() async throws {
         let fixture = try UnknownModelPricingFixture()
         defer { fixture.environment.cleanup() }
 
@@ -25,7 +25,7 @@ struct CostUsageFetcherUnknownModelPricingTests {
     }
 
     @Test
-    func `background pricing refresh returns unpriced usage before catalog download finishes`() async throws {
+    func background_pricing_refresh_returns_unpriced_usage_before_catalog_download_finishes() async throws {
         let fixture = try UnknownModelPricingFixture()
         defer { fixture.environment.cleanup() }
         let gate = UnknownModelPricingTransportGate()
@@ -75,7 +75,7 @@ struct CostUsageFetcherUnknownModelPricingTests {
     }
 
     @Test
-    func `unattributed codex usage does not request a pricing refresh`() async throws {
+    func unattributed_codex_usage_does_not_request_a_pricing_refresh() async throws {
         let environment = try CostUsageTestEnvironment()
         defer { environment.cleanup() }
         let day = try environment.makeLocalNoon(year: 2026, month: 4, day: 12)

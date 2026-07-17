@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuLocalizationRefreshTests {
     @Test
-    func `open merged menu refreshes localized switcher and cost title when language changes`() async {
+    func open_merged_menu_refreshes_localized_switcher_and_cost_title_when_language_changes() async {
         let previousLanguage = UserDefaults.standard.object(forKey: "appLanguage")
         let previousAppleLanguages = UserDefaults.standard.object(forKey: "AppleLanguages")
         defer {

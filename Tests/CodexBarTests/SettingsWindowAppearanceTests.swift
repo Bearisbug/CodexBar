@@ -6,14 +6,14 @@ import Testing
 @MainActor
 struct SettingsWindowAppearanceTests {
     @Test
-    func `settings sidebar uses a fixed noncollapsible width`() {
+    func settings_sidebar_uses_a_fixed_noncollapsible_width() {
         #expect(SettingsPane.sidebarWidth == 260)
         #expect(SettingsPane.windowMinWidth > SettingsPane.sidebarWidth)
         #expect(SettingsPane.detailMaxWidth > SettingsPane.windowMinWidth - SettingsPane.sidebarWidth)
     }
 
     @Test
-    func `settings window sizing repairs collapsed saved frames`() {
+    func settings_window_sizing_repairs_collapsed_saved_frames() {
         let window = NSWindow(
             contentRect: NSRect(x: 120, y: 160, width: 180, height: 140),
             styleMask: [.titled],
@@ -31,7 +31,7 @@ struct SettingsWindowAppearanceTests {
     }
 
     @Test
-    func `settings window sizing leaves valid frames alone`() {
+    func settings_window_sizing_leaves_valid_frames_alone() {
         let window = NSWindow(
             contentRect: NSRect(x: 120, y: 160, width: SettingsPane.windowWidth, height: SettingsPane.windowHeight),
             styleMask: [.titled],
@@ -47,7 +47,7 @@ struct SettingsWindowAppearanceTests {
     }
 
     @Test
-    func `settings window sizing does not mutate content split views`() {
+    func settings_window_sizing_does_not_mutate_content_split_views() {
         let window = NSWindow(
             contentRect: NSRect(x: 120, y: 160, width: 180, height: 140),
             styleMask: [.titled],
@@ -70,7 +70,7 @@ struct SettingsWindowAppearanceTests {
     }
 
     @Test
-    func `bridge pulses exact effective appearance then restores inheritance`() {
+    func bridge_pulses_exact_effective_appearance_then_restores_inheritance() {
         let application = NSApplication.shared
         let effectiveAppearance = application.effectiveAppearance
         let staleSource = NSView()
@@ -100,7 +100,7 @@ struct SettingsWindowAppearanceTests {
     }
 
     @Test
-    func `bridge updates window title without pulsing appearance on pane changes`() {
+    func bridge_updates_window_title_without_pulsing_appearance_on_pane_changes() {
         let resetCapture = ResetCapture()
         let bridge = SettingsWindowAppearanceView { resetCapture.actions.append($0) }
         let window = NSWindow(
@@ -121,7 +121,7 @@ struct SettingsWindowAppearanceTests {
     }
 
     @Test
-    func `settings window style remains resizable`() {
+    func settings_window_style_remains_resizable() {
         let bridge = SettingsWindowAppearanceView()
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
@@ -135,7 +135,7 @@ struct SettingsWindowAppearanceTests {
     }
 
     @Test
-    func `settings window extends content behind the titlebar for the edge-to-edge sidebar`() {
+    func settings_window_extends_content_behind_the_titlebar_for_the_edge_to_edge_sidebar() {
         let bridge = SettingsWindowAppearanceView()
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
@@ -150,7 +150,7 @@ struct SettingsWindowAppearanceTests {
     }
 
     @Test
-    func `repeated theme updates cannot leave an explicit appearance`() {
+    func repeated_theme_updates_cannot_leave_an_explicit_appearance() {
         let resetCapture = ResetCapture()
         let bridge = SettingsWindowAppearanceView { resetCapture.actions.append($0) }
         let window = NSWindow(

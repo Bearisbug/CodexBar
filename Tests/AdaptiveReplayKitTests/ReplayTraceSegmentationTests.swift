@@ -20,7 +20,7 @@ struct ReplayTraceSegmentationTests {
     }
 
     @Test
-    func `segmentation excludes only time beyond the expected deadline`() {
+    func segmentation_excludes_only_time_beyond_the_expected_deadline() {
         let firstRun = stride(from: 0.0, through: 3000.0, by: 600.0).map { self.decision($0) }
         let secondRun = stride(from: 68400.0, through: 71400.0, by: 600.0).map { self.decision($0) }
         let trace = firstRun + secondRun + [.refreshCompleted(timestamp: self.at(72000))]
@@ -37,7 +37,7 @@ struct ReplayTraceSegmentationTests {
     }
 
     @Test
-    func `segmented rate uses summed span instead of averaging segment rates`() {
+    func segmented_rate_uses_summed_span_instead_of_averaging_segment_rates() {
         let firstRun = stride(from: 0.0, through: 3000.0, by: 600.0).map { self.decision($0) }
         let secondRun = stride(from: 68400.0, through: 71400.0, by: 600.0).map { self.decision($0) }
         let trace = firstRun + secondRun + [.refreshCompleted(timestamp: self.at(72000))]
@@ -52,7 +52,7 @@ struct ReplayTraceSegmentationTests {
     }
 
     @Test
-    func `a normal scheduled wait remains in the preceding segment`() {
+    func a_normal_scheduled_wait_remains_in_the_preceding_segment() {
         let trace = [
             self.decision(0, delay: 1800),
             .menuOpen(timestamp: self.at(1700)),
@@ -67,7 +67,7 @@ struct ReplayTraceSegmentationTests {
     }
 
     @Test
-    func `menu opens before the first recorded refresh are censored equally`() throws {
+    func menu_opens_before_the_first_recorded_refresh_are_censored_equally() throws {
         let trace = [
             self.decision(0, delay: 600),
             .menuOpen(timestamp: self.at(100)),
@@ -84,7 +84,7 @@ struct ReplayTraceSegmentationTests {
     }
 
     @Test
-    func `recorded refresh anchors staleness before a policy refresh`() throws {
+    func recorded_refresh_anchors_staleness_before_a_policy_refresh() throws {
         let trace = [
             self.decision(0, delay: 600),
             .refreshCompleted(timestamp: self.at(600)),
@@ -100,7 +100,7 @@ struct ReplayTraceSegmentationTests {
     }
 
     @Test
-    func `recorded refresh supersedes an earlier simulated refresh`() throws {
+    func recorded_refresh_supersedes_an_earlier_simulated_refresh() throws {
         let trace = [
             self.decision(0, delay: 650),
             .refreshCompleted(timestamp: self.at(650)),

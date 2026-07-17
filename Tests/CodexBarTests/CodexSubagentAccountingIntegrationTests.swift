@@ -6,7 +6,7 @@ struct CodexSubagentAccountingIntegrationTests {
     private typealias Usage = (input: Int, cached: Int, output: Int)
 
     @Test
-    func `copied parent prefix keeps the inherited baseline after late lineage metadata`() throws {
+    func copied_parent_prefix_keeps_the_inherited_baseline_after_late_lineage_metadata() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -81,7 +81,7 @@ struct CodexSubagentAccountingIntegrationTests {
     }
 
     @Test
-    func `local marker owns only its suffix and persists lineage-only cache mode`() throws {
+    func local_marker_owns_only_its_suffix_and_persists_lineage_only_cache_mode() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -204,7 +204,7 @@ struct CodexSubagentAccountingIntegrationTests {
     }
 
     @Test
-    func `copied prefix infers its parent and ignores a spoofed trigger outside the payload`() throws {
+    func copied_prefix_infers_its_parent_and_ignores_a_spoofed_trigger_outside_the_payload() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -268,7 +268,7 @@ struct CodexSubagentAccountingIntegrationTests {
     }
 
     @Test
-    func `oversized ancestor metadata remains conservative copied-prefix evidence`() throws {
+    func oversized_ancestor_metadata_remains_conservative_copied_prefix_evidence() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -323,7 +323,7 @@ struct CodexSubagentAccountingIntegrationTests {
     }
 
     @Test
-    func `invalid timestamp suffix markers preserve parent dependency on both parser paths`() throws {
+    func invalid_timestamp_suffix_markers_preserve_parent_dependency_on_both_parser_paths() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -395,7 +395,7 @@ struct CodexSubagentAccountingIntegrationTests {
     }
 
     @Test
-    func `oversized invalid suffix markers preserve parent dependency`() throws {
+    func oversized_invalid_suffix_markers_preserve_parent_dependency() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -464,7 +464,7 @@ struct CodexSubagentAccountingIntegrationTests {
     }
 
     @Test
-    func `idless copied prefix without a parent or local marker is suppressed`() throws {
+    func idless_copied_prefix_without_a_parent_or_local_marker_is_suppressed() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -502,7 +502,7 @@ struct CodexSubagentAccountingIntegrationTests {
     }
 
     @Test
-    func `appended ancestor metadata reclassifies the complete subagent rollout`() throws {
+    func appended_ancestor_metadata_reclassifies_the_complete_subagent_rollout() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

@@ -28,7 +28,7 @@ struct ClaudeOAuthCredentialsStoreTemporaryKeychainCacheTests {
 
     #if os(macOS)
     @Test
-    func `credentials file invalidation preserves keychain cache when temporarily unavailable`() throws {
+    func credentials_file_invalidation_preserves_keychain_cache_when_temporarily_unavailable() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -100,7 +100,7 @@ struct ClaudeOAuthCredentialsStoreTemporaryKeychainCacheTests {
     }
 
     @Test
-    func `temporary keychain cache unavailability does not overwrite cache from credentials file fallback`() throws {
+    func temporary_keychain_cache_unavailability_does_not_overwrite_cache_from_credentials_file_fallback() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(true) {
@@ -159,7 +159,7 @@ struct ClaudeOAuthCredentialsStoreTemporaryKeychainCacheTests {
     }
 
     @Test
-    func `has cached credentials treats temporary keychain cache unavailability as present`() {
+    func has_cached_credentials_treats_temporary_keychain_cache_unavailability_as_present() {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -189,7 +189,7 @@ struct ClaudeOAuthCredentialsStoreTemporaryKeychainCacheTests {
     #endif
 
     @Test
-    func `invalid keychain cache is cleared by load`() throws {
+    func invalid_keychain_cache_is_cleared_by_load() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(true) {

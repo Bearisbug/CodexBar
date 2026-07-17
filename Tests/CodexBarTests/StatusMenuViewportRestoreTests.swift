@@ -71,7 +71,7 @@ struct StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport top offset is nil when the menu content fits the clip`() {
+    func viewport_top_offset_is_nil_when_the_menu_content_fits_the_clip() {
         #expect(StatusItemController.menuViewportTopOffset(
             documentIsFlipped: true,
             documentHeight: 500,
@@ -90,7 +90,7 @@ struct StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport top offset is nil when the viewport already shows the top`() {
+    func viewport_top_offset_is_nil_when_the_viewport_already_shows_the_top() {
         #expect(StatusItemController.menuViewportTopOffset(
             documentIsFlipped: true,
             documentHeight: 1700,
@@ -104,7 +104,7 @@ struct StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport top offset targets the content top for a scrolled menu`() {
+    func viewport_top_offset_targets_the_content_top_for_a_scrolled_menu() {
         #expect(StatusItemController.menuViewportTopOffset(
             documentIsFlipped: true,
             documentHeight: 1700,
@@ -120,7 +120,7 @@ struct StatusMenuViewportRestoreTests {
 
 extension StatusMenuViewportRestoreTests {
     @Test
-    func `settled viewport geometry distinguishes layout from movement`() {
+    func settled_viewport_geometry_distinguishes_layout_from_movement() {
         let document = NSView()
         let clipView = NSClipView()
         let initial = MenuViewportGeometry(
@@ -161,7 +161,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport movement tracker settles layout then accumulates fractional scrolling`() {
+    func viewport_movement_tracker_settles_layout_then_accumulates_fractional_scrolling() {
         let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 200, height: 100))
         let documentView = NSView(frame: NSRect(x: 0, y: 0, width: 200, height: 500))
         scrollView.documentView = documentView
@@ -201,7 +201,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `refresh completion waits for settled AppKit geometry before rebasing`() {
+    func refresh_completion_waits_for_settled_AppKit_geometry_before_rebasing() {
         let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 200, height: 100))
         let documentView = NSView(frame: NSRect(x: 0, y: 0, width: 200, height: 500))
         scrollView.documentView = documentView
@@ -230,7 +230,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport tracker absorbs a delayed origin correction after layout settles`() {
+    func viewport_tracker_absorbs_a_delayed_origin_correction_after_layout_settles() {
         let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 200, height: 100))
         let documentView = FlippedViewportDocumentView(frame: NSRect(x: 0, y: 0, width: 200, height: 500))
         scrollView.documentView = documentView
@@ -255,7 +255,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport observer records move away and return within one settled batch`() {
+    func viewport_observer_records_move_away_and_return_within_one_settled_batch() {
         let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 200, height: 100))
         let documentView = NSView(frame: NSRect(x: 0, y: 0, width: 200, height: 500))
         scrollView.documentView = documentView
@@ -276,7 +276,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `stale completion preserves movement owned by a newer refresh`() {
+    func stale_completion_preserves_movement_owned_by_a_newer_refresh() {
         let menu = NSMenu()
         let key = ObjectIdentifier(menu)
         let newerScrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 200, height: 100))
@@ -306,7 +306,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `manual refresh restores originating dirty menu without rebuilding tracked parent`() async throws {
+    func manual_refresh_restores_originating_dirty_menu_without_rebuilding_tracked_parent() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -356,7 +356,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `completed manual refresh clears its request when the menu stayed clean`() async throws {
+    func completed_manual_refresh_clears_its_request_when_the_menu_stayed_clean() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -384,7 +384,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport becoming attachable during refresh schedules one restore`() async throws {
+    func viewport_becoming_attachable_during_refresh_schedules_one_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -422,7 +422,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `provider refresh restores only its originating open menu`() async throws {
+    func provider_refresh_restores_only_its_originating_open_menu() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -464,7 +464,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `closing and reopening during refresh cannot transfer restore to new tracking session`() async throws {
+    func closing_and_reopening_during_refresh_cannot_transfer_restore_to_new_tracking_session() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -505,7 +505,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `closing and reopening after completion invalidates scheduled restore`() async throws {
+    func closing_and_reopening_after_completion_invalidates_scheduled_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -541,7 +541,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `open hosted submenu blocks parent viewport restore`() async throws {
+    func open_hosted_submenu_blocks_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -594,7 +594,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `hosted submenu opening before delivery invalidates parent viewport restore`() async throws {
+    func hosted_submenu_opening_before_delivery_invalidates_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -649,7 +649,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `fresh parent does not defer old restore when hosted submenu opens before delivery`() async throws {
+    func fresh_parent_does_not_defer_old_restore_when_hosted_submenu_opens_before_delivery() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -689,7 +689,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `native highlight blocks parent viewport restore`() async throws {
+    func native_highlight_blocks_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -722,7 +722,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `native highlight before delivery invalidates parent viewport restore`() async throws {
+    func native_highlight_before_delivery_invalidates_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -757,7 +757,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `custom highlight blocks parent viewport restore`() async throws {
+    func custom_highlight_blocks_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -793,7 +793,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `custom highlight before delivery invalidates parent viewport restore`() async throws {
+    func custom_highlight_before_delivery_invalidates_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -831,7 +831,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `refresh row highlight clears while its action is in flight`() async throws {
+    func refresh_row_highlight_clears_while_its_action_is_in_flight() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -841,7 +841,7 @@ extension StatusMenuViewportRestoreTests {
         controller.menuRefreshEnabledOverrideForTesting = true
         let menu = controller.makeMenu(for: .codex)
         controller.menuWillOpen(menu)
-        let refreshItem = try #require(menu.items.first(where: controller.isPersistentRefreshItem))
+        let refreshItem = try #require(menu.items.first(where: { controller.isPersistentRefreshItem($0) }))
         let refreshView = try #require(refreshItem.view as? PersistentRefreshMenuView)
         controller.menu(menu, willHighlight: refreshItem)
 
@@ -874,7 +874,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `clip movement during refresh invalidates parent viewport restore without a wheel event`() async throws {
+    func clip_movement_during_refresh_invalidates_parent_viewport_restore_without_a_wheel_event() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -909,7 +909,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `scroll during refresh invalidates parent viewport restore`() async throws {
+    func scroll_during_refresh_invalidates_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -947,7 +947,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `clip movement before delivery invalidates parent viewport restore without a wheel event`() async throws {
+    func clip_movement_before_delivery_invalidates_parent_viewport_restore_without_a_wheel_event() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -983,7 +983,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `scroll before delivery invalidates parent viewport restore`() async throws {
+    func scroll_before_delivery_invalidates_parent_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1018,7 +1018,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `non-manual invalidation never schedules a viewport restore`() {
+    func non_manual_invalidation_never_schedules_a_viewport_restore() {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1040,7 +1040,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `closed origin cannot transfer restore to another open menu before task starts`() async throws {
+    func closed_origin_cannot_transfer_restore_to_another_open_menu_before_task_starts() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1080,7 +1080,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `queued refresh cannot arm restore for a reopened persistent menu`() async throws {
+    func queued_refresh_cannot_arm_restore_for_a_reopened_persistent_menu() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1127,7 +1127,7 @@ extension StatusMenuViewportRestoreTests {
 
 extension StatusMenuViewportRestoreTests {
     @Test
-    func `open non-hosted child menu blocks global viewport restore`() async throws {
+    func open_non_hosted_child_menu_blocks_global_viewport_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1167,7 +1167,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `opening and closing non-hosted child during refresh invalidates parent restore`() async throws {
+    func opening_and_closing_non_hosted_child_during_refresh_invalidates_parent_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1213,7 +1213,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `non-hosted child opening before delivery invalidates parent restore`() async throws {
+    func non_hosted_child_opening_before_delivery_invalidates_parent_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1253,7 +1253,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `merged selection change discards originating refresh restore`() async throws {
+    func merged_selection_change_discards_originating_refresh_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = true
@@ -1290,7 +1290,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `merged selection ABA discards originating refresh restore`() async throws {
+    func merged_selection_ABA_discards_originating_refresh_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = true
@@ -1341,7 +1341,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `queued refresh captures menu interaction before its task starts`() async throws {
+    func queued_refresh_captures_menu_interaction_before_its_task_starts() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = true
@@ -1388,7 +1388,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `account selection ABA discards originating refresh restore`() async throws {
+    func account_selection_ABA_discards_originating_refresh_restore() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1438,7 +1438,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `cancelled manual refresh clears restore request without scheduling`() async throws {
+    func cancelled_manual_refresh_clears_restore_request_without_scheduling() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1469,7 +1469,7 @@ extension StatusMenuViewportRestoreTests {
     }
 
     @Test
-    func `viewport restore is a safe no-op without an attached menu window`() {
+    func viewport_restore_is_a_safe_no_op_without_an_attached_menu_window() {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false

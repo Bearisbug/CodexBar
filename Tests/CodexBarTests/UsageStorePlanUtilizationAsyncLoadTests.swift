@@ -17,7 +17,7 @@ import Testing
 struct UsageStorePlanUtilizationAsyncLoadTests {
     @MainActor
     @Test
-    func `testing startup without an injected history store skips disk loading`() {
+    func testing_startup_without_an_injected_history_store_skips_disk_loading() {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-default-test-\(UUID().uuidString)"
         let settings = Self.makeSettings(suiteName: suiteName)
         defer { UserDefaults().removePersistentDomain(forName: suiteName) }
@@ -36,7 +36,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `testing startup without an explicit gate skips background load`() {
+    func testing_startup_without_an_explicit_gate_skips_background_load() {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-testing-\(UUID().uuidString)"
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: true)
         historyStore.save([.codex: PlanUtilizationHistoryBuckets(
@@ -63,7 +63,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `init returns before disk load completes`() {
+    func init_returns_before_disk_load_completes() {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-init-\(UUID().uuidString)"
         let gate = PlanUtilizationHistoryLoadGate()
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: false)
@@ -87,7 +87,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `gate release publishes loaded history and bumps revision once`() async {
+    func gate_release_publishes_loaded_history_and_bumps_revision_once() async {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-release-\(UUID().uuidString)"
         let gate = PlanUtilizationHistoryLoadGate()
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: true)
@@ -124,7 +124,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `sync menu accessor returns empty stub while loading`() {
+    func sync_menu_accessor_returns_empty_stub_while_loading() {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-menuGate-\(UUID().uuidString)"
         let gate = PlanUtilizationHistoryLoadGate()
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: true)
@@ -157,7 +157,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `empty directory loads to empty dictionary without error`() async {
+    func empty_directory_loads_to_empty_dictionary_without_error() async {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-empty-\(UUID().uuidString)"
         let gate = PlanUtilizationHistoryLoadGate()
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: true)
@@ -182,7 +182,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `corrupt file loads best-effort empty`() async throws {
+    func corrupt_file_loads_best_effort_empty() async throws {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-corrupt-\(UUID().uuidString)"
         let gate = PlanUtilizationHistoryLoadGate()
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: true)
@@ -213,7 +213,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `multi-provider multi-account ownership preserved after load`() async {
+    func multi_provider_multi_account_ownership_preserved_after_load() async {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-multi-\(UUID().uuidString)"
         let gate = PlanUtilizationHistoryLoadGate()
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: true)
@@ -253,7 +253,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `record waits for disk load then merges and persists history`() async {
+    func record_waits_for_disk_load_then_merges_and_persists_history() async {
         let suiteName = "UsageStorePlanUtilizationAsyncLoad-record-\(UUID().uuidString)"
         let gate = PlanUtilizationHistoryLoadGate()
         let historyStore = testPlanUtilizationHistoryStore(suiteName: suiteName, reset: true)
@@ -326,7 +326,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `init work is independent of history size`() throws {
+    func init_work_is_independent_of_history_size() throws {
         // With a closed load gate, UsageStore.init must return even when the
         // persisted history would dominate startup time at production scale.
         // The closed gate decouples the assertion from wall-clock variance;
@@ -361,7 +361,7 @@ struct UsageStorePlanUtilizationAsyncLoadTests {
 
     @MainActor
     @Test
-    func `cancel before load wait is registered still drains the task`() async throws {
+    func cancel_before_load_wait_is_registered_still_drains_the_task() async throws {
         // Cancel immediately after init, intentionally without yielding. The
         // cancellation state must remain visible when the load task later
         // reaches `wait()`; otherwise the wakeup can be lost and the task leaks.

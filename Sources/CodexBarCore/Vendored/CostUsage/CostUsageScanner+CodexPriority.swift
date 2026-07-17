@@ -423,7 +423,7 @@ extension CostUsageScanner {
                 - state.completedTurnIDInsertionOrderStartIndex
             if retainedCount > self.codexPriorityCompletedModelRetentionLimit {
                 let evicted = state.completedTurnIDInsertionOrder[
-                    state.completedTurnIDInsertionOrderStartIndex,
+                    state.completedTurnIDInsertionOrderStartIndex
                 ]
                 state.completedTurnIDInsertionOrderStartIndex += 1
                 state.completedModelsByTurnID.removeValue(forKey: evicted)

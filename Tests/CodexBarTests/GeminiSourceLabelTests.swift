@@ -3,7 +3,7 @@ import Testing
 
 struct GeminiSourceLabelTests {
     @Test
-    func `Gemini source label reflects OAuth backed API requests`() {
+    func Gemini_source_label_reflects_OAuth_backed_API_requests() {
         #expect(GeminiStatusFetchStrategy.sourceLabel == "oauth-api")
     }
 }

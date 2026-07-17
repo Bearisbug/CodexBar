@@ -4,7 +4,7 @@ import Testing
 
 extension FactoryStatusProbeFetchTests {
     @Test
-    func `rejects malformed manual override before cached cookies`() async throws {
+    func rejects_malformed_manual_override_before_cached_cookies() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {
@@ -22,17 +22,21 @@ extension FactoryStatusProbeFetchTests {
         }
 
         let probe = FactoryStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
-        await #expect {
+        do {
             _ = try await probe.fetch(cookieHeaderOverride: "definitely not a cookie or bearer")
-        } throws: { error in
-            guard case FactoryStatusProbeError.noSessionCookie = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case FactoryStatusProbeError.noSessionCookie = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
         #expect(FactoryStubURLProtocol.requests.isEmpty)
     }
 
     @Test
-    func `falls back to bearer authorization when pasted cookie is stale`() async throws {
+    func falls_back_to_bearer_authorization_when_pasted_cookie_is_stale() async throws {
         let registered = URLProtocol.registerClass(FactoryStubURLProtocol.self)
         defer {
             if registered {

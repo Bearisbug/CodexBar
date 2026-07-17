@@ -24,7 +24,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `shutdown fence drains tracked TTY processes`() {
+    func shutdown_fence_drains_tracked_TTY_processes() {
         TTYCommandRunner._test_resetTrackedProcesses()
         defer { TTYCommandRunner._test_resetTrackedProcesses() }
 
@@ -38,7 +38,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `cached CLI sessions share shutdown tracking`() {
+    func cached_CLI_sessions_share_shutdown_tracking() {
         TTYCommandRunner._test_resetTrackedProcesses()
         defer { TTYCommandRunner._test_resetTrackedProcesses() }
 
@@ -51,7 +51,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `tracked process helpers ignore invalid PID`() {
+    func tracked_process_helpers_ignore_invalid_PID() {
         TTYCommandRunner._test_resetTrackedProcesses()
         defer { TTYCommandRunner._test_resetTrackedProcesses() }
 
@@ -60,7 +60,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `shutdown fence rejects new registrations`() {
+    func shutdown_fence_rejects_new_registrations() {
         TTYCommandRunner._test_resetTrackedProcesses()
         defer { TTYCommandRunner._test_resetTrackedProcesses() }
 
@@ -73,7 +73,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `shutdown waits for launch cleanup before draining`() {
+    func shutdown_waits_for_launch_cleanup_before_draining() {
         TTYCommandRunner._test_resetTrackedProcesses()
         defer { TTYCommandRunner._test_resetTrackedProcesses() }
 
@@ -95,7 +95,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `shutdown resolver skips host process group fallback`() {
+    func shutdown_resolver_skips_host_process_group_fallback() {
         let hostGroup: pid_t = 4242
         let targets: [(pid: pid_t, binary: String, processGroup: pid_t?)] = [
             (pid: 100, binary: "codex", processGroup: nil),
@@ -117,7 +117,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `descendant resolver walks process tree once`() {
+    func descendant_resolver_walks_process_tree_once() {
         let children: [pid_t: [pid_t]] = [
             100: [101, 102],
             101: [103],
@@ -132,7 +132,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `process tree termination signals escaped descendants`() {
+    func process_tree_termination_signals_escaped_descendants() {
         let children: [pid_t: [pid_t]] = [
             100: [101, 102],
             102: [103],
@@ -154,7 +154,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `preserves environment and sets term`() {
+    func preserves_environment_and_sets_term() {
         let baseEnv: [String: String] = [
             "PATH": "/custom/bin",
             "HOME": "/Users/tester",
@@ -174,7 +174,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `backfills home when missing`() {
+    func backfills_home_when_missing() {
         let merged = TTYCommandRunner.enrichedEnvironment(
             baseEnv: ["PATH": "/custom/bin"],
             loginPATH: nil,
@@ -184,7 +184,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `preserves existing term and custom vars`() {
+    func preserves_existing_term_and_custom_vars() {
         let merged = TTYCommandRunner.enrichedEnvironment(
             baseEnv: [
                 "PATH": "/custom/bin",
@@ -202,7 +202,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `codex status probe uses non persistent thread storage`() {
+    func codex_status_probe_uses_non_persistent_thread_storage() {
         let stateHome = URL(fileURLWithPath: "/tmp/codexbar status \"state\"", isDirectory: true)
         let args = CodexStatusProbeIsolation.codexArguments(stateHome: stateHome)
 
@@ -213,14 +213,14 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `codex status probe avoids root working directory when home exists`() {
+    func codex_status_probe_avoids_root_working_directory_when_home_exists() {
         let home = "/Users/tester"
         let workingDirectory = CodexStatusProbeIsolation.workingDirectory(environment: ["HOME": home])
         #expect(workingDirectory?.path == home)
     }
 
     @Test
-    func `sets working directory when provided`() throws {
+    func sets_working_directory_when_provided() throws {
         let fm = FileManager.default
         let dir = fm.temporaryDirectory.appendingPathComponent("codexbar-tty-\(UUID().uuidString)", isDirectory: true)
         try fm.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -235,7 +235,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `claude runner keeps normal working directory by default`() throws {
+    func claude_runner_keeps_normal_working_directory_by_default() throws {
         let runner = TTYCommandRunner()
         let fakeClaude = try Self.makeFakeClaudeCLI()
         let result = try runner.run(
@@ -248,7 +248,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `claude runner uses probe directory with deep link registration disabled when requested`() throws {
+    func claude_runner_uses_probe_directory_with_deep_link_registration_disabled_when_requested() throws {
         let runner = TTYCommandRunner()
         let fakeClaude = try Self.makeFakeClaudeCLI()
         let result = try runner.run(
@@ -264,7 +264,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `claude runner uses probe directory for versioned CLI override`() throws {
+    func claude_runner_uses_probe_directory_for_versioned_CLI_override() throws {
         let runner = TTYCommandRunner()
         let fakeClaude = try Self.makeFakeClaudeCLI(fileName: "2.1.114")
         var env = ProcessInfo.processInfo.environment
@@ -284,7 +284,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `auto responds to trust prompt`() throws {
+    func auto_responds_to_trust_prompt() throws {
         let fm = FileManager.default
         let dir = fm.temporaryDirectory.appendingPathComponent("codexbar-tty-\(UUID().uuidString)", isDirectory: true)
         try fm.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -342,7 +342,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `post-exit drain processes trailing chunk through callback path`() {
+    func post_exit_drain_processes_trailing_chunk_through_callback_path() {
         let callbackCounter = CallbackCounter()
         var reads: [TTYCommandRunner.DrainReadResult] = [
             .wouldBlock,
@@ -370,7 +370,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `post-exit drain keeps harvesting after late success marker`() {
+    func post_exit_drain_keeps_harvesting_after_late_success_marker() {
         var readCount = 0
         var processedChunks: [String] = []
         var reads: [TTYCommandRunner.DrainReadResult] = [
@@ -399,7 +399,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `post-exit drain stops once the PTY reports closure`() {
+    func post_exit_drain_stops_once_the_PTY_reports_closure() {
         var readCount = 0
 
         TTYCommandRunner.drainRemainingOutput(
@@ -415,7 +415,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `deadline drain preserves timeout while collecting late output`() throws {
+    func deadline_drain_preserves_timeout_while_collecting_late_output() throws {
         let fm = FileManager.default
         let dir = fm.temporaryDirectory.appendingPathComponent("codexbar-tty-\(UUID().uuidString)", isDirectory: true)
         try fm.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -441,7 +441,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `PTY closure keeps waiting for child exit before deadline`() throws {
+    func PTY_closure_keeps_waiting_for_child_exit_before_deadline() throws {
         let fm = FileManager.default
         let dir = fm.temporaryDirectory.appendingPathComponent("codexbar-tty-\(UUID().uuidString)", isDirectory: true)
         try fm.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -468,7 +468,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `interrupted drain reads are treated as retryable`() {
+    func interrupted_drain_reads_are_treated_as_retryable() {
         let result = TTYCommandRunner.drainReadResult(for: Data(), terminalRead: -1, errno: EINTR)
         if case .wouldBlock = result {
             #expect(Bool(true))
@@ -478,7 +478,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `EOF beats stale would-block errno during drain classification`() {
+    func EOF_beats_stale_would_block_errno_during_drain_classification() {
         let result = TTYCommandRunner.drainReadResult(for: Data(), terminalRead: 0, errno: EAGAIN)
         if case .closed = result {
             #expect(Bool(true))
@@ -488,7 +488,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `stops when output is idle`() throws {
+    func stops_when_output_is_idle() throws {
         let fm = FileManager.default
         let dir = fm.temporaryDirectory.appendingPathComponent("codexbar-tty-\(UUID().uuidString)", isDirectory: true)
         try fm.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -523,7 +523,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `rolling buffer detects needle across boundary`() {
+    func rolling_buffer_detects_needle_across_boundary() {
         var scanner = TTYCommandRunner.RollingBuffer(maxNeedle: 6)
         let needle = Data("hello".utf8)
         let first = scanner.append(Data("he".utf8))
@@ -533,7 +533,7 @@ struct TTYCommandRunnerEnvTests {
     }
 
     @Test
-    func `lowercased ASCII only touches ascii`() {
+    func lowercased_ASCII_only_touches_ascii() {
         let data = Data("UpDaTe".utf8)
         let lowered = TTYCommandRunner.lowercasedASCII(data)
         #expect(String(data: lowered, encoding: .utf8) == "update")

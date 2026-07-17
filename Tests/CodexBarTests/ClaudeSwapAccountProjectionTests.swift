@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeSwapAccountProjectionTests {
     @Test
-    func `adapter failures mark retained account snapshots as stale`() {
+    func adapter_failures_mark_retained_account_snapshots_as_stale() {
         #expect(ClaudeSwapAccountProjection.displayError(
             accountError: nil,
             adapterError: "timed out") == "Showing the last successful update: timed out")
@@ -24,7 +24,7 @@ struct ClaudeSwapAccountProjectionTests {
     private let now = Date(timeIntervalSince1970: 1_782_000_000)
 
     @Test
-    func `projects rows into provider neutral snapshots with active account first`() throws {
+    func projects_rows_into_provider_neutral_snapshots_with_active_account_first() throws {
         let reset = Date(timeIntervalSince1970: 1_782_170_999)
         let list = ClaudeSwapAccountList(
             activeAccountNumber: 2,
@@ -73,7 +73,7 @@ struct ClaudeSwapAccountProjectionTests {
     }
 
     @Test
-    func `maps sentinel statuses to per account errors without usage`() throws {
+    func maps_sentinel_statuses_to_per_account_errors_without_usage() throws {
         let rows: [(ClaudeSwapUsageStatus, String)] = [
             (.tokenExpired, "Token expired"),
             (.apiKey, "API-key account"),
@@ -106,7 +106,7 @@ struct ClaudeSwapAccountProjectionTests {
     }
 
     @Test
-    func `ok row without windows reports missing usage instead of an empty card`() throws {
+    func ok_row_without_windows_reports_missing_usage_instead_of_an_empty_card() throws {
         let list = ClaudeSwapAccountList(
             activeAccountNumber: 1,
             accounts: [
@@ -125,7 +125,7 @@ struct ClaudeSwapAccountProjectionTests {
     }
 
     @Test
-    func `falls back to ordinal label when email is empty`() throws {
+    func falls_back_to_ordinal_label_when_email_is_empty() throws {
         let list = ClaudeSwapAccountList(
             activeAccountNumber: nil,
             accounts: [

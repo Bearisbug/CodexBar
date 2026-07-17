@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct AlibabaTokenPlanDashboardActionTests {
     @Test
-    func `dashboard action follows selected region`() {
+    func dashboard_action_follows_selected_region() {
         let settings = testSettingsStore(suiteName: "AlibabaTokenPlanDashboardActionTests")
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual

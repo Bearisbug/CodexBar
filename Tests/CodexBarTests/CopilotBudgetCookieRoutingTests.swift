@@ -3,7 +3,7 @@ import Testing
 
 struct CopilotBudgetCookieRoutingTests {
     @Test
-    func `auto budget cookies ignore stale manual header`() {
+    func auto_budget_cookies_ignore_stale_manual_header() {
         let settings = ProviderSettingsSnapshot.CopilotProviderSettings(
             budgetExtrasEnabled: true,
             budgetCookieSource: .auto,
@@ -13,7 +13,7 @@ struct CopilotBudgetCookieRoutingTests {
     }
 
     @Test
-    func `manual budget cookies use trimmed manual header`() {
+    func manual_budget_cookies_use_trimmed_manual_header() {
         let settings = ProviderSettingsSnapshot.CopilotProviderSettings(
             budgetExtrasEnabled: true,
             budgetCookieSource: .manual,
@@ -23,7 +23,7 @@ struct CopilotBudgetCookieRoutingTests {
     }
 
     @Test
-    func `manual budget cookies require non-empty header`() {
+    func manual_budget_cookies_require_non_empty_header() {
         let settings = ProviderSettingsSnapshot.CopilotProviderSettings(
             budgetExtrasEnabled: true,
             budgetCookieSource: .manual,
@@ -33,7 +33,7 @@ struct CopilotBudgetCookieRoutingTests {
     }
 
     @Test
-    func `invalid manual budget cookies do not fall back to browser import`() {
+    func invalid_manual_budget_cookies_do_not_fall_back_to_browser_import() {
         let settings = ProviderSettingsSnapshot.CopilotProviderSettings(
             budgetExtrasEnabled: true,
             budgetCookieSource: .manual,

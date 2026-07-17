@@ -3,7 +3,7 @@ import Testing
 
 struct QuotaWarningAlertPresentationStateTests {
     @Test
-    func `replacement alert ignores stale dismissal`() {
+    func replacement_alert_ignores_stale_dismissal() {
         var state = QuotaWarningAlertPresentationState()
         let session = state.present(title: "Session quota low", message: "20% left")
         let weekly = state.present(title: "Weekly quota low", message: "10% left")
@@ -15,7 +15,7 @@ struct QuotaWarningAlertPresentationStateTests {
     }
 
     @Test
-    func `manual dismissal clears current alert`() {
+    func manual_dismissal_clears_current_alert() {
         var state = QuotaWarningAlertPresentationState()
         let presentation = state.present(title: "Session quota low", message: "20% left")
         #expect(state.current == presentation)

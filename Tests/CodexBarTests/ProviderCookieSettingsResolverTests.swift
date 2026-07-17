@@ -4,7 +4,7 @@ import Testing
 
 struct ProviderCookieSettingsResolverTests {
     @Test
-    func `shared cookie settings preserve Alibaba token plan defaults`() {
+    func shared_cookie_settings_preserve_Alibaba_token_plan_defaults() {
         let settings = ProviderSettingsSnapshot.AlibabaTokenPlanProviderSettings()
 
         #expect(settings.cookieSource == .auto)
@@ -12,7 +12,7 @@ struct ProviderCookieSettingsResolverTests {
     }
 
     @Test
-    func `provider cookie settings remain distinct nominal types`() {
+    func provider_cookie_settings_remain_distinct_nominal_types() {
         let cursor = ProviderSettingsSnapshot.CursorProviderSettings(
             cookieSource: .auto,
             manualCookieHeader: nil)
@@ -25,7 +25,7 @@ struct ProviderCookieSettingsResolverTests {
     }
 
     @Test
-    func `selected cookie account overrides configured credentials`() {
+    func selected_cookie_account_overrides_configured_credentials() {
         let settings = ProviderCookieSettingsResolver.resolve(
             provider: .manus,
             configuredSource: .auto,
@@ -37,7 +37,7 @@ struct ProviderCookieSettingsResolverTests {
     }
 
     @Test
-    func `configured credentials remain when no account is selected`() {
+    func configured_credentials_remain_when_no_account_is_selected() {
         let settings = ProviderCookieSettingsResolver.resolve(
             provider: .cursor,
             configuredSource: .manual,
@@ -49,7 +49,7 @@ struct ProviderCookieSettingsResolverTests {
     }
 
     @Test
-    func `environment token accounts do not become cookie credentials`() {
+    func environment_token_accounts_do_not_become_cookie_credentials() {
         let settings = ProviderCookieSettingsResolver.resolve(
             provider: .zai,
             configuredSource: .off,
@@ -61,7 +61,7 @@ struct ProviderCookieSettingsResolverTests {
     }
 
     @Test
-    func `providers without token account support ignore selected account`() {
+    func providers_without_token_account_support_ignore_selected_account() {
         let settings = ProviderCookieSettingsResolver.resolve(
             provider: .mimo,
             configuredSource: .auto,

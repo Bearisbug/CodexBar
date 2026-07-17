@@ -62,7 +62,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `successful codexbar refresh is re-owned when Claude CLI storage appears`() async throws {
+    func successful_codexbar_refresh_is_re_owned_when_Claude_CLI_storage_appears() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try await KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -176,7 +176,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `rotated refresh token preserves history owner through cache restart`() async throws {
+    func rotated_refresh_token_preserves_history_owner_through_cache_restart() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try await KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -271,7 +271,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `load record treats codexbar cache as claude CLI owned when credentials file exists`() throws {
+    func load_record_treats_codexbar_cache_as_claude_CLI_owned_when_credentials_file_exists() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -326,7 +326,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `load with auto refresh delegates expired codexbar cache when credentials file exists`() async throws {
+    func load_with_auto_refresh_delegates_expired_codexbar_cache_when_credentials_file_exists() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try await KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -384,7 +384,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `load with auto refresh keeps codexbar cache ownership without Claude CLI storage`() async throws {
+    func load_with_auto_refresh_keeps_codexbar_cache_ownership_without_Claude_CLI_storage() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try await KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -442,7 +442,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `load record treats codexbar cache as claude CLI owned when Claude keychain item exists`() throws {
+    func load_record_treats_codexbar_cache_as_claude_CLI_owned_when_Claude_keychain_item_exists() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -502,7 +502,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `load record ignores codexbar cache in never prompt mode`() throws {
+    func load_record_ignores_codexbar_cache_in_never_prompt_mode() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -563,7 +563,7 @@ struct ClaudeOAuthCredentialsStoreCLIStorageOwnershipTests {
     }
 
     @Test
-    func `expired claude CLI owner blocks background mcp O auth but lets user action delegate`() async throws {
+    func expired_claude_CLI_owner_blocks_background_mcp_O_auth_but_lets_user_action_delegate() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         let mcpOAuthOnly = Data("""
         {

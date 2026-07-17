@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     @Test
-    func `keychain prompt notify preserves its void function signature`() {
+    func keychain_prompt_notify_preserves_its_void_function_signature() {
         let notify: (KeychainPromptContext) -> Void = KeychainPromptHandler.notify
         _ = notify
     }
@@ -29,7 +29,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `does not read claude keychain in background when prompt mode only on user action`() throws {
+    func does_not_read_claude_keychain_in_background_when_prompt_mode_only_on_user_action() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -84,7 +84,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `can read claude keychain on user action when prompt mode only on user action`() throws {
+    func can_read_claude_keychain_on_user_action_when_prompt_mode_only_on_user_action() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -133,7 +133,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `user initiated claude keychain reads respect pre alert acknowledgement cooldown`() throws {
+    func user_initiated_claude_keychain_reads_respect_pre_alert_acknowledgement_cooldown() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -200,7 +200,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `shows pre alert when claude keychain likely requires interaction`() throws {
+    func shows_pre_alert_when_claude_keychain_likely_requires_interaction() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -261,7 +261,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `shows pre alert when claude keychain preflight fails`() throws {
+    func shows_pre_alert_when_claude_keychain_preflight_fails() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -322,7 +322,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `experimental reader skips pre alert when security CLI read succeeds`() throws {
+    func experimental_reader_skips_pre_alert_when_security_CLI_read_succeeds() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -384,7 +384,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `experimental reader shows pre alert when security CLI fails and fallback needs interaction`() throws {
+    func experimental_reader_shows_pre_alert_when_security_CLI_fails_and_fallback_needs_interaction() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -450,7 +450,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `experimental reader does not fallback in background when stored mode only on user action`() throws {
+    func experimental_reader_does_not_fallback_in_background_when_stored_mode_only_on_user_action() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -528,7 +528,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `experimental reader does not fallback when stored mode never`() throws {
+    func experimental_reader_does_not_fallback_when_stored_mode_never() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -603,7 +603,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `experimental reader non interactive fallback blocked in background when stored mode only on user action`()
+    func experimental_reader_non_interactive_fallback_blocked_in_background_when_stored_mode_only_on_user_action()
         throws
     {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
@@ -673,7 +673,7 @@ struct ClaudeOAuthCredentialsStorePromptPolicyTests {
     }
 
     @Test
-    func `experimental reader allows fallback in background when stored mode always`() throws {
+    func experimental_reader_allows_fallback_in_background_when_stored_mode_always() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {

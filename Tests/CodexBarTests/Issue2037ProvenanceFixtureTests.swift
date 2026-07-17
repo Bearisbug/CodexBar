@@ -3,7 +3,7 @@ import Testing
 
 struct Issue2037ProvenanceFixtureTests {
     @Test
-    func `archived fork fixture preserves the copied normalized prefix and hand oracle`() throws {
+    func archived_fork_fixture_preserves_the_copied_normalized_prefix_and_hand_oracle() throws {
         let fixture = try SanitizedForkFamilyFixture.load(named: "archived-fork-33ce-3869")
         let parentMetadata = try fixture.sessionMetadata(named: "parent")
         let childMetadata = try fixture.sessionMetadata(named: "child")
@@ -52,7 +52,7 @@ struct Issue2037ProvenanceFixtureTests {
     }
 
     @Test
-    func `live fork 4d90 fixture preserves the copied normalized prefix and hand oracle`() throws {
+    func live_fork_4d90_fixture_preserves_the_copied_normalized_prefix_and_hand_oracle() throws {
         let fixture = try SanitizedForkFamilyFixture.load(named: "live-fork-4d90-52bf")
         let parentMetadata = try fixture.sessionMetadata(named: "parent")
         let childMetadata = try fixture.sessionMetadata(named: "child")
@@ -98,12 +98,12 @@ struct Issue2037ProvenanceFixtureTests {
     }
 
     @Test
-    func `archived fork fixture admits only provenance safe fields`() throws {
+    func archived_fork_fixture_admits_only_provenance_safe_fields() throws {
         try Self.assertProvenanceSafeFields(named: "archived-fork-33ce-3869")
     }
 
     @Test
-    func `live fork 4d90 fixture admits only provenance safe fields`() throws {
+    func live_fork_4d90_fixture_admits_only_provenance_safe_fields() throws {
         try Self.assertProvenanceSafeFields(named: "live-fork-4d90-52bf")
     }
 

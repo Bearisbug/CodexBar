@@ -3,7 +3,7 @@ import Testing
 
 struct CodexSubagentRolloutShapeTests {
     @Test
-    func `single leaf metadata means an independent counter`() {
+    func single_leaf_metadata_means_an_independent_counter() {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observedSessionIDs: ["leaf"])
@@ -12,7 +12,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `embedded ancestor metadata means a copied prefix`() {
+    func embedded_ancestor_metadata_means_a_copied_prefix() {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observedSessionIDs: ["leaf", "parent"])
@@ -22,7 +22,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `multiple ancestors do not infer an ambiguous parent`() {
+    func multiple_ancestors_do_not_infer_an_ambiguous_parent() {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observedSessionIDs: ["leaf", "parent", "grandparent"])
@@ -32,7 +32,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `repeated leaf metadata does not invent an ancestor`() {
+    func repeated_leaf_metadata_does_not_invent_an_ancestor() {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observedSessionIDs: ["leaf", "leaf"])
@@ -41,7 +41,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `unknown leaf followed by a concrete metadata id is copied`() {
+    func unknown_leaf_followed_by_a_concrete_metadata_id_is_copied() {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: nil,
             observedSessionIDs: [nil, "parent"])
@@ -51,7 +51,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `idless metadata after a known leaf is conservatively copied`() {
+    func idless_metadata_after_a_known_leaf_is_conservatively_copied() {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observedSessionIDs: ["leaf", nil])
@@ -61,14 +61,14 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `only concrete normalized ids identify the same leaf`() {
+    func only_concrete_normalized_ids_identify_the_same_leaf() {
         #expect(CostUsageScanner.CodexSubagentRolloutShape.sameConcreteSessionID(" leaf ", "leaf"))
         #expect(!CostUsageScanner.CodexSubagentRolloutShape.sameConcreteSessionID(nil, nil))
         #expect(!CostUsageScanner.CodexSubagentRolloutShape.sameConcreteSessionID("", ""))
     }
 
     @Test
-    func `adjacent trigger after the final ancestor opens an owned suffix`() throws {
+    func adjacent_trigger_after_the_final_ancestor_opens_an_owned_suffix() throws {
         let baseline = CostUsageCodexTotals(input: 1000, cached: 900, output: 100)
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
@@ -89,7 +89,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `nonadjacent trigger does not invent an owned suffix`() {
+    func nonadjacent_trigger_does_not_invent_an_owned_suffix() {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observations: [
@@ -108,7 +108,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `copied prefix can restart only with strong reset evidence`() throws {
+    func copied_prefix_can_restart_only_with_strong_reset_evidence() throws {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observations: [
@@ -135,7 +135,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `first valid leaf marker owns later leaf turns`() throws {
+    func first_valid_leaf_marker_owns_later_leaf_turns() throws {
         let firstBaseline = CostUsageCodexTotals(input: 1000, cached: 900, output: 100)
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
@@ -160,7 +160,7 @@ struct CodexSubagentRolloutShapeTests {
     }
 
     @Test
-    func `later ancestor invalidates a tentative marker`() throws {
+    func later_ancestor_invalidates_a_tentative_marker() throws {
         let shape = CostUsageScanner.CodexSubagentRolloutShape.classify(
             leafSessionID: "leaf",
             observations: [

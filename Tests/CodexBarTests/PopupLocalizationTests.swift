@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct PopupLocalizationTests {
     @Test
-    func `descriptor account labels use selected localization`() throws {
+    func descriptor_account_labels_use_selected_localization() throws {
         try CodexBarLocalizationOverride.$appLanguage.withValue("zh-Hant") {
             let suite = "PopupLocalizationTests-descriptor"
             let settings = try Self.makeSettingsStore(suite: suite)
@@ -47,7 +47,7 @@ struct PopupLocalizationTests {
     }
 
     @Test
-    func `inline dashboard labels use selected localization`() throws {
+    func inline_dashboard_labels_use_selected_localization() throws {
         try CodexBarLocalizationOverride.$appLanguage.withValue("zh-Hant") {
             let now = Date(timeIntervalSince1970: 1_700_179_200)
             let metadata = try #require(ProviderDefaults.metadata[.openrouter])
@@ -95,7 +95,7 @@ struct PopupLocalizationTests {
     }
 
     @Test
-    func `cookie source dynamic subtitles use selected localization`() {
+    func cookie_source_dynamic_subtitles_use_selected_localization() {
         CodexBarLocalizationOverride.$appLanguage.withValue("zh-Hant") {
             let subtitle = ProviderCookieSourceUI.subtitle(
                 source: .manual,
@@ -125,7 +125,7 @@ struct PopupLocalizationTests {
     }
 
     @Test
-    func `settings labels use selected localization`() {
+    func settings_labels_use_selected_localization() {
         CodexBarLocalizationOverride.$appLanguage.withValue("zh-Hant") {
             #expect(KiroMenuBarDisplayMode.hidden.label == "隱藏")
             #expect(KiroMenuBarDisplayMode.creditsLeft.label == "剩餘額度")
@@ -134,7 +134,7 @@ struct PopupLocalizationTests {
     }
 
     @Test
-    func `provider organization entries preserve provider supplied text`() throws {
+    func provider_organization_entries_preserve_provider_supplied_text() throws {
         let settings = try Self.makeSettingsStore(suite: "PopupLocalizationTests-organizations")
         settings.kiloKnownOrganizations = [
             KiloOrganization(id: "org_cost", name: "Cost", role: "Today"),

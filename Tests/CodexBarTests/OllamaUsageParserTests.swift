@@ -4,7 +4,7 @@ import Testing
 
 struct OllamaUsageParserTests {
     @Test
-    func `parses cloud usage from settings HTML`() throws {
+    func parses_cloud_usage_from_settings_HTML() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let html = """
         <div>
@@ -48,19 +48,23 @@ struct OllamaUsageParserTests {
     }
 
     @Test
-    func `missing usage throws parse failed`() {
+    func missing_usage_throws_parse_failed() {
         let html = "<html><body>No usage here. login status unknown.</body></html>"
 
-        #expect {
+        do {
             try OllamaUsageParser.parse(html: html)
-        } throws: { error in
-            guard case let OllamaUsageError.parseFailed(message) = error else { return false }
-            return message.contains("Missing Ollama usage data")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let OllamaUsageError.parseFailed(message) = error else { return false }
+                return message.contains("Missing Ollama usage data")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `classified parse missing usage returns typed failure`() {
+    func classified_parse_missing_usage_returns_typed_failure() {
         let html = "<html><body>No usage here. login status unknown.</body></html>"
         let result = OllamaUsageParser.parseClassified(html: html)
 
@@ -73,7 +77,7 @@ struct OllamaUsageParserTests {
     }
 
     @Test
-    func `signed out throws not logged in`() {
+    func signed_out_throws_not_logged_in() {
         let html = """
         <html>
           <body>
@@ -86,16 +90,20 @@ struct OllamaUsageParserTests {
         </html>
         """
 
-        #expect {
+        do {
             try OllamaUsageParser.parse(html: html)
-        } throws: { error in
-            guard case OllamaUsageError.notLoggedIn = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case OllamaUsageError.notLoggedIn = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `classified parse signed out returns typed failure`() {
+    func classified_parse_signed_out_returns_typed_failure() {
         let html = """
         <html>
           <body>
@@ -118,7 +126,7 @@ struct OllamaUsageParserTests {
     }
 
     @Test
-    func `generic sign in text without auth markers throws parse failed`() {
+    func generic_sign_in_text_without_auth_markers_throws_parse_failed() {
         let html = """
         <html>
           <body>
@@ -129,16 +137,20 @@ struct OllamaUsageParserTests {
         </html>
         """
 
-        #expect {
+        do {
             try OllamaUsageParser.parse(html: html)
-        } throws: { error in
-            guard case let OllamaUsageError.parseFailed(message) = error else { return false }
-            return message.contains("Missing Ollama usage data")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let OllamaUsageError.parseFailed(message) = error else { return false }
+                return message.contains("Missing Ollama usage data")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `parses hourly usage as primary window`() throws {
+    func parses_hourly_usage_as_primary_window() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let html = """
         <div>
@@ -162,7 +174,7 @@ struct OllamaUsageParserTests {
     }
 
     @Test
-    func `weekly usage parser finds reset timestamp in long usage block`() throws {
+    func weekly_usage_parser_finds_reset_timestamp_in_long_usage_block() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let filler = String(repeating: "<span class=\"grid-cell\"></span>", count: 40)
         let html = """
@@ -187,7 +199,7 @@ struct OllamaUsageParserTests {
     }
 
     @Test
-    func `parses usage when used is capitalized`() throws {
+    func parses_usage_when_used_is_capitalized() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let html = """
         <div>

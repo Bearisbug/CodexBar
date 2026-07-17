@@ -18,7 +18,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses usage JSON with sonnet limit`() {
+    func parses_usage_JSON_with_sonnet_limit() {
         let json = """
         {
           "ok": true,
@@ -38,7 +38,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry retries once then succeeds`() async throws {
+    func oauth_delegated_retry_retries_once_then_succeeds() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
         let usageResponse = try Self.makeOAuthUsageResponse()
@@ -94,7 +94,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry second attempt still expired fails cleanly`() async throws {
+    func oauth_delegated_retry_second_attempt_still_expired_fails_cleanly() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
         let fetcher = ClaudeUsageFetcher(
@@ -148,7 +148,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry auto mode cli unavailable fails fast`() async throws {
+    func oauth_delegated_retry_auto_mode_cli_unavailable_fails_fast() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
 
@@ -202,7 +202,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry auto mode attempted failed then non interactive reload succeeds`() async throws {
+    func oauth_delegated_retry_auto_mode_attempted_failed_then_non_interactive_reload_succeeds() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
         let usageResponse = try Self.makeOAuthUsageResponse()
@@ -267,7 +267,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry only on user action background suppresses delegation`() async throws {
+    func oauth_delegated_retry_only_on_user_action_background_suppresses_delegation() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
 
@@ -328,7 +328,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry never background suppresses delegation even for CLI`() async throws {
+    func oauth_delegated_retry_never_background_suppresses_delegation_even_for_CLI() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
 
@@ -388,7 +388,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth bootstrap only on user action background startup does not allow interactive read`() async throws {
+    func oauth_bootstrap_only_on_user_action_background_startup_does_not_allow_interactive_read() async throws {
         final class FlagBox: @unchecked Sendable {
             var allowKeychainPromptFlags: [Bool] = []
         }
@@ -434,7 +434,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry only on user action background allows delegation for CLI`() async throws {
+    func oauth_delegated_retry_only_on_user_action_background_allows_delegation_for_CLI() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
         let usageResponse = try Self.makeOAuthUsageResponse()
@@ -495,7 +495,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses usage JSON when weekly missing`() {
+    func parses_usage_JSON_when_weekly_missing() {
         let json = """
         {
           "ok": true,
@@ -510,7 +510,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses legacy opus and account`() {
+    func parses_legacy_opus_and_account() {
         let json = """
         {
           "ok": true,
@@ -531,7 +531,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses usage JSON when only sonnet limit is present`() {
+    func parses_usage_JSON_when_only_sonnet_limit_is_present() {
         let json = """
         {
           "ok": true,
@@ -548,7 +548,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `trims account fields`() throws {
+    func trims_account_fields() throws {
         let cases: [[String: String?]] = [
             ["email": " steipete@gmail.com ", "org": "  Org  "],
             ["email": "", "org": " Claude Max Account "],
@@ -581,7 +581,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `live claude fetch PTY`() async throws {
+    func live_claude_fetch_PTY() async throws {
         guard ProcessInfo.processInfo.environment["LIVE_CLAUDE_FETCH"] == "1" else {
             return
         }
@@ -640,7 +640,7 @@ struct ClaudeUsageTests {
     // MARK: - Web API tests
 
     @Test
-    func `live claude fetch web API`() async throws {
+    func live_claude_fetch_web_API() async throws {
         // Set LIVE_CLAUDE_WEB_FETCH=1 to run this test with real browser cookies
         guard ProcessInfo.processInfo.environment["LIVE_CLAUDE_WEB_FETCH"] == "1" else {
             return
@@ -661,7 +661,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `claude web API has session key check`() {
+    func claude_web_API_has_session_key_check() {
         // Quick check that hasSessionKey returns a boolean (doesn't crash)
         let hasKey = ClaudeWebAPIFetcher.hasSessionKey(browserDetection: BrowserDetection(cacheTTL: 0))
         // We can't assert the value since it depends on the test environment
@@ -669,7 +669,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API usage response`() throws {
+    func parses_claude_web_API_usage_response() throws {
         let json = """
         {
           "five_hour": { "utilization": 9, "resets_at": "2025-12-23T16:00:00.000Z" },
@@ -687,7 +687,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API usage response when weekly missing`() throws {
+    func parses_claude_web_API_usage_response_when_weekly_missing() throws {
         let json = """
         {
           "five_hour": { "utilization": 9, "resets_at": "2025-12-23T16:00:00.000Z" }
@@ -700,7 +700,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API overage spend limit`() {
+    func parses_claude_web_API_overage_spend_limit() {
         let json = """
         {
           "monthly_credit_limit": 2000,
@@ -719,7 +719,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API overage spend limit cents`() {
+    func parses_claude_web_API_overage_spend_limit_cents() {
         let json = """
         {
           "monthly_credit_limit": 12345,
@@ -736,7 +736,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API organizations response`() throws {
+    func parses_claude_web_API_organizations_response() throws {
         let json = """
         [
           { "uuid": "org-123", "name": "Example Org", "capabilities": [] }
@@ -749,7 +749,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API organizations prefers chat capability over api only`() throws {
+    func parses_claude_web_API_organizations_prefers_chat_capability_over_api_only() throws {
         let json = """
         [
           { "uuid": "org-api", "name": "API Org", "capabilities": ["api"] },
@@ -763,7 +763,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API organizations prefers hybrid chat org`() throws {
+    func parses_claude_web_API_organizations_prefers_hybrid_chat_org() throws {
         let json = """
         [
           { "uuid": "org-api", "name": "API Org", "capabilities": ["api"] },
@@ -777,7 +777,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API account info`() {
+    func parses_claude_web_API_account_info() {
         let json = """
         {
           "email_address": "steipete@gmail.com",
@@ -800,7 +800,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API account info selects matching org`() {
+    func parses_claude_web_API_account_info_selects_matching_org() {
         let json = """
         {
           "email_address": "steipete@gmail.com",
@@ -830,7 +830,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `parses claude web API account info falls back to first membership`() {
+    func parses_claude_web_API_account_info_falls_back_to_first_membership() {
         let json = """
         {
           "email_address": "steipete@gmail.com",
@@ -860,7 +860,7 @@ struct ClaudeUsageTests {
     }
 
     @Test
-    func `claude usage fetcher init with data sources`() {
+    func claude_usage_fetcher_init_with_data_sources() {
         // Verify we can create fetchers with both configurations
         let browserDetection = BrowserDetection(cacheTTL: 0)
         let defaultFetcher = ClaudeUsageFetcher(browserDetection: browserDetection)
@@ -890,7 +890,7 @@ extension ClaudeUsageTests {
 
 struct ClaudeOAuthUsageMappingTests {
     @Test
-    func `oauth usage falls back to weekly window when five hour is absent`() throws {
+    func oauth_usage_falls_back_to_weekly_window_when_five_hour_is_absent() throws {
         let json = """
         {
           "seven_day": { "utilization": 42, "resets_at": "2025-12-29T23:00:00.000Z" },
@@ -906,7 +906,7 @@ struct ClaudeOAuthUsageMappingTests {
     }
 
     @Test
-    func `oauth usage falls back when five hour has no utilization`() throws {
+    func oauth_usage_falls_back_when_five_hour_has_no_utilization() throws {
         let json = """
         {
           "five_hour": { "resets_at": "2025-12-23T16:00:00.000Z" },
@@ -920,7 +920,7 @@ struct ClaudeOAuthUsageMappingTests {
     }
 
     @Test
-    func `oauth usage throws when no usable windows are present`() {
+    func oauth_usage_throws_when_no_usable_windows_are_present() {
         let json = "{}"
 
         #expect(throws: ClaudeUsageError.self) {
@@ -1060,7 +1060,7 @@ struct ClaudeAutoFetcherCharacterizationTests {
     }
 
     @Test
-    func `auto prefers OAuth even when web and CLI appear available`() async throws {
+    func auto_prefers_OAuth_even_when_web_and_CLI_appear_available() async throws {
         let usageResponse = try Self.makeOAuthUsageResponse()
         let cliLogURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-auto-cli-log-\(UUID().uuidString).txt")
@@ -1104,7 +1104,7 @@ struct ClaudeAutoFetcherCharacterizationTests {
     }
 
     @Test
-    func `app runtime auto prefers CLI before web when OAuth unavailable`() async throws {
+    func app_runtime_auto_prefers_CLI_before_web_when_OAuth_unavailable() async throws {
         let cliLogURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-auto-web-log-\(UUID().uuidString).txt")
         let log = InvocationLog(url: cliLogURL)
@@ -1178,7 +1178,7 @@ struct ClaudeAutoFetcherCharacterizationTests {
     }
 
     @Test
-    func `CLI runtime auto prefers web before CLI when OAuth unavailable`() async throws {
+    func CLI_runtime_auto_prefers_web_before_CLI_when_OAuth_unavailable() async throws {
         let cliLogURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-auto-cli-runtime-web-log-\(UUID().uuidString).txt")
         let log = InvocationLog(url: cliLogURL)
@@ -1250,7 +1250,7 @@ struct ClaudeAutoFetcherCharacterizationTests {
     }
 
     @Test
-    func `app runtime auto fails deterministically when planner has no executable steps`() async {
+    func app_runtime_auto_fails_deterministically_when_planner_has_no_executable_steps() async {
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
             environment: ["CLAUDE_CLI_PATH": "/definitely/missing/claude"],
@@ -1273,7 +1273,7 @@ struct ClaudeAutoFetcherCharacterizationTests {
     }
 
     @Test
-    func `CLI runtime auto fails deterministically when planner has no executable steps`() async {
+    func CLI_runtime_auto_fails_deterministically_when_planner_has_no_executable_steps() async {
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
             environment: ["CLAUDE_CLI_PATH": "/definitely/missing/claude"],
@@ -1331,7 +1331,7 @@ final class ClaudeAutoFetcherStubURLProtocol: URLProtocol {
 
 extension ClaudeAutoFetcherCharacterizationTests {
     @Test
-    func `web fetcher uses configured target organization`() async throws {
+    func web_fetcher_uses_configured_target_organization() async throws {
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
             dataSource: .web,
@@ -1401,7 +1401,7 @@ extension ClaudeAutoFetcherCharacterizationTests {
 
 extension ClaudeUsageTests {
     @Test
-    func `parses claude web API organizations honors target organization`() throws {
+    func parses_claude_web_API_organizations_honors_target_organization() throws {
         let json = """
         [
           { "uuid": "org-personal", "name": "Personal", "capabilities": ["chat"] },
@@ -1417,7 +1417,7 @@ extension ClaudeUsageTests {
     }
 
     @Test
-    func `oauth delegated retry experimental background respects only on user action suppression`() async throws {
+    func oauth_delegated_retry_experimental_background_respects_only_on_user_action_suppression() async throws {
         let loadCounter = AsyncCounter()
         let delegatedCounter = AsyncCounter()
         let usageResponse = try Self.makeOAuthUsageResponse()
@@ -1474,7 +1474,7 @@ extension ClaudeUsageTests {
     }
 
     @Test
-    func `oauth load experimental background fallback blocked propagates O auth failure`() async throws {
+    func oauth_load_experimental_background_fallback_blocked_propagates_O_auth_failure() async throws {
         final class FlagBox: @unchecked Sendable {
             var respectPromptCooldownFlags: [Bool] = []
         }

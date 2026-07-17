@@ -10,7 +10,7 @@ struct CursorLoginBrowserRoutingTests {
     private static let handlerApplicationURL = URL(fileURLWithPath: "/Applications/Link Router.app")
 
     @Test
-    func `supported handler is pinned for launch and polling`() {
+    func supported_handler_is_pinned_for_launch_and_polling() {
         let loginURL = Self.authURL
         var discoveryURLs: [URL] = []
         var chooserCalls = 0
@@ -36,7 +36,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `known handler with unavailable cookie source falls back to browser chooser`() {
+    func known_handler_with_unavailable_cookie_source_falls_back_to_browser_chooser() {
         var chooserCandidates: [URL] = []
         let resolution = CursorLoginBrowserRouter.resolve(
             loginURL: Self.authURL,
@@ -57,7 +57,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `unsupported handler asks for explicit selection of the sole supported application`() {
+    func unsupported_handler_asks_for_explicit_selection_of_the_sole_supported_application() {
         let loginURL = Self.authURL
         var discoveryURLs: [URL] = []
         var chooserCalls = 0
@@ -87,7 +87,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `missing handler asks for explicit selection of a sole supported application`() {
+    func missing_handler_asks_for_explicit_selection_of_a_sole_supported_application() {
         var chooserCandidates: [URL] = []
         let resolution = CursorLoginBrowserRouter.resolve(
             loginURL: Self.authURL,
@@ -106,7 +106,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `multiple supported applications use the explicit selection`() {
+    func multiple_supported_applications_use_the_explicit_selection() {
         var chooserCandidates: [URL] = []
         let resolution = CursorLoginBrowserRouter.resolve(
             loginURL: Self.authURL,
@@ -130,7 +130,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `cancelling the explicit chooser with one candidate is distinct from unavailable`() {
+    func cancelling_the_explicit_chooser_with_one_candidate_is_distinct_from_unavailable() {
         let resolution = CursorLoginBrowserRouter.resolve(
             loginURL: Self.authURL,
             handlerApplicationURL: Self.handlerApplicationURL,
@@ -142,7 +142,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `no supported application is unavailable without showing a chooser`() {
+    func no_supported_application_is_unavailable_without_showing_a_chooser() {
         var chooserCalls = 0
         let resolution = CursorLoginBrowserRouter.resolve(
             loginURL: Self.authURL,
@@ -159,7 +159,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `chooser cannot return an application outside the supported candidates`() {
+    func chooser_cannot_return_an_application_outside_the_supported_candidates() {
         let resolution = CursorLoginBrowserRouter.resolve(
             loginURL: Self.authURL,
             handlerApplicationURL: Self.handlerApplicationURL,
@@ -171,7 +171,7 @@ struct CursorLoginBrowserRoutingTests {
     }
 
     @Test
-    func `candidate labels are stable and disambiguate duplicate application names`() {
+    func candidate_labels_are_stable_and_disambiguate_duplicate_application_names() {
         let applications = [
             URL(fileURLWithPath: "/Applications/Comet.app"),
             URL(fileURLWithPath: "/Volumes/Tools/Comet.app"),

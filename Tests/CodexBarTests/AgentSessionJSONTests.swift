@@ -4,7 +4,7 @@ import Testing
 
 struct AgentSessionJSONTests {
     @Test
-    func `sessions json round trip preserves stable schema`() throws {
+    func sessions_json_round_trip_preserves_stable_schema() throws {
         let session = AgentSession(
             id: "fixture-session",
             provider: .codex,

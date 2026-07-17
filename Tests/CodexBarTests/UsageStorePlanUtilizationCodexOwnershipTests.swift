@@ -6,7 +6,7 @@ import Testing
 struct UsageStorePlanUtilizationCodexOwnershipTests {
     @MainActor
     @Test
-    func `codex plan history aliases pre-upgrade codex email hash bucket into canonical email hash`() throws {
+    func codex_plan_history_aliases_pre_upgrade_codex_email_hash_bucket_into_canonical_email_hash() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let snapshot = UsageStorePlanUtilizationTests.makeSnapshot(provider: .codex, email: "alice@example.com")
         let canonicalKey = try #require(
@@ -35,7 +35,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex strict continuity adopts unscoped only when there is one owner`() throws {
+    func codex_strict_continuity_adopts_unscoped_only_when_there_is_one_owner() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let snapshot = UsageStorePlanUtilizationTests.makeSnapshot(provider: .codex, email: "alice@example.com")
         let canonicalKey = try #require(
@@ -70,7 +70,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex strict continuity ignores later unrelated owners outside the unscoped period`() throws {
+    func codex_strict_continuity_ignores_later_unrelated_owners_outside_the_unscoped_period() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let snapshot = UsageStorePlanUtilizationTests.makeSnapshot(provider: .codex, email: "alice@example.com")
         let canonicalKey = try #require(
@@ -110,7 +110,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex real fixture carries local opaque weekly continuity into provider account`() throws {
+    func codex_real_fixture_carries_local_opaque_weekly_continuity_into_provider_account() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let formatter = ISO8601DateFormatter()
         let providerAccountKey = try #require(CodexHistoryOwnership.canonicalKey(for: .providerAccount(
@@ -163,7 +163,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex real fixture keeps opaque history separate when multiple opaque candidates could match`() throws {
+    func codex_real_fixture_keeps_opaque_history_separate_when_multiple_opaque_candidates_could_match() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let formatter = ISO8601DateFormatter()
         let providerAccountKey = try #require(CodexHistoryOwnership.canonicalKey(for: .providerAccount(
@@ -210,7 +210,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex real fixture keeps opaque history separate when overlapping non target owner exists`() throws {
+    func codex_real_fixture_keeps_opaque_history_separate_when_overlapping_non_target_owner_exists() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let formatter = ISO8601DateFormatter()
         let providerAccountKey = try #require(CodexHistoryOwnership.canonicalKey(for: .providerAccount(
@@ -265,7 +265,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex opaque recovery uses normalized dashboard weekly reset when snapshot has only session window`() throws {
+    func codex_opaque_recovery_uses_normalized_dashboard_weekly_reset_when_snapshot_has_only_session_window() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let formatter = ISO8601DateFormatter()
         let providerAccountKey = try #require(CodexHistoryOwnership.canonicalKey(for: .providerAccount(
@@ -321,7 +321,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex display only dashboard does not drive opaque recovery when snapshot has only session window`() throws {
+    func codex_display_only_dashboard_does_not_drive_opaque_recovery_when_snapshot_has_only_session_window() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let formatter = ISO8601DateFormatter()
         let providerAccountKey = try #require(CodexHistoryOwnership.canonicalKey(for: .providerAccount(
@@ -377,7 +377,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex adjacent managed and live accounts veto unscoped adoption`() throws {
+    func codex_adjacent_managed_and_live_accounts_veto_unscoped_adoption() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -429,7 +429,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex extra saved managed accounts do not veto active account adoption`() throws {
+    func codex_extra_saved_managed_accounts_do_not_veto_active_account_adoption() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let activeManagedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -487,7 +487,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex inactive managed accounts do not veto live opaque recovery`() throws {
+    func codex_inactive_managed_accounts_do_not_veto_live_opaque_recovery() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let formatter = ISO8601DateFormatter()
         let providerAccountKey = try #require(CodexHistoryOwnership.canonicalKey(for: .providerAccount(
@@ -542,7 +542,7 @@ struct UsageStorePlanUtilizationCodexOwnershipTests {
 
     @MainActor
     @Test
-    func `codex provider account continuity absorbs matching email scoped history`() throws {
+    func codex_provider_account_continuity_absorbs_matching_email_scoped_history() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let normalizedEmail = "alice@example.com"
         let snapshot = UsageStorePlanUtilizationTests.makeSnapshot(provider: .codex, email: normalizedEmail)

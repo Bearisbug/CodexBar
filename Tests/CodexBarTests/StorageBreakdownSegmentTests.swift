@@ -5,7 +5,7 @@ import Testing
 
 struct StorageBreakdownSegmentTests {
     @Test @MainActor
-    func `folds overflow into eighth segment without losing paths`() {
+    func folds_overflow_into_eighth_segment_without_losing_paths() {
         let components = (1...10).map { index in
             ProviderStorageFootprint.Component(path: "/tmp/item-\(index)", totalBytes: Int64(index))
         }
@@ -23,7 +23,7 @@ struct StorageBreakdownSegmentTests {
     }
 
     @Test @MainActor
-    func `segment widths fill bar and keep tiny values visible`() {
+    func segment_widths_fill_bar_and_keep_tiny_values_visible() {
         let components = [
             ProviderStorageFootprint.Component(path: "/tmp/large", totalBytes: 1_000_000),
             ProviderStorageFootprint.Component(path: "/tmp/tiny", totalBytes: 1),
@@ -40,7 +40,7 @@ struct StorageBreakdownSegmentTests {
     }
 
     @Test @MainActor
-    func `narrow bar divides width without overflow`() {
+    func narrow_bar_divides_width_without_overflow() {
         let components = (1...8).map { index in
             ProviderStorageFootprint.Component(path: "/tmp/item-\(index)", totalBytes: 1)
         }
@@ -54,7 +54,7 @@ struct StorageBreakdownSegmentTests {
     }
 
     @Test @MainActor
-    func `zero byte components evenly fill bar`() {
+    func zero_byte_components_evenly_fill_bar() {
         let components = (1...4).map { index in
             ProviderStorageFootprint.Component(path: "/tmp/item-\(index)", totalBytes: 0)
         }
@@ -66,7 +66,7 @@ struct StorageBreakdownSegmentTests {
     }
 
     @Test @MainActor
-    func `negative component sizes clamp to zero`() {
+    func negative_component_sizes_clamp_to_zero() {
         let components = [
             ProviderStorageFootprint.Component(path: "/tmp/negative", totalBytes: -10),
             ProviderStorageFootprint.Component(path: "/tmp/positive", totalBytes: 10),
@@ -80,7 +80,7 @@ struct StorageBreakdownSegmentTests {
     }
 
     @Test @MainActor
-    func `extreme component sizes still fill exactly one bar`() {
+    func extreme_component_sizes_still_fill_exactly_one_bar() {
         let components = [
             ProviderStorageFootprint.Component(path: "/tmp/first", totalBytes: .max),
             ProviderStorageFootprint.Component(path: "/tmp/second", totalBytes: .max),

@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct ClinePassProviderTests {
     @Test
-    func `provider appears in settings with API key field and official icon`() throws {
+    func provider_appears_in_settings_with_API_key_field_and_official_icon() throws {
         let suite = "ClinePassProviderTests-settings"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -68,7 +68,7 @@ struct ClinePassProviderTests {
 
 struct ClinePassUsageFetcherTests {
     @Test
-    func `parser ignores unknown limit types without dropping known windows`() throws {
+    func parser_ignores_unknown_limit_types_without_dropping_known_windows() throws {
         let payload = Data(#"""
         {
           "success": true,

@@ -9,7 +9,7 @@ struct ClaudeSyntheticPlaceholderNotificationTests {
     private let start = Date(timeIntervalSince1970: 1_780_000_000)
 
     @Test
-    func `placeholder preserves depleted state without a reset boundary`() {
+    func placeholder_preserves_depleted_state_without_a_reset_boundary() {
         let notifier = NotifierSpy()
         let store = self.makeStore(
             suiteName: "ClaudeSyntheticPlaceholderNotificationTests-depleted-no-boundary",
@@ -27,7 +27,7 @@ struct ClaudeSyntheticPlaceholderNotificationTests {
     }
 
     @Test
-    func `placeholder stays non authoritative after the prior boundary elapses`() {
+    func placeholder_stays_non_authoritative_after_the_prior_boundary_elapses() {
         let notifier = NotifierSpy()
         let store = self.makeStore(
             suiteName: "ClaudeSyntheticPlaceholderNotificationTests-depleted-elapsed-boundary",
@@ -56,7 +56,7 @@ struct ClaudeSyntheticPlaceholderNotificationTests {
     }
 
     @Test
-    func `placeholder cannot rearm depletion while notifications are disabled`() {
+    func placeholder_cannot_rearm_depletion_while_notifications_are_disabled() {
         let notifier = NotifierSpy()
         let store = self.makeStore(
             suiteName: "ClaudeSyntheticPlaceholderNotificationTests-disabled",
@@ -77,7 +77,7 @@ struct ClaudeSyntheticPlaceholderNotificationTests {
     }
 
     @Test
-    func `real zero usage remains an authoritative restore`() {
+    func real_zero_usage_remains_an_authoritative_restore() {
         let notifier = NotifierSpy()
         let store = self.makeStore(
             suiteName: "ClaudeSyntheticPlaceholderNotificationTests-real-zero",
@@ -92,7 +92,7 @@ struct ClaudeSyntheticPlaceholderNotificationTests {
     }
 
     @Test
-    func `placeholder preserves threshold state while weekly warnings continue`() {
+    func placeholder_preserves_threshold_state_while_weekly_warnings_continue() {
         let notifier = NotifierSpy()
         let store = self.makeStore(
             suiteName: "ClaudeSyntheticPlaceholderNotificationTests-threshold",
@@ -142,7 +142,7 @@ struct ClaudeSyntheticPlaceholderNotificationTests {
     }
 
     @Test
-    func `placeholder preserves predictive episode while weekly risk continues`() {
+    func placeholder_preserves_predictive_episode_while_weekly_risk_continues() {
         let notifier = NotifierSpy()
         let store = self.makeStore(
             suiteName: "ClaudeSyntheticPlaceholderNotificationTests-predictive",

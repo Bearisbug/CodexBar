@@ -34,7 +34,7 @@ struct BedrockCredentialResolverTests {
     }
 
     @Test
-    func `keys mode resolves static credentials and region`() async throws {
+    func keys_mode_resolves_static_credentials_and_region() async throws {
         let env = [
             BedrockSettingsReader.accessKeyIDKey: "AKIAKEYS",
             BedrockSettingsReader.secretAccessKeyKey: "keys-secret",
@@ -47,14 +47,14 @@ struct BedrockCredentialResolverTests {
     }
 
     @Test
-    func `keys mode without credentials throws missingCredentials`() async {
+    func keys_mode_without_credentials_throws_missingCredentials() async {
         await #expect(throws: BedrockUsageError.missingCredentials) {
             try await BedrockCredentialResolver.resolve(environment: [:])
         }
     }
 
     @Test
-    func `profile mode resolves credentials via the AWS CLI`() async throws {
+    func profile_mode_resolves_credentials_via_the_AWS_CLI() async throws {
         let env = [
             BedrockSettingsReader.authModeKey: "profile",
             BedrockSettingsReader.profileKey: "work",
@@ -70,7 +70,7 @@ struct BedrockCredentialResolverTests {
     }
 
     @Test
-    func `profile mode prefers explicit region over the profile region`() async throws {
+    func profile_mode_prefers_explicit_region_over_the_profile_region() async throws {
         let env = [
             BedrockSettingsReader.authModeKey: "profile",
             BedrockSettingsReader.profileKey: "work",
@@ -84,7 +84,7 @@ struct BedrockCredentialResolverTests {
     }
 
     @Test
-    func `profile mode without a profile name throws missingCredentials`() async {
+    func profile_mode_without_a_profile_name_throws_missingCredentials() async {
         let env = [BedrockSettingsReader.authModeKey: "profile"]
         await #expect(throws: BedrockUsageError.missingCredentials) {
             try await BedrockCredentialResolver.resolve(
@@ -95,7 +95,7 @@ struct BedrockCredentialResolverTests {
     }
 
     @Test
-    func `profile mode preserves source credentials but removes AWS_PROFILE for AWS CLI`() async throws {
+    func profile_mode_preserves_source_credentials_but_removes_AWS_PROFILE_for_AWS_CLI() async throws {
         let captured = CapturedEnvironment()
         let env = [
             BedrockSettingsReader.authModeKey: "profile",
@@ -124,7 +124,7 @@ struct BedrockCredentialResolverTests {
     }
 
     @Test
-    func `profile mode without the AWS CLI throws awsCLINotFound`() async {
+    func profile_mode_without_the_AWS_CLI_throws_awsCLINotFound() async {
         let env = [
             BedrockSettingsReader.authModeKey: "profile",
             BedrockSettingsReader.profileKey: "work",

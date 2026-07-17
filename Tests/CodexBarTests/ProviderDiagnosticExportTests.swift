@@ -4,7 +4,7 @@ import Testing
 
 struct ProviderDiagnosticExportTests {
     @Test
-    func `generic diagnostic export encodes safe provider envelope`() throws {
+    func generic_diagnostic_export_encodes_safe_provider_envelope() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let export = ProviderDiagnosticExport(
             timestamp: now,
@@ -49,7 +49,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic export decodes legacy schema without platform metadata`() throws {
+    func diagnostic_export_decodes_legacy_schema_without_platform_metadata() throws {
         let export = ProviderDiagnosticExport(
             timestamp: Date(timeIntervalSince1970: 1_700_000_000),
             provider: "openai",
@@ -78,7 +78,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `usage snapshot defaults legacy payloads to unknown confidence without reencoding unknown`() throws {
+    func usage_snapshot_defaults_legacy_payloads_to_unknown_confidence_without_reencoding_unknown() throws {
         let json = """
         {
           "primary": {
@@ -102,7 +102,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `usage snapshot preserves explicit confidence through Codable`() throws {
+    func usage_snapshot_preserves_explicit_confidence_through_Codable() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = UsageSnapshot(
             primary: RateWindow(
@@ -124,7 +124,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `usage snapshot treats future confidence values as unknown`() throws {
+    func usage_snapshot_treats_future_confidence_values_as_unknown() throws {
         let json = """
         {
           "primary": null,
@@ -144,7 +144,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic usage summary includes confidence`() {
+    func diagnostic_usage_summary_includes_confidence() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let summary = ProviderDiagnosticUsageSummary(from: UsageSnapshot(
             primary: RateWindow(
@@ -160,7 +160,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic usage summary includes CrossModel data`() {
+    func diagnostic_usage_summary_includes_CrossModel_data() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let usage = CrossModelUsageSnapshot(
             currency: "USD",
@@ -178,7 +178,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic usage summary defaults legacy payloads to unknown confidence`() throws {
+    func diagnostic_usage_summary_defaults_legacy_payloads_to_unknown_confidence() throws {
         let json = """
         {
           "updatedAt": "2023-11-14T22:13:20Z",
@@ -200,7 +200,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `unwired provider diagnostics remain unknown confidence`() {
+    func unwired_provider_diagnostics_remain_unknown_confidence() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = MiniMaxUsageSnapshot(
             planName: "Max",
@@ -221,7 +221,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic export marks named windows with unknown usage`() throws {
+    func diagnostic_export_marks_named_windows_with_unknown_usage() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let summary = ProviderDiagnosticUsageSummary(from: UsageSnapshot(
             primary: nil,
@@ -248,7 +248,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic rate window defaults legacy payloads to known usage`() throws {
+    func diagnostic_rate_window_defaults_legacy_payloads_to_known_usage() throws {
         let json = """
         {
           "label": "Legacy Window",
@@ -265,7 +265,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `raw error text never appears in encoded JSON`() throws {
+    func raw_error_text_never_appears_in_encoded_JSON() throws {
         let export = ProviderDiagnosticExport(
             timestamp: Date(timeIntervalSince1970: 1_700_000_000),
             provider: "minimax",
@@ -299,7 +299,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic error maps MiniMaxUsageError categories safely`() {
+    func diagnostic_error_maps_MiniMaxUsageError_categories_safely() {
         let networkError = MiniMaxUsageError.networkError("connection refused")
         let invalidCreds = MiniMaxUsageError.invalidCredentials
         let apiError = MiniMaxUsageError.apiError("HTTP 404")
@@ -320,7 +320,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `diagnostic error maps Alibaba invalid endpoint override to configuration`() {
+    func diagnostic_error_maps_Alibaba_invalid_endpoint_override_to_configuration() {
         let error = ProviderEndpointOverrideError.alibabaCodingPlan("ALIBABA_CODING_PLAN_QUOTA_URL")
         let diag = ProviderDiagnosticError(from: error, authConfigured: true)
 
@@ -329,7 +329,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `endpoint override fetch attempt stays in configuration category`() {
+    func endpoint_override_fetch_attempt_stays_in_configuration_category() {
         let error = ProviderEndpointOverrideError.minimax("MINIMAX_HOST")
         let attempt = ProviderFetchAttempt(
             strategyID: "minimax.web",
@@ -345,7 +345,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `no available strategy maps missing auth to auth category`() {
+    func no_available_strategy_maps_missing_auth_to_auth_category() {
         let error = ProviderFetchError.noAvailableStrategy(.minimax)
         let diag = ProviderDiagnosticError(from: error, authConfigured: false)
 
@@ -354,7 +354,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `available failed strategy does not imply auth is configured`() {
+    func available_failed_strategy_does_not_imply_auth_is_configured() {
         let outcome = ProviderFetchOutcome(
             result: .failure(ProviderFetchError.noAvailableStrategy(.antigravity)),
             attempts: [
@@ -372,7 +372,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `fetch attempt error maps to safe category, never raw text`() {
+    func fetch_attempt_error_maps_to_safe_category_never_raw_text() {
         let attemptWithRawError = ProviderFetchAttempt(
             strategyID: "minimax.api",
             kind: .apiToken,
@@ -402,7 +402,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `missing api key setup errors map to auth before api`() {
+    func missing_api_key_setup_errors_map_to_auth_before_api() {
         let category = ProviderDiagnosticFetchAttempt.errorCategoryLabel(
             "Azure OpenAI API key not configured. Set AZURE_OPENAI_API_KEY.")
 
@@ -410,7 +410,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `MiniMax details map from MiniMaxUsageSnapshot correctly`() {
+    func MiniMax_details_map_from_MiniMaxUsageSnapshot_correctly() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = MiniMaxUsageSnapshot(
             planName: "Max",
@@ -433,7 +433,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `service usage maps from MiniMaxServiceUsage correctly`() throws {
+    func service_usage_maps_from_MiniMaxServiceUsage_correctly() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let service = MiniMaxServiceUsage(
             serviceType: "General",
@@ -464,7 +464,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `unlimited MiniMax diagnostic omits remaining quota`() throws {
+    func unlimited_MiniMax_diagnostic_omits_remaining_quota() throws {
         let service = MiniMaxServiceUsage(
             serviceType: "General",
             windowType: "Weekly",
@@ -485,7 +485,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `legacy MiniMax service diagnostic decodes without quota values`() throws {
+    func legacy_MiniMax_service_diagnostic_decodes_without_quota_values() throws {
         let data = Data(#"""
         {
           "displayName": "General",
@@ -509,7 +509,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `builder creates generic safe diagnostic with error on failure`() {
+    func builder_creates_generic_safe_diagnostic_with_error_on_failure() {
         let outcome = ProviderFetchOutcome(
             result: .failure(MiniMaxUsageError.networkError("timeout")),
             attempts: [
@@ -542,7 +542,7 @@ struct ProviderDiagnosticExportTests {
     }
 
     @Test
-    func `builder creates generic safe diagnostic with MiniMax details on success`() {
+    func builder_creates_generic_safe_diagnostic_with_MiniMax_details_on_success() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = MiniMaxUsageSnapshot(
             planName: "Max",

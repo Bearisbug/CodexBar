@@ -13,7 +13,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `sk-cp token is redacted`() {
+    func sk_cp_token_is_redacted() {
         let input = Self.miniMaxCpPlaceholder
         let redacted = LogRedactor.redact(input)
         #expect(redacted.contains("sk-cp-") == false)
@@ -22,7 +22,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `sk-api token is redacted`() {
+    func sk_api_token_is_redacted() {
         let input = Self.miniMaxApiPlaceholder
         let redacted = LogRedactor.redact(input)
         #expect(redacted.contains("sk-api-") == false)
@@ -31,7 +31,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `cookie header is redacted`() {
+    func cookie_header_is_redacted() {
         let input = "Cookie: session=cookie-session-placeholder; token=\(Self.miniMaxCpPlaceholder)"
         let redacted = LogRedactor.redact(input)
         #expect(redacted.contains("session=cookie-session-placeholder") == false)
@@ -40,7 +40,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `authorization header value is redacted`() {
+    func authorization_header_value_is_redacted() {
         // Short obvious placeholder, not JWT-like
         let input = "Authorization: Bearer fake-bearer-token"
         let redacted = LogRedactor.redact(input)
@@ -49,14 +49,14 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `bearer token is not present in raw form`() {
+    func bearer_token_is_not_present_in_raw_form() {
         let input = "Authorization: bearer \(Self.miniMaxApiPlaceholder)"
         let redacted = LogRedactor.redact(input)
         #expect(redacted.contains(Self.miniMaxApiPlaceholder) == false)
     }
 
     @Test
-    func `email is redacted`() {
+    func email_is_redacted() {
         let input = "Contact: user@example.com"
         let redacted = LogRedactor.redact(input)
         #expect(redacted.contains("user@example.com") == false)
@@ -64,7 +64,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `minimax token in cookie is not present in raw form`() {
+    func minimax_token_in_cookie_is_not_present_in_raw_form() {
         let input = "Cookie: session=session-placeholder; token=\(Self.miniMaxCpPlaceholder)"
         let redacted = LogRedactor.redact(input)
         #expect(redacted.contains("session=session-placeholder") == false)
@@ -72,7 +72,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `redacted text no longer matches original token pattern`() {
+    func redacted_text_no_longer_matches_original_token_pattern() {
         let originalToken = Self.miniMaxCpPlaceholder
         let input = "Token: \(originalToken)"
         let redacted = LogRedactor.redact(input)
@@ -82,7 +82,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `minimax token with punctuation suffix is fully redacted`() {
+    func minimax_token_with_punctuation_suffix_is_fully_redacted() {
         let punctuatedToken = "\(Self.miniMaxApiPlaceholder).suffix-more"
         let input = "Error: token=\(punctuatedToken)"
         let redacted = LogRedactor.redact(input)
@@ -93,7 +93,7 @@ struct MiniMaxLogRedactorTests {
     }
 
     @Test
-    func `authorization header minimax token leaves no suffix fragment`() {
+    func authorization_header_minimax_token_leaves_no_suffix_fragment() {
         let punctuatedToken = "\(Self.miniMaxCpPlaceholder)-part.two"
         let input = "Authorization: Bearer \(punctuatedToken)"
         let redacted = LogRedactor.redact(input)

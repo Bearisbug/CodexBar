@@ -5,7 +5,7 @@ import Testing
 
 struct MiniMaxTokenPlanChangeTests {
     @Test
-    func `parses percent based general token plan remains`() throws {
+    func parses_percent_based_general_token_plan_remains() throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
 
         let snapshot = try MiniMaxUsageParser.parseCodingPlanRemains(
@@ -37,7 +37,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `zero count fields do not suppress percent based quota windows`() throws {
+    func zero_count_fields_do_not_suppress_percent_based_quota_windows() throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let json = """
         {
@@ -73,7 +73,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `video first token plan still uses general quota as primary and weekly secondary`() throws {
+    func video_first_token_plan_still_uses_general_quota_as_primary_and_weekly_secondary() throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let json = """
         {
@@ -116,7 +116,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `plus token plan omits unavailable video quota lane`() throws {
+    func plus_token_plan_omits_unavailable_video_quota_lane() throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let json = """
         {
@@ -173,7 +173,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `plus token plan renders boosted interval and unlimited weekly lane`() throws {
+    func plus_token_plan_renders_boosted_interval_and_unlimited_weekly_lane() throws {
         let now = Date(timeIntervalSince1970: 1_780_347_620)
         let json = """
         {
@@ -242,7 +242,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `web usage fetch falls back to www remains host after platform parse failure`() async throws {
+    func web_usage_fetch_falls_back_to_www_remains_host_after_platform_parse_failure() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -279,7 +279,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `web usage fetch falls back to www remains host after platform transport failure`() async throws {
+    func web_usage_fetch_falls_back_to_www_remains_host_after_platform_transport_failure() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -315,7 +315,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `web usage fetch preserves coding plan json auth failure`() async throws {
+    func web_usage_fetch_preserves_coding_plan_json_auth_failure() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             #expect(url.path.contains("coding-plan"))
@@ -338,7 +338,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `web usage fetch preserves remains json auth failure`() async throws {
+    func web_usage_fetch_preserves_remains_json_auth_failure() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             if url.path.contains("coding-plan") {
@@ -370,7 +370,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `api token fetch uses official token plan remains endpoint`() async throws {
+    func api_token_fetch_uses_official_token_plan_remains_endpoint() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -390,7 +390,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `api token fetch falls back to legacy coding plan endpoint after official auth failure`() async throws {
+    func api_token_fetch_falls_back_to_legacy_coding_plan_endpoint_after_official_auth_failure() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -418,7 +418,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `global api token fetch preserves structured credential failure across legacy error`() async throws {
+    func global_api_token_fetch_preserves_structured_credential_failure_across_legacy_error() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -468,7 +468,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `api token fetch falls back to legacy coding plan endpoint after official parse failure`() async throws {
+    func api_token_fetch_falls_back_to_legacy_coding_plan_endpoint_after_official_parse_failure() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -496,7 +496,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `api token fetch falls back to legacy coding plan endpoint after official transport failure`() async throws {
+    func api_token_fetch_falls_back_to_legacy_coding_plan_endpoint_after_official_transport_failure() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -524,7 +524,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `api token fetch rejects after official and legacy endpoint auth failures`() async throws {
+    func api_token_fetch_rejects_after_official_and_legacy_endpoint_auth_failures() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             #expect(url.host == "api.minimaxi.com")
@@ -550,7 +550,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `combo metadata parser extracts token plan subscription label`() throws {
+    func combo_metadata_parser_extracts_token_plan_subscription_label() throws {
         let metadata = try MiniMaxSubscriptionMetadataFetcher.parse(data: Data(Self.comboMetadataJSON.utf8))
         #expect(metadata.planName == "TokenPlanMax-年度会员")
         #expect(metadata.subscriptionExpiresAt == Date(timeIntervalSince1970: 1_810_656_000))
@@ -558,7 +558,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `combo metadata parser prefers current subscription over package catalog`() throws {
+    func combo_metadata_parser_prefers_current_subscription_over_package_catalog() throws {
         let json = """
         {
           "base_resp": { "status_code": 0, "status_msg": "success" },
@@ -581,7 +581,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `web usage fetch merges combo subscription metadata`() async throws {
+    func web_usage_fetch_merges_combo_subscription_metadata() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -622,7 +622,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `combo metadata rejects non https host override before sending credentials`() async throws {
+    func combo_metadata_rejects_non_https_host_override_before_sending_credentials() async throws {
         let transport = ProviderHTTPTransportStub { request in
             Issue.record("Unexpected request to \(request.url?.absoluteString ?? "<nil>")")
             return Self.httpResponse(
@@ -645,7 +645,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `combo metadata rejects malformed host override before sending credentials`() async throws {
+    func combo_metadata_rejects_malformed_host_override_before_sending_credentials() async throws {
         let transport = ProviderHTTPTransportStub { request in
             Issue.record("Unexpected request to \(request.url?.absoluteString ?? "<nil>")")
             return Self.httpResponse(
@@ -668,7 +668,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `web usage fetch preserves combo metadata cancellation`() async throws {
+    func web_usage_fetch_preserves_combo_metadata_cancellation() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -697,7 +697,7 @@ struct MiniMaxTokenPlanChangeTests {
     }
 
     @Test
-    func `combo metadata failure does not block quota rendering`() async throws {
+    func combo_metadata_failure_does_not_block_quota_rendering() async throws {
         let now = Date(timeIntervalSince1970: 1_780_282_340)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)

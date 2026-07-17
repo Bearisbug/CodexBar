@@ -47,7 +47,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `fixed cadence refresh count and staleness match hand computation`() throws {
+    func fixed_cadence_refresh_count_and_staleness_match_hand_computation() throws {
         let metrics = ReplayEngine.run(trace: self.fixedCadenceTrace(), policy: FixedIntervalPolicy(minutes: 10))
 
         #expect(metrics.totalRefreshCount == 6)
@@ -63,7 +63,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `replaying the same trace and policy twice is deterministic`() {
+    func replaying_the_same_trace_and_policy_twice_is_deterministic() {
         let trace = self.fixedCadenceTrace()
         let first = ReplayEngine.run(trace: trace, policy: FixedIntervalPolicy(minutes: 10))
         let second = ReplayEngine.run(trace: trace, policy: FixedIntervalPolicy(minutes: 10))
@@ -71,14 +71,14 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `manual policy never schedules a refresh`() {
+    func manual_policy_never_schedules_a_refresh() {
         let metrics = ReplayEngine.run(trace: self.fixedCadenceTrace(), policy: ManualPolicy())
         #expect(metrics.totalRefreshCount == 0)
         #expect(metrics.refreshCountPer24h == 0.0)
     }
 
     @Test
-    func `a trace with no menu-open events reports no staleness stats`() {
+    func a_trace_with_no_menu_open_events_reports_no_staleness_stats() {
         let trace: [AdaptiveRefreshTraceRecord] = [
             .decision(
                 timestamp: self.at(0),
@@ -115,7 +115,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `a policy that ignores the constrained floor is flagged non-compliant`() {
+    func a_policy_that_ignores_the_constrained_floor_is_flagged_non_compliant() {
         let metrics = ReplayEngine.run(trace: self.constrainedTrace(), policy: FixedIntervalPolicy(minutes: 2))
 
         #expect(metrics.totalRefreshCount == 8)
@@ -125,7 +125,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `the shared adaptive policy honors the constrained floor`() {
+    func the_shared_adaptive_policy_honors_the_constrained_floor() {
         let metrics = ReplayEngine.run(trace: self.constrainedTrace(), policy: AdaptiveReplayPolicy())
 
         #expect(metrics.constrainedCompliance.constrainedDecisionCount == 1)
@@ -139,7 +139,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `an empty trace reports zero metrics without crashing`() {
+    func an_empty_trace_reports_zero_metrics_without_crashing() {
         let metrics = ReplayEngine.run(trace: [], policy: AdaptiveReplayPolicy())
         #expect(metrics.totalRefreshCount == 0)
         #expect(metrics.simulatedSpanSeconds == 0.0)
@@ -190,7 +190,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `a menu open pulls the adaptive schedule forward, matching hand computation`() {
+    func a_menu_open_pulls_the_adaptive_schedule_forward_matching_hand_computation() {
         let metrics = ReplayEngine.run(trace: self.menuOpenAdvanceTrace(), policy: AdaptiveReplayPolicy())
 
         #expect(metrics.totalRefreshCount == 2)
@@ -198,7 +198,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `a policy that does not advance on interaction ignores the same menu open`() {
+    func a_policy_that_does_not_advance_on_interaction_ignores_the_same_menu_open() {
         // Same trace, but FixedIntervalPolicy(30m) never overrides `advancesOnInteraction` (stays
         // false), matching fixed-cadence refresh frequencies in the real app, which never wire
         // `noteMenuOpened(at:)`'s advance check at all. The t=1800 tick falls outside the 300s
@@ -210,7 +210,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `a recorded timerAdvanced ground-truth event agrees with the engine's own recomputation`() throws {
+    func a_recorded_timerAdvanced_ground_truth_event_agrees_with_the_engine_s_own_recomputation() throws {
         // The menuOpen ground truth plus a timerAdvanced record for the accepted schedule change.
         // The offline audit checks that record against the policy's recomputed candidate.
         let menuOpenAt = self.at(50)
@@ -273,7 +273,7 @@ struct AdaptiveReplayEngineTests {
     }
 
     @Test
-    func `a later menu open in the same window cannot postpone an earlier advance`() {
+    func a_later_menu_open_in_the_same_window_cannot_postpone_an_earlier_advance() {
         let metrics = ReplayEngine.run(trace: self.twoMenuOpensSameWindowTrace(), policy: AdaptiveReplayPolicy())
 
         #expect(metrics.totalRefreshCount == 1)

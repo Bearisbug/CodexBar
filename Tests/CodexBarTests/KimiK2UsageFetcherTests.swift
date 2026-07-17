@@ -4,7 +4,7 @@ import Testing
 
 struct KimiK2UsageFetcherTests {
     @Test(arguments: [nil, "  \n"] as [String?])
-    func `provider reports a missing or blank API key instead of a generic unavailable strategy`(
+    func provider_reports_a_missing_or_blank_API_key_instead_of_a_generic_unavailable_strategy(
         apiKey: String?) async
     {
         let environment = apiKey.map { ["KIMI_K2_API_KEY": $0] } ?? [:]
@@ -22,7 +22,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `trims API key before sending authorization`() async throws {
+    func trims_API_key_before_sending_authorization() async throws {
         let fixtureKey = "test-token"
         let paddedKey = "  \(fixtureKey)\n"
         let transport = ProviderHTTPTransportHandler { request in
@@ -44,7 +44,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `maps rejected API key to invalid credentials`() async throws {
+    func maps_rejected_API_key_to_invalid_credentials() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let url = try #require(request.url)
             let response = try #require(HTTPURLResponse(
@@ -55,16 +55,20 @@ struct KimiK2UsageFetcherTests {
             return (Data(#"{\"error\":\"fixture_unauthorized\"}"#.utf8), response)
         }
 
-        await #expect {
+        do {
             try await KimiK2UsageFetcher.fetchUsage(apiKey: "test-token", transport: transport)
-        } throws: { error in
-            guard case KimiK2UsageError.invalidCredentials = error else { return false }
-            return error.localizedDescription == "Kimi K2 API key is invalid or expired."
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case KimiK2UsageError.invalidCredentials = error else { return false }
+                return error.localizedDescription == "Kimi K2 API key is invalid or expired."
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test(arguments: [403, 500])
-    func `preserves non-credential responses as API errors`(statusCode: Int) async throws {
+    func preserves_non_credential_responses_as_API_errors(statusCode: Int) async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let url = try #require(request.url)
             let response = try #require(HTTPURLResponse(
@@ -75,16 +79,20 @@ struct KimiK2UsageFetcherTests {
             return (Data(#"{"error":"fixture_failure"}"#.utf8), response)
         }
 
-        await #expect {
+        do {
             try await KimiK2UsageFetcher.fetchUsage(apiKey: "test-token", transport: transport)
-        } throws: { error in
-            guard case let KimiK2UsageError.apiError(message) = error else { return false }
-            return message.contains("fixture_failure")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let KimiK2UsageError.apiError(message) = error else { return false }
+                return message.contains("fixture_failure")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `parses usage from nested usage`() throws {
+    func parses_usage_from_nested_usage() throws {
         let json = """
         {
           "data": {
@@ -108,7 +116,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `uses header fallback for remaining credits`() throws {
+    func uses_header_fallback_for_remaining_credits() throws {
         let json = """
         { "total_credits_consumed": 50 }
         """
@@ -121,7 +129,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `fetch ignores non-finite usage values`() async throws {
+    func fetch_ignores_non_finite_usage_values() async throws {
         let json = """
         {
           "total_credits_consumed": "NaN",
@@ -149,7 +157,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `parses numeric timestamp seconds`() throws {
+    func parses_numeric_timestamp_seconds() throws {
         let json = """
         {
           "timestamp": 1700000000,
@@ -165,7 +173,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `parses numeric timestamp milliseconds`() throws {
+    func parses_numeric_timestamp_milliseconds() throws {
         let json = """
         {
           "timestamp": 1700000000000,
@@ -181,7 +189,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `treats exact millisecond cutoff as milliseconds`() throws {
+    func treats_exact_millisecond_cutoff_as_milliseconds() throws {
         let json = """
         {
           "timestamp": 1000000000000,
@@ -196,7 +204,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test(arguments: ["NaN", "Infinity", "1e308", "0", "-1"])
-    func `ignores invalid numeric timestamps`(timestamp: String) throws {
+    func ignores_invalid_numeric_timestamps(timestamp: String) throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let json = """
         {
@@ -212,7 +220,7 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `ignores timestamps beyond distant future`() throws {
+    func ignores_timestamps_beyond_distant_future() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let timestamp = Date.distantFuture.timeIntervalSince1970 + 1
         let json = """
@@ -229,21 +237,25 @@ struct KimiK2UsageFetcherTests {
     }
 
     @Test
-    func `invalid root returns parse error`() {
+    func invalid_root_returns_parse_error() {
         let json = """
         [{ "total": 1 }]
         """
 
-        #expect {
+        do {
             _ = try KimiK2UsageFetcher._parseSummaryForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case let KimiK2UsageError.parseFailed(message) = error else { return false }
-            return message == "Root JSON is not an object."
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let KimiK2UsageError.parseFailed(message) = error else { return false }
+                return message == "Root JSON is not an object."
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `converts api key credits into text only snapshot`() {
+    func converts_api_key_credits_into_text_only_snapshot() {
         let usage = KimiK2UsageSummary(
             consumed: 10,
             remaining: 25,

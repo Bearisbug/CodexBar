@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CodexAccountsSettingsSectionTests {
     @Test
-    func `codex accounts section shows live badge only for live only multi account row`() throws {
+    func codex_accounts_section_shows_live_badge_only_for_live_only_multi_account_row() throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-live-badge")
         let store = Self.makeUsageStore(settings: settings)
         let managedStoreURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -40,7 +40,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `single account codex settings uses simple account view instead of picker`() throws {
+    func single_account_codex_settings_uses_simple_account_view_instead_of_picker() throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-single-account")
         let store = Self.makeUsageStore(settings: settings)
         settings._test_liveSystemCodexAccount = ObservedSystemCodexAccount(
@@ -57,7 +57,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `single account codex settings state includes workspace display name`() throws {
+    func single_account_codex_settings_state_includes_workspace_display_name() throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-single-workspace")
         let store = Self.makeUsageStore(settings: settings)
         settings._test_liveSystemCodexAccount = ObservedSystemCodexAccount(
@@ -75,7 +75,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `codex accounts section disables managed mutations when store is unreadable`() throws {
+    func codex_accounts_section_disables_managed_mutations_when_store_is_unreadable() throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-unreadable")
         let store = Self.makeUsageStore(settings: settings)
         settings._test_liveSystemCodexAccount = ObservedSystemCodexAccount(
@@ -96,7 +96,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `selecting merged visible account from settings keeps live system source`() async throws {
+    func selecting_merged_visible_account_from_settings_keeps_live_system_source() async throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-select-merged")
         let store = Self.makeUsageStore(settings: settings)
         let managedStoreURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -130,7 +130,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `settings account selection can target the managed row when same email rows split by identity`() async throws {
+    func settings_account_selection_can_target_the_managed_row_when_same_email_rows_split_by_identity() async throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-select-split")
         let store = Self.makeUsageStore(settings: settings)
         let managedStoreURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -182,7 +182,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `codex accounts section disables add and reauth while managed authentication is in flight`() async throws {
+    func codex_accounts_section_disables_add_and_reauth_while_managed_authentication_is_in_flight() async throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-in-flight")
         let store = Self.makeUsageStore(settings: settings)
         let managedStoreURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -230,7 +230,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `adding managed codex account auto selects the merged live row`() async throws {
+    func adding_managed_codex_account_auto_selects_the_merged_live_row() async throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-add-merged")
         let store = Self.makeUsageStore(settings: settings)
         settings._test_liveSystemCodexAccount = ObservedSystemCodexAccount(
@@ -252,7 +252,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `adding managed codex account selects the new managed account when email differs`() async throws {
+    func adding_managed_codex_account_selects_the_new_managed_account_when_email_differs() async throws {
         let settings = Self.makeSettingsStore(suite: "CodexAccountsSettingsSectionTests-add-managed")
         let store = Self.makeUsageStore(settings: settings)
         settings._test_liveSystemCodexAccount = ObservedSystemCodexAccount(
@@ -277,7 +277,7 @@ struct CodexAccountsSettingsSectionTests {
     }
 
     @Test
-    func `managed codex login failure message includes codex login output`() {
+    func managed_codex_login_failure_message_includes_codex_login_output() {
         let error = ManagedCodexAccountServiceError.loginFailed(CodexLoginRunner.Result(
             outcome: .failed(status: 2),
             output: "Browser selected the existing ChatGPT account"))

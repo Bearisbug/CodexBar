@@ -5,21 +5,21 @@ import Testing
 @Suite(.serialized)
 struct CodebuffUsageFetcherTests {
     @Test
-    func `usage URL composes the correct endpoint`() throws {
+    func usage_URL_composes_the_correct_endpoint() throws {
         let base = try #require(URL(string: "https://www.codebuff.com"))
         let url = CodebuffUsageFetcher.usageURL(baseURL: base)
         #expect(url.absoluteString == "https://www.codebuff.com/api/v1/usage")
     }
 
     @Test
-    func `subscription URL composes the correct endpoint`() throws {
+    func subscription_URL_composes_the_correct_endpoint() throws {
         let base = try #require(URL(string: "https://www.codebuff.com"))
         let url = CodebuffUsageFetcher.subscriptionURL(baseURL: base)
         #expect(url.absoluteString == "https://www.codebuff.com/api/user/subscription")
     }
 
     @Test
-    func `usage request sends required fingerprint id`() async throws {
+    func usage_request_sends_required_fingerprint_id() async throws {
         defer {
             CodebuffStubURLProtocol.handler = nil
             CodebuffStubURLProtocol.requests = []
@@ -51,7 +51,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `usage fetch can skip subscription endpoint for API key tokens`() async throws {
+    func usage_fetch_can_skip_subscription_endpoint_for_API_key_tokens() async throws {
         defer {
             CodebuffStubURLProtocol.handler = nil
             CodebuffStubURLProtocol.requests = []
@@ -82,7 +82,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `subscription grace does not wait for transport that ignores cancellation`() async throws {
+    func subscription_grace_does_not_wait_for_transport_that_ignores_cancellation() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             if url.path == "/api/v1/usage" {
@@ -117,7 +117,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `cancellation stops subscription while usage transport ignores cancellation`() async throws {
+    func cancellation_stops_subscription_while_usage_transport_ignores_cancellation() async throws {
         let usageStarted = CodebuffRequestGate()
         let subscriptionStarted = CodebuffRequestGate()
         let subscriptionCancelled = CodebuffRequestGate()
@@ -166,7 +166,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `api strategy only fetches subscription for credentials file tokens`() {
+    func api_strategy_only_fetches_subscription_for_credentials_file_tokens() {
         let envResolution = ProviderTokenResolution(token: "env-token", source: .environment)
         let fileResolution = ProviderTokenResolution(token: "file-token", source: .authFile)
 
@@ -175,18 +175,18 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `status 401 maps to unauthorized`() {
+    func status_401_maps_to_unauthorized() {
         #expect(CodebuffUsageFetcher._statusErrorForTesting(401) == .unauthorized)
         #expect(CodebuffUsageFetcher._statusErrorForTesting(403) == .unauthorized)
     }
 
     @Test
-    func `status 404 maps to endpoint not found`() {
+    func status_404_maps_to_endpoint_not_found() {
         #expect(CodebuffUsageFetcher._statusErrorForTesting(404) == .endpointNotFound)
     }
 
     @Test
-    func `status 500 maps to service unavailable`() {
+    func status_500_maps_to_service_unavailable() {
         guard case .serviceUnavailable(503) = CodebuffUsageFetcher._statusErrorForTesting(503)
         else {
             Issue.record("Expected .serviceUnavailable(503)")
@@ -195,12 +195,12 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `status 200 returns nil`() {
+    func status_200_returns_nil() {
         #expect(CodebuffUsageFetcher._statusErrorForTesting(200) == nil)
     }
 
     @Test
-    func `usage payload parses numeric credit fields`() throws {
+    func usage_payload_parses_numeric_credit_fields() throws {
         let json = """
         {
           "usage": 1250,
@@ -220,7 +220,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `usage payload accepts string-encoded numbers`() throws {
+    func usage_payload_accepts_string_encoded_numbers() throws {
         let json = """
         { "usage": "12", "quota": "100", "remainingBalance": "88" }
         """
@@ -231,7 +231,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `usage payload returns nil fields when absent`() throws {
+    func usage_payload_returns_nil_fields_when_absent() throws {
         let payload = try CodebuffUsageFetcher._parseUsagePayloadForTesting(Data("{}".utf8))
         #expect(payload.used == nil)
         #expect(payload.total == nil)
@@ -240,17 +240,21 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `usage payload throws on malformed JSON`() {
-        #expect {
+    func usage_payload_throws_on_malformed_JSON() {
+        do {
             _ = try CodebuffUsageFetcher._parseUsagePayloadForTesting(Data("not-json".utf8))
-        } throws: { error in
-            guard case CodebuffUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case CodebuffUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `subscription payload parses tier and weekly window`() throws {
+    func subscription_payload_parses_tier_and_weekly_window() throws {
         let json = """
         {
           "hasSubscription": true,
@@ -279,7 +283,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `subscription payload prefers display name over numeric tier`() throws {
+    func subscription_payload_prefers_display_name_over_numeric_tier() throws {
         let json = """
         { "subscription": { "tier": 2, "displayName": "Pro" } }
         """
@@ -288,7 +292,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `subscription payload falls back to numeric scheduled tier`() throws {
+    func subscription_payload_falls_back_to_numeric_scheduled_tier() throws {
         let json = """
         { "subscription": { "scheduledTier": 3 } }
         """
@@ -297,7 +301,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `subscription payload formats oversized numeric tier without trapping`() throws {
+    func subscription_payload_formats_oversized_numeric_tier_without_trapping() throws {
         let json = """
         { "subscription": { "scheduledTier": 9223372036854775808 } }
         """
@@ -306,7 +310,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `subscription payload tolerates missing rate limit`() throws {
+    func subscription_payload_tolerates_missing_rate_limit() throws {
         let json = """
         { "subscription": { "status": "trialing", "tier": "free" } }
         """
@@ -317,7 +321,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `snapshot maps to rate window with credits window`() {
+    func snapshot_maps_to_rate_window_with_credits_window() {
         let snapshot = CodebuffUsageSnapshot(
             creditsUsed: 250,
             creditsTotal: 1000,
@@ -345,7 +349,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `snapshot infers total from used plus remaining`() {
+    func snapshot_infers_total_from_used_plus_remaining() {
         let snapshot = CodebuffUsageSnapshot(
             creditsUsed: 40,
             creditsTotal: nil,
@@ -356,7 +360,7 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `snapshot surfaces exhausted state when quota is missing from payload`() {
+    func snapshot_surfaces_exhausted_state_when_quota_is_missing_from_payload() {
         // Only `creditsUsed` is populated (no total, no remaining) — the API response is
         // degenerate but we still want the row to be visible so the user notices the
         // missing configuration instead of seeing an empty/healthy-looking bar.
@@ -375,13 +379,13 @@ struct CodebuffUsageFetcherTests {
     }
 
     @Test
-    func `snapshot hides credit window when no credit fields are present`() {
+    func snapshot_hides_credit_window_when_no_credit_fields_are_present() {
         let empty = CodebuffUsageSnapshot()
         #expect(empty.toUsageSnapshot().primary == nil)
     }
 
     @Test
-    func `missing credentials fetch call throws missing credentials`() async {
+    func missing_credentials_fetch_call_throws_missing_credentials() async {
         do {
             _ = try await CodebuffUsageFetcher.fetchUsage(apiKey: "   ")
             Issue.record("Expected missingCredentials error")

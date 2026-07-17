@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeLoginRunnerTests {
     @Test
-    func `dedicated auth command opens browser prompt and completes successfully`() async throws {
+    func dedicated_auth_command_opens_browser_prompt_and_completes_successfully() async throws {
         let fixture = try self.makeFixture(script: """
         #!/bin/sh
         printf 'args:%s\\n' "$*"
@@ -31,7 +31,7 @@ struct ClaudeLoginRunnerTests {
     }
 
     @Test
-    func `authorization URL alone is not treated as success`() async throws {
+    func authorization_URL_alone_is_not_treated_as_success() async throws {
         let fixture = try self.makeFixture(script: """
         #!/bin/sh
         printf 'https://claude.ai/oauth/authorize?test=1\\n'
@@ -53,7 +53,7 @@ struct ClaudeLoginRunnerTests {
     }
 
     @Test
-    func `dedicated auth command preserves failure status`() async throws {
+    func dedicated_auth_command_preserves_failure_status() async throws {
         let fixture = try self.makeFixture(script: """
         #!/bin/sh
         printf 'login failed\\n'

@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct PersistentRefreshAccessibilityTests {
     @Test
-    func `disabled refresh row rejects accessibility press`() {
+    func disabled_refresh_row_rejects_accessibility_press() {
         var pressCount = 0
         let view = PersistentRefreshMenuView(
             title: "Refresh",

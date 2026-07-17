@@ -64,7 +64,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `configured executable path strips surrounding quotes`() {
+    func configured_executable_path_strips_surrounding_quotes() {
         for rawPath in ["  \"/tmp/cswap\"  ", "  '/tmp/cswap'  "] {
             let config = ProviderConfig(id: .claude, claudeSwapExecutablePath: rawPath)
             #expect(CLIClaudeSwapCards.executablePath(from: config) == "/tmp/cswap")
@@ -73,7 +73,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `eligibility preserves explicit account and source intent`() {
+    func eligibility_preserves_explicit_account_and_source_intent() {
         let eligibleSourceModes: [ProviderSourceMode?] = [nil, .auto]
         for sourceMode in eligibleSourceModes {
             #expect(CLIClaudeSwapCards.isEligible(
@@ -109,7 +109,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `bypass does not invoke the adapter`() async {
+    func bypass_does_not_invoke_the_adapter() async {
         let counter = InvocationCounter()
         let ambient = self.ambientOutput()
         let output = await CLIClaudeSwapCards.fetch(
@@ -127,7 +127,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `zero and one account lists retain ambient output`() async {
+    func zero_and_one_account_lists_retain_ambient_output() async {
         let ambientCounter = InvocationCounter()
         let ambient = self.ambientOutput()
         for accounts in [[], [self.row(number: 1)]] {
@@ -149,7 +149,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `multi account list skips ambient output and renders in active slot order`() async {
+    func multi_account_list_skips_ambient_output_and_renders_in_active_slot_order() async {
         let adapterCounter = InvocationCounter()
         let ambientCounter = InvocationCounter()
         let ambient = self.ambientOutput(failed: true)
@@ -192,7 +192,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `all sentinel rows remain successful metrics less cards`() async {
+    func all_sentinel_rows_remain_successful_metrics_less_cards() async {
         let statuses: [ClaudeSwapUsageStatus] = [
             .apiKey,
             .tokenExpired,
@@ -229,7 +229,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `active sentinel account remains active and metrics less in full and brief cards`() async {
+    func active_sentinel_account_remains_active_and_metrics_less_in_full_and_brief_cards() async {
         let problem = "Usage fetch failed."
         let output = await CLIClaudeSwapCards.fetch(
             eligible: true,
@@ -267,7 +267,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `blank executable path preserves ambient output and fails distinctly`() async {
+    func blank_executable_path_preserves_ambient_output_and_fails_distinctly() async {
         let ambient = self.ambientOutput()
         let output = await CLIClaudeSwapCards.fetch(
             eligible: true,
@@ -284,7 +284,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `adapter failures follow ambient failures and are bounded and sanitized`() async {
+    func adapter_failures_follow_ambient_failures_and_are_bounded_and_sanitized() async {
         let raw = "\u{1B}]0;owned\u{07}reader\r\nfailed\u{1B}[31m" + String(repeating: "x", count: 700)
         let output = await CLIClaudeSwapCards.fetch(
             eligible: true,
@@ -303,7 +303,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `fake executable receives only one read only list command`() async throws {
+    func fake_executable_receives_only_one_read_only_list_command() async throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("cards-claude-swap-tests-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -335,7 +335,7 @@ struct CLICardsClaudeSwapTests {
     }
 
     @Test
-    func `cancellation drains the adapter child and preserves ambient output`() async {
+    func cancellation_drains_the_adapter_child_and_preserves_ambient_output() async {
         let cancellationCount = InvocationCounter()
         let ambient = self.ambientOutput()
         let task = Task {

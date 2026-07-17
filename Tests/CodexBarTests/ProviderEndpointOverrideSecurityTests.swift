@@ -4,7 +4,7 @@ import Testing
 
 struct ProviderEndpointOverrideSecurityTests {
     @Test
-    func `sibling endpoint overrides allow bracketed IPv6 literals`() throws {
+    func sibling_endpoint_overrides_allow_bracketed_IPv6_literals() throws {
         let endpoint = "https://[::1]:8443/v1"
 
         try OpenRouterSettingsReader.validateEndpointOverrides(
@@ -29,7 +29,7 @@ struct ProviderEndpointOverrideSecurityTests {
     }
 
     @Test
-    func `sibling endpoint overrides reject userinfo and encoded host delimiters`() {
+    func sibling_endpoint_overrides_reject_userinfo_and_encoded_host_delimiters() {
         let userInfoURL = "https://user:pass@proxy.test/v1"
         let malformedHostURLs = [
             "https://proxy.test%2f.attacker.test/v1",
@@ -78,7 +78,7 @@ struct ProviderEndpointOverrideSecurityTests {
     }
 
     @Test
-    func `credentialed fetchers reject insecure overrides before sending requests`() async {
+    func credentialed_fetchers_reject_insecure_overrides_before_sending_requests() async {
         let insecureURL = "http://attacker.test/v1"
 
         do {
@@ -120,7 +120,7 @@ struct ProviderEndpointOverrideSecurityTests {
     }
 
     @Test
-    func `OpenRouter endpoint override must be HTTPS or a bare host`() throws {
+    func OpenRouter_endpoint_override_must_be_HTTPS_or_a_bare_host() throws {
         let httpsURL = OpenRouterSettingsReader.apiURL(
             environment: ["OPENROUTER_API_URL": "https://router.test/v1"])
         #expect(httpsURL.absoluteString == "https://router.test/v1")
@@ -148,7 +148,7 @@ struct ProviderEndpointOverrideSecurityTests {
     }
 
     @Test
-    func `Codebuff endpoint override must be HTTPS or a bare host`() throws {
+    func Codebuff_endpoint_override_must_be_HTTPS_or_a_bare_host() throws {
         let httpsURL = CodebuffSettingsReader.apiURL(environment: ["CODEBUFF_API_URL": "https://codebuff.test"])
         #expect(httpsURL.absoluteString == "https://codebuff.test")
 
@@ -173,7 +173,7 @@ struct ProviderEndpointOverrideSecurityTests {
     }
 
     @Test
-    func `Groq endpoint override must be HTTPS or a bare host`() throws {
+    func Groq_endpoint_override_must_be_HTTPS_or_a_bare_host() throws {
         let httpsURL = GroqSettingsReader.apiURL(
             environment: [GroqSettingsReader.apiURLEnvironmentKey: "https://groq.test/v1"])
         #expect(httpsURL.absoluteString == "https://groq.test/v1")
@@ -202,7 +202,7 @@ struct ProviderEndpointOverrideSecurityTests {
     }
 
     @Test
-    func `ElevenLabs endpoint override must be HTTPS or a bare host`() throws {
+    func ElevenLabs_endpoint_override_must_be_HTTPS_or_a_bare_host() throws {
         let httpsURL = ElevenLabsSettingsReader.apiURL(
             environment: [ElevenLabsSettingsReader.apiURLEnvironmentKey: "https://eleven.test"])
         #expect(httpsURL.absoluteString == "https://eleven.test")

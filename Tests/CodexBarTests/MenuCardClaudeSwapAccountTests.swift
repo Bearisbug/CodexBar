@@ -49,14 +49,14 @@ struct MenuCardClaudeSwapAccountTests {
     }
 
     @Test
-    func `claude swap action overrides adapter login method`() throws {
+    func claude_swap_action_overrides_adapter_login_method() throws {
         let model = try self.makeModel(hidePersonalInfo: false, planOverride: "Switch Account...")
 
         #expect(model.planText == "Switch Account...")
     }
 
     @Test
-    func `claude swap account snapshot renders session and weekly metrics with identity`() throws {
+    func claude_swap_account_snapshot_renders_session_and_weekly_metrics_with_identity() throws {
         let model = try self.makeModel(hidePersonalInfo: false)
 
         #expect(model.email == "personal@example.com")
@@ -67,7 +67,7 @@ struct MenuCardClaudeSwapAccountTests {
     }
 
     @Test
-    func `claude swap account card respects hide personal info`() throws {
+    func claude_swap_account_card_respects_hide_personal_info() throws {
         let model = try self.makeModel(hidePersonalInfo: true)
 
         #expect(!model.email.contains("personal@example.com"))

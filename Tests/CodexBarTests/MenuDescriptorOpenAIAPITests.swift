@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorOpenAIAPITests {
     @Test
-    func `openai api admin usage appears in descriptor summaries`() throws {
+    func openai_api_admin_usage_appears_in_descriptor_summaries() throws {
         let suite = "MenuDescriptorOpenAIAPITests-admin-summary"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

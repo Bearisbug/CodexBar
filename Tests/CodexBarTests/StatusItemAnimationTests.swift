@@ -27,7 +27,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `known unavailable limits stop loading animation`() {
+    func known_unavailable_limits_stop_loading_animation() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-known-unavailable"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -61,7 +61,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `merged icon loading animation tracks selected provider only`() {
+    func merged_icon_loading_animation_tracks_selected_provider_only() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-merged"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -108,7 +108,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `merged icon loading animation does not flip layout when weekly hits zero`() {
+    func merged_icon_loading_animation_does_not_flip_layout_when_weekly_hits_zero() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-weekly"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -175,7 +175,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `warp no bonus layout is preserved in show used mode when bonus is exhausted`() {
+    func warp_no_bonus_layout_is_preserved_in_show_used_mode_when_bonus_is_exhausted() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-warp-no-bonus-used"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -229,7 +229,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `warp bonus lane is preserved in show used mode when bonus is unused`() {
+    func warp_bonus_lane_is_preserved_in_show_used_mode_when_bonus_is_unused() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-warp-unused-bonus-used"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -283,7 +283,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `open router without key limit uses meter icon when brand percent is disabled`() {
+    func open_router_without_key_limit_uses_meter_icon_when_brand_percent_is_disabled() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-openrouter-no-limit-meter"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -350,7 +350,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `open router key data not fetched still uses meter icon when brand percent is disabled`() {
+    func open_router_key_data_not_fetched_still_uses_meter_icon_when_brand_percent_is_disabled() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-openrouter-no-fetch-meter"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -415,7 +415,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent uses configured metric`() {
+    func menu_bar_percent_uses_configured_metric() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-metric"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -455,7 +455,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `combined codex menu bar metric window uses most constrained visible lane`() {
+    func combined_codex_menu_bar_metric_window_uses_most_constrained_visible_lane() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-codex-combined-window"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -496,7 +496,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent automatic prefers rate limit for kimi`() {
+    func menu_bar_percent_automatic_prefers_rate_limit_for_kimi() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-kimi-automatic"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -535,7 +535,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent uses average for gemini`() {
+    func menu_bar_percent_uses_average_for_gemini() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-average"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -575,7 +575,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent automatic keeps gemini primary over higher tertiary`() {
+    func menu_bar_percent_automatic_keeps_gemini_primary_over_higher_tertiary() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-gemini-automatic-primary"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -615,7 +615,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent automatic picks highest cursor lane including api`() {
+    func menu_bar_percent_automatic_picks_highest_cursor_lane_including_api() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-cursor-automatic-tertiary"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -655,7 +655,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent automatic falls back to purchased perplexity lane when bonus is exhausted`() {
+    func menu_bar_percent_automatic_falls_back_to_purchased_perplexity_lane_when_bonus_is_exhausted() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-perplexity-automatic-purchased"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -695,7 +695,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent automatic falls through after recurring perplexity credits are exhausted`() {
+    func menu_bar_percent_automatic_falls_through_after_recurring_perplexity_credits_are_exhausted() {
         let settings = SettingsStore(
             configStore: testConfigStore(
                 suiteName: "StatusItemAnimationTests-perplexity-automatic-recurring-exhausted"),
@@ -736,7 +736,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent automatic prefers purchased perplexity credits before bonus`() {
+    func menu_bar_percent_automatic_prefers_purchased_perplexity_credits_before_bonus() {
         let settings = SettingsStore(
             configStore: testConfigStore(
                 suiteName: "StatusItemAnimationTests-perplexity-automatic-purchased-before-bonus"),
@@ -777,7 +777,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent primary preference stays on recurring perplexity credits`() {
+    func menu_bar_percent_primary_preference_stays_on_recurring_perplexity_credits() {
         let settings = SettingsStore(
             configStore: testConfigStore(
                 suiteName: "StatusItemAnimationTests-perplexity-primary-recurring-exhausted"),
@@ -818,7 +818,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent tertiary preference uses purchased perplexity lane`() {
+    func menu_bar_percent_tertiary_preference_uses_purchased_perplexity_lane() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-perplexity-tertiary-pref"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -858,7 +858,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar percent tertiary preference uses api lane for cursor`() {
+    func menu_bar_percent_tertiary_preference_uses_api_lane_for_cursor() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-cursor-tertiary-pref"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -898,7 +898,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar tertiary preference falls back to automatic when cursor api lane is missing`() {
+    func menu_bar_tertiary_preference_falls_back_to_automatic_when_cursor_api_lane_is_missing() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-cursor-tertiary-missing-api"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -938,7 +938,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar display text formats percent and pace`() {
+    func menu_bar_display_text_formats_percent_and_pace() {
         let now = Date(timeIntervalSince1970: 0)
         let percentWindow = RateWindow(usedPercent: 40, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
         let paceWindow = RateWindow(
@@ -970,7 +970,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar display text formats codex combined percent lanes`() {
+    func menu_bar_display_text_formats_codex_combined_percent_lanes() {
         let sessionWindow = RateWindow(usedPercent: 7, windowMinutes: 300, resetsAt: nil, resetDescription: nil)
         let weeklyWindow = RateWindow(usedPercent: 18, windowMinutes: 10080, resetsAt: nil, resetDescription: nil)
 
@@ -1011,7 +1011,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar display text falls back to percent when pace unavailable`() {
+    func menu_bar_display_text_falls_back_to_percent_when_pace_unavailable() {
         let percentWindow = RateWindow(usedPercent: 40, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
 
         let pace = MenuBarDisplayText.displayText(
@@ -1028,7 +1028,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar display text falls back to percent when pace nil for codex`() {
+    func menu_bar_display_text_falls_back_to_percent_when_pace_nil_for_codex() {
         let percentWindow = RateWindow(usedPercent: 40, windowMinutes: nil, resetsAt: nil, resetDescription: nil)
 
         let pace = MenuBarDisplayText.displayText(
@@ -1047,7 +1047,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude primary menu bar metric computes pace from selected session window`() {
+    func claude_primary_menu_bar_metric_computes_pace_from_selected_session_window() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-claude-primary-pace"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -1098,7 +1098,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude combined menu bar metric shows session and weekly lanes`() {
+    func claude_combined_menu_bar_metric_shows_session_and_weekly_lanes() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-claude-combined"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -1150,7 +1150,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude combined menu bar metric shows weekly only when session lane is absent`() {
+    func claude_combined_menu_bar_metric_shows_weekly_only_when_session_lane_is_absent() {
         // Mirrors the Claude OAuth path where `five_hour` is missing: the mapper parks the 7-day
         // window in BOTH `primary` and `secondary`. The combined metric must not relabel the
         // weekly window as a session lane (e.g. "168h 42% · W 42%") — it should show weekly only.
@@ -1198,7 +1198,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude combined menu bar metric paces the weekly lane in both mode`() {
+    func claude_combined_menu_bar_metric_paces_the_weekly_lane_in_both_mode() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-claude-combined-pace"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -1254,7 +1254,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude combined menu bar metric pairs session usage with weekly pace`() {
+    func claude_combined_menu_bar_metric_pairs_session_usage_with_weekly_pace() {
         // Regression: in pace/both modes the combined metric must pair the SESSION usage with the
         // WEEKLY pace. Previously the usage component came from the most-constrained lane, so when the
         // weekly lane was busier than the session lane it showed weekly usage + weekly pace.
@@ -1312,7 +1312,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `codex combined menu bar metric pairs session usage with weekly pace`() {
+    func codex_combined_menu_bar_metric_pairs_session_usage_with_weekly_pace() {
         // The combined metric is shared with Codex, which resolves its lanes through the consumer
         // projection. The session usage must headline the pace/both readout there too — not the busier
         // weekly lane that drives the icon/bar.
@@ -1369,7 +1369,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude combined menu bar metric surfaces an exhausted weekly lane in both mode`() {
+    func claude_combined_menu_bar_metric_surfaces_an_exhausted_weekly_lane_in_both_mode() {
         // When the weekly lane is exhausted it is the binding cap and has no pace, so the combined metric
         // must surface it instead of a roomy session number that would hide the spent weekly limit.
         let settings = SettingsStore(
@@ -1426,7 +1426,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude combined menu bar metric falls back to weekly lane in both mode when session absent`() {
+    func claude_combined_menu_bar_metric_falls_back_to_weekly_lane_in_both_mode_when_session_absent() {
         // Five_hour OAuth fallback: the mapper parks the 7-day window in both primary and secondary, so no
         // session lane exists. The pace/both usage component must land on the weekly lane, not collapse to
         // nil.
@@ -1475,7 +1475,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `claude combined menu bar metric shows spend limit for a spend-limit-only account`() {
+    func claude_combined_menu_bar_metric_shows_spend_limit_for_a_spend_limit_only_account() {
         // A Claude account that only exposes an enterprise/extra-usage spend limit has no real
         // session/weekly lanes (here a 0% 5h placeholder + a spend limit). With Session + Weekly selected,
         // it must surface the spend-limit usage, not the meaningless "5h 0%" placeholder lane.
@@ -1534,7 +1534,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `codex menu bar pace does not fall back to session when weekly projection is unavailable`() {
+    func codex_menu_bar_pace_does_not_fall_back_to_session_when_weekly_projection_is_unavailable() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-codex-no-weekly-pace"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -1581,7 +1581,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar display text uses credits when codex weekly is exhausted`() {
+    func menu_bar_display_text_uses_credits_when_codex_weekly_is_exhausted() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-credits-fallback"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -1627,7 +1627,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar display text uses credits when codex session is exhausted`() {
+    func menu_bar_display_text_uses_credits_when_codex_session_is_exhausted() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-credits-fallback-session"),
             zaiTokenStore: NoopZaiTokenStore())
@@ -1673,7 +1673,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `menu bar display text shows zero percent for kilo zero total edge`() {
+    func menu_bar_display_text_shows_zero_percent_for_kilo_zero_total_edge() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemAnimationTests-kilo-zero-edge"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -1719,7 +1719,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `brand image with status overlay returns original image when no issue`() {
+    func brand_image_with_status_overlay_returns_original_image_when_no_issue() {
         let brand = NSImage(size: NSSize(width: 16, height: 16))
         brand.isTemplate = true
 
@@ -1729,7 +1729,7 @@ struct StatusItemAnimationTests {
     }
 
     @Test
-    func `brand image with status overlay draws issue mark`() throws {
+    func brand_image_with_status_overlay_draws_issue_mark() throws {
         let size = NSSize(width: 16, height: 16)
         let brand = NSImage(size: size)
         brand.lockFocus()

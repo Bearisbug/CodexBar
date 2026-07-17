@@ -23,7 +23,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `persistent reference hash stays stable across keychain metadata refresh`() {
+    func persistent_reference_hash_stays_stable_across_keychain_metadata_refresh() {
         let first = ClaudeOAuthCredentialsStore.ClaudeKeychainFingerprint(
             modifiedAt: 1,
             createdAt: 1,
@@ -51,7 +51,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `loads from keychain cache before expired file`() throws {
+    func loads_from_keychain_cache_before_expired_file() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try ProviderInteractionContext.$current.withValue(.background) {
             try KeychainCacheStore.withServiceOverrideForTesting(service) {
@@ -119,7 +119,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `load record non interactive repair can be disabled`() throws {
+    func load_record_non_interactive_repair_can_be_disabled() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -179,7 +179,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `invalidates cache when credentials file changes`() throws {
+    func invalidates_cache_when_credentials_file_changes() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -223,7 +223,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `returns expired file when no other sources`() throws {
+    func returns_expired_file_when_no_other_sources() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(true) {
@@ -258,7 +258,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `load with auto refresh expired claude CLI owner throws delegated refresh`() async throws {
+    func load_with_auto_refresh_expired_claude_CLI_owner_throws_delegated_refresh() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try await KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -308,7 +308,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `load with auto refresh expired codexbar owner uses direct refresh path`() async throws {
+    func load_with_auto_refresh_expired_codexbar_owner_uses_direct_refresh_path() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try await KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -360,7 +360,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `load record legacy cache entry without owner defaults to claude CLI owner`() throws {
+    func load_record_legacy_cache_entry_without_owner_defaults_to_claude_CLI_owner() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -400,7 +400,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `has cached credentials returns false for expired unrefreshable codexbar cache entry`() throws {
+    func has_cached_credentials_returns_false_for_expired_unrefreshable_codexbar_cache_entry() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -430,7 +430,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `has cached credentials returns true for expired refreshable cache entry`() throws {
+    func has_cached_credentials_returns_true_for_expired_refreshable_cache_entry() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -457,7 +457,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `has cached credentials returns true for expired claude CLI backed credentials file`() throws {
+    func has_cached_credentials_returns_true_for_expired_claude_CLI_backed_credentials_file() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -482,7 +482,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `syncs cache when claude keychain fingerprint changes and token differs`() throws {
+    func syncs_cache_when_claude_keychain_fingerprint_changes_and_token_differs() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -581,7 +581,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `does not sync in background when cache valid and prompt mode only on user action`() throws {
+    func does_not_sync_in_background_when_cache_valid_and_prompt_mode_only_on_user_action() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -666,7 +666,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `does not sync when claude keychain fingerprint unchanged`() throws {
+    func does_not_sync_when_claude_keychain_fingerprint_unchanged() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -723,7 +723,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `does not sync when keychain credentials expired but cache valid`() throws {
+    func does_not_sync_when_keychain_credentials_expired_but_cache_valid() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -783,7 +783,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `respects prompt cooldown gate when disabled prompting`() throws {
+    func respects_prompt_cooldown_gate_when_disabled_prompting() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainCacheStore.setTestStoreForTesting(true)
@@ -859,7 +859,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `sync from claude keychain without prompt respects backoff in background`() {
+    func sync_from_claude_keychain_without_prompt_respects_backoff_in_background() {
         ProviderInteractionContext.$current.withValue(.background) {
             KeychainAccessGate.withTaskOverrideForTesting(true) {
                 ClaudeOAuthCredentialsStore.withKeychainAccessOverrideForTesting(true) {
@@ -887,7 +887,7 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `testing override snapshot forwards mutable Claude keychain override store across detached task`() async {
+    func testing_override_snapshot_forwards_mutable_Claude_keychain_override_store_across_detached_task() async {
         let fingerprint = ClaudeOAuthCredentialsStore.ClaudeKeychainFingerprint(
             modifiedAt: 11,
             createdAt: 7,
@@ -945,7 +945,7 @@ extension ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `never mode repairs a missing credentials file from a valid no-UI Keychain read`() throws {
+    func never_mode_repairs_a_missing_credentials_file_from_a_valid_no_UI_Keychain_read() throws {
         try self.withIsolatedOAuthCache {
             try self.withMissingCredentialsFile {
                 let keychainData = self.makeCredentialsData(
@@ -975,7 +975,7 @@ extension ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `never mode skips the experimental security CLI before no-UI Keychain repair`() throws {
+    func never_mode_skips_the_experimental_security_CLI_before_no_UI_Keychain_repair() throws {
         try self.withIsolatedOAuthCache {
             try self.withMissingCredentialsFile {
                 let noUIData = self.makeCredentialsData(
@@ -1022,14 +1022,14 @@ extension ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
-    func `never mode still blocks an interactive Keychain read even with a valid item present`() throws {
+    func never_mode_still_blocks_an_interactive_Keychain_read_even_with_a_valid_item_present() throws {
         try self.withIsolatedOAuthCache {
             try self.withMissingCredentialsFile {
                 let keychainData = self.makeCredentialsData(
                     accessToken: "test-token-placeholder",
                     expiresAt: Date(timeIntervalSinceNow: 3600))
 
-                let error = #expect(throws: ClaudeOAuthCredentialsError.self) {
+                do {
                     try ClaudeOAuthKeychainPromptPreference.withTaskOverrideForTesting(.never) {
                         try ProviderInteractionContext.$current.withValue(.background) {
                             try ClaudeOAuthCredentialsStore.withClaudeKeychainOverridesForTesting(
@@ -1040,24 +1040,28 @@ extension ClaudeOAuthCredentialsStoreTests {
                             }
                         }
                     }
-                }
-                guard case .notFound = error else {
-                    Issue.record("Expected .notFound, got \(String(describing: error))")
-                    return
+                    Issue.record("Expected .notFound, but no error was thrown")
+                } catch let error as ClaudeOAuthCredentialsError {
+                    guard case .notFound = error else {
+                        Issue.record("Expected .notFound, got \(String(describing: error))")
+                        return
+                    }
+                } catch {
+                    Issue.record("Expected ClaudeOAuthCredentialsError, got \(error)")
                 }
             }
         }
     }
 
     @Test
-    func `never mode without any Keychain item still fails closed`() throws {
+    func never_mode_without_any_Keychain_item_still_fails_closed() throws {
         try self.withIsolatedOAuthCache {
             try self.withMissingCredentialsFile {
                 // A registered empty override prevents any fallback to real SecItem probes.
                 let emptyKeychain = ClaudeOAuthCredentialsStore.ClaudeKeychainOverrideStore(
                     data: nil,
                     fingerprint: nil)
-                let error = #expect(throws: ClaudeOAuthCredentialsError.self) {
+                do {
                     try ClaudeOAuthKeychainPromptPreference.withTaskOverrideForTesting(.never) {
                         try ProviderInteractionContext.$current.withValue(.background) {
                             try ClaudeOAuthCredentialsStore
@@ -1070,24 +1074,28 @@ extension ClaudeOAuthCredentialsStoreTests {
                                 }
                         }
                     }
-                }
-                guard case .notFound = error else {
-                    Issue.record("Expected .notFound, got \(String(describing: error))")
-                    return
+                    Issue.record("Expected .notFound, but no error was thrown")
+                } catch let error as ClaudeOAuthCredentialsError {
+                    guard case .notFound = error else {
+                        Issue.record("Expected .notFound, got \(String(describing: error))")
+                        return
+                    }
+                } catch {
+                    Issue.record("Expected ClaudeOAuthCredentialsError, got \(error)")
                 }
             }
         }
     }
 
     @Test
-    func `global Keychain disable blocks no-UI repair in never mode`() throws {
+    func global_Keychain_disable_blocks_no_UI_repair_in_never_mode() throws {
         try self.withIsolatedOAuthCache {
             try self.withMissingCredentialsFile {
                 let keychainData = self.makeCredentialsData(
                     accessToken: "test-token-placeholder",
                     expiresAt: Date(timeIntervalSinceNow: 3600))
 
-                let error = #expect(throws: ClaudeOAuthCredentialsError.self) {
+                do {
                     try KeychainAccessGate.withTaskOverrideForTesting(true) {
                         try ClaudeOAuthCredentialsStore.withKeychainAccessOverrideForTesting(true) {
                             try ClaudeOAuthKeychainPromptPreference.withTaskOverrideForTesting(.never) {
@@ -1106,10 +1114,14 @@ extension ClaudeOAuthCredentialsStoreTests {
                             }
                         }
                     }
-                }
-                guard case .notFound = error else {
-                    Issue.record("Expected .notFound, got \(String(describing: error))")
-                    return
+                    Issue.record("Expected .notFound, but no error was thrown")
+                } catch let error as ClaudeOAuthCredentialsError {
+                    guard case .notFound = error else {
+                        Issue.record("Expected .notFound, got \(String(describing: error))")
+                        return
+                    }
+                } catch {
+                    Issue.record("Expected ClaudeOAuthCredentialsError, got \(error)")
                 }
             }
         }

@@ -7,7 +7,7 @@ import Testing
 struct SettingsStoreAdditionalTests {
     @Test
     @MainActor
-    func `antigravity two pool migration preserves released metric meaning`() {
+    func antigravity_two_pool_migration_preserves_released_metric_meaning() {
         let primaryDefaults = UserDefaults(suiteName: #function + ".primary")!
         primaryDefaults.removePersistentDomain(forName: #function + ".primary")
         primaryDefaults.set(
@@ -55,7 +55,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `menu bar metric preference handles zai and average`() {
+    func menu_bar_metric_preference_handles_zai_and_average() {
         let settings = Self.makeSettingsStore(suite: "SettingsStoreAdditionalTests-metric")
 
         #expect(settings.menuBarMetricPreference(for: .zai) == .automatic)
@@ -120,7 +120,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `menu bar metric preference restricts open router to automatic or primary`() {
+    func menu_bar_metric_preference_restricts_open_router_to_automatic_or_primary() {
         let settings = Self.makeSettingsStore(suite: "SettingsStoreAdditionalTests-openrouter-metric")
 
         settings.setMenuBarMetricPreference(.secondary, for: .openrouter)
@@ -140,7 +140,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `menu bar metric preference restricts mistral to payg or monthly plan`() {
+    func menu_bar_metric_preference_restricts_mistral_to_payg_or_monthly_plan() {
         let settings = Self.makeSettingsStore(suite: "SettingsStoreAdditionalTests-mistral-metric")
 
         settings.setMenuBarMetricPreference(.monthlyPlan, for: .mistral)
@@ -151,7 +151,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `menu bar metric preference restricts text only balance providers to automatic`() {
+    func menu_bar_metric_preference_restricts_text_only_balance_providers_to_automatic() {
         let settings = Self.makeSettingsStore(suite: "SettingsStoreAdditionalTests-text-only-metric")
 
         for provider in [UsageProvider.deepseek, .kimik2, .poe, .crossmodel] {
@@ -164,7 +164,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `minimax auth mode uses stored values`() {
+    func minimax_auth_mode_uses_stored_values() {
         let settings = Self.makeSettingsStore(suite: "SettingsStoreAdditionalTests-minimax")
         settings.minimaxAPIToken = "sk-api-test-token"
         settings.minimaxCookieHeader = "cookie=value"
@@ -176,7 +176,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `token accounts set manual cookie source when required`() {
+    func token_accounts_set_manual_cookie_source_when_required() {
         let settings = Self.makeSettingsStore(suite: "SettingsStoreAdditionalTests-token-accounts")
 
         settings.addTokenAccount(provider: .claude, label: "Primary", token: "token-1")
@@ -186,7 +186,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `ollama token accounts set manual cookie source when required`() {
+    func ollama_token_accounts_set_manual_cookie_source_when_required() {
         let settings = Self.makeSettingsStore(suite: "SettingsStoreAdditionalTests-ollama-token-accounts")
 
         settings.addTokenAccount(provider: .ollama, label: "Primary", token: "session=token-1")
@@ -196,7 +196,7 @@ struct SettingsStoreAdditionalTests {
     }
 
     @Test
-    func `detects token cost usage sources from filesystem`() throws {
+    func detects_token_cost_usage_sources_from_filesystem() throws {
         let fm = FileManager.default
         let root = fm.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let sessions = root.appendingPathComponent("sessions", isDirectory: true)

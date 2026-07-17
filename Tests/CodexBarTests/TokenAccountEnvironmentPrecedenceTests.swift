@@ -7,14 +7,14 @@ import Testing
 @Suite(.serialized)
 struct AlibabaTokenPlanRegionSelectionTests {
     @Test @MainActor
-    func `fresh app settings default to International`() {
+    func fresh_app_settings_default_to_International() {
         let settings = testSettingsStore(suiteName: "AlibabaTokenPlanRegionSelectionTests-fresh")
 
         #expect(settings.alibabaTokenPlanAPIRegion == .international)
     }
 
     @Test @MainActor
-    func `legacy app settings without region remain China mainland`() {
+    func legacy_app_settings_without_region_remain_China_mainland() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .alibabatokenplan, region: nil))
         let settings = testSettingsStore(
@@ -25,7 +25,7 @@ struct AlibabaTokenPlanRegionSelectionTests {
     }
 
     @Test @MainActor
-    func `app settings trim configured region`() {
+    func app_settings_trim_configured_region() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .alibabatokenplan, region: " intl "))
         let settings = testSettingsStore(
@@ -36,7 +36,7 @@ struct AlibabaTokenPlanRegionSelectionTests {
     }
 
     @Test
-    func `CLI honors explicit region and keeps legacy config on China mainland`() throws {
+    func CLI_honors_explicit_region_and_keeps_legacy_config_on_China_mainland() throws {
         let selection = TokenAccountCLISelection(label: nil, index: nil, allAccounts: false)
         let internationalContext = try TokenAccountCLIContext(
             selection: selection,
@@ -61,7 +61,7 @@ struct AlibabaTokenPlanRegionSelectionTests {
 @Suite(.serialized)
 struct ZaiTokenAccountEnvironmentPrecedenceTests {
     @Test
-    func `zai CLI settings snapshot defaults to personal without account scope`() throws {
+    func zai_CLI_settings_snapshot_defaults_to_personal_without_account_scope() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(id: .zai),
         ])
@@ -82,7 +82,7 @@ struct ZaiTokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `zai CLI settings snapshot uses selected team account scope`() throws {
+    func zai_CLI_settings_snapshot_uses_selected_team_account_scope() throws {
         let account = ProviderTokenAccount(
             id: UUID(),
             label: "Team",
@@ -112,7 +112,7 @@ struct ZaiTokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `zai CLI personal account scope clears inherited team context`() throws {
+    func zai_CLI_personal_account_scope_clears_inherited_team_context() throws {
         let account = ProviderTokenAccount(
             id: UUID(),
             label: "Personal",
@@ -143,7 +143,7 @@ struct ZaiTokenAccountEnvironmentPrecedenceTests {
 @MainActor
 struct TokenAccountEnvironmentPrecedenceTests {
     @Test
-    func `token account environment overrides config API key in app environment builder`() {
+    func token_account_environment_overrides_config_API_key_in_app_environment_builder() {
         let settings = Self.makeSettingsStore(suite: "TokenAccountEnvironmentPrecedenceTests-app")
         settings.zaiAPIToken = "config-token"
         settings.addTokenAccount(provider: .zai, label: "Account 1", token: "account-token")
@@ -160,7 +160,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `deepseek token account injects environment in app environment builder`() {
+    func deepseek_token_account_injects_environment_in_app_environment_builder() {
         let settings = Self.makeSettingsStore(suite: "TokenAccountEnvironmentPrecedenceTests-deepseek-app")
         settings.addTokenAccount(provider: .deepseek, label: "Account 1", token: "account-token")
 
@@ -175,7 +175,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `token account environment overrides config API key in CLI environment builder`() throws {
+    func token_account_environment_overrides_config_API_key_in_CLI_environment_builder() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(id: .zai, apiKey: "config-token"),
@@ -196,7 +196,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `deepseek token account injects environment in CLI environment builder`() throws {
+    func deepseek_token_account_injects_environment_in_CLI_environment_builder() throws {
         let config = CodexBarConfig(providers: [])
         let selection = TokenAccountCLISelection(label: nil, index: nil, allAccounts: false)
         let tokenContext = try TokenAccountCLIContext(selection: selection, config: config, verbose: false)
@@ -213,7 +213,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `ollama token account selection forces manual cookie source in CLI settings snapshot`() throws {
+    func ollama_token_account_selection_forces_manual_cookie_source_in_CLI_settings_snapshot() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -243,7 +243,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `command code config cookie is carried into CLI settings snapshot`() throws {
+    func command_code_config_cookie_is_carried_into_CLI_settings_snapshot() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(
                 id: .commandcode,
@@ -260,7 +260,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `app snapshot override resolves cookie account without mutating stored selection`() throws {
+    func app_snapshot_override_resolves_cookie_account_without_mutating_stored_selection() throws {
         let settings = Self.makeSettingsStore(suite: "TokenAccountEnvironmentPrecedenceTests-cookie-override-app")
         settings.cursorCookieSource = .auto
         settings.cursorCookieHeader = "configured=true"
@@ -282,7 +282,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `stepfun CLI snapshot reads manual token from region field`() throws {
+    func stepfun_CLI_snapshot_reads_manual_token_from_region_field() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -299,7 +299,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `stepfun CLI token account overrides region manual token`() throws {
+    func stepfun_CLI_token_account_overrides_region_manual_token() throws {
         let account = ProviderTokenAccount(
             id: UUID(),
             label: "StepFun",
@@ -327,7 +327,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude OAuth token account overrides environment in app environment builder`() {
+    func claude_OAuth_token_account_overrides_environment_in_app_environment_builder() {
         let settings = Self.makeSettingsStore(suite: "TokenAccountEnvironmentPrecedenceTests-claude-app")
         settings.addTokenAccount(provider: .claude, label: "OAuth", token: "Bearer sk-ant-oat-account-token")
 
@@ -342,7 +342,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude session account strips ambient admin api credentials in app environment builder`() {
+    func claude_session_account_strips_ambient_admin_api_credentials_in_app_environment_builder() {
         let settings = Self.makeSettingsStore(suite: "TokenAccountEnvironmentPrecedenceTests-claude-admin-strip-app")
         settings.claudeAdminAPIKey = "sk-ant-admin-config"
         settings.addTokenAccount(provider: .claude, label: "Session", token: "sk-ant-session-token")
@@ -364,7 +364,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude session key selection carries organization id in app settings snapshot`() throws {
+    func claude_session_key_selection_carries_organization_id_in_app_settings_snapshot() throws {
         let settings = Self.makeSettingsStore(suite: "TokenAccountEnvironmentPrecedenceTests-claude-org-app")
         settings.addTokenAccount(
             provider: .claude,
@@ -380,7 +380,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude OAuth token selection forces OAuth in CLI settings snapshot`() throws {
+    func claude_OAuth_token_selection_forces_OAuth_in_CLI_settings_snapshot() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -411,7 +411,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude OAuth token selection injects environment override in CLI`() throws {
+    func claude_OAuth_token_selection_injects_environment_override_in_CLI() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -438,7 +438,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude session account strips ambient admin api credentials in CLI environment builder`() throws {
+    func claude_session_account_strips_ambient_admin_api_credentials_in_CLI_environment_builder() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -477,7 +477,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude OAuth token selection promotes auto source mode in CLI`() throws {
+    func claude_OAuth_token_selection_promotes_auto_source_mode_in_CLI() throws {
         let account = ProviderTokenAccount(
             id: UUID(),
             label: "Primary",
@@ -499,7 +499,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude OAuth token selection reroutes explicit CLI source to OAuth in CLI`() throws {
+    func claude_OAuth_token_selection_reroutes_explicit_CLI_source_to_OAuth_in_CLI() throws {
         let account = ProviderTokenAccount(
             id: UUID(),
             label: "Primary",
@@ -521,7 +521,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude session key selection reroutes explicit CLI source to Web in CLI`() throws {
+    func claude_session_key_selection_reroutes_explicit_CLI_source_to_Web_in_CLI() throws {
         let account = ProviderTokenAccount(
             id: UUID(),
             label: "Primary",
@@ -543,7 +543,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude all accounts reroutes explicit CLI source per selected credential in CLI`() throws {
+    func claude_all_accounts_reroutes_explicit_CLI_source_per_selected_credential_in_CLI() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -578,7 +578,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
         #expect(tokenContext.effectiveSourceMode(base: .cli, provider: .claude, account: oauth) == .oauth)
         #expect(oauthSnapshot.usageDataSource == .oauth)
         #expect(tokenContext.environment(base: [:], provider: .claude, account: oauth)[
-            ClaudeOAuthCredentialsStore.environmentTokenKey,
+            ClaudeOAuthCredentialsStore.environmentTokenKey
         ] == "sk-ant-oat-account-token")
 
         let session = try #require(resolved.dropFirst().first)
@@ -589,7 +589,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `codex all accounts selection exposes configured accounts and scopes CLI homes`() throws {
+    func codex_all_accounts_selection_exposes_configured_accounts_and_scopes_CLI_homes() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-cli-all-accounts-\(UUID().uuidString)", isDirectory: true)
         let ambientHome = root.appendingPathComponent("ambient", isDirectory: true)
@@ -697,7 +697,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `codex CLI ignores relative profile homes`() throws {
+    func codex_CLI_ignores_relative_profile_homes() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-cli-relative-profile-\(UUID().uuidString)", isDirectory: true)
         let ambientHome = root.appendingPathComponent("ambient", isDirectory: true)
@@ -729,7 +729,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude ambient explicit CLI source remains CLI in CLI`() throws {
+    func claude_ambient_explicit_CLI_source_remains_CLI_in_CLI() throws {
         let config = CodexBarConfig(providers: [ProviderConfig(id: .claude)])
         let tokenContext = try TokenAccountCLIContext(
             selection: TokenAccountCLISelection(label: nil, index: nil, allAccounts: false),
@@ -745,7 +745,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude session key selection stays in manual cookie mode in CLI settings snapshot`() throws {
+    func claude_session_key_selection_stays_in_manual_cookie_mode_in_CLI_settings_snapshot() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -776,7 +776,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude session key selection carries organization id in CLI settings snapshot`() throws {
+    func claude_session_key_selection_carries_organization_id_in_CLI_settings_snapshot() throws {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -805,7 +805,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude token account organization id uses organizationId JSON key`() throws {
+    func claude_token_account_organization_id_uses_organizationId_JSON_key() throws {
         let json = """
         {
           "id": "00000000-0000-0000-0000-000000000001",
@@ -825,7 +825,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude config manual cookie uses shared route in CLI settings snapshot`() throws {
+    func claude_config_manual_cookie_uses_shared_route_in_CLI_settings_snapshot() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -843,7 +843,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `claude config manual cookie does not promote auto source mode in CLI`() throws {
+    func claude_config_manual_cookie_does_not_promote_auto_source_mode_in_CLI() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -864,7 +864,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `apply account label in app preserves snapshot fields`() {
+    func apply_account_label_in_app_preserves_snapshot_fields() {
         let settings = Self.makeSettingsStore(suite: "TokenAccountEnvironmentPrecedenceTests-apply-app")
         let store = Self.makeUsageStore(settings: settings)
         let snapshot = Self.makeSnapshotWithAllFields(provider: .zai)
@@ -883,7 +883,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `apply account label in CLI preserves snapshot fields`() throws {
+    func apply_account_label_in_CLI_preserves_snapshot_fields() throws {
         let context = try TokenAccountCLIContext(
             selection: TokenAccountCLISelection(label: nil, index: nil, allAccounts: false),
             config: CodexBarConfig(providers: []),
@@ -904,7 +904,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `codex known owners match between app and CLI for live system only`() throws {
+    func codex_known_owners_match_between_app_and_CLI_for_live_system_only() throws {
         let ambientHome = Self.makeTempCodexHome(
             email: "live@example.com",
             plan: "pro",
@@ -935,7 +935,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `codex known owners match between app and CLI when managed and live identities are the same`() throws {
+    func codex_known_owners_match_between_app_and_CLI_when_managed_and_live_identities_are_the_same() throws {
         let ambientHome = Self.makeTempCodexHome(
             email: "shared@example.com",
             plan: "pro",
@@ -984,7 +984,7 @@ struct TokenAccountEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `codex known owners match between app and CLI when managed and live identities differ`() throws {
+    func codex_known_owners_match_between_app_and_CLI_when_managed_and_live_identities_differ() throws {
         let ambientHome = Self.makeTempCodexHome(
             email: "live@example.com",
             plan: "pro",

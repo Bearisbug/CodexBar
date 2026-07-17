@@ -6,7 +6,7 @@ struct PoeUsageHistorySnapshotTests {
     // MARK: - summary(days:)
 
     @Test
-    func `summary over empty daily returns zeroed summary with nil cost`() {
+    func summary_over_empty_daily_returns_zeroed_summary_with_nil_cost() {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: [],
@@ -20,7 +20,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `summary over single day reports that day's points and requests`() {
+    func summary_over_single_day_reports_that_day_s_points_and_requests() {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: [PoeUsageHistorySnapshot.DailyBucket(
@@ -38,7 +38,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `summary over seven days uses the last seven daily buckets`() {
+    func summary_over_seven_days_uses_the_last_seven_daily_buckets() {
         let daily: [PoeUsageHistorySnapshot.DailyBucket] = (1...10).map { offset in
             PoeUsageHistorySnapshot.DailyBucket(
                 day: String(format: "2026-05-%02d", offset),
@@ -60,7 +60,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `summary clamps zero and negative day counts up to one`() {
+    func summary_clamps_zero_and_negative_day_counts_up_to_one() {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: [
@@ -76,7 +76,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `summary ignores daily buckets beyond the requested window`() {
+    func summary_ignores_daily_buckets_beyond_the_requested_window() {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: (1...30).map { offset in
@@ -96,7 +96,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `summary reports nil cost when every daily bucket has nil cost`() {
+    func summary_reports_nil_cost_when_every_daily_bucket_has_nil_cost() {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: (1...3).map { offset in
@@ -112,7 +112,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `summary sums only the non-nil cost buckets and keeps the rest invisible`() throws {
+    func summary_sums_only_the_non_nil_cost_buckets_and_keeps_the_rest_invisible() throws {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: [
@@ -130,7 +130,7 @@ struct PoeUsageHistorySnapshotTests {
     // MARK: - latestDay / last7Days / last30Days shortcuts
 
     @Test
-    func `latest day, last 7 and last 30 days agree with summary by day count`() {
+    func latest_day_last_7_and_last_30_days_agree_with_summary_by_day_count() {
         let daily: [PoeUsageHistorySnapshot.DailyBucket] = (1...40).map { offset in
             PoeUsageHistorySnapshot.DailyBucket(
                 day: String(format: "2026-04-%02d", offset),
@@ -149,7 +149,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `current day does not reuse a stale latest bucket`() throws {
+    func current_day_does_not_reuse_a_stale_latest_bucket() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "Europe/London"))
         let now = try #require(ISO8601DateFormatter().date(from: "2026-06-23T12:00:00Z"))
@@ -180,7 +180,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `current day filters raw entries across a UTC bucket boundary`() throws {
+    func current_day_filters_raw_entries_across_a_UTC_bucket_boundary() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "America/Los_Angeles"))
         let now = try #require(ISO8601DateFormatter().date(from: "2026-06-23T01:00:00Z"))
@@ -221,7 +221,7 @@ struct PoeUsageHistorySnapshotTests {
     // MARK: - topModels / topModel
 
     @Test
-    func `top models is empty when entries is empty`() {
+    func top_models_is_empty_when_entries_is_empty() {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: [],
@@ -232,7 +232,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `top models groups by model and sums points and requests`() {
+    func top_models_groups_by_model_and_sums_points_and_requests() {
         let entries = [
             self.makeEntry(id: "1", model: "GPT-4o", usageType: "chat", points: 10, costUSD: 0.01),
             self.makeEntry(id: "2", model: "GPT-4o", usageType: "chat", points: 5, costUSD: 0.01),
@@ -255,7 +255,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `top models breaks ties by name ascending`() {
+    func top_models_breaks_ties_by_name_ascending() {
         let entries = [
             self.makeEntry(id: "1", model: "Z-Model", usageType: "chat", points: 10, costUSD: nil),
             self.makeEntry(id: "2", model: "A-Model", usageType: "chat", points: 10, costUSD: nil),
@@ -271,7 +271,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `top models falls back to unknown for empty or whitespace model strings`() {
+    func top_models_falls_back_to_unknown_for_empty_or_whitespace_model_strings() {
         let entries = [
             self.makeEntry(id: "1", model: "GPT-4o", usageType: "chat", points: 5, costUSD: nil),
             self.makeEntry(id: "2", model: "", usageType: "chat", points: 5, costUSD: nil),
@@ -289,7 +289,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `top models omits cost when no entry reported cost`() {
+    func top_models_omits_cost_when_no_entry_reported_cost() {
         let entries = [
             self.makeEntry(id: "1", model: "GPT-4o", usageType: "chat", points: 5, costUSD: nil),
         ]
@@ -302,7 +302,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `top models sums cost across entries for the same model`() {
+    func top_models_sums_cost_across_entries_for_the_same_model() {
         let entries = [
             self.makeEntry(id: "1", model: "GPT-4o", usageType: "chat", points: 5, costUSD: 0.01),
             self.makeEntry(id: "2", model: "GPT-4o", usageType: "chat", points: 5, costUSD: 0.02),
@@ -318,7 +318,7 @@ struct PoeUsageHistorySnapshotTests {
     // MARK: - topUsageTypes / topUsageType
 
     @Test
-    func `top usage types groups by usage type independent of model`() {
+    func top_usage_types_groups_by_usage_type_independent_of_model() {
         let entries = [
             self.makeEntry(id: "1", model: "GPT-4o", usageType: "chat", points: 5, costUSD: nil),
             self.makeEntry(id: "2", model: "Claude", usageType: "chat", points: 10, costUSD: nil),
@@ -336,7 +336,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `top usage type is the first entry in top usage types`() {
+    func top_usage_type_is_the_first_entry_in_top_usage_types() {
         let entries = [
             self.makeEntry(id: "1", model: "GPT-4o", usageType: "chat", points: 5, costUSD: nil),
             self.makeEntry(id: "2", model: "GPT-4o", usageType: "api", points: 10, costUSD: nil),
@@ -351,7 +351,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `top usage type is nil for empty entries`() {
+    func top_usage_type_is_nil_for_empty_entries() {
         let snapshot = PoeUsageHistorySnapshot(
             entries: [],
             daily: [],
@@ -363,7 +363,7 @@ struct PoeUsageHistorySnapshotTests {
     // MARK: - recentEntries(limit:)
 
     @Test
-    func `recent entries returns up to the requested limit, newest first`() {
+    func recent_entries_returns_up_to_the_requested_limit_newest_first() {
         let now = Date(timeIntervalSince1970: 1_717_000_000)
         let entries = (0..<5).map { offset in
             self.makeEntry(
@@ -390,7 +390,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `recent entries clamps non-positive limit up to one`() {
+    func recent_entries_clamps_non_positive_limit_up_to_one() {
         let now = Date(timeIntervalSince1970: 1_717_000_000)
         let entries = (0..<3).map { offset in
             self.makeEntry(
@@ -412,7 +412,7 @@ struct PoeUsageHistorySnapshotTests {
     }
 
     @Test
-    func `recent entries returns everything when limit exceeds entries count`() {
+    func recent_entries_returns_everything_when_limit_exceeds_entries_count() {
         let now = Date(timeIntervalSince1970: 1_717_000_000)
         let entries = [
             self.makeEntry(id: "1", createdAt: now, model: "A", usageType: "t", points: 1, costUSD: nil),
@@ -436,7 +436,7 @@ struct PoeUsageHistorySnapshotTests {
     // MARK: - Init sorting invariants
 
     @Test
-    func `init sorts entries ascending by created at and daily ascending by day string`() {
+    func init_sorts_entries_ascending_by_created_at_and_daily_ascending_by_day_string() {
         let now = Date(timeIntervalSince1970: 1_717_000_000)
         let entries = [
             self.makeEntry(

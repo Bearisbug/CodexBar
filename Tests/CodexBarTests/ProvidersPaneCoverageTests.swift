@@ -8,7 +8,7 @@ import Testing
 @MainActor
 struct ProvidersPaneCoverageTests {
     @Test
-    func `exercises providers pane views`() {
+    func exercises_providers_pane_views() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests")
         let store = Self.makeUsageStore(settings: settings)
 
@@ -16,7 +16,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `claude token account descriptor shows organization field`() throws {
+    func claude_token_account_descriptor_shows_organization_field() throws {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-claude-org-field")
         let store = Self.makeUsageStore(settings: settings)
         let pane = ProvidersPane(settings: settings, store: store)
@@ -29,7 +29,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `zai token account descriptor shows team mode controls only for zai`() throws {
+    func zai_token_account_descriptor_shows_team_mode_controls_only_for_zai() throws {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-zai-team-controls")
         let store = Self.makeUsageStore(settings: settings)
         let pane = ProvidersPane(settings: settings, store: store)
@@ -44,7 +44,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `zai team account add button requires organization and project`() {
+    func zai_team_account_add_button_requires_organization_and_project() {
         #expect(ProviderSettingsTokenAccountsRowView.isAddDisabled(
             label: "Team",
             token: "token",
@@ -72,7 +72,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `zai team account draft requires complete ids before apply`() {
+    func zai_team_account_draft_requires_complete_ids_before_apply() {
         let original = ProviderSettingsTokenAccountsRowView.TeamAccountDraft(
             teamMode: false,
             organizationID: "",
@@ -105,7 +105,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `provider search filters display names and raw ids`() {
+    func provider_search_filters_display_names_and_raw_ids() {
         let providers: [UsageProvider] = [.codex, .claude, .openrouter, .deepseek]
         let names: [UsageProvider: String] = [
             .codex: "Codex",
@@ -129,7 +129,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `provider reordering is inert while alphabetical sorting is enabled`() {
+    func provider_reordering_is_inert_while_alphabetical_sorting_is_enabled() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-sorted-reorder")
         let store = Self.makeUsageStore(settings: settings)
         let pane = ProvidersPane(settings: settings, store: store)
@@ -146,7 +146,7 @@ struct ProvidersPaneCoverageTests {
 
     @Test
     @MainActor
-    func `settings pane titles cover app panes and providers`() {
+    func settings_pane_titles_cover_app_panes_and_providers() {
         #expect(SettingsPane.general.title == L("tab_general"))
         #expect(SettingsPane.about.title == L("tab_about"))
         #expect(!SettingsPane.provider(.codex).title.isEmpty)
@@ -154,7 +154,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `copilot menu card preview follows budget extras setting`() {
+    func copilot_menu_card_preview_follows_budget_extras_setting() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-copilot-budget-preview")
         let store = Self.makeUsageStore(settings: settings)
         let budgetTitle = "Budget - Copilot Agent Premium Requests"
@@ -183,7 +183,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `codex provider preview follows spark visibility`() {
+    func codex_provider_preview_follows_spark_visibility() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-codex-spark-preview")
         let store = Self.makeUsageStore(settings: settings)
         let now = Date()
@@ -228,7 +228,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `open router menu bar metric picker shows only automatic and primary`() {
+    func open_router_menu_bar_metric_picker_shows_only_automatic_and_primary() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-openrouter-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -247,7 +247,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `deepseek menu bar metric picker shows balance only copy`() {
+    func deepseek_menu_bar_metric_picker_shows_balance_only_copy() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-deepseek-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -262,7 +262,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `moonshot menu bar metric picker shows balance only copy`() {
+    func moonshot_menu_bar_metric_picker_shows_balance_only_copy() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-moonshot-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -277,7 +277,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `mistral menu bar metric picker shows payg and monthly plan options`() {
+    func mistral_menu_bar_metric_picker_shows_payg_and_monthly_plan_options() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-mistral-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -295,7 +295,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `kimi k2 menu bar metric picker shows credits only copy`() {
+    func kimi_k2_menu_bar_metric_picker_shows_credits_only_copy() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-kimik2-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -310,7 +310,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `kimi menu bar metric picker preserves stored lane labels`() {
+    func kimi_menu_bar_metric_picker_preserves_stored_lane_labels() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-kimi-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -331,7 +331,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `cursor menu bar metric picker omits tertiary api lane when snapshot has no api metric`() {
+    func cursor_menu_bar_metric_picker_omits_tertiary_api_lane_when_snapshot_has_no_api_metric() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-cursor-no-tertiary-picker")
         let store = Self.makeUsageStore(settings: settings)
         let pane = ProvidersPane(settings: settings, store: store)
@@ -342,7 +342,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `cursor menu bar metric picker includes tertiary api lane when snapshot has api metric`() {
+    func cursor_menu_bar_metric_picker_includes_tertiary_api_lane_when_snapshot_has_api_metric() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-cursor-tertiary-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -364,7 +364,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `cursor menu bar metric picker omits extra usage when on demand budget is missing`() {
+    func cursor_menu_bar_metric_picker_omits_extra_usage_when_on_demand_budget_is_missing() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-cursor-no-extra-usage-picker")
         let store = Self.makeUsageStore(settings: settings)
         store._setSnapshotForTesting(
@@ -381,7 +381,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `cursor menu bar metric picker includes extra usage when on demand budget is available`() {
+    func cursor_menu_bar_metric_picker_includes_extra_usage_when_on_demand_budget_is_available() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-cursor-extra-usage-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -408,7 +408,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `claude menu bar metric picker includes extra usage when spend limit is available`() {
+    func claude_menu_bar_metric_picker_includes_extra_usage_when_spend_limit_is_available() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-claude-extra-usage-picker")
         let store = Self.makeUsageStore(settings: settings)
         store._setSnapshotForTesting(
@@ -431,7 +431,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `claude menu bar metric picker includes session plus weekly lane`() {
+    func claude_menu_bar_metric_picker_includes_session_plus_weekly_lane() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-claude-session-weekly-picker")
         let store = Self.makeUsageStore(settings: settings)
         let pane = ProvidersPane(settings: settings, store: store)
@@ -443,7 +443,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `zai menu bar metric picker omits tertiary lane when snapshot has no 5-hour metric`() {
+    func zai_menu_bar_metric_picker_omits_tertiary_lane_when_snapshot_has_no_5_hour_metric() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-zai-no-tertiary-picker")
         let store = Self.makeUsageStore(settings: settings)
         let pane = ProvidersPane(settings: settings, store: store)
@@ -458,7 +458,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `zai menu bar metric picker includes tertiary 5-hour lane when snapshot has it`() {
+    func zai_menu_bar_metric_picker_includes_tertiary_5_hour_lane_when_snapshot_has_it() {
         Self.withEnglishLocalization {
             let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-zai-tertiary-picker")
             let store = Self.makeUsageStore(settings: settings)
@@ -480,7 +480,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `gemini menu bar metric picker omits tertiary lane`() {
+    func gemini_menu_bar_metric_picker_omits_tertiary_lane() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-gemini-no-tertiary-picker")
         let store = Self.makeUsageStore(settings: settings)
         let pane = ProvidersPane(settings: settings, store: store)
@@ -491,7 +491,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `provider detail plan row formats open router as balance`() {
+    func provider_detail_plan_row_formats_open_router_as_balance() {
         Self.withEnglishLocalization {
             let row = ProviderDetailView<EmptyView>.planRow(provider: .openrouter, planText: "Balance: $4.61")
 
@@ -501,7 +501,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `provider detail plan row formats moonshot as balance`() {
+    func provider_detail_plan_row_formats_moonshot_as_balance() {
         Self.withEnglishLocalization {
             let row = ProviderDetailView<EmptyView>.planRow(provider: .moonshot, planText: "Balance: $49.58")
 
@@ -511,7 +511,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `provider detail plan row keeps plan label for non open router`() {
+    func provider_detail_plan_row_keeps_plan_label_for_non_open_router() {
         Self.withEnglishLocalization {
             let row = ProviderDetailView<EmptyView>.planRow(provider: .codex, planText: "Pro")
 
@@ -521,7 +521,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `provider detail renders metric status without progress`() {
+    func provider_detail_renders_metric_status_without_progress() {
         let metric = UsageMenuCardView.Model.Metric(
             id: "fixture",
             title: "Example quota",
@@ -539,7 +539,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `provider detail renders ordinary metric progress`() {
+    func provider_detail_renders_ordinary_metric_progress() {
         let metric = UsageMenuCardView.Model.Metric(
             id: "fixture",
             title: "Example quota",
@@ -556,7 +556,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `opencode manual cookie source hides cached browser trailing text`() {
+    func opencode_manual_cookie_source_hides_cached_browser_trailing_text() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-opencode-manual")
         let store = Self.makeUsageStore(settings: settings)
         settings.opencodeCookieSource = .manual
@@ -571,7 +571,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `opencode go manual cookie source hides cached browser trailing text`() {
+    func opencode_go_manual_cookie_source_hides_cached_browser_trailing_text() {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-opencodego-manual")
         let store = Self.makeUsageStore(settings: settings)
         settings.opencodegoCookieSource = .manual
@@ -586,7 +586,7 @@ struct ProvidersPaneCoverageTests {
     }
 
     @Test
-    func `codex providers pane uses managed account fallback instead of ambient account`() throws {
+    func codex_providers_pane_uses_managed_account_fallback_instead_of_ambient_account() throws {
         let settings = Self.makeSettingsStore(suite: "ProvidersPaneCoverageTests-codex-managed-fallback")
         let ambientHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,

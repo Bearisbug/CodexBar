@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeOAuthTests {
     @Test
-    func `parses O auth credentials`() throws {
+    func parses_O_auth_credentials() throws {
         let json = """
         {
           "claudeAiOauth": {
@@ -28,7 +28,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `missing access token throws`() {
+    func missing_access_token_throws() {
         let json = """
         {
           "claudeAiOauth": {
@@ -44,7 +44,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `missing O auth block throws`() {
+    func missing_O_auth_block_throws() {
         let json = """
         { "other": { "accessToken": "nope" } }
         """
@@ -54,7 +54,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `mcp O auth only keychain payload throws`() {
+    func mcp_O_auth_only_keychain_payload_throws() {
         let json = """
         {
           "mcpOAuth": {
@@ -70,7 +70,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `detects mcp O auth only keychain payload shape`() {
+    func detects_mcp_O_auth_only_keychain_payload_shape() {
         let json = """
         {
           "mcpOAuth": {
@@ -83,7 +83,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `treats missing expiry as expired`() {
+    func treats_missing_expiry_as_expired() {
         let creds = ClaudeOAuthCredentials(
             accessToken: "token",
             refreshToken: nil,
@@ -94,7 +94,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `maps O auth usage to snapshot`() throws {
+    func maps_O_auth_usage_to_snapshot() throws {
         let json = """
         {
           "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -115,7 +115,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `maps O auth subscription type when rate limit tier is generic`() throws {
+    func maps_O_auth_subscription_type_when_rate_limit_tier_is_generic() throws {
         let json = """
         {
           "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" }
@@ -129,7 +129,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `ignores merged O auth design usage window`() throws {
+    func ignores_merged_O_auth_design_usage_window() throws {
         let json = """
         {
           "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -145,7 +145,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `surfaces Fable scoped weekly limit from limits array`() throws {
+    func surfaces_Fable_scoped_weekly_limit_from_limits_array() throws {
         // Real shape observed 2026-07-03 during Anthropic's Fable 5 promotional access
         // window (up to 50% of the weekly limit on Fable 5): weekly caps have moved from
         // flat seven_day_* fields (now null) to a `limits` array with `scope.model.display_name`.
@@ -181,7 +181,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `ignores weekly scoped limit without a model display name`() throws {
+    func ignores_weekly_scoped_limit_without_a_model_display_name() throws {
         let json = """
         {
           "five_hour": { "utilization": 11.0, "resets_at": "2026-07-03T00:30:00.282668+00:00" },
@@ -199,7 +199,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `ignores merged O auth omelette usage window`() throws {
+    func ignores_merged_O_auth_omelette_usage_window() throws {
         let json = """
         {
           "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -214,7 +214,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `maps O auth null cowork as zero routines window`() throws {
+    func maps_O_auth_null_cowork_as_zero_routines_window() throws {
         let json = """
         {
           "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -228,7 +228,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `prefers populated routines alias over null alias in mixed payload`() throws {
+    func prefers_populated_routines_alias_over_null_alias_in_mixed_payload() throws {
         let json = """
         {
           "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -244,7 +244,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `maps O auth extra usage`() throws {
+    func maps_O_auth_extra_usage() throws {
         // OAuth API returns values in cents (minor units), same as Web API.
         // The normalization always converts to dollars (major units).
         let json = """
@@ -265,7 +265,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `maps O auth extra usage minor units as major units`() throws {
+    func maps_O_auth_extra_usage_minor_units_as_major_units() throws {
         let json = """
         {
           "five_hour": { "utilization": 1, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -285,7 +285,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `does not display spend limit 100x too high for enterprise O auth`() throws {
+    func does_not_display_spend_limit_100x_too_high_for_enterprise_O_auth() throws {
         let json = """
         {
           "extra_usage": {
@@ -319,7 +319,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `maps O auth spend limit without plan metadata from minor units`() throws {
+    func maps_O_auth_spend_limit_without_plan_metadata_from_minor_units() throws {
         let json = """
         {
           "extra_usage": {
@@ -343,7 +343,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `maps large enterprise O auth spend limit from minor units`() throws {
+    func maps_large_enterprise_O_auth_spend_limit_from_minor_units() throws {
         let json = """
         {
           "extra_usage": {
@@ -367,7 +367,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `normalizes high limit O auth extra usage`() throws {
+    func normalizes_high_limit_O_auth_extra_usage() throws {
         let json = """
         {
           "five_hour": { "utilization": 1, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -388,7 +388,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `normalizes O auth extra usage cents to major units`() throws {
+    func normalizes_O_auth_extra_usage_cents_to_major_units() throws {
         let json = """
         {
           "five_hour": { "utilization": 1, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -407,7 +407,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `prefers opus when sonnet missing`() throws {
+    func prefers_opus_when_sonnet_missing() throws {
         let json = """
         {
           "five_hour": { "utilization": 10, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -419,7 +419,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `includes body in O auth403 error`() {
+    func includes_body_in_O_auth403_error() {
         let err = ClaudeOAuthFetchError.serverError(
             403,
             "HTTP 403: OAuth token does not meet scope requirement user:profile")
@@ -428,7 +428,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `O auth429 error gives actionable guidance without raw body`() {
+    func O_auth429_error_gives_actionable_guidance_without_raw_body() {
         let err = ClaudeOAuthFetchError.rateLimited(retryAfter: nil)
         #expect(err.localizedDescription.contains("rate limited"))
         #expect(err.localizedDescription.contains("claude logout && claude login"))
@@ -436,7 +436,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `O auth429 usage fetch surfaces guidance without raw JSON`() async throws {
+    func O_auth429_usage_fetch_surfaces_guidance_without_raw_JSON() async throws {
         let fetcher = ClaudeUsageFetcher(
             browserDetection: BrowserDetection(cacheTTL: 0),
             environment: [:],
@@ -481,7 +481,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `O auth usage rate limit gate blocks background retries until cooldown`() {
+    func O_auth_usage_rate_limit_gate_blocks_background_retries_until_cooldown() {
         ClaudeOAuthUsageRateLimitGate.resetForTesting()
         defer { ClaudeOAuthUsageRateLimitGate.resetForTesting() }
 
@@ -519,7 +519,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `O auth cooldown storage is private and cleans stale entries`() {
+    func O_auth_cooldown_storage_is_private_and_cleans_stale_entries() {
         ClaudeOAuthUsageRateLimitGate.resetForTesting()
         defer { ClaudeOAuthUsageRateLimitGate.resetForTesting() }
 
@@ -548,7 +548,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `concurrent O auth cooldown writes keep every account and latest deadline`() async {
+    func concurrent_O_auth_cooldown_writes_keep_every_account_and_latest_deadline() async {
         ClaudeOAuthUsageRateLimitGate.resetForTesting()
         defer { ClaudeOAuthUsageRateLimitGate.resetForTesting() }
 
@@ -577,7 +577,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `O auth transport cooldown is isolated and user recovery clears one account`() async throws {
+    func O_auth_transport_cooldown_is_isolated_and_user_recovery_clears_one_account() async throws {
         ClaudeOAuthUsageRateLimitGate.resetForTesting()
         defer { ClaudeOAuthUsageRateLimitGate.resetForTesting() }
 
@@ -658,7 +658,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `O auth retry after parses seconds`() throws {
+    func O_auth_retry_after_parses_seconds() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let url = try #require(URL(string: "https://api.anthropic.com/api/oauth/usage"))
         let response = try #require(HTTPURLResponse(
@@ -673,7 +673,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `O auth retry after parses HTTP date`() throws {
+    func O_auth_retry_after_parses_HTTP_date() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let url = try #require(URL(string: "https://api.anthropic.com/api/oauth/usage"))
         let response = try #require(HTTPURLResponse(
@@ -688,7 +688,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `oauth usage user agent uses claude code version`() {
+    func oauth_usage_user_agent_uses_claude_code_version() {
         #expect(
             ClaudeOAuthUsageFetcher._userAgentForTesting(versionString: "2.1.70 (Claude Code)")
                 == "claude-code/2.1.70")
@@ -696,7 +696,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `oauth usage fallback user agent skips version detector`() {
+    func oauth_usage_fallback_user_agent_skips_version_detector() {
         var detectionCount = 0
         let fallback = ClaudeOAuthUsageFetcher._userAgentForTesting(
             detectClaudeVersion: false,
@@ -720,7 +720,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `skips extra usage when disabled`() throws {
+    func skips_extra_usage_when_disabled() throws {
         let json = """
         {
           "five_hour": { "utilization": 1, "resets_at": "2025-12-25T12:00:00.000Z" },
@@ -738,7 +738,7 @@ struct ClaudeOAuthTests {
     // MARK: - Scope-based strategy resolution
 
     @Test
-    func `prefers O auth when available`() {
+    func prefers_O_auth_when_available() {
         let strategy = ClaudeProviderDescriptor.resolveUsageStrategy(
             selectedDataSource: .auto,
             webExtrasEnabled: false,
@@ -749,7 +749,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `falls back to CLI when O auth missing and CLI available`() {
+    func falls_back_to_CLI_when_O_auth_missing_and_CLI_available() {
         let strategy = ClaudeProviderDescriptor.resolveUsageStrategy(
             selectedDataSource: .auto,
             webExtrasEnabled: false,
@@ -760,7 +760,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `falls back to web when O auth missing and CLI missing`() {
+    func falls_back_to_web_when_O_auth_missing_and_CLI_missing() {
         let strategy = ClaudeProviderDescriptor.resolveUsageStrategy(
             selectedDataSource: .auto,
             webExtrasEnabled: false,
@@ -771,7 +771,7 @@ struct ClaudeOAuthTests {
     }
 
     @Test
-    func `falls back to CLI when O auth missing and web missing`() {
+    func falls_back_to_CLI_when_O_auth_missing_and_web_missing() {
         let strategy = ClaudeProviderDescriptor.resolveUsageStrategy(
             selectedDataSource: .auto,
             webExtrasEnabled: false,

@@ -4,39 +4,39 @@ import Testing
 
 struct DeepSeekPlatformTokenImporterTests {
     @Test
-    func `extracts plain user token`() {
+    func extracts_plain_user_token() {
         let token = "browser-user-token-1234567890"
         #expect(DeepSeekPlatformTokenImporter._extractUserTokenForTesting(token) == token)
     }
 
     @Test
-    func `extracts JSON encoded user token`() {
+    func extracts_JSON_encoded_user_token() {
         let token = "browser-user-token-abcdefghij"
         let value = "{\"userToken\":\"\(token)\"}"
         #expect(DeepSeekPlatformTokenImporter._extractUserTokenForTesting(value) == token)
     }
 
     @Test
-    func `extracts DeepSeek value wrapped user token`() {
+    func extracts_DeepSeek_value_wrapped_user_token() {
         let token = "browser-user-token-value-wrapped"
         let value = "{\"value\":\"\(token)\",\"expiresAt\":1234567890}"
         #expect(DeepSeekPlatformTokenImporter._extractUserTokenForTesting(value) == token)
     }
 
     @Test
-    func `does not treat an unrecognized JSON object as a token`() {
+    func does_not_treat_an_unrecognized_JSON_object_as_a_token() {
         #expect(DeepSeekPlatformTokenImporter._extractUserTokenForTesting("{\"expiresAt\":1234567890}") == nil)
     }
 
     @Test
-    func `rejects short or whitespace values`() {
+    func rejects_short_or_whitespace_values() {
         #expect(DeepSeekPlatformTokenImporter._extractUserTokenForTesting("short") == nil)
         #expect(DeepSeekPlatformTokenImporter._extractUserTokenForTesting("token with embedded spaces 12345") == nil)
     }
 
     #if os(macOS)
     @Test
-    func `imports platform token through browser local storage host API`() {
+    func imports_platform_token_through_browser_local_storage_host_API() {
         let localStorage = BrowserLocalStorageAPI { _, _, _, _ in
             [
                 BrowserLocalStorageAPI.Profile(
@@ -60,7 +60,7 @@ struct DeepSeekPlatformTokenImporterTests {
     #endif
 
     @Test
-    func `multiple profiles expose only server accepted sessions`() async {
+    func multiple_profiles_expose_only_server_accepted_sessions() async {
         let candidates = [
             Self.candidate(id: "profile-1", token: "valid-1"),
             Self.candidate(id: "profile-2", token: "expired"),
@@ -81,7 +81,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `single accepted profile is selected automatically`() async {
+    func single_accepted_profile_is_selected_automatically() async {
         let candidates = [
             Self.candidate(id: "profile-1", token: "expired-1"),
             Self.candidate(id: "profile-2", token: "valid-2"),
@@ -102,7 +102,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `selected profile preserves its detailed usage state`() async {
+    func selected_profile_preserves_its_detailed_usage_state() async {
         let resolution = await DeepSeekPlatformTokenImporter._resolveForTesting(
             candidates: [Self.candidate(id: "profile-1", token: "valid-1")],
             selectedProfileID: nil,
@@ -114,7 +114,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `explicit selection requirement does not auto select a single accepted profile`() async {
+    func explicit_selection_requirement_does_not_auto_select_a_single_accepted_profile() async {
         let resolution = await DeepSeekPlatformTokenImporter._resolveForTesting(
             candidates: [Self.candidate(id: "profile-1", token: "valid-1")],
             selectedProfileID: nil,
@@ -127,7 +127,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `stored selection chooses one of multiple accepted profiles`() async {
+    func stored_selection_chooses_one_of_multiple_accepted_profiles() async {
         let candidates = [
             Self.candidate(id: "profile-1", token: "valid-1"),
             Self.candidate(id: "profile-2", token: "valid-2"),
@@ -155,7 +155,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `stored selection does not wait for unrelated profile validation`() async {
+    func stored_selection_does_not_wait_for_unrelated_profile_validation() async {
         let gate = DeepSeekPlatformValidationGate()
         let fallbackRelease = Task {
             try? await Task.sleep(for: .seconds(1))
@@ -187,7 +187,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `expired stored selection does not silently switch to another profile`() async {
+    func expired_stored_selection_does_not_silently_switch_to_another_profile() async {
         let candidates = [
             Self.candidate(id: "profile-1", token: "expired"),
             Self.candidate(id: "profile-2", token: "valid-2"),
@@ -207,7 +207,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `temporary validation failure is unavailable rather than signed out`() async {
+    func temporary_validation_failure_is_unavailable_rather_than_signed_out() async {
         let resolution = await DeepSeekPlatformTokenImporter._resolveForTesting(
             candidates: [Self.candidate(id: "profile-1", token: "maybe-valid")],
             selectedProfileID: nil,
@@ -219,7 +219,7 @@ struct DeepSeekPlatformTokenImporterTests {
     }
 
     @Test
-    func `temporary validation failure keeps a previously accepted profile`() async {
+    func temporary_validation_failure_keeps_a_previously_accepted_profile() async {
         let candidate = Self.candidate(id: "profile-1", token: "valid-1")
         let cache = DeepSeekPlatformValidationCache(validityTTL: 0)
         _ = await DeepSeekPlatformTokenImporter._resolveForTesting(

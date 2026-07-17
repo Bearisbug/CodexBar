@@ -99,28 +99,28 @@ private actor KimiOrderedCredentialTransport: ProviderHTTPTransport {
 
 struct KimiSettingsReaderTests {
     @Test
-    func `reads token from environment variable`() {
+    func reads_token_from_environment_variable() {
         let env = ["KIMI_AUTH_TOKEN": "test.jwt.token"]
         let token = KimiSettingsReader.authToken(environment: env)
         #expect(token == "test.jwt.token")
     }
 
     @Test
-    func `reads API key from preferred environment variable`() {
+    func reads_API_key_from_preferred_environment_variable() {
         let env = ["KIMI_CODE_API_KEY": "kimi-code-token"]
         let token = KimiSettingsReader.apiKey(environment: env)
         #expect(token == "kimi-code-token")
     }
 
     @Test
-    func `does not consume generic Kimi K2 API key environment variable`() {
+    func does_not_consume_generic_Kimi_K2_API_key_environment_variable() {
         let env = ["KIMI_API_KEY": "'kimi-api-token'"]
         let token = KimiSettingsReader.apiKey(environment: env)
         #expect(token == nil)
     }
 
     @Test
-    func `uses code specific API key when generic Kimi K2 key also exists`() {
+    func uses_code_specific_API_key_when_generic_Kimi_K2_key_also_exists() {
         let env = [
             "KIMI_API_KEY": "generic-kimi-token",
             "KIMI_CODE_API_KEY": "kimi-code-token",
@@ -130,7 +130,7 @@ struct KimiSettingsReaderTests {
     }
 
     @Test
-    func `reuses fresh CLI credential without modifying it`() throws {
+    func reuses_fresh_CLI_credential_without_modifying_it() throws {
         let home = try makeTemporaryKimiCodeHome()
         defer { try? FileManager.default.removeItem(at: home) }
         let now = Date(timeIntervalSince1970: 1_800_000_000)
@@ -161,7 +161,7 @@ struct KimiSettingsReaderTests {
     }
 
     @Test
-    func `rejects expired or missing-expiry CLI credentials`() throws {
+    func rejects_expired_or_missing_expiry_CLI_credentials() throws {
         let now = Date()
         for expiresAt: Any? in [now.addingTimeInterval(30).timeIntervalSince1970, nil, "not-a-time"] {
             let home = try makeTemporaryKimiCodeHome()
@@ -178,7 +178,7 @@ struct KimiSettingsReaderTests {
     }
 
     @Test
-    func `keeps explicit key separate and isolates CLI credential from endpoint overrides`() throws {
+    func keeps_explicit_key_separate_and_isolates_CLI_credential_from_endpoint_overrides() throws {
         let home = try makeTemporaryKimiCodeHome()
         defer { try? FileManager.default.removeItem(at: home) }
         _ = try writeKimiCodeCredential(
@@ -208,20 +208,20 @@ struct KimiSettingsReaderTests {
     }
 
     @Test
-    func `uses default code API base URL when override is absent`() throws {
+    func uses_default_code_API_base_URL_when_override_is_absent() throws {
         let url = try KimiSettingsReader.codeAPIBaseURL(environment: [:])
         #expect(url == KimiSettingsReader.defaultCodeAPIBaseURL)
     }
 
     @Test
-    func `uses custom code API base URL when valid`() throws {
+    func uses_custom_code_API_base_URL_when_valid() throws {
         let env = ["KIMI_CODE_BASE_URL": "https://proxy.example.com/kimi"]
         let url = try KimiSettingsReader.codeAPIBaseURL(environment: env)
         #expect(url.absoluteString == "https://proxy.example.com/kimi")
     }
 
     @Test
-    func `rejects invalid code API base URL`() {
+    func rejects_invalid_code_API_base_URL() {
         let env = ["KIMI_CODE_BASE_URL": "not a url"]
 
         #expect(throws: KimiAPIError.invalidRequest(
@@ -232,7 +232,7 @@ struct KimiSettingsReaderTests {
     }
 
     @Test
-    func `rejects insecure code API base URL`() {
+    func rejects_insecure_code_API_base_URL() {
         let env = ["KIMI_CODE_BASE_URL": "http://proxy.example.com/kimi"]
 
         #expect(throws: KimiAPIError.invalidRequest(
@@ -243,7 +243,7 @@ struct KimiSettingsReaderTests {
     }
 
     @Test
-    func `rejects code API base URL containing user info`() {
+    func rejects_code_API_base_URL_containing_user_info() {
         let env = ["KIMI_CODE_BASE_URL": "https://api.kimi.com@proxy.example.com/kimi"]
 
         #expect(throws: KimiAPIError.invalidRequest(
@@ -254,28 +254,28 @@ struct KimiSettingsReaderTests {
     }
 
     @Test
-    func `normalizes quoted token`() {
+    func normalizes_quoted_token() {
         let env = ["KIMI_AUTH_TOKEN": "\"test.jwt.token\""]
         let token = KimiSettingsReader.authToken(environment: env)
         #expect(token == "test.jwt.token")
     }
 
     @Test
-    func `returns nil when missing`() {
+    func returns_nil_when_missing() {
         let env: [String: String] = [:]
         let token = KimiSettingsReader.authToken(environment: env)
         #expect(token == nil)
     }
 
     @Test
-    func `returns nil when empty`() {
+    func returns_nil_when_empty() {
         let env = ["KIMI_AUTH_TOKEN": ""]
         let token = KimiSettingsReader.authToken(environment: env)
         #expect(token == nil)
     }
 
     @Test
-    func `normalizes lowercase environment key`() {
+    func normalizes_lowercase_environment_key() {
         let env = ["kimi_auth_token": "test.jwt.token"]
         let token = KimiSettingsReader.authToken(environment: env)
         #expect(token == "test.jwt.token")
@@ -284,7 +284,7 @@ struct KimiSettingsReaderTests {
 
 struct KimiAPIFetchStrategyTests {
     @Test
-    func `auto mode accepts CLI credential and reports expired remediation`() async throws {
+    func auto_mode_accepts_CLI_credential_and_reports_expired_remediation() async throws {
         let home = try makeTemporaryKimiCodeHome()
         defer { try? FileManager.default.removeItem(at: home) }
         _ = try writeKimiCodeCredential(
@@ -304,7 +304,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `explicit API mode ignores fresh CLI credential`() async throws {
+    func explicit_API_mode_ignores_fresh_CLI_credential() async throws {
         let home = try makeTemporaryKimiCodeHome()
         defer { try? FileManager.default.removeItem(at: home) }
         _ = try writeKimiCodeCredential(
@@ -322,7 +322,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `rejected CLI credential keeps CLI remediation`() {
+    func rejected_CLI_credential_keeps_CLI_remediation() {
         let cliError = KimiCLICredentialFetchStrategy.normalizedCodeAPIError(KimiAPIError.invalidAPIKey)
         let keyError = KimiCLICredentialFetchStrategy.normalizedCodeAPIError(KimiAPIError.apiError("failed"))
 
@@ -331,7 +331,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `auto retries fresh CLI credential after rejected API key`() async throws {
+    func auto_retries_fresh_CLI_credential_after_rejected_API_key() async throws {
         let home = try makeTemporaryKimiCodeHome()
         defer { try? FileManager.default.removeItem(at: home) }
         _ = try writeKimiCodeCredential(
@@ -364,7 +364,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `auto mode falls back from invalid API key to web cookies`() {
+    func auto_mode_falls_back_from_invalid_API_key_to_web_cookies() {
         let strategy = KimiAPIFetchStrategy()
         let context = makeKimiFetchContext(sourceMode: .auto)
 
@@ -372,7 +372,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `explicit API mode does not fall back from invalid API key`() {
+    func explicit_API_mode_does_not_fall_back_from_invalid_API_key() {
         let strategy = KimiAPIFetchStrategy()
         let context = makeKimiFetchContext(sourceMode: .api)
 
@@ -380,7 +380,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `explicit API mode reports API key remediation when key is missing`() async {
+    func explicit_API_mode_reports_API_key_remediation_when_key_is_missing() async {
         let strategy = KimiAPIFetchStrategy()
         let context = makeKimiFetchContext(sourceMode: .api)
 
@@ -390,7 +390,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `auto mode falls back from API response decoding failure`() {
+    func auto_mode_falls_back_from_API_response_decoding_failure() {
         let strategy = KimiAPIFetchStrategy()
         let context = makeKimiFetchContext(sourceMode: .auto)
         let error = DecodingError.dataCorrupted(
@@ -400,7 +400,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `explicit API mode surfaces response decoding failure`() {
+    func explicit_API_mode_surfaces_response_decoding_failure() {
         let strategy = KimiAPIFetchStrategy()
         let context = makeKimiFetchContext(sourceMode: .api)
         let error = DecodingError.dataCorrupted(
@@ -410,7 +410,7 @@ struct KimiAPIFetchStrategyTests {
     }
 
     @Test
-    func `auto mode does not start web fallback after cancellation`() {
+    func auto_mode_does_not_start_web_fallback_after_cancellation() {
         let strategy = KimiAPIFetchStrategy()
         let context = makeKimiFetchContext(sourceMode: .auto)
 
@@ -421,7 +421,7 @@ struct KimiAPIFetchStrategyTests {
 
 struct KimiUsageResponseParsingTests {
     @Test
-    func `parses valid response`() throws {
+    func parses_valid_response() throws {
         let json = """
         {
           "usages": [
@@ -470,7 +470,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `parses response without rate limits`() throws {
+    func parses_response_without_rate_limits() throws {
         let json = """
         {
           "usages": [
@@ -493,7 +493,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `parses response with null limits`() throws {
+    func parses_response_with_null_limits() throws {
         let json = """
         {
           "usages": [
@@ -516,7 +516,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `parses code API usage response`() throws {
+    func parses_code_API_usage_response() throws {
         let json = """
         {
           "usage": {
@@ -557,7 +557,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `sends CLI identity headers on the existing usage request`() async throws {
+    func sends_CLI_identity_headers_on_the_existing_usage_request() async throws {
         let baseURL = try #require(URL(string: "https://api.kimi.com"))
         let identityHeaders = [
             "User-Agent": "CodexBar/test",
@@ -594,7 +594,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `converts weekly-only usage into primary quota lane`() {
+    func converts_weekly_only_usage_into_primary_quota_lane() {
         let snapshot = KimiUsageSnapshot(
             weekly: KimiUsageDetail(
                 limit: "2048",
@@ -612,7 +612,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `parses official numeric values and reset key variants`() throws {
+    func parses_official_numeric_values_and_reset_key_variants() throws {
         let json = """
         {
           "usage": {
@@ -650,7 +650,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `parses subscription stat response`() throws {
+    func parses_subscription_stat_response() throws {
         let json = """
         {
           "ratelimitCode5h": {
@@ -698,7 +698,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `subscription grace is a total budget for existing usage windows`() async throws {
+    func subscription_grace_is_a_total_budget_for_existing_usage_windows() async throws {
         let usageJSON = """
         {
           "usages": [
@@ -755,7 +755,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `subscription stat enriches usage when it finishes within the total budget`() async throws {
+    func subscription_stat_enriches_usage_when_it_finishes_within_the_total_budget() async throws {
         let usageJSON = """
         {
           "usages": [
@@ -812,7 +812,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `builds default code API usage endpoint`() throws {
+    func builds_default_code_API_usage_endpoint() throws {
         let baseURL = try #require(URL(string: "https://api.kimi.com"))
         let endpoint = KimiUsageFetcher._codeAPIUsageEndpointForTesting(baseURL: baseURL)
 
@@ -820,7 +820,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `appends code API path to custom proxy root`() throws {
+    func appends_code_API_path_to_custom_proxy_root() throws {
         let baseURL = try #require(URL(string: "https://proxy.example.com/kimi"))
         let endpoint = KimiUsageFetcher._codeAPIUsageEndpointForTesting(baseURL: baseURL)
 
@@ -828,7 +828,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `does not duplicate code API path when base URL already includes it`() throws {
+    func does_not_duplicate_code_API_path_when_base_URL_already_includes_it() throws {
         let baseURL = try #require(URL(string: "https://api.kimi.com/coding/v1"))
         let endpoint = KimiUsageFetcher._codeAPIUsageEndpointForTesting(baseURL: baseURL)
 
@@ -836,7 +836,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `does not duplicate code API path with trailing slash`() throws {
+    func does_not_duplicate_code_API_path_with_trailing_slash() throws {
         let baseURL = try #require(URL(string: "https://proxy.example.com/kimi/coding/v1/"))
         let endpoint = KimiUsageFetcher._codeAPIUsageEndpointForTesting(baseURL: baseURL)
 
@@ -844,7 +844,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `does not duplicate coding path prefix`() throws {
+    func does_not_duplicate_coding_path_prefix() throws {
         let baseURL = try #require(URL(string: "https://proxy.example.com/kimi/coding/"))
         let endpoint = KimiUsageFetcher._codeAPIUsageEndpointForTesting(baseURL: baseURL)
 
@@ -852,7 +852,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `rejects insecure code API base URL before sending bearer token`() async throws {
+    func rejects_insecure_code_API_base_URL_before_sending_bearer_token() async throws {
         let baseURL = try #require(URL(string: "http://proxy.example.com/kimi"))
 
         await #expect(throws: KimiAPIError.invalidRequest(
@@ -863,7 +863,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `maps code API authentication and permission errors separately`() {
+    func maps_code_API_authentication_and_permission_errors_separately() {
         #expect(KimiUsageFetcher._codeAPIErrorForTesting(statusCode: 401) == .invalidAPIKey)
         #expect(
             KimiUsageFetcher._codeAPIErrorForTesting(statusCode: 403)
@@ -871,7 +871,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `throws on invalid json`() {
+    func throws_on_invalid_json() {
         let invalidJson = "{ invalid json }"
 
         #expect(throws: DecodingError.self) {
@@ -880,7 +880,7 @@ struct KimiUsageResponseParsingTests {
     }
 
     @Test
-    func `throws on missing feature coding scope`() throws {
+    func throws_on_missing_feature_coding_scope() throws {
         let json = """
         {
           "usages": [
@@ -905,7 +905,7 @@ struct KimiUsageResponseParsingTests {
 
 struct KimiUsageSnapshotConversionTests {
     @Test
-    func `converts to usage snapshot with both windows`() {
+    func converts_to_usage_snapshot_with_both_windows() {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -942,7 +942,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `converts subscription balance to monthly extra window`() throws {
+    func converts_subscription_balance_to_monthly_extra_window() throws {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -970,7 +970,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `reflects partial subscription usage in monthly window`() throws {
+    func reflects_partial_subscription_usage_in_monthly_window() throws {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -998,7 +998,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `converts subscription code weekly limit to extra window`() throws {
+    func converts_subscription_code_weekly_limit_to_extra_window() throws {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -1027,7 +1027,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `omits disabled and nonfinite subscription quota ratios`() {
+    func omits_disabled_and_nonfinite_subscription_quota_ratios() {
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
             used: "375",
@@ -1056,7 +1056,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `converts to usage snapshot without rate limit`() {
+    func converts_to_usage_snapshot_without_rate_limit() {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -1079,7 +1079,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `converts invalid rate limit as unavailable`() {
+    func converts_invalid_rate_limit_as_unavailable() {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -1104,7 +1104,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `handles zero values correctly`() {
+    func handles_zero_values_correctly() {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -1123,7 +1123,7 @@ struct KimiUsageSnapshotConversionTests {
     }
 
     @Test
-    func `handles hundred percent correctly`() {
+    func handles_hundred_percent_correctly() {
         let now = Date()
         let weeklyDetail = KimiUsageDetail(
             limit: "2048",
@@ -1150,7 +1150,7 @@ struct KimiUsageSnapshotConversionTests {
 
 struct KimiTokenResolverTests {
     @Test
-    func `resolves token from environment`() {
+    func resolves_token_from_environment() {
         KeychainAccessGate.withTaskOverrideForTesting(true) {
             let env = ["KIMI_AUTH_TOKEN": "test.jwt.token"]
             let token = ProviderTokenResolver.kimiAuthToken(environment: env)
@@ -1159,7 +1159,7 @@ struct KimiTokenResolverTests {
     }
 
     @Test
-    func `resolves token from keychain first`() {
+    func resolves_token_from_keychain_first() {
         // This test would require mocking the keychain.
         KeychainAccessGate.withTaskOverrideForTesting(true) {
             let env = ["KIMI_AUTH_TOKEN": "test.env.token"]
@@ -1169,7 +1169,7 @@ struct KimiTokenResolverTests {
     }
 
     @Test
-    func `resolution includes source`() {
+    func resolution_includes_source() {
         KeychainAccessGate.withTaskOverrideForTesting(true) {
             let env = ["KIMI_AUTH_TOKEN": "test.jwt.token"]
             let resolution = ProviderTokenResolver.kimiAuthResolution(environment: env)
@@ -1182,7 +1182,7 @@ struct KimiTokenResolverTests {
 
 struct KimiAPIErrorTests {
     @Test
-    func `error descriptions are helpful`() {
+    func error_descriptions_are_helpful() {
         #expect(KimiAPIError.missingToken.errorDescription?.contains("missing") == true)
         #expect(KimiAPIError.invalidToken.errorDescription?.contains("invalid") == true)
         #expect(KimiAPIError.missingAPIKey.errorDescription?.contains("Settings > Providers > Kimi") == true)

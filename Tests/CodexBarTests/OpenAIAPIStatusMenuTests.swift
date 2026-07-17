@@ -5,7 +5,7 @@ import Testing
 
 extension StatusMenuTests {
     @Test
-    func `open AI API primary dashboard ignores optional cost summary toggle`() throws {
+    func open_AI_API_primary_dashboard_ignores_optional_cost_summary_toggle() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -55,7 +55,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `open AI API usage submenu ignores optional local cost preferences`() throws {
+    func open_AI_API_usage_submenu_ignores_optional_local_cost_preferences() throws {
         self.disableMenuCardsForTesting()
 
         for style in CostSummaryDisplayStyle.allCases {
@@ -108,7 +108,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `open AI API usage submenu ignores stale token snapshot without current admin usage`() throws {
+    func open_AI_API_usage_submenu_ignores_stale_token_snapshot_without_current_admin_usage() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -155,7 +155,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `mistral native billing submenus ignore optional local cost preferences`() throws {
+    func mistral_native_billing_submenus_ignore_optional_local_cost_preferences() throws {
         StatusItemController.menuCardRenderingEnabled = true
         StatusItemController.setMenuRefreshEnabledForTesting(false)
         defer { self.disableMenuCardsForTesting() }

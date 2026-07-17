@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct ZaiAvailabilityTests {
     @Test
-    func `enables zai when token exists in store`() throws {
+    func enables_zai_when_token_exists_in_store() throws {
         let suite = "ZaiAvailabilityTests-token"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -30,7 +30,7 @@ struct ZaiAvailabilityTests {
     }
 
     @Test
-    func `enables zai when token exists in token accounts`() throws {
+    func enables_zai_when_token_exists_in_token_accounts() throws {
         let suite = "ZaiAvailabilityTests-token-accounts"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

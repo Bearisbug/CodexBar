@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorCodexManagedFallbackTests {
     @Test
-    func `codex account section prefers managed fallback over ambient account`() throws {
+    func codex_account_section_prefers_managed_fallback_over_ambient_account() throws {
         let suite = "MenuDescriptorCodexManagedFallbackTests"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -83,7 +83,7 @@ struct MenuDescriptorCodexManagedFallbackTests {
     }
 
     @Test
-    func `codex weekly only window renders without session row`() throws {
+    func codex_weekly_only_window_renders_without_session_row() throws {
         let suite = "MenuDescriptorCodexManagedFallbackTests-weekly-only"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

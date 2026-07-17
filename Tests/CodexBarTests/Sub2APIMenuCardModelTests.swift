@@ -5,7 +5,7 @@ import Testing
 
 struct Sub2APIMenuCardModelTests {
     @Test
-    func `subscription amounts share the percentage row`() throws {
+    func subscription_amounts_share_the_percentage_row() throws {
         let now = Date(timeIntervalSince1970: 1_720_440_000)
         let json = """
         {
@@ -59,7 +59,7 @@ struct Sub2APIMenuCardModelTests {
     }
 
     @Test
-    func `plan balance and per key totals render without overloading identity`() throws {
+    func plan_balance_and_per_key_totals_render_without_overloading_identity() throws {
         let now = Date(timeIntervalSince1970: 1_720_440_000)
         let json = """
         {
@@ -107,7 +107,7 @@ struct Sub2APIMenuCardModelTests {
     }
 
     @Test
-    func `extra window amount renders as detail instead of reset`() throws {
+    func extra_window_amount_renders_as_detail_instead_of_reset() throws {
         let now = Date(timeIntervalSince1970: 1_720_440_000)
         let json = """
         {

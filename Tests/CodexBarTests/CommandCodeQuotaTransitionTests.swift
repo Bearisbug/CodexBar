@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CommandCodeQuotaTransitionTests {
     @Test
-    func `display keeps prior primary only during subscription enrichment failure`() throws {
+    func display_keeps_prior_primary_only_during_subscription_enrichment_failure() throws {
         let plan = try #require(CommandCodePlanCatalog.plans.first { $0.monthlyCreditsUSD > 0 })
         let availableWithPlan = self.snapshot(remaining: 6, plan: plan)
         let missingSubscription = self.snapshot(
@@ -47,7 +47,7 @@ struct CommandCodeQuotaTransitionTests {
     }
 
     @Test
-    func `depleted notification does not refire across missing subscription window`() throws {
+    func depleted_notification_does_not_refire_across_missing_subscription_window() throws {
         let settings = self.makeSettings(suiteName: "CommandCodeDepletedNoRefire")
         settings.sessionQuotaNotificationsEnabled = true
         let notifier = NotifierSpy()
@@ -83,7 +83,7 @@ struct CommandCodeQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning does not refire across missing subscription window`() throws {
+    func quota_warning_does_not_refire_across_missing_subscription_window() throws {
         let settings = self.makeSettings(suiteName: "CommandCodeWarningNoRefire")
         settings.quotaWarningNotificationsEnabled = true
         settings.quotaWarningThresholds = [50]

@@ -115,7 +115,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `app auto pipeline order is OAuth then CLI then web`() async {
+    func app_auto_pipeline_order_is_OAuth_then_CLI_then_web() async {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: true,
@@ -131,7 +131,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `CLI auto pipeline order is web then CLI`() async {
+    func CLI_auto_pipeline_order_is_web_then_CLI() async {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: false,
@@ -145,7 +145,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `explicit CLI pipeline attempts strategy even when planner marks CLI unavailable`() async {
+    func explicit_CLI_pipeline_attempts_strategy_even_when_planner_marks_CLI_unavailable() async {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .cli,
             webExtrasEnabled: false,
@@ -163,7 +163,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `auto pipeline records unavailable planned steps when planner has no executable source`() async {
+    func auto_pipeline_records_unavailable_planned_steps_when_planner_has_no_executable_source() async {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: true,
@@ -196,7 +196,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `app background auto does not start logged out Claude CLI`() async throws {
+    func app_background_auto_does_not_start_logged_out_Claude_CLI() async throws {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: false,
@@ -227,7 +227,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `app background auto honors stored user action policy with experimental reader`() async throws {
+    func app_background_auto_honors_stored_user_action_policy_with_experimental_reader() async throws {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: false,
@@ -256,7 +256,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `app background auto does not launch Claude CLI when Keychain access is disabled`() async throws {
+    func app_background_auto_does_not_launch_Claude_CLI_when_Keychain_access_is_disabled() async throws {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: false,
@@ -285,7 +285,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test(arguments: ["nonzero", "timeout", "malformed"])
-    func `app background auto falls back to web when auth status is unusable`(
+    func app_background_auto_falls_back_to_web_when_auth_status_is_unusable(
         failureMode: String) async throws
     {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
@@ -342,7 +342,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `app user initiated auto preserves CLI fallback without auth preflight`() async throws {
+    func app_user_initiated_auto_preserves_CLI_fallback_without_auth_preflight() async throws {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: false,
@@ -366,7 +366,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `app auto pipeline retains OAuth bootstrap strategy at startup`() async {
+    func app_auto_pipeline_retains_OAuth_bootstrap_strategy_at_startup() async {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: false,
@@ -400,7 +400,7 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `auto pipeline CLI uses planned environment for execution`() async throws {
+    func auto_pipeline_CLI_uses_planned_environment_for_execution() async throws {
         let settings = ProviderSettingsSnapshot.make(claude: .init(
             usageDataSource: .auto,
             webExtrasEnabled: false,
@@ -455,7 +455,7 @@ struct ClaudeBaselineCharacterizationTests {
         (ProviderSourceMode.cli, "claude.cli"),
         (ProviderSourceMode.web, "claude.web"),
     ])
-    func `explicit modes resolve single Claude strategy`(
+    func explicit_modes_resolve_single_Claude_strategy(
         sourceMode: ProviderSourceMode,
         expectedStrategyID: String) async
     {
@@ -468,7 +468,7 @@ struct ClaudeBaselineCharacterizationTests {
         (ProviderSourceMode.cli, "claude.cli"),
         (ProviderSourceMode.web, "claude.web"),
     ])
-    func `CLI explicit modes resolve single Claude strategy`(
+    func CLI_explicit_modes_resolve_single_Claude_strategy(
         sourceMode: ProviderSourceMode,
         expectedStrategyID: String) async
     {
@@ -477,13 +477,13 @@ struct ClaudeBaselineCharacterizationTests {
     }
 
     @Test
-    func `Claude OAuth token heuristics accept raw and bearer inputs`() {
+    func Claude_OAuth_token_heuristics_accept_raw_and_bearer_inputs() {
         #expect(TokenAccountSupportCatalog.isClaudeOAuthToken("sk-ant-oat-test-token"))
         #expect(TokenAccountSupportCatalog.isClaudeOAuthToken("Bearer sk-ant-oat-test-token"))
     }
 
     @Test
-    func `Claude OAuth token heuristics reject cookie shaped inputs`() {
+    func Claude_OAuth_token_heuristics_reject_cookie_shaped_inputs() {
         #expect(!TokenAccountSupportCatalog.isClaudeOAuthToken("sessionKey=sk-ant-session"))
         #expect(!TokenAccountSupportCatalog.isClaudeOAuthToken("Cookie: sessionKey=sk-ant-session; foo=bar"))
     }

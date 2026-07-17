@@ -34,7 +34,7 @@ struct OpenCodeGoProviderStrategyTests {
     }
 
     @Test
-    func `auto source prefers web before local fallback`() async {
+    func auto_source_prefers_web_before_local_fallback() async {
         let descriptor = OpenCodeGoProviderDescriptor.makeDescriptor()
         let strategies = await descriptor.fetchPlan.pipeline.resolveStrategies(self.makeContext())
 
@@ -42,7 +42,7 @@ struct OpenCodeGoProviderStrategyTests {
     }
 
     @Test
-    func `web source does not include local fallback`() async {
+    func web_source_does_not_include_local_fallback() async {
         let descriptor = OpenCodeGoProviderDescriptor.makeDescriptor()
         let strategies = await descriptor.fetchPlan.pipeline.resolveStrategies(self.makeContext(sourceMode: .web))
 
@@ -50,7 +50,7 @@ struct OpenCodeGoProviderStrategyTests {
     }
 
     @Test
-    func `web strategy falls back to local only for auth setup failures in auto mode`() {
+    func web_strategy_falls_back_to_local_only_for_auth_setup_failures_in_auto_mode() {
         let strategy = OpenCodeGoUsageFetchStrategy()
         let autoContext = self.makeContext()
         let webContext = self.makeContext(sourceMode: .web)

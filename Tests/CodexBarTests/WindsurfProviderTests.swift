@@ -22,7 +22,7 @@ struct WindsurfProviderTests {
     }
 
     @Test
-    func `local probe is unavailable in explicit web mode`() async {
+    func local_probe_is_unavailable_in_explicit_web_mode() async {
         let strategy = WindsurfLocalFetchStrategy()
 
         #expect(await strategy.isAvailable(self.makeContext(sourceMode: .web)) == false)
@@ -31,7 +31,7 @@ struct WindsurfProviderTests {
     }
 
     @Test
-    func `web mode with cookies off does not fall back to local probe`() async {
+    func web_mode_with_cookies_off_does_not_fall_back_to_local_probe() async {
         let settings = ProviderSettingsSnapshot.make(
             windsurf: .init(
                 usageDataSource: .web,

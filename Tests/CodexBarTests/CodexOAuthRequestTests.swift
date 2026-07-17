@@ -8,7 +8,7 @@ import FoundationNetworking
 @Suite(.serialized)
 struct CodexOAuthRequestTests {
     @Test
-    func `authenticated transport disables shared network state`() {
+    func authenticated_transport_disables_shared_network_state() {
         let configuration = CodexAuthenticatedHTTPTransport.makeConfiguration()
 
         #expect(configuration.urlCache == nil)
@@ -19,7 +19,7 @@ struct CodexOAuthRequestTests {
     }
 
     @Test
-    func `usage requests fetch distinct cacheable responses for each account`() async throws {
+    func usage_requests_fetch_distinct_cacheable_responses_for_each_account() async throws {
         defer { CodexOAuthAccountURLProtocol.reset() }
         CodexOAuthAccountURLProtocol.reset()
 
@@ -55,7 +55,7 @@ struct CodexOAuthRequestTests {
     #if os(macOS)
     @MainActor
     @Test
-    func `dashboard cookie requests fetch distinct cacheable responses`() async {
+    func dashboard_cookie_requests_fetch_distinct_cacheable_responses() async {
         defer { CodexOAuthAccountURLProtocol.reset() }
         CodexOAuthAccountURLProtocol.reset()
 
@@ -86,7 +86,7 @@ struct CodexOAuthRequestTests {
 
     @MainActor
     @Test
-    func `dashboard and cookie importer identity calls use isolated transport`() async throws {
+    func dashboard_and_cookie_importer_identity_calls_use_isolated_transport() async throws {
         defer { CodexOAuthAccountURLProtocol.reset() }
         CodexOAuthAccountURLProtocol.reset()
 
@@ -124,7 +124,7 @@ struct CodexOAuthRequestTests {
     #endif
 
     @Test
-    func `token refresh request uses isolated cache policy`() async throws {
+    func token_refresh_request_uses_isolated_cache_policy() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.url?.absoluteString == "https://auth.openai.com/oauth/token")
             #expect(request.httpMethod == "POST")

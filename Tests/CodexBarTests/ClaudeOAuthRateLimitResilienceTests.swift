@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeOAuthRateLimitResilienceTests {
     @Test
-    func `classifier accepts only the canonical O auth rate limit`() {
+    func classifier_accepts_only_the_canonical_O_auth_rate_limit() {
         let canonical = ClaudeOAuthFetchError.usageRateLimitDescription
 
         #expect(ClaudeUsageError.isClaudeOAuthUsageRateLimit(ClaudeOAuthFetchError.rateLimited(retryAfter: nil)))
@@ -22,7 +22,7 @@ struct ClaudeOAuthRateLimitResilienceTests {
 
     @MainActor
     @Test
-    func `stable unscoped O auth refresh keeps the prior card on rate limit`() async throws {
+    func stable_unscoped_O_auth_refresh_keeps_the_prior_card_on_rate_limit() async throws {
         let store = try self.makeStore(suite: "ClaudeOAuthRateLimit-unscoped")
         let prior = self.snapshot(usedPercent: 28)
         store._setSnapshotForTesting(prior, provider: .claude)
@@ -40,7 +40,7 @@ struct ClaudeOAuthRateLimitResilienceTests {
 
     @MainActor
     @Test
-    func `missing prior card surfaces the O auth rate limit`() async throws {
+    func missing_prior_card_surfaces_the_O_auth_rate_limit() async throws {
         let store = try self.makeStore(suite: "ClaudeOAuthRateLimit-missing")
         try self.installRateLimitDescriptor(store)
 
@@ -52,7 +52,7 @@ struct ClaudeOAuthRateLimitResilienceTests {
 
     @MainActor
     @Test
-    func `segmented account keeps only its exact O auth cache without recording history`() async throws {
+    func segmented_account_keeps_only_its_exact_O_auth_cache_without_recording_history() async throws {
         let store = try self.makeStore(suite: "ClaudeOAuthRateLimit-segmented", layout: .segmented)
         store.settings.addTokenAccount(provider: .claude, label: "Primary", token: "test-auth-token")
         let account = try #require(store.settings.selectedTokenAccount(for: .claude))
@@ -75,7 +75,7 @@ struct ClaudeOAuthRateLimitResilienceTests {
 
     @MainActor
     @Test
-    func `edited account cannot reuse its previous O auth cache`() async throws {
+    func edited_account_cannot_reuse_its_previous_O_auth_cache() async throws {
         let store = try self.makeStore(suite: "ClaudeOAuthRateLimit-edited", layout: .segmented)
         store.settings.addTokenAccount(provider: .claude, label: "Primary", token: "test-auth-token")
         let original = try #require(store.settings.selectedTokenAccount(for: .claude))
@@ -95,7 +95,7 @@ struct ClaudeOAuthRateLimitResilienceTests {
 
     @MainActor
     @Test
-    func `stacked accounts keep exact O auth caches without recording cached history`() async throws {
+    func stacked_accounts_keep_exact_O_auth_caches_without_recording_cached_history() async throws {
         let store = try self.makeStore(suite: "ClaudeOAuthRateLimit-stacked", layout: .stacked)
         store.settings.addTokenAccount(provider: .claude, label: "Primary", token: "test-auth-token")
         store.settings.addTokenAccount(provider: .claude, label: "Secondary", token: "test-token-placeholder")

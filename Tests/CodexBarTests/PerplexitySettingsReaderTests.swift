@@ -3,7 +3,7 @@ import Testing
 
 struct PerplexitySettingsReaderTests {
     @Test
-    func `PERPLEXITY_COOKIE preserves the original supported cookie name`() {
+    func PERPLEXITY_COOKIE_preserves_the_original_supported_cookie_name() {
         let override = PerplexitySettingsReader.sessionCookieOverride(environment: [
             "PERPLEXITY_COOKIE": "authjs.session-token=env-token",
         ])
@@ -16,7 +16,7 @@ struct PerplexitySettingsReaderTests {
     }
 
     @Test
-    func `PERPLEXITY_COOKIE reassembles chunked session cookies`() {
+    func PERPLEXITY_COOKIE_reassembles_chunked_session_cookies() {
         let override = PerplexitySettingsReader.sessionCookieOverride(environment: [
             "PERPLEXITY_COOKIE": "authjs.session-token.0=chunk-a; authjs.session-token.1=chunk-b",
         ])
@@ -26,7 +26,7 @@ struct PerplexitySettingsReaderTests {
     }
 
     @Test
-    func `PERPLEXITY_SESSION_TOKEN tries all supported cookie names`() {
+    func PERPLEXITY_SESSION_TOKEN_tries_all_supported_cookie_names() {
         let override = PerplexitySettingsReader.sessionCookieOverride(environment: [
             "PERPLEXITY_SESSION_TOKEN": "env-token",
         ])

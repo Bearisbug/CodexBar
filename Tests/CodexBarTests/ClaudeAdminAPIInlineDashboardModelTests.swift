@@ -5,7 +5,7 @@ import Testing
 
 struct ClaudeAdminAPIInlineDashboardModelTests {
     @Test
-    func `claude admin api usage gets inline dashboard`() throws {
+    func claude_admin_api_usage_gets_inline_dashboard() throws {
         let now = try Self.localNoon(year: 2023, month: 11, day: 17)
         let bucketDay = try Self.localNoon(year: 2023, month: 11, day: 14)
         let metadata = try #require(ProviderDefaults.metadata[.claude])

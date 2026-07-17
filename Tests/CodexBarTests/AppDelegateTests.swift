@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct AppDelegateTests {
     @Test
-    func `builds status controller after launch`() {
+    func builds_status_controller_after_launch() {
         let appDelegate = AppDelegate()
         var factoryCalls = 0
         var ttyShutdowns = 0

@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeProbeWorkingDirectoryTests {
     @Test
-    func `probe working directory disables deep link registration`() throws {
+    func probe_working_directory_disables_deep_link_registration() throws {
         let directory = try Self.makeTemporaryDirectory()
 
         try ClaudeStatusProbe.prepareProbeWorkingDirectory(at: directory)
@@ -14,7 +14,7 @@ struct ClaudeProbeWorkingDirectoryTests {
     }
 
     @Test
-    func `probe working directory preserves existing local settings`() throws {
+    func probe_working_directory_preserves_existing_local_settings() throws {
         let directory = try Self.makeTemporaryDirectory()
         let settingsURL = directory
             .appendingPathComponent(".claude", isDirectory: true)
@@ -39,7 +39,7 @@ struct ClaudeProbeWorkingDirectoryTests {
     }
 
     @Test
-    func `probe working directory overwrites invalid local settings`() throws {
+    func probe_working_directory_overwrites_invalid_local_settings() throws {
         let directory = try Self.makeTemporaryDirectory()
         let settingsURL = directory
             .appendingPathComponent(".claude", isDirectory: true)
@@ -56,7 +56,7 @@ struct ClaudeProbeWorkingDirectoryTests {
     }
 
     @Test
-    func `probe project directory name matches Claude Code encoding`() {
+    func probe_project_directory_name_matches_Claude_Code_encoding() {
         let cases = [
             (
                 "/Users/test/Library/Application Support/CodexBar/ClaudeProbe",
@@ -81,7 +81,7 @@ struct ClaudeProbeWorkingDirectoryTests {
     }
 
     @Test
-    func `cleanup removes only probe session jsonl artifacts`() throws {
+    func cleanup_removes_only_probe_session_jsonl_artifacts() throws {
         let probeDirectory = try Self.makeTemporaryDirectory()
         let claudeRoot = try Self.makeTemporaryDirectory()
         let projectsRoot = claudeRoot.appendingPathComponent("projects", isDirectory: true)
@@ -115,7 +115,7 @@ struct ClaudeProbeWorkingDirectoryTests {
     }
 
     @Test
-    func `cleanup removes hashed long probe project artifacts`() throws {
+    func cleanup_removes_hashed_long_probe_project_artifacts() throws {
         let probeDirectory = URL(fileURLWithPath: "/tmp/\(String(repeating: "segment_", count: 40))/ClaudeProbe")
         let claudeRoot = try Self.makeTemporaryDirectory()
         let projectsRoot = claudeRoot.appendingPathComponent("projects", isDirectory: true)

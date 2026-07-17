@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct MiniMaxAPITokenFetchTests {
     @Test
-    func `retries china host when global rejects token`() async throws {
+    func retries_china_host_when_global_rejects_token() async throws {
         defer {
             MiniMaxAPITokenStubURLProtocol.handler = nil
             MiniMaxAPITokenStubURLProtocol.requests = []
@@ -62,7 +62,7 @@ struct MiniMaxAPITokenFetchTests {
     }
 
     @Test
-    func `preserves invalid credentials when china retry fails transport`() async throws {
+    func preserves_invalid_credentials_when_china_retry_fails_transport() async throws {
         defer {
             MiniMaxAPITokenStubURLProtocol.handler = nil
             MiniMaxAPITokenStubURLProtocol.requests = []
@@ -105,7 +105,7 @@ struct MiniMaxAPITokenFetchTests {
     }
 
     @Test
-    func `explicit china region preserves structured invalid credentials across legacy fallback`() async throws {
+    func explicit_china_region_preserves_structured_invalid_credentials_across_legacy_fallback() async throws {
         defer {
             MiniMaxAPITokenStubURLProtocol.handler = nil
             MiniMaxAPITokenStubURLProtocol.requests = []
@@ -136,7 +136,7 @@ struct MiniMaxAPITokenFetchTests {
     }
 
     @Test
-    func `does not retry when region is china mainland`() async throws {
+    func does_not_retry_when_region_is_china_mainland() async throws {
         defer {
             MiniMaxAPITokenStubURLProtocol.handler = nil
             MiniMaxAPITokenStubURLProtocol.requests = []

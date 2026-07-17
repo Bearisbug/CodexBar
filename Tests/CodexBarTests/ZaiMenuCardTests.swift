@@ -5,7 +5,7 @@ import Testing
 
 struct ZaiMenuCardTests {
     @Test
-    func `zai metrics titles are Tokens MCP and 5-hour when session token limit present`() throws {
+    func zai_metrics_titles_are_Tokens_MCP_and_5_hour_when_session_token_limit_present() throws {
         let now = Date()
         let zai = ZaiUsageSnapshot(
             tokenLimit: ZaiLimitEntry(

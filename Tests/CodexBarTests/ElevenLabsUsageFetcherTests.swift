@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct ElevenLabsUsageFetcherTests {
     @Test
-    func `parses subscription response into usage snapshot`() throws {
+    func parses_subscription_response_into_usage_snapshot() throws {
         let body = #"""
         {
           "tier": "creator",
@@ -38,7 +38,7 @@ struct ElevenLabsUsageFetcherTests {
     }
 
     @Test
-    func `fetch usage sends xi api key header`() async throws {
+    func fetch_usage_sends_xi_api_key_header() async throws {
         let registered = URLProtocol.registerClass(ElevenLabsStubURLProtocol.self)
         defer {
             if registered {
@@ -74,7 +74,7 @@ struct ElevenLabsUsageFetcherTests {
     }
 
     @Test
-    func `fetch usage accepts versioned API base with trailing slash`() async throws {
+    func fetch_usage_accepts_versioned_API_base_with_trailing_slash() async throws {
         let registered = URLProtocol.registerClass(ElevenLabsStubURLProtocol.self)
         defer {
             if registered {
@@ -106,7 +106,7 @@ struct ElevenLabsUsageFetcherTests {
     }
 
     @Test
-    func `non success fetch throws generic HTTP error`() async throws {
+    func non_success_fetch_throws_generic_HTTP_error() async throws {
         let registered = URLProtocol.registerClass(ElevenLabsStubURLProtocol.self)
         defer {
             if registered {

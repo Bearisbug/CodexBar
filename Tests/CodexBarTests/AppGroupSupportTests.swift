@@ -4,7 +4,7 @@ import Testing
 
 struct AppGroupSupportTests {
     @Test
-    func `app group identifiers use resolved team-prefixed release and debug variants`() {
+    func app_group_identifiers_use_resolved_team_prefixed_release_and_debug_variants() {
         #expect(
             AppGroupSupport.currentGroupID(teamID: "Y5PE65HELJ", bundleID: "com.steipete.codexbar")
                 == "Y5PE65HELJ.com.steipete.codexbar")
@@ -20,7 +20,7 @@ struct AppGroupSupportTests {
     }
 
     @Test
-    func `resolved team id falls back to plist and then default`() {
+    func resolved_team_id_falls_back_to_plist_and_then_default() {
         #expect(
             AppGroupSupport.resolvedTeamID(
                 infoDictionaryOverride: [AppGroupSupport.teamIDInfoKey: "ABCDE12345"],
@@ -32,7 +32,7 @@ struct AppGroupSupportTests {
     }
 
     @Test
-    func `legacy migration copies snapshot once`() throws {
+    func legacy_migration_copies_snapshot_once() throws {
         let fileManager = FileManager.default
         let root = fileManager.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         try fileManager.createDirectory(at: root, withIntermediateDirectories: true)
@@ -90,7 +90,7 @@ struct AppGroupSupportTests {
     }
 
     @Test
-    func `legacy migration preserves existing target shared defaults`() throws {
+    func legacy_migration_preserves_existing_target_shared_defaults() throws {
         let standardSuite = "AppGroupSupportTests-standard-existing-\(UUID().uuidString)"
         let currentSuite = "AppGroupSupportTests-current-existing-\(UUID().uuidString)"
         let legacySuite = "AppGroupSupportTests-legacy-existing-\(UUID().uuidString)"

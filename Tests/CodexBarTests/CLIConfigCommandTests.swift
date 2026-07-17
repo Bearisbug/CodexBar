@@ -5,7 +5,7 @@ import Testing
 
 struct CLIConfigCommandTests {
     @Test
-    func `config set api key parses provider stdin and no enable flags`() throws {
+    func config_set_api_key_parses_provider_stdin_and_no_enable_flags() throws {
         let parser = CommandParser(signature: CodexBarCLI._configSetAPIKeySignatureForTesting())
         let parsed = try parser.parse(arguments: [
             "--provider", "elevenlabs",
@@ -21,7 +21,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config set api key parses zai team account options`() throws {
+    func config_set_api_key_parses_zai_team_account_options() throws {
         let parser = CommandParser(signature: CodexBarCLI._configSetAPIKeySignatureForTesting())
         let parsed = try parser.parse(arguments: [
             "--provider", "zai",
@@ -40,7 +40,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config set api key stores key and enables provider`() {
+    func config_set_api_key_stores_key_and_enables_provider() {
         let config = CodexBarConfig.makeDefault()
         let updated = CodexBarCLI.configSettingAPIKey(
             config,
@@ -54,7 +54,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config set api key stores zai team token account`() throws {
+    func config_set_api_key_stores_zai_team_token_account() throws {
         let config = CodexBarConfig.makeDefault()
         let options = try CodexBarCLI.resolveConfigAPIKeyAccountOptions(
             provider: .zai,
@@ -82,7 +82,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config set api key rejects incomplete zai team account options`() {
+    func config_set_api_key_rejects_incomplete_zai_team_account_options() {
         #expect(throws: CLIArgumentError.self) {
             _ = try CodexBarCLI.resolveConfigAPIKeyAccountOptions(
                 provider: .zai,
@@ -94,7 +94,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config provider toggle parses provider and json flags`() throws {
+    func config_provider_toggle_parses_provider_and_json_flags() throws {
         let parser = CommandParser(signature: CodexBarCLI._configProviderToggleSignatureForTesting())
         let parsed = try parser.parse(arguments: [
             "--provider", "grok",
@@ -108,7 +108,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config provider toggle enables and disables provider`() {
+    func config_provider_toggle_enables_and_disables_provider() {
         let config = CodexBarConfig.makeDefault()
         let enabled = CodexBarCLI.configSettingProviderEnabled(config, provider: .grok, enabled: true)
         let disabled = CodexBarCLI.configSettingProviderEnabled(enabled, provider: .grok, enabled: false)
@@ -118,7 +118,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config provider status includes effective default`() throws {
+    func config_provider_status_includes_effective_default() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(id: .grok, enabled: true),
             ProviderConfig(id: .cursor, enabled: false),
@@ -133,7 +133,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config set api key only accepts consumed config keys`() {
+    func config_set_api_key_only_accepts_consumed_config_keys() {
         #expect(ProviderConfigEnvironment.supportsAPIKeyOverride(for: .elevenlabs))
         #expect(ProviderConfigEnvironment.supportsAPIKeyOverride(for: .groq))
         #expect(ProviderConfigEnvironment.supportsAPIKeyOverride(for: .llmproxy))
@@ -147,7 +147,7 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config set api key preserves disabled provider when requested`() {
+    func config_set_api_key_preserves_disabled_provider_when_requested() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .elevenlabs, enabled: false))
 
@@ -163,14 +163,14 @@ struct CLIConfigCommandTests {
     }
 
     @Test
-    func `config set api key rejects ambiguous input`() {
+    func config_set_api_key_rejects_ambiguous_input() {
         #expect(throws: CLIArgumentError.self) {
             try CodexBarCLI.resolveConfigAPIKeyInput(apiKey: "xi-test-token", readFromStdin: true)
         }
     }
 
     @Test
-    func `config help documents set api key`() {
+    func config_help_documents_set_api_key() {
         let help = CodexBarCLI.configHelp(version: "0.0.0")
 
         #expect(help.contains("config set-api-key --provider <name>"))

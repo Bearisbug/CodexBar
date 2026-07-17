@@ -4,7 +4,7 @@ import Testing
 
 struct TailscaleSessionTests {
     @Test
-    func `online mac and linux peers become hosts`() throws {
+    func online_mac_and_linux_peers_become_hosts() throws {
         let url = try AgentSessionParserTests.fixtureURL("agent-sessions-tailscale", extension: "json")
         let hosts = try TailscaleStatusParser.hosts(
             from: Data(contentsOf: url),
@@ -14,7 +14,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `binary candidates prefer the CLI wrapper over the app binary`() throws {
+    func binary_candidates_prefer_the_CLI_wrapper_over_the_app_binary() throws {
         // A GUI-launched app inherits a minimal PATH that omits the CLI locations.
         let candidates = RemoteSessionFetcher.tailscaleBinaryCandidates(path: "/usr/bin:/bin")
 
@@ -27,7 +27,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `binary candidates keep PATH entries first and dedupe well-known dirs`() {
+    func binary_candidates_keep_PATH_entries_first_and_dedupe_well_known_dirs() {
         let candidates = RemoteSessionFetcher.tailscaleBinaryCandidates(path: "/opt/homebrew/bin:/usr/bin")
 
         #expect(candidates.first == "/opt/homebrew/bin/tailscale")
@@ -35,7 +35,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `cli environment injects a shell marker for the app-binary fallback`() {
+    func cli_environment_injects_a_shell_marker_for_the_app_binary_fallback() {
         // Without a marker the dual-mode binary launches the GUI instead of the CLI.
         let env = RemoteSessionFetcher.tailscaleCLIEnvironment(from: ["PATH": "/usr/bin"])
 
@@ -43,7 +43,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `cli environment preserves an existing terminal context`() {
+    func cli_environment_preserves_an_existing_terminal_context() {
         // Already CLI-safe: leave TERM alone and don't fabricate a SHLVL…
         let withTerm = RemoteSessionFetcher.tailscaleCLIEnvironment(from: ["TERM": "xterm-256color"])
         #expect(withTerm["SHLVL"] == nil)
@@ -54,7 +54,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `discovery falls through to the next candidate when the first fails`() async {
+    func discovery_falls_through_to_the_next_candidate_when_the_first_fails() async {
         // First candidate exists but is a wrong/broken tailscale variant: its status output isn't valid
         // Tailscale JSON. Discovery must try the next candidate rather than returning no hosts.
         let validStatus = Data(#"""
@@ -75,7 +75,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `discovery falls through when an earlier candidate needs login`() async {
+    func discovery_falls_through_when_an_earlier_candidate_needs_login() async {
         let inactiveStatus = Data(#"{"Version":"1.0","BackendState":"NeedsLogin","Peer":null}"#.utf8)
         let runningStatus = Data(#"""
         {"Version":"1.0","BackendState":"Running","Self":{"HostName":"local-mac"},
@@ -95,7 +95,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `discovery returns empty when no candidate yields a valid status`() async {
+    func discovery_returns_empty_when_no_candidate_yields_a_valid_status() async {
         let hosts = await RemoteSessionFetcher.firstDiscoveredHosts(
             candidates: ["/a/tailscale", "/b/tailscale"],
             localHost: nil) { _ in Data("nope".utf8) }
@@ -104,7 +104,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `parseHosts distinguishes invalid output from an empty tailnet`() {
+    func parseHosts_distinguishes_invalid_output_from_an_empty_tailnet() {
         // Non-status output -> nil so the caller falls through to the next candidate…
         #expect(TailscaleStatusParser.parseHosts(from: Data("not json".utf8)) == nil)
         #expect(TailscaleStatusParser.parseHosts(from: Data("Tailscale help text".utf8)) == nil)
@@ -120,7 +120,7 @@ struct TailscaleSessionTests {
     }
 
     @Test
-    func `ssh destinations reject options whitespace and controls`() {
+    func ssh_destinations_reject_options_whitespace_and_controls() {
         let hosts = RemoteSessionFetcher.sanitizedHosts([
             "user@clawmac",
             "USER@CLAWMAC",

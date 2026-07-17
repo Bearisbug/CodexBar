@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageCancellationTests {
     @Test
-    func `fetcher honors cancellation before token scan`() async throws {
+    func fetcher_honors_cancellation_before_token_scan() async throws {
         let gate = AsyncCancellationGate()
         let task = Task {
             await gate.wait()
@@ -22,7 +22,7 @@ struct CostUsageCancellationTests {
     }
 
     @Test
-    func `codex scanner cancellation preserves existing cache`() throws {
+    func codex_scanner_cancellation_preserves_existing_cache() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -74,7 +74,7 @@ struct CostUsageCancellationTests {
     }
 
     @Test
-    func `codex metadata pre scan honors cancellation`() throws {
+    func codex_metadata_pre_scan_honors_cancellation() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

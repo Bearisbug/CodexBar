@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `hard failure keeps trusted weekly baseline for later low observations`() async {
+    func hard_failure_keeps_trusted_weekly_baseline_for_later_low_observations() async {
         let suite = "CodexWeeklyResetFailureBaselineTests-hard-failure"
         let email = "failure-baseline@example.com"
         let settings = self.makeSettingsStore(suite: suite)

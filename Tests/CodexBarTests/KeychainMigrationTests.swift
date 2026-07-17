@@ -3,7 +3,7 @@ import Testing
 
 struct KeychainMigrationTests {
     @Test
-    func `migration list covers known keychain items`() {
+    func migration_list_covers_known_keychain_items() {
         let items = Set(KeychainMigration.itemsToMigrate.map(\.label))
         let expected: Set = [
             "com.steipete.CodexBar:codex-cookie",

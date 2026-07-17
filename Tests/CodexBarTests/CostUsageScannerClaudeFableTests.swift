@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageScannerClaudeFableTests {
     @Test
-    func `claude fable 5 issue row gets priced`() throws {
+    func claude_fable_5_issue_row_gets_priced() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -44,7 +44,7 @@ struct CostUsageScannerClaudeFableTests {
     }
 
     @Test
-    func `claude transcript refusal remains priced without billing provenance`() throws {
+    func claude_transcript_refusal_remains_priced_without_billing_provenance() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -89,7 +89,7 @@ struct CostUsageScannerClaudeFableTests {
     }
 
     @Test
-    func `claude fable 5 prices one hour cache creation tokens`() throws {
+    func claude_fable_5_prices_one_hour_cache_creation_tokens() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -134,7 +134,7 @@ struct CostUsageScannerClaudeFableTests {
     }
 
     @Test
-    func `claude cached rows preserve one hour writes for deferred pricing`() throws {
+    func claude_cached_rows_preserve_one_hour_writes_for_deferred_pricing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -200,7 +200,7 @@ struct CostUsageScannerClaudeFableTests {
     }
 
     @Test
-    func `claude deferred pricing preserves request long context boundaries`() throws {
+    func claude_deferred_pricing_preserves_request_long_context_boundaries() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -250,7 +250,7 @@ struct CostUsageScannerClaudeFableTests {
     }
 
     @Test
-    func `claude cached rows reprice after models dev catalog changes`() throws {
+    func claude_cached_rows_reprice_after_models_dev_catalog_changes() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -300,7 +300,7 @@ struct CostUsageScannerClaudeFableTests {
     }
 
     @Test
-    func `claude cached historical rows keep original tariff`() throws {
+    func claude_cached_historical_rows_keep_original_tariff() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

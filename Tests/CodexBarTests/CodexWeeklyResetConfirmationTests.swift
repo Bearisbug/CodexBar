@@ -8,7 +8,7 @@ struct CodexWeeklyResetConfirmationTests {
     private let resetAt = Date(timeIntervalSince1970: 1_800_500_000)
 
     @Test
-    func `ordinary observations publish while stale initial observations preserve`() {
+    func ordinary_observations_publish_while_stale_initial_observations_preserve() {
         let previous = self.snapshot(offset: 0, weeklyUsed: 70, weeklyReset: self.resetAt)
         let previousWithoutWeekly = self.snapshot(offset: 0, weeklyUsed: nil, weeklyReset: nil)
         let newer = self.snapshot(offset: 1, weeklyUsed: 71, weeklyReset: self.resetAt)
@@ -25,7 +25,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `first low observation requires matching confirmation without prior state`() {
+    func first_low_observation_requires_matching_confirmation_without_prior_state() {
         let reset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let previousWithoutWeekly = self.snapshot(offset: 0, weeklyUsed: nil, weeklyReset: nil)
         let initial = self.snapshot(offset: 1, weeklyUsed: 0.2, weeklyReset: reset)
@@ -60,7 +60,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `reset backfill follows semantic lanes when cached positions are swapped`() {
+    func reset_backfill_follows_semantic_lanes_when_cached_positions_are_swapped() {
         let sessionReset = self.resetAt.addingTimeInterval(60 * 60)
         let weeklyReset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let partial = UsageSnapshot(
@@ -95,7 +95,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `semantic weekly lookup handles swapped snapshot lanes`() {
+    func semantic_weekly_lookup_handles_swapped_snapshot_lanes() {
         let nextReset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let previous = self.snapshot(
             offset: 0,
@@ -125,7 +125,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `missing candidate weekly data and reset boundaries fail closed`() {
+    func missing_candidate_weekly_data_and_reset_boundaries_fail_closed() {
         let previous = self.snapshot(offset: 0, weeklyUsed: 50, weeklyReset: self.resetAt)
         let missingWeekly = self.snapshot(offset: 1, weeklyUsed: nil, weeklyReset: nil)
         let initialWithoutBoundary = self.snapshot(offset: 1, weeklyUsed: 0, weeklyReset: nil)
@@ -150,7 +150,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `two valid lows establish a reset when the previous boundary is unavailable`() {
+    func two_valid_lows_establish_a_reset_when_the_previous_boundary_is_unavailable() {
         let nextReset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let initial = self.snapshot(offset: 1, weeklyUsed: 0.2, weeklyReset: nextReset)
         let confirmation = self.snapshot(
@@ -178,7 +178,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `first ordinary high accepts a missing boundary but rejects explicit invalid boundaries`() {
+    func first_ordinary_high_accepts_a_missing_boundary_but_rejects_explicit_invalid_boundaries() {
         let missingBoundary = self.snapshot(offset: 1, weeklyUsed: 42, weeklyReset: nil)
         let elapsedBoundary = self.snapshot(
             offset: 1,
@@ -201,7 +201,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `newer rebound publishes instead of accepting the transient low`() {
+    func newer_rebound_publishes_instead_of_accepting_the_transient_low() {
         let nextReset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let previous = self.snapshot(offset: 0, weeklyUsed: 50, weeklyReset: self.resetAt)
         let initial = self.snapshot(offset: 1, weeklyUsed: 0, weeklyReset: nextReset)
@@ -216,7 +216,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `two low observations publish only for an advanced equivalent boundary`() {
+    func two_low_observations_publish_only_for_an_advanced_equivalent_boundary() {
         let nextReset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let previous = self.snapshot(offset: 0, weeklyUsed: 50, weeklyReset: self.resetAt)
         let initial = self.snapshot(offset: 1, weeklyUsed: 0, weeklyReset: nextReset)
@@ -234,7 +234,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `unchanged regressed and mismatched reset boundaries preserve the previous snapshot`() {
+    func unchanged_regressed_and_mismatched_reset_boundaries_preserve_the_previous_snapshot() {
         let previous = self.snapshot(offset: 0, weeklyUsed: 50, weeklyReset: self.resetAt)
         let unchanged = self.snapshot(offset: 1, weeklyUsed: 0, weeklyReset: self.resetAt)
         let regressed = self.snapshot(
@@ -291,7 +291,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `stale confirmations preserve the previous snapshot`() {
+    func stale_confirmations_preserve_the_previous_snapshot() {
         let nextReset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let previous = self.snapshot(offset: 0, weeklyUsed: 50, weeklyReset: self.resetAt)
         let initial = self.snapshot(offset: 2, weeklyUsed: 0, weeklyReset: nextReset)
@@ -306,7 +306,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `elapsed and materially regressed boundaries preserve the previous snapshot`() {
+    func elapsed_and_materially_regressed_boundaries_preserve_the_previous_snapshot() {
         let nextReset = self.resetAt.addingTimeInterval(7 * 24 * 60 * 60)
         let high = self.snapshot(offset: 0, weeklyUsed: 50, weeklyReset: self.resetAt)
         let elapsedLow = self.snapshot(
@@ -335,7 +335,7 @@ struct CodexWeeklyResetConfirmationTests {
     }
 
     @Test
-    func `nonfinite percentages timestamps and boundaries fail closed`() {
+    func nonfinite_percentages_timestamps_and_boundaries_fail_closed() {
         let previous = self.snapshot(offset: 0, weeklyUsed: 50, weeklyReset: self.resetAt)
         let initial = self.snapshot(offset: 1, weeklyUsed: 0, weeklyReset: self.resetAt.addingTimeInterval(100))
         let nonfiniteBoundary = Date(timeIntervalSinceReferenceDate: .infinity)

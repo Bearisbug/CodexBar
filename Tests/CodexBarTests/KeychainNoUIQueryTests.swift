@@ -22,7 +22,7 @@ struct KeychainNoUIQueryTests {
     }
 
     @Test
-    func `apply sets non interactive context and UI fail policy`() {
+    func apply_sets_non_interactive_context_and_UI_fail_policy() {
         var query: [String: Any] = [:]
 
         KeychainNoUIQuery.apply(to: &query)
@@ -38,7 +38,7 @@ struct KeychainNoUIQueryTests {
     }
 
     @Test
-    func `preflight query is strictly non interactive and does not request secret data`() {
+    func preflight_query_is_strictly_non_interactive_and_does_not_request_secret_data() {
         let query = KeychainAccessPreflight.makeGenericPasswordPreflightQuery(
             service: "test.service",
             account: "test.account")
@@ -50,7 +50,7 @@ struct KeychainNoUIQueryTests {
     }
 
     @Test
-    func `preflight query executes without invalid UI policy`() {
+    func preflight_query_executes_without_invalid_UI_policy() {
         let query = KeychainAccessPreflight.makeGenericPasswordPreflightQuery(
             service: "codexbar.keychain.noui.\(UUID().uuidString)",
             account: nil)
@@ -60,7 +60,7 @@ struct KeychainNoUIQueryTests {
     }
 
     @Test
-    func `processes block every Security item operation before system access`() {
+    func processes_block_every_Security_item_operation_before_system_access() {
         guard ProcessInfo.processInfo.environment[KeychainTestSafety.allowAccessEnvironmentKey] != "1" else {
             return
         }
@@ -76,7 +76,7 @@ struct KeychainNoUIQueryTests {
     }
 
     @Test
-    func `safety recognizes runner variants and explicit controls`() {
+    func safety_recognizes_runner_variants_and_explicit_controls() {
         #expect(KeychainTestSafety.shouldBlockRealKeychainAccess(
             processName: "swiftpm-testing-helper",
             environment: [:]))

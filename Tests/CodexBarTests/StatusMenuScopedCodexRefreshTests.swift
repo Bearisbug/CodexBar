@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuScopedCodexRefreshTests {
     @Test
-    func `scoped refresh reconciles usage after dashboard login expires`() async {
+    func scoped_refresh_reconciles_usage_after_dashboard_login_expires() async {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false

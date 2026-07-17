@@ -19,7 +19,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLIFallbackPolicyTests {
     }
 
     @Test
-    func `experimental reader blocks background fallback per stored policy`() {
+    func experimental_reader_blocks_background_fallback_per_stored_policy() {
         let fallbackData = self.makeCredentialsData(
             accessToken: "fallback-should-be-blocked",
             expiresAt: Date(timeIntervalSinceNow: 3600))
@@ -51,7 +51,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLIFallbackPolicyTests {
     }
 
     @Test
-    func `experimental reader sync from claude keychain without prompt background fallback blocked by stored policy`() {
+    func experimental_reader_sync_from_claude_keychain_without_prompt_background_fallback_blocked_by_stored_policy() {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainAccessGate.withTaskOverrideForTesting(false) {

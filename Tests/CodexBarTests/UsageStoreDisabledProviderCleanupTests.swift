@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct UsageStoreDisabledProviderCleanupTests {
     @Test
-    func `disabled cleanup rejects stale provider publication after re-enable`() async throws {
+    func disabled_cleanup_rejects_stale_provider_publication_after_re_enable() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-provider-race")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -36,7 +36,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `quick provider toggle rejects stale publication before cleanup runs`() async throws {
+    func quick_provider_toggle_rejects_stale_publication_before_cleanup_runs() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-provider-config-race")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -59,7 +59,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `provider order change preserves in-flight publication`() async throws {
+    func provider_order_change_preserves_in_flight_publication() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-provider-order")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -81,7 +81,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `provider config round trip rejects stale publication before cleanup runs`() async throws {
+    func provider_config_round_trip_rejects_stale_publication_before_cleanup_runs() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-provider-config")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -105,7 +105,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `base URL change rejects suspended token account result and cache`() async throws {
+    func base_URL_change_rejects_suspended_token_account_result_and_cache() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-token-base-url")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -134,7 +134,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled cleanup preserves explicit allow-disabled refresh`() async throws {
+    func disabled_cleanup_preserves_explicit_allow_disabled_refresh() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-allow-disabled")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -159,7 +159,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled cleanup rejects stale status success after re-enable`() async throws {
+    func disabled_cleanup_rejects_stale_status_success_after_re_enable() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-status-success")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = true
@@ -188,7 +188,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled cleanup rejects stale status failure after re-enable`() async throws {
+    func disabled_cleanup_rejects_stale_status_failure_after_re_enable() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-status-failure")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = true
@@ -212,7 +212,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled cleanup rejects stale token result after re-enable`() async throws {
+    func disabled_cleanup_rejects_stale_token_result_after_re_enable() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-token-race")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -246,7 +246,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled cleanup replaces stale token failure with fresh retry`() async throws {
+    func disabled_cleanup_replaces_stale_token_failure_with_fresh_retry() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-token-failure")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -281,7 +281,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled token completion preserves retry through active sequence`() async throws {
+    func disabled_token_completion_preserves_retry_through_active_sequence() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-token-sequence")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -336,7 +336,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `token configuration change rejects stale result`() async throws {
+    func token_configuration_change_rejects_stale_result() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-token-scope")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -369,7 +369,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `cached token hydration rejects disable re-enable completion`() async throws {
+    func cached_token_hydration_rejects_disable_re_enable_completion() async throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-token-cache")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -398,7 +398,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled provider cleanup clears derived reset scope and warning state`() throws {
+    func disabled_provider_cleanup_clears_derived_reset_scope_and_warning_state() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-derived")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -448,11 +448,11 @@ struct UsageStoreDisabledProviderCleanupTests {
             components: [],
             updatedAt: Date())
         store.quotaWarningState[
-            UsageStore.QuotaWarningStateKey(provider: .kilo, window: .session, accountDiscriminator: nil),
+            UsageStore.QuotaWarningStateKey(provider: .kilo, window: .session, accountDiscriminator: nil)
         ] =
             UsageStore.QuotaWarningState(lastRemaining: 20, firedThresholds: [50], source: .primary)
         store.quotaWarningState[
-            UsageStore.QuotaWarningStateKey(provider: .codex, window: .session, accountDiscriminator: nil),
+            UsageStore.QuotaWarningStateKey(provider: .codex, window: .session, accountDiscriminator: nil)
         ] =
             UsageStore.QuotaWarningState(lastRemaining: 80, firedThresholds: [20], source: .primary)
         store.predictivePaceWarningNotifiedKeys = [
@@ -477,7 +477,7 @@ struct UsageStoreDisabledProviderCleanupTests {
         #expect(store.kiloScopeSnapshots.isEmpty)
         #expect(store.providerStorageFootprints[.kilo] == nil)
         #expect(store.quotaWarningState[
-            UsageStore.QuotaWarningStateKey(provider: .kilo, window: .session, accountDiscriminator: nil),
+            UsageStore.QuotaWarningStateKey(provider: .kilo, window: .session, accountDiscriminator: nil)
         ] == nil)
         #expect(store.predictivePaceWarningNotifiedKeys.allSatisfy { $0.provider != .kilo })
         #expect(store.lastTokenFetchAt[.kilo] == nil)
@@ -485,13 +485,13 @@ struct UsageStoreDisabledProviderCleanupTests {
 
         #expect(store.lastKnownResetSnapshots[.codex]?.primary?.usedPercent == 12)
         #expect(store.quotaWarningState[
-            UsageStore.QuotaWarningStateKey(provider: .codex, window: .session, accountDiscriminator: nil),
+            UsageStore.QuotaWarningStateKey(provider: .codex, window: .session, accountDiscriminator: nil)
         ] != nil)
         #expect(store.predictivePaceWarningNotifiedKeys.contains { $0.provider == .codex })
     }
 
     @Test
-    func `disabled Codex cleanup clears account snapshots and publication guard`() throws {
+    func disabled_Codex_cleanup_clears_account_snapshots_and_publication_guard() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-codex")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -541,7 +541,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `disabled Claude cleanup clears swap runtime without touching settings`() throws {
+    func disabled_Claude_cleanup_clears_swap_runtime_without_touching_settings() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-claude-swap")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -581,7 +581,7 @@ struct UsageStoreDisabledProviderCleanupTests {
     }
 
     @Test
-    func `unavailable provider cleanup clears derived reset and scope state`() throws {
+    func unavailable_provider_cleanup_clears_derived_reset_and_scope_state() throws {
         let settings = Self.makeSettingsStore(suite: "UsageStoreDisabledProviderCleanupTests-unavailable")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false

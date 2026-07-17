@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexAccountPromotionExecutionTests {
     @Test
-    func `executor import store failure cleans up imported home and maps managed store error`() async throws {
+    func executor_import_store_failure_cleans_up_imported_home_and_maps_managed_store_error() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionExecutionTests-import-cleanup")
         defer { container.tearDown() }
@@ -34,7 +34,7 @@ struct CodexAccountPromotionExecutionTests {
     }
 
     @Test
-    func `executor refresh failure leaves live auth untouched and keeps copied managed auth`() async throws {
+    func executor_refresh_failure_leaves_live_auth_untouched_and_keeps_copied_managed_auth() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionExecutionTests-refresh-failure")
         defer { container.tearDown() }
@@ -77,7 +77,7 @@ struct CodexAccountPromotionExecutionTests {
     }
 
     @Test
-    func `executor import verifies persisted account after concurrent duplicate collision`() async throws {
+    func executor_import_verifies_persisted_account_after_concurrent_duplicate_collision() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionExecutionTests-import-collision-repair")
         defer { container.tearDown() }
@@ -120,7 +120,7 @@ struct CodexAccountPromotionExecutionTests {
     }
 
     @Test
-    func `executor refresh filesystem failure maps to managed store error`() async throws {
+    func executor_refresh_filesystem_failure_maps_to_managed_store_error() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionExecutionTests-refresh-filesystem-failure")
         defer { container.tearDown() }
@@ -151,7 +151,7 @@ struct CodexAccountPromotionExecutionTests {
     }
 
     @Test
-    func `executor legacy import repair ignores provider backed rows with the same email`() async throws {
+    func executor_legacy_import_repair_ignores_provider_backed_rows_with_the_same_email() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionExecutionTests-legacy-import-provider-same-email")
         defer { container.tearDown() }
@@ -184,7 +184,7 @@ struct CodexAccountPromotionExecutionTests {
     }
 
     @Test
-    func `executor reject preserves stable error mapping`() async throws {
+    func executor_reject_preserves_stable_error_mapping() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionExecutionTests-reject-mapping")
         defer { container.tearDown() }
@@ -211,7 +211,7 @@ struct CodexAccountPromotionExecutionTests {
     }
 
     @Test
-    func `executor rejects target as preservation destination`() async throws {
+    func executor_rejects_target_as_preservation_destination() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionExecutionTests-target-destination")
         defer { container.tearDown() }

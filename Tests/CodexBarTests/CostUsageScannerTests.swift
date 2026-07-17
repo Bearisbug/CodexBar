@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageScannerTests {
     @Test
-    func `codex session metadata skips an oversized line without retaining it`() throws {
+    func codex_session_metadata_skips_an_oversized_line_without_retaining_it() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -28,7 +28,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `codex session metadata accepts a line exactly at the byte limit`() throws {
+    func codex_session_metadata_accepts_a_line_exactly_at_the_byte_limit() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -51,7 +51,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `codex file metadata detects append truncation and replacement`() throws {
+    func codex_file_metadata_detects_append_truncation_and_replacement() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-codex-metadata-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -91,7 +91,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `vertex daily report filters claude logs`() throws {
+    func vertex_daily_report_filters_claude_logs() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -157,7 +157,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `vertex daily report detects by vrtx id prefix`() throws {
+    func vertex_daily_report_detects_by_vrtx_id_prefix() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -238,7 +238,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `claude report preserves per-request threshold pricing`() throws {
+    func claude_report_preserves_per_request_threshold_pricing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -313,7 +313,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `claude parses large lines with usage at tail`() throws {
+    func claude_parses_large_lines_with_usage_at_tail() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -358,7 +358,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `claude daily report refreshes when file changes`() throws {
+    func claude_daily_report_refreshes_when_file_changes() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -423,7 +423,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `codex incremental parsing uses previous totals`() throws {
+    func codex_incremental_parsing_uses_previous_totals() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -503,7 +503,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `codex incremental parsing keeps current turn id`() throws {
+    func codex_incremental_parsing_keeps_current_turn_id() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -588,7 +588,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `codex fast parser does not trap on overflowing token integers`() throws {
+    func codex_fast_parser_does_not_trap_on_overflowing_token_integers() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -614,7 +614,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `claude incremental parsing reads appended lines only`() throws {
+    func claude_incremental_parsing_reads_appended_lines_only() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -678,7 +678,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `day key from timestamp matches ISO parsing`() {
+    func day_key_from_timestamp_matches_ISO_parsing() {
         let timestamps = [
             "2025-12-20T23:59:59Z",
             "2025-12-20T23:59:59+02:00",
@@ -692,7 +692,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `claude deduplicates streaming chunks`() throws {
+    func claude_deduplicates_streaming_chunks() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -780,7 +780,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `claude counts entries without ids as separate`() throws {
+    func claude_counts_entries_without_ids_as_separate() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -844,7 +844,7 @@ struct CostUsageScannerTests {
     }
 
     @Test
-    func `claude counts different request ids separately`() throws {
+    func claude_counts_different_request_ids_separately() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

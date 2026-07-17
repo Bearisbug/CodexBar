@@ -20,7 +20,7 @@ struct ActivityCoverageStatsTests {
     }
 
     @Test
-    func `an empty trace reports zero decisions and zero fractions`() {
+    func an_empty_trace_reports_zero_decisions_and_zero_fractions() {
         let stats = ActivityCoverageStats.compute(from: [])
         #expect(stats.decisionCount == 0)
         #expect(stats.sampledCount == 0)
@@ -30,7 +30,7 @@ struct ActivityCoverageStatsTests {
     }
 
     @Test
-    func `non decision records are ignored entirely`() {
+    func non_decision_records_are_ignored_entirely() {
         let records: [AdaptiveRefreshTraceRecord] = [
             .menuOpen(timestamp: Self.referenceNow),
             .refreshCompleted(timestamp: Self.referenceNow),
@@ -40,7 +40,7 @@ struct ActivityCoverageStatsTests {
     }
 
     @Test
-    func `a decision with neither activity field set counts toward decisionCount but not sampledCount`() {
+    func a_decision_with_neither_activity_field_set_counts_toward_decisionCount_but_not_sampledCount() {
         let stats = ActivityCoverageStats.compute(from: [Self.decision(codex: nil, claude: nil)])
         #expect(stats.decisionCount == 1)
         #expect(stats.sampledCount == 0)
@@ -48,13 +48,13 @@ struct ActivityCoverageStatsTests {
     }
 
     @Test
-    func `a decision with only one activity field set still counts as sampled`() {
+    func a_decision_with_only_one_activity_field_set_still_counts_as_sampled() {
         let stats = ActivityCoverageStats.compute(from: [Self.decision(codex: 500, claude: nil)])
         #expect(stats.sampledCount == 1)
     }
 
     @Test
-    func `a sampled decision under the active threshold on either CLI counts as active`() {
+    func a_sampled_decision_under_the_active_threshold_on_either_CLI_counts_as_active() {
         let codexActive = ActivityCoverageStats.compute(from: [Self.decision(codex: 100, claude: nil)])
         #expect(codexActive.activeCount == 1)
 
@@ -63,14 +63,14 @@ struct ActivityCoverageStatsTests {
     }
 
     @Test
-    func `a sampled decision at or above the active threshold on both CLIs does not count as active`() {
+    func a_sampled_decision_at_or_above_the_active_threshold_on_both_CLIs_does_not_count_as_active() {
         let stats = ActivityCoverageStats.compute(from: [Self.decision(codex: 500, claude: 400)])
         #expect(stats.sampledCount == 1)
         #expect(stats.activeCount == 0)
     }
 
     @Test
-    func `fractions are computed against decisionCount and sampledCount respectively`() {
+    func fractions_are_computed_against_decisionCount_and_sampledCount_respectively() {
         let records: [AdaptiveRefreshTraceRecord] = [
             Self.decision(codex: 100, claude: nil), // sampled, active
             Self.decision(codex: 500, claude: 400), // sampled, not active
@@ -86,7 +86,7 @@ struct ActivityCoverageStatsTests {
     }
 
     @Test
-    func `a custom active threshold changes the active classification`() {
+    func a_custom_active_threshold_changes_the_active_classification() {
         let stats = ActivityCoverageStats.compute(
             from: [Self.decision(codex: 250, claude: nil)],
             activeThresholdSeconds: 60)

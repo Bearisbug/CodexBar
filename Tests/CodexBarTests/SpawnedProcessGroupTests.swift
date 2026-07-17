@@ -9,7 +9,7 @@ import Glibc
 
 struct SpawnedProcessGroupTests {
     @Test
-    func `pipe cleanup preserves standard descriptors`() {
+    func pipe_cleanup_preserves_standard_descriptors() {
         let descriptors = SpawnedProcessGroup.pipeDescriptorsToClose([0, 1, 2, 3, 4, 3])
 
         #expect(descriptors == [3, 4])
@@ -17,13 +17,13 @@ struct SpawnedProcessGroupTests {
 
     #if canImport(Darwin)
     @Test
-    func `Darwin device identifier preserves signed bit pattern`() {
+    func Darwin_device_identifier_preserves_signed_bit_pattern() {
         #expect(SpawnedProcessGroup.darwinDeviceIdentifier(-805_306_367) == 3_489_660_929)
     }
     #endif
 
     @Test
-    func `musl close-from selects numeric descriptors at or above minimum`() throws {
+    func musl_close_from_selects_numeric_descriptors_at_or_above_minimum() throws {
         let descriptors = try PosixSpawnFileActionsCloseFrom.descriptorsToClose(startingAt: 4) { path in
             #expect(path == "/proc/self/fd")
             return ["8", "cwd", "3", "4"]
@@ -33,7 +33,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `musl close-from fails when descriptor enumeration fails`() {
+    func musl_close_from_fails_when_descriptor_enumeration_fails() {
         #expect(throws: PosixSpawnFileActionsCloseFrom.CloseFromError.self) {
             try PosixSpawnFileActionsCloseFrom.descriptorsToClose(startingAt: 3) { _ in
                 throw CocoaError(.fileReadNoPermission)
@@ -42,7 +42,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `launch captures child output`() async throws {
+    func launch_captures_child_output() async throws {
         let stdoutPipe = Pipe()
         let stderrPipe = Pipe()
         let stdoutCapture = ProcessPipeCapture(pipe: stdoutPipe)
@@ -72,7 +72,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `launch clears the parent thread signal mask`() throws {
+    func launch_clears_the_parent_thread_signal_mask() throws {
         var blockedMask = sigset_t()
         var previousMask = sigset_t()
         sigemptyset(&blockedMask)
@@ -105,7 +105,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `PTY launch clears the parent thread signal mask`() throws {
+    func PTY_launch_clears_the_parent_thread_signal_mask() throws {
         var blockedMask = sigset_t()
         var previousMask = sigset_t()
         sigemptyset(&blockedMask)
@@ -147,7 +147,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `launch closes unrelated parent descriptors`() async throws {
+    func launch_closes_unrelated_parent_descriptors() async throws {
         let sourceFD = open("/dev/null", O_RDONLY)
         let inheritedFD = fcntl(sourceFD, F_DUPFD, 200)
         close(sourceFD)
@@ -179,7 +179,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `termination waits for grace before killing escaped descendants`() async throws {
+    func termination_waits_for_grace_before_killing_escaped_descendants() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-process-group-\(UUID().uuidString).pid")
         defer { try? FileManager.default.removeItem(at: childPIDFile) }
@@ -236,7 +236,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `termination kills reparented process group members after root exit`() async throws {
+    func termination_kills_reparented_process_group_members_after_root_exit() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-process-group-member-\(UUID().uuidString).pid")
         defer { try? FileManager.default.removeItem(at: childPIDFile) }
@@ -291,7 +291,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `termination gives reparented process group members grace`() async throws {
+    func termination_gives_reparented_process_group_members_grace() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-process-group-grace-\(UUID().uuidString).pid")
         let termReceivedFile = childPIDFile.appendingPathExtension("term")
@@ -369,7 +369,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `residual termination cleans same group helpers spawned during SIGTERM`() async throws {
+    func residual_termination_cleans_same_group_helpers_spawned_during_SIGTERM() async throws {
         let readyFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-process-group-term-\(UUID().uuidString).ready")
         let childPIDFile = readyFile.appendingPathExtension("pid")
@@ -456,7 +456,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `normal exit cleans a session escaped output holder`() async throws {
+    func normal_exit_cleans_a_session_escaped_output_holder() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-process-holder-\(UUID().uuidString).pid")
         defer { try? FileManager.default.removeItem(at: childPIDFile) }
@@ -510,7 +510,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `normal exit cleans a same group helper without output pipes`() async throws {
+    func normal_exit_cleans_a_same_group_helper_without_output_pipes() async throws {
         let childPIDFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-process-group-holder-\(UUID().uuidString).pid")
         let heartbeatFile = childPIDFile.appendingPathExtension("heartbeat")
@@ -591,7 +591,7 @@ struct SpawnedProcessGroupTests {
     }
 
     @Test
-    func `normal exit cleanup catches helper spawned during SIGTERM`() async throws {
+    func normal_exit_cleanup_catches_helper_spawned_during_SIGTERM() async throws {
         let readyFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-process-group-post-exit-\(UUID().uuidString).ready")
         let childPIDFile = readyFile.appendingPathExtension("pid")

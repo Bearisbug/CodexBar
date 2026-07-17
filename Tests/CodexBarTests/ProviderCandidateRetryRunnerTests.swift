@@ -8,7 +8,7 @@ struct ProviderCandidateRetryRunnerTests {
     }
 
     @Test
-    func `retries then succeeds`() async throws {
+    func retries_then_succeeds() async throws {
         let candidates = [1, 2, 3]
         var attempted: [Int] = []
         var retried: [Int] = []
@@ -38,7 +38,7 @@ struct ProviderCandidateRetryRunnerTests {
     }
 
     @Test
-    func `non retryable fails immediately`() async {
+    func non_retryable_fails_immediately() async {
         let candidates = [1, 2, 3]
         var attempted: [Int] = []
         var retried: [Int] = []
@@ -70,7 +70,7 @@ struct ProviderCandidateRetryRunnerTests {
     }
 
     @Test
-    func `exhausted retryable throws last error`() async {
+    func exhausted_retryable_throws_last_error() async {
         let candidates = [1, 2]
         var attempted: [Int] = []
         var retried: [Int] = []
@@ -102,7 +102,7 @@ struct ProviderCandidateRetryRunnerTests {
     }
 
     @Test
-    func `empty candidates throws no candidates`() async {
+    func empty_candidates_throws_no_candidates() async {
         do {
             let candidates: [Int] = []
             _ = try await ProviderCandidateRetryRunner.run(

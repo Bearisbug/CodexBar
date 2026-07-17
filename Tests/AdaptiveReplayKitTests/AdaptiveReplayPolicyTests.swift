@@ -23,7 +23,7 @@ struct AdaptiveReplayPolicyTests {
         (3601.0, "idle", 900.0),
         (14400.0, "longIdle", 1800.0),
     ])
-    func `replay adapter preserves canonical decisions`(
+    func replay_adapter_preserves_canonical_decisions(
         ageSeconds: TimeInterval,
         expectedReason: String,
         expectedDelaySeconds: TimeInterval)
@@ -34,7 +34,7 @@ struct AdaptiveReplayPolicyTests {
     }
 
     @Test(arguments: [ReplayThermalState.serious, .critical])
-    func `replay adapter maps serious and critical thermal states to constrained`(
+    func replay_adapter_maps_serious_and_critical_thermal_states_to_constrained(
         thermalState: ReplayThermalState)
     {
         let decision = AdaptiveReplayPolicy().decide(self.input(ageSeconds: 0, thermalState: thermalState))
@@ -43,7 +43,7 @@ struct AdaptiveReplayPolicyTests {
     }
 
     @Test
-    func `replay adapter preserves low power precedence`() {
+    func replay_adapter_preserves_low_power_precedence() {
         let decision = AdaptiveReplayPolicy().decide(self.input(
             ageSeconds: 0,
             lowPowerModeEnabled: true,
@@ -53,7 +53,7 @@ struct AdaptiveReplayPolicyTests {
     }
 
     @Test(arguments: [ReplayThermalState.nominal, .fair])
-    func `replay adapter maps nominal and fair thermal states to unconstrained`(
+    func replay_adapter_maps_nominal_and_fair_thermal_states_to_unconstrained(
         thermalState: ReplayThermalState)
     {
         let decision = AdaptiveReplayPolicy().decide(self.input(ageSeconds: 0, thermalState: thermalState))
@@ -62,14 +62,14 @@ struct AdaptiveReplayPolicyTests {
     }
 
     @Test
-    func `only adaptive replay advances on interaction`() {
+    func only_adaptive_replay_advances_on_interaction() {
         #expect(AdaptiveReplayPolicy().advancesOnInteraction)
         #expect(!FixedIntervalPolicy(minutes: 5).advancesOnInteraction)
         #expect(!ManualPolicy().advancesOnInteraction)
     }
 
     @Test
-    func `fixed interval conversion cannot overflow integer multiplication`() {
+    func fixed_interval_conversion_cannot_overflow_integer_multiplication() {
         let decision = FixedIntervalPolicy(minutes: Int.max).decide(self.input(ageSeconds: 0))
         #expect(decision.delaySeconds == TimeInterval(Int.max) * 60)
         #expect(decision.delaySeconds?.isFinite == true)

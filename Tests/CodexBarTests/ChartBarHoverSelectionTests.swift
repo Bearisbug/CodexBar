@@ -4,7 +4,7 @@ import Testing
 
 struct ChartBarHoverSelectionTests {
     @Test
-    func `single selectable bar accepts the full plot`() {
+    func single_selectable_bar_accepts_the_full_plot() {
         #expect(ChartBarHoverSelection.accepts(
             distanceFromBarCenter: 120,
             barHalfWidth: 5,
@@ -12,7 +12,7 @@ struct ChartBarHoverSelectionTests {
     }
 
     @Test
-    func `multiple selectable bars accept only the bar body`() {
+    func multiple_selectable_bars_accept_only_the_bar_body() {
         #expect(ChartBarHoverSelection.accepts(
             distanceFromBarCenter: 5,
             barHalfWidth: 5,
@@ -24,7 +24,7 @@ struct ChartBarHoverSelectionTests {
     }
 
     @Test
-    func `calendar day spacing follows daylight saving transitions`() throws {
+    func calendar_day_spacing_follows_daylight_saving_transitions() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "America/Los_Angeles"))
         let springDate = try #require(calendar.date(from: DateComponents(

@@ -4,7 +4,7 @@ import Testing
 
 struct GrokBillingResponseTests {
     @Test
-    func `decodes full BillingConfigResponse and computes percent`() throws {
+    func decodes_full_BillingConfigResponse_and_computes_percent() throws {
         let json = #"""
         {
           "billingCycle": {
@@ -33,7 +33,7 @@ struct GrokBillingResponseTests {
     }
 
     @Test
-    func `monthlyUsedPercent returns nil when limit missing`() throws {
+    func monthlyUsedPercent_returns_nil_when_limit_missing() throws {
         let json = #"""
         {
           "usage": { "totalUsed": { "val": 100 } }
@@ -45,7 +45,7 @@ struct GrokBillingResponseTests {
     }
 
     @Test
-    func `monthlyUsedPercent clamps over-100 usage`() throws {
+    func monthlyUsedPercent_clamps_over_100_usage() throws {
         let json = #"""
         {
           "monthlyLimit": { "val": 1000 },
@@ -58,7 +58,7 @@ struct GrokBillingResponseTests {
     }
 
     @Test
-    func `handles missing optional fields gracefully`() throws {
+    func handles_missing_optional_fields_gracefully() throws {
         let json = #"{}"#
         let data = Data(json.utf8)
         let response = try JSONDecoder().decode(GrokBillingResponse.self, from: data)

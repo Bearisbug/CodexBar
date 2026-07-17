@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeResetJSONParserTests {
     @Test
-    func `usage JSON parser applies quota horizons from one clock`() throws {
+    func usage_JSON_parser_applies_quota_horizons_from_one_clock() throws {
         let reset = "Jul 9 at 6am (UTC)"
         let json = """
         {
@@ -26,7 +26,7 @@ struct ClaudeResetJSONParserTests {
     }
 
     @Test
-    func `usage JSON parser supports explicit years and preserves malformed reset text`() throws {
+    func usage_JSON_parser_supports_explicit_years_and_preserves_malformed_reset_text() throws {
         let explicitReset = "Jan 2, 2026, 10:59pm (Europe/Helsinki)"
         let malformedReset = "after the next billing sync"
         let json = """

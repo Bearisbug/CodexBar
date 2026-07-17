@@ -10,7 +10,7 @@ import Testing
 
 struct AntigravityProcessLauncherLinuxTests {
     @Test
-    func `pty launcher uses home and closes unrelated descriptors`() throws {
+    func pty_launcher_uses_home_and_closes_unrelated_descriptors() throws {
         let tempDirectory = FileManager.default.temporaryDirectory
             .appendingPathComponent("antigravity-spawn-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)

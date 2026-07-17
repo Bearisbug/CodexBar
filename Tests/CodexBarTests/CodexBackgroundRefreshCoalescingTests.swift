@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexBackgroundRefreshCoalescingTests {
     @Test
-    func `rapid regular refreshes coalesce concurrent Codex credits fetches`() async throws {
+    func rapid_regular_refreshes_coalesce_concurrent_Codex_credits_fetches() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-credits-coalescing")
         settings.statusChecksEnabled = false
@@ -68,7 +68,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `regular credits refresh reschedules when Codex account changes`() async throws {
+    func regular_credits_refresh_reschedules_when_Codex_account_changes() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-credits-account-switch")
         settings.statusChecksEnabled = false
@@ -141,7 +141,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `force refresh cancels stale background Codex credits fetch`() async throws {
+    func force_refresh_cancels_stale_background_Codex_credits_fetch() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-credits-force-cancels-background")
         settings.statusChecksEnabled = false
@@ -214,7 +214,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced background tail replaces stale scheduled Codex credits fetch`() async throws {
+    func forced_background_tail_replaces_stale_scheduled_Codex_credits_fetch() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-credits-tail-cancels-background")
         settings.statusChecksEnabled = false
@@ -274,7 +274,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `rapid regular refreshes coalesce concurrent OpenAI dashboard fetches`() async throws {
+    func rapid_regular_refreshes_coalesce_concurrent_OpenAI_dashboard_fetches() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-dashboard-coalescing")
         settings.statusChecksEnabled = false
@@ -353,7 +353,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `cancelled background dashboard import does not publish stale account status`() async throws {
+    func cancelled_background_dashboard_import_does_not_publish_stale_account_status() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-dashboard-cancelled-import")
         settings.statusChecksEnabled = false
@@ -402,7 +402,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `settings refresh waits for forced enrichment instead of being dropped`() async throws {
+    func settings_refresh_waits_for_forced_enrichment_instead_of_being_dropped() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-settings-waits-for-tail")
         settings.statusChecksEnabled = false
@@ -484,7 +484,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `required post-action refresh waits for forced enrichment`() async throws {
+    func required_post_action_refresh_waits_for_forced_enrichment() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-required-refresh-waits-for-tail")
         settings.statusChecksEnabled = false
@@ -557,7 +557,7 @@ struct CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `startup retry waits for forced enrichment and completes its retry pass`() async throws {
+    func startup_retry_waits_for_forced_enrichment_and_completes_its_retry_pass() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-startup-retry-waits-for-tail")
         settings.refreshFrequency = .manual
@@ -654,7 +654,7 @@ struct CodexBackgroundRefreshCoalescingTests {
 
 extension CodexBackgroundRefreshCoalescingTests {
     @Test
-    func `forced enrichment keeps one active and the latest contextual follow-up`() async throws {
+    func forced_enrichment_keeps_one_active_and_the_latest_contextual_follow_up() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-forced-enrichment-latest")
         settings.statusChecksEnabled = false
@@ -751,7 +751,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced background login failure reconciles provider and credits once`() async throws {
+    func forced_background_login_failure_reconciles_provider_and_credits_once() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-login-reconciliation")
         settings.statusChecksEnabled = false
@@ -801,7 +801,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `older login reconciliation yields to an already pending forced tail`() async throws {
+    func older_login_reconciliation_yields_to_an_already_pending_forced_tail() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-login-pending-generation")
         settings.statusChecksEnabled = false
@@ -897,7 +897,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `older login reconciliation does not replace newer forced provider work`() async throws {
+    func older_login_reconciliation_does_not_replace_newer_forced_provider_work() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-login-inflight-generation")
         settings.statusChecksEnabled = false
@@ -1031,7 +1031,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `cancelling forced enrichment cancels its real dashboard child`() async throws {
+    func cancelling_forced_enrichment_cancels_its_real_dashboard_child() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-dashboard-child-cancellation")
         settings.statusChecksEnabled = false
@@ -1085,7 +1085,7 @@ extension CodexBackgroundRefreshCoalescingTests {
     }
 
     @Test
-    func `forced background enrichment runs dashboard under battery saver with user context`() async throws {
+    func forced_background_enrichment_runs_dashboard_under_battery_saver_with_user_context() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexBackgroundRefreshCoalescingTests-forced-dashboard-battery")
         settings.statusChecksEnabled = false

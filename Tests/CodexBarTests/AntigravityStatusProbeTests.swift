@@ -22,7 +22,7 @@ private final class AntigravityAttemptRecorder: @unchecked Sendable {
 
 struct AntigravityStatusProbeTests {
     @Test
-    func `process detection accepts antigravity 2 unsuffixed language server`() {
+    func process_detection_accepts_antigravity_2_unsuffixed_language_server() {
         let command = """
         /Applications/Antigravity.app/Contents/Resources/bin/language_server --standalone \
         --override_ide_name antigravity --override_ide_version 2.0.0 \
@@ -33,7 +33,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process detection accepts antigravity language server paths with spaces`() {
+    func process_detection_accepts_antigravity_language_server_paths_with_spaces() {
         let command = """
         /Applications/Google Antigravity.app/Contents/Resources/bin/language_server --standalone \
         --override_ide_name antigravity --csrf_token token --app_data_dir antigravity
@@ -43,7 +43,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process detection accepts hyphenated language server from app bundle`() throws {
+    func process_detection_accepts_hyphenated_language_server_from_app_bundle() throws {
         let command = """
         /Applications/Google Antigravity.app/Contents/Resources/bin/language-server --standalone \
         --csrf_token token --extension_server_port 64123
@@ -58,7 +58,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process detection keeps ignoring non language server antigravity helpers`() {
+    func process_detection_keeps_ignoring_non_language_server_antigravity_helpers() {
         let helper = """
         /Applications/Antigravity.app/Contents/Frameworks/Antigravity Helper.app/Contents/MacOS/Antigravity Helper \
         --type=renderer --user-data-dir=/Users/test/Library/Application Support/Antigravity
@@ -68,7 +68,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process detection still accepts legacy antigravity language server`() {
+    func process_detection_still_accepts_legacy_antigravity_language_server() {
         let command = """
         /Applications/Antigravity.app/Contents/Resources/bin/language_server_macos \
         --csrf_token token --app_data_dir antigravity
@@ -78,7 +78,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process detection accepts platform suffixed antigravity language server`() throws {
+    func process_detection_accepts_platform_suffixed_antigravity_language_server() throws {
         let output = """
           101 /Applications/Antigravity.app/Contents/Resources/bin/language_server_macos_arm \
           --csrf_token ide-token --app_data_dir antigravity --extension_server_port 54977
@@ -92,7 +92,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process detection accepts antigravity cli without csrf token`() {
+    func process_detection_accepts_antigravity_cli_without_csrf_token() {
         // The CLI launches its language server without a `--csrf_token` flag.
         let node = """
         node /Users/test/.gemini/antigravity-cli/build/mcp-server.cjs \
@@ -108,14 +108,14 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process detection ignores unrelated binaries containing agy substring`() {
+    func process_detection_ignores_unrelated_binaries_containing_agy_substring() {
         // "agy" must be path-anchored so unrelated commands do not match.
         #expect(!AntigravityStatusProbe.isAntigravityLanguageServerCommandLine("/usr/bin/legacy --run"))
         #expect(!AntigravityStatusProbe.isAntigravityLanguageServerCommandLine("/opt/imagymagic/bin/tool"))
     }
 
     @Test
-    func `process detection ignores cli names outside explicit cli path segments`() {
+    func process_detection_ignores_cli_names_outside_explicit_cli_path_segments() {
         #expect(
             !AntigravityStatusProbe.isAntigravityLanguageServerCommandLine(
                 "/usr/bin/node /tmp/not-antigravity-cli/build/server.js"))
@@ -125,7 +125,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process kind distinguishes app ide language server and cli`() {
+    func process_kind_distinguishes_app_ide_language_server_and_cli() {
         let app = """
         /Applications/Antigravity.app/Contents/Resources/bin/language_server \
         --csrf_token token --app_data_dir antigravity
@@ -144,7 +144,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `csrf token stays required for ide but optional for cli`() {
+    func csrf_token_stays_required_for_ide_but_optional_for_cli() {
         // Desktop app/IDE with a token returns it.
         let appWithToken = """
         /Applications/Antigravity.app/Contents/Resources/bin/language_server \
@@ -172,7 +172,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process scan skips tokenless ide before later valid ide`() throws {
+    func process_scan_skips_tokenless_ide_before_later_valid_ide() throws {
         let tokenlessIDE =
             "  100 /Applications/Antigravity.app/Contents/Resources/bin/language_server --app_data_dir antigravity"
         let validIDE = "  101 /Applications/Antigravity.app/Contents/Resources/bin/language_server " +
@@ -189,7 +189,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process scan returns all valid app candidates`() throws {
+    func process_scan_returns_all_valid_app_candidates() throws {
         let firstApp = "  101 /Applications/Antigravity.app/Contents/Resources/bin/language_server " +
             "--csrf_token first-token --app_data_dir antigravity"
         let secondApp = "  102 /Applications/Antigravity.app/Contents/Resources/bin/language_server " +
@@ -206,7 +206,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `local snapshot score prefers quota summary over legacy model quotas`() {
+    func local_snapshot_score_prefers_quota_summary_over_legacy_model_quotas() {
         let legacy = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -272,7 +272,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process scan reports missing csrf when only tokenless ide matches`() {
+    func process_scan_reports_missing_csrf_when_only_tokenless_ide_matches() {
         let output = """
           100 /Applications/Antigravity.app/Contents/Resources/bin/language_server --app_data_dir antigravity
         """
@@ -283,7 +283,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `process scan allows empty csrf only for explicit cli match`() throws {
+    func process_scan_allows_empty_csrf_only_for_explicit_cli_match() throws {
         let output = """
           200 /Users/test/.local/bin/agy -p hello
         """
@@ -296,7 +296,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `ideOnly scope skips app and cli processes and reports not running`() {
+    func ideOnly_scope_skips_app_and_cli_processes_and_reports_not_running() {
         let output = "  200 /Users/test/.local/bin/agy -p hello"
 
         #expect(throws: AntigravityStatusProbeError.notRunning) {
@@ -311,7 +311,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `ideOnly scope still matches ide server listed after cli and app processes`() throws {
+    func ideOnly_scope_still_matches_ide_server_listed_after_cli_and_app_processes() throws {
         let cli = "  200 /Users/test/.local/bin/agy -p hello"
         let app = "  101 /Applications/Antigravity.app/Contents/Resources/bin/language_server " +
             "--csrf_token app-token --app_data_dir antigravity"
@@ -327,7 +327,7 @@ struct AntigravityStatusProbeTests {
     }
 
     @Test
-    func `appOnly scope skips ide and cli processes`() throws {
+    func appOnly_scope_skips_ide_and_cli_processes() throws {
         let cli = "  200 /Users/test/.local/bin/agy -p hello"
         let ide = "  102 /Applications/Antigravity IDE.app/Contents/Resources/app/extensions/antigravity/bin/" +
             "language_server_macos_arm --csrf_token ide-token --app_data_dir antigravity-ide"
@@ -344,7 +344,7 @@ struct AntigravityStatusProbeTests {
 
 extension AntigravityStatusProbeTests {
     @Test
-    func `localhost trust policy only accepts local server trust challenges`() {
+    func localhost_trust_policy_only_accepts_local_server_trust_challenges() {
         #expect(
             LocalhostTrustPolicy.shouldAcceptServerTrust(
                 host: "127.0.0.1",
@@ -374,7 +374,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `localhost trust policy rejects non loopback hostnames that contain localhost`() {
+    func localhost_trust_policy_rejects_non_loopback_hostnames_that_contain_localhost() {
         #expect(
             !LocalhostTrustPolicy.shouldAcceptServerTrust(
                 host: "localhost.example.com",
@@ -383,7 +383,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `connection candidates preserve scheme order and endpoint tokens`() {
+    func connection_candidates_preserve_scheme_order_and_endpoint_tokens() {
         let candidates = AntigravityStatusProbe.connectionCandidates(
             listeningPorts: [64440],
             languageServerCSRFToken: "language-token",
@@ -411,7 +411,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `connection candidates restrict plain http probing to the declared extension port`() {
+    func connection_candidates_restrict_plain_http_probing_to_the_declared_extension_port() {
         let candidates = AntigravityStatusProbe.connectionCandidates(
             listeningPorts: [64440, 64441],
             languageServerCSRFToken: "language-token",
@@ -439,7 +439,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `connection candidates preserve extension fallback when extension token is unavailable`() {
+    func connection_candidates_preserve_extension_fallback_when_extension_token_is_unavailable() {
         let candidates = AntigravityStatusProbe.connectionCandidates(
             listeningPorts: [64440],
             languageServerCSRFToken: "language-token",
@@ -462,7 +462,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `connection candidates do not duplicate the same http target when ports overlap`() {
+    func connection_candidates_do_not_duplicate_the_same_http_target_when_ports_overlap() {
         let candidates = AntigravityStatusProbe.connectionCandidates(
             listeningPorts: [64432],
             languageServerCSRFToken: "language-token",
@@ -485,7 +485,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `request endpoints retry extension server after language server success`() {
+    func request_endpoints_retry_extension_server_after_language_server_success() {
         let resolvedEndpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -516,7 +516,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `request endpoints preserve extension fallback when extension token is unavailable`() {
+    func request_endpoints_preserve_extension_fallback_when_extension_token_is_unavailable() {
         let resolvedEndpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -542,7 +542,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `request endpoints retry alternate token after extension server wins discovery`() {
+    func request_endpoints_retry_alternate_token_after_extension_server_wins_discovery() {
         let resolvedEndpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "http",
             port: 64432,
@@ -573,7 +573,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `request endpoints keep https language server fallback after extension probe wins`() {
+    func request_endpoints_keep_https_language_server_fallback_after_extension_probe_wins() {
         let resolvedEndpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "http",
             port: 64432,
@@ -604,7 +604,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `parsed request retries later endpoints after api level error payload`() async throws {
+    func parsed_request_retries_later_endpoints_after_api_level_error_payload() async throws {
         let endpoints = [
             AntigravityStatusProbe.AntigravityConnectionEndpoint(
                 scheme: "https",
@@ -651,7 +651,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `endpoint resolver prefers successful https language server candidate`() async throws {
+    func endpoint_resolver_prefers_successful_https_language_server_candidate() async throws {
         let candidates = AntigravityStatusProbe.connectionCandidates(
             listeningPorts: [64440],
             languageServerCSRFToken: "language-token",
@@ -672,7 +672,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `endpoint resolver falls back to extension server after https language server candidates`() async throws {
+    func endpoint_resolver_falls_back_to_extension_server_after_https_language_server_candidates() async throws {
         let candidates = AntigravityStatusProbe.connectionCandidates(
             listeningPorts: [64440, 64441],
             languageServerCSRFToken: "language-token",
@@ -693,7 +693,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `endpoint resolver falls back to alternate extension token after primary token fails`() async throws {
+    func endpoint_resolver_falls_back_to_alternate_extension_token_after_primary_token_fails() async throws {
         let candidates = AntigravityStatusProbe.connectionCandidates(
             listeningPorts: [64440],
             languageServerCSRFToken: "language-token",
@@ -715,7 +715,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `parses user status response`() throws {
+    func parses_user_status_response() throws {
         let json = """
         {
           "code": 0,
@@ -765,7 +765,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `prefers user tier name over generic plan info`() throws {
+    func prefers_user_tier_name_over_generic_plan_info() throws {
         let json = """
         {
           "code": 0,
@@ -797,7 +797,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `falls back to plan info when user tier name is blank`() throws {
+    func falls_back_to_plan_info_when_user_tier_name_is_blank() throws {
         let json = """
         {
           "code": 0,
@@ -829,7 +829,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `claude gpt pool can use thinking variants`() throws {
+    func claude_gpt_pool_can_use_thinking_variants() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -854,7 +854,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `claude gpt pool uses thinking model when it is the only claude option`() throws {
+    func claude_gpt_pool_uses_thinking_model_when_it_is_the_only_claude_option() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -879,7 +879,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `gemini pool unavailable when only excluded variants exist`() throws {
+    func gemini_pool_unavailable_when_only_excluded_variants_exist() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -904,7 +904,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `gemini pool chooses most constrained pro variant`() throws {
+    func gemini_pool_chooses_most_constrained_pro_variant() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -929,7 +929,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `gemini pool chooses standard pro when it is more constrained than low variant`() throws {
+    func gemini_pool_chooses_standard_pro_when_it_is_more_constrained_than_low_variant() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -954,7 +954,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `gemini pool ignores reset only placeholder when remaining data exists`() throws {
+    func gemini_pool_ignores_reset_only_placeholder_when_remaining_data_exists() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -979,7 +979,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `gemini pool does not fallback to lite flash variant`() throws {
+    func gemini_pool_does_not_fallback_to_lite_flash_variant() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -1005,7 +1005,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `falls back to labels when model ids are placeholders`() throws {
+    func falls_back_to_labels_when_model_ids_are_placeholders() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -1037,7 +1037,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `matches remote antigravity model names with parentheses`() throws {
+    func matches_remote_antigravity_model_names_with_parentheses() throws {
         let resetTime = Date(timeIntervalSince1970: 1_775_000_000)
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
@@ -1091,7 +1091,7 @@ extension AntigravityStatusProbeTests {
 
 extension AntigravityStatusProbeTests {
     @Test
-    func `known model quota rows collapse into two usage pools`() throws {
+    func known_model_quota_rows_collapse_into_two_usage_pools() throws {
         let resetTime = Date(timeIntervalSince1970: 1_775_000_000)
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
@@ -1131,7 +1131,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `model without remaining fraction stays out of family summary and preserves reset metadata`() throws {
+    func model_without_remaining_fraction_stays_out_of_family_summary_and_preserves_reset_metadata() throws {
         let resetTime = Date(timeIntervalSince1970: 1_735_000_000)
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
@@ -1159,7 +1159,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `group without remaining fraction preserves reset metadata as unavailable grouped window`() throws {
+    func group_without_remaining_fraction_preserves_reset_metadata_as_unavailable_grouped_window() throws {
         let resetTime = Date(timeIntervalSince1970: 1_735_000_000)
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
@@ -1183,7 +1183,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `named rate windows default legacy payloads to known usage`() throws {
+    func named_rate_windows_default_legacy_payloads_to_known_usage() throws {
         let json = """
         {
           "id": "legacy-window",
@@ -1204,7 +1204,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `filtered variants stay out of summary but remain distinct extras`() throws {
+    func filtered_variants_stay_out_of_summary_but_remain_distinct_extras() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -1246,7 +1246,7 @@ extension AntigravityStatusProbeTests {
     // MARK: - Source-aware filter + sort tests
 
     @Test
-    func `local source collapses opaque model ids into two usage pools`() throws {
+    func local_source_collapses_opaque_model_ids_into_two_usage_pools() throws {
         // Fixture A: 8 opaque-ID models, source .local -> two grouped quota pools
         let resetTime = Date(timeIntervalSince1970: 1_775_000_000)
         let snapshot = AntigravityStatusSnapshot(
@@ -1312,7 +1312,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `remote source collapses recognized family models and hides unconsumed junk`() throws {
+    func remote_source_collapses_recognized_family_models_and_hides_unconsumed_junk() throws {
         // Fixture B: verified 13 remote models; recognized text models collapse into Gemini,
         // and unconsumed junk stays hidden.
         let snapshot = AntigravityStatusSnapshot(
@@ -1420,7 +1420,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `remote source shows consumed junk models despite filter`() throws {
+    func remote_source_shows_consumed_junk_models_despite_filter() throws {
         // Fixture C: junk models with remainingFraction < 0.999 must be shown
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
@@ -1470,7 +1470,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `remote source image models do not drive family summary bars`() throws {
+    func remote_source_image_models_do_not_drive_family_summary_bars() throws {
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -1511,7 +1511,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `remote source yields nil extra windows when all models are unconsumed junk`() throws {
+    func remote_source_yields_nil_extra_windows_when_all_models_are_unconsumed_junk() throws {
         // Fixture D: all-junk-unconsumed -> extraRateWindows nil
         let snapshot = AntigravityStatusSnapshot(
             modelQuotas: [
@@ -1552,7 +1552,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `ordering edge cases collapse to most constrained usage pool`() throws {
+    func ordering_edge_cases_collapse_to_most_constrained_usage_pool() throws {
         // Fixture F: local source; known Gemini Pro rows collapse into the Gemini pool
         // using the most constrained remaining fraction.
         let snapshot = AntigravityStatusSnapshot(
@@ -1593,7 +1593,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `nil version unknown family models sort deterministically by label`() throws {
+    func nil_version_unknown_family_models_sort_deterministically_by_label() throws {
         // Strict-weak-ordering guard: two .unknown models with unparseable versions
         // should sort by label without trapping
         let snapshot = AntigravityStatusSnapshot(
@@ -1624,7 +1624,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `hyphenated raw model ids without display name still map to gemini group`() throws {
+    func hyphenated_raw_model_ids_without_display_name_still_map_to_gemini_group() throws {
         // When the remote catalog omits displayName/label, the raw hyphenated model id
         // becomes the label and still participates in the Gemini group.
         let snapshot = AntigravityStatusSnapshot(
@@ -1652,7 +1652,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `http probe errors still count as reachable`() {
+    func http_probe_errors_still_count_as_reachable() {
         #expect(
             AntigravityStatusProbe.isReachableProbeError(
                 AntigravityStatusProbeError.apiError("HTTP 403: Forbidden")))
@@ -1666,7 +1666,7 @@ extension AntigravityStatusProbeTests {
     }
 
     @Test
-    func `fallback probe port prefers non extension candidate`() {
+    func fallback_probe_port_prefers_non_extension_candidate() {
         #expect(
             AntigravityStatusProbe.fallbackProbePort(
                 ports: [51170, 61775],

@@ -5,7 +5,7 @@ import Testing
 
 struct ClaudeOAuthUsageRateLimitGateLinuxTests {
     @Test
-    func `rate limit gate isolates tokens without storing raw credentials`() {
+    func rate_limit_gate_isolates_tokens_without_storing_raw_credentials() {
         ClaudeOAuthUsageRateLimitGate.resetForTesting()
         defer { ClaudeOAuthUsageRateLimitGate.resetForTesting() }
 

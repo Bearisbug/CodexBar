@@ -79,7 +79,7 @@ struct ManusProviderTests {
     }
 
     @Test
-    func `off mode ignores environment session token`() async {
+    func off_mode_ignores_environment_session_token() async {
         let strategy = ManusWebFetchStrategy()
         let settings = ProviderSettingsSnapshot.make(
             manus: ProviderSettingsSnapshot.ManusProviderSettings(
@@ -93,7 +93,7 @@ struct ManusProviderTests {
     }
 
     @Test
-    func `manual mode invalid cookie does not fall back to cache or environment`() async {
+    func manual_mode_invalid_cookie_does_not_fall_back_to_cache_or_environment() async {
         await self.withIsolatedCacheStore {
             CookieHeaderCache.store(
                 provider: .manus,
@@ -121,7 +121,7 @@ struct ManusProviderTests {
     }
 
     @Test
-    func `environment token does not populate browser cache`() async throws {
+    func environment_token_does_not_populate_browser_cache() async throws {
         try await self.withIsolatedCacheStore {
             let operation: () async throws -> Void = {
                 let strategy = ManusWebFetchStrategy()
@@ -157,7 +157,7 @@ struct ManusProviderTests {
 
     #if os(macOS)
     @Test
-    func `invalid browser token falls back to environment token`() async throws {
+    func invalid_browser_token_falls_back_to_environment_token() async throws {
         try await self.withIsolatedCacheStore {
             let browserCookie = try #require(HTTPCookie(properties: [
                 .domain: "manus.im",
@@ -198,7 +198,7 @@ struct ManusProviderTests {
     }
 
     @Test
-    func `browser token populates cache after successful fetch`() async throws {
+    func browser_token_populates_cache_after_successful_fetch() async throws {
         try await self.withIsolatedCacheStore {
             let browserCookie = try #require(HTTPCookie(properties: [
                 .domain: "manus.im",
@@ -233,13 +233,13 @@ struct ManusProviderTests {
     #endif
 
     @Test
-    func `settings reader accepts full cookie header from environment`() {
+    func settings_reader_accepts_full_cookie_header_from_environment() {
         let env = ["MANUS_COOKIE": "foo=bar; session_id=env-cookie-token; baz=qux"]
         #expect(ManusSettingsReader.sessionToken(environment: env) == "env-cookie-token")
     }
 
     @Test
-    func `parse response tolerates sparse live payload`() throws {
+    func parse_response_tolerates_sparse_live_payload() throws {
         let data = Data("""
         {
           "totalCredits": 2869,
@@ -271,7 +271,7 @@ struct ManusProviderTests {
     }
 
     @Test
-    func `parse response rejects payload without credits fields`() {
+    func parse_response_rejects_payload_without_credits_fields() {
         let data = Data(#"{"error":"unauthorized","message":"session expired"}"#.utf8)
 
         #expect(throws: ManusAPIError.self) {
@@ -280,7 +280,7 @@ struct ManusProviderTests {
     }
 
     @Test
-    func `parse response accepts wrapped envelope`() throws {
+    func parse_response_accepts_wrapped_envelope() throws {
         let data = Data("""
         {
           "data": {

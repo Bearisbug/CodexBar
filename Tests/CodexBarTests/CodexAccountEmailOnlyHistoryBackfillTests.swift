@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `email only plan history never backfills quota publication`() async throws {
+    func email_only_plan_history_never_backfills_quota_publication() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-non-active-email-history")
         settings.refreshFrequency = .manual

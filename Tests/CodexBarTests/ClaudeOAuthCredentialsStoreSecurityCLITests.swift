@@ -23,7 +23,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader prefers security CLI for non interactive load`() throws {
+    func experimental_reader_prefers_security_CLI_for_non_interactive_load() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -75,7 +75,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader non interactive background load still executes security CLI read`() throws {
+    func experimental_reader_non_interactive_background_load_still_executes_security_CLI_read() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -132,7 +132,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader falls back when security CLI throws`() throws {
+    func experimental_reader_falls_back_when_security_CLI_throws() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -187,7 +187,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader falls back when security CLI output malformed`() throws {
+    func experimental_reader_falls_back_when_security_CLI_output_malformed() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -241,7 +241,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader load from claude keychain uses security CLI`() throws {
+    func experimental_reader_load_from_claude_keychain_uses_security_CLI() throws {
         let securityData = self.makeCredentialsData(
             accessToken: "security-direct",
             expiresAt: Date(timeIntervalSinceNow: 3600),
@@ -284,7 +284,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader has claude keychain credentials without prompt uses security CLI`() {
+    func experimental_reader_has_claude_keychain_credentials_without_prompt_uses_security_CLI() {
         let securityData = self.makeCredentialsData(
             accessToken: "security-available",
             expiresAt: Date(timeIntervalSinceNow: 3600))
@@ -309,7 +309,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader has claude keychain credentials without prompt falls back when security CLI fails`() {
+    func experimental_reader_has_claude_keychain_credentials_without_prompt_falls_back_when_security_CLI_fails() {
         let fallbackData = self.makeCredentialsData(
             accessToken: "fallback-available",
             expiresAt: Date(timeIntervalSinceNow: 3600))
@@ -339,7 +339,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader ignores prompt policy and cooldown for background silent check`() {
+    func experimental_reader_ignores_prompt_policy_and_cooldown_for_background_silent_check() {
         let securityData = self.makeCredentialsData(
             accessToken: "security-background",
             expiresAt: Date(timeIntervalSinceNow: 3600))
@@ -368,7 +368,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader load from claude keychain fallback blocked when stored mode never`() throws {
+    func experimental_reader_load_from_claude_keychain_fallback_blocked_when_stored_mode_never() throws {
         var threwNotFound = false
         do {
             _ = try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -398,7 +398,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader security CLI read pins preferred account when available`() throws {
+    func experimental_reader_security_CLI_read_pins_preferred_account_when_available() throws {
         let securityData = self.makeCredentialsData(
             accessToken: "security-account-pinned",
             expiresAt: Date(timeIntervalSinceNow: 3600))
@@ -433,7 +433,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader security CLI read does not pin account in background`() throws {
+    func experimental_reader_security_CLI_read_does_not_pin_account_in_background() throws {
         let securityData = self.makeCredentialsData(
             accessToken: "security-account-not-pinned",
             expiresAt: Date(timeIntervalSinceNow: 3600))
@@ -468,7 +468,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader freshness sync skips security CLI when preflight requires interaction`() throws {
+    func experimental_reader_freshness_sync_skips_security_CLI_when_preflight_requires_interaction() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -544,7 +544,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader freshness sync background respects stored only on user action`() throws {
+    func experimental_reader_freshness_sync_background_respects_stored_only_on_user_action() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -619,7 +619,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader sync skips fingerprint probe after security CLI read`() {
+    func experimental_reader_sync_skips_fingerprint_probe_after_security_CLI_read() {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         KeychainCacheStore.withServiceOverrideForTesting(service) {
             KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -671,7 +671,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader no prompt repair skips fingerprint probe after security CLI success`() throws {
+    func experimental_reader_no_prompt_repair_skips_fingerprint_probe_after_security_CLI_success() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -741,7 +741,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader load with prompt skips fingerprint probe after security CLI success`() throws {
+    func experimental_reader_load_with_prompt_skips_fingerprint_probe_after_security_CLI_success() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -810,7 +810,7 @@ struct ClaudeOAuthCredentialsStoreSecurityCLITests {
     }
 
     @Test
-    func `experimental reader load with prompt does not read when global keychain disabled`() throws {
+    func experimental_reader_load_with_prompt_does_not_read_when_global_keychain_disabled() throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         try KeychainCacheStore.withServiceOverrideForTesting(service) {
             try KeychainAccessGate.withTaskOverrideForTesting(true) {

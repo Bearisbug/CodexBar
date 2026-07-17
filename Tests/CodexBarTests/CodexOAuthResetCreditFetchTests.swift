@@ -4,7 +4,7 @@ import Testing
 
 struct CodexOAuthResetCreditFetchTests {
     @Test
-    func `app enrichment can rescue reset-credit-only O auth usage`() throws {
+    func app_enrichment_can_rescue_reset_credit_only_O_auth_usage() throws {
         let json = #"{"rate_limit":{"primary_window":null,"secondary_window":null}}"#
         let result = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(json.utf8),
@@ -19,7 +19,7 @@ struct CodexOAuthResetCreditFetchTests {
     }
 
     @Test
-    func `app defers reset credit GET while CLI attempts it once on failure`() async throws {
+    func app_defers_reset_credit_GET_while_CLI_attempts_it_once_on_failure() async throws {
         let credentials = Self.credentials()
         let recorder = CodexOAuthResetCreditFetchRecorder()
         let fetcher: @Sendable (CodexOAuthCredentials) async throws -> CodexRateLimitResetCreditsSnapshot = { _ in
@@ -43,7 +43,7 @@ struct CodexOAuthResetCreditFetchTests {
     }
 
     @Test
-    func `CLI reset credit GET preserves cancellation without retry`() async throws {
+    func CLI_reset_credit_GET_preserves_cancellation_without_retry() async throws {
         let recorder = CodexOAuthResetCreditFetchRecorder()
 
         await #expect(throws: CancellationError.self) {
@@ -59,7 +59,7 @@ struct CodexOAuthResetCreditFetchTests {
     }
 
     @Test
-    func `reset credit inventory only O auth payload still returns usage result`() throws {
+    func reset_credit_inventory_only_O_auth_payload_still_returns_usage_result() throws {
         let json = #"{"rate_limit":{"primary_window":null,"secondary_window":null}}"#
         let now = Date()
         let resetCredits = CodexRateLimitResetCreditsSnapshot(
@@ -91,7 +91,7 @@ struct CodexOAuthResetCreditFetchTests {
     }
 
     @Test
-    func `empty reset credits do not mask missing O auth usage`() {
+    func empty_reset_credits_do_not_mask_missing_O_auth_usage() {
         let json = #"{"rate_limit":{"primary_window":null,"secondary_window":null}}"#
         let resetCredits = CodexRateLimitResetCreditsSnapshot(
             credits: [],
@@ -107,7 +107,7 @@ struct CodexOAuthResetCreditFetchTests {
     }
 
     @Test
-    func `O auth strategy defers app inventory and CLI follows credits flag`() {
+    func O_auth_strategy_defers_app_inventory_and_CLI_follows_credits_flag() {
         let appContext = Self.context(runtime: .app, includeCredits: false, includeOptionalUsage: false)
         let cliNoCreditsContext = Self.context(runtime: .cli, includeCredits: false, includeOptionalUsage: true)
         let cliCreditsContext = Self.context(runtime: .cli, includeCredits: true, includeOptionalUsage: false)

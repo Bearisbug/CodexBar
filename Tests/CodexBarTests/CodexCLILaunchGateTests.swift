@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CodexCLILaunchGateTests {
     @Test
-    func `background launch failures suppress repeated background launches until cooldown expires`() {
+    func background_launch_failures_suppress_repeated_background_launches_until_cooldown_expires() {
         let gate = CodexCLILaunchGate.shared
         gate.resetForTesting()
         defer { gate.resetForTesting() }
@@ -32,7 +32,7 @@ struct CodexCLILaunchGateTests {
     }
 
     @Test
-    func `PTY infrastructure failures do not suppress future Codex launches`() {
+    func PTY_infrastructure_failures_do_not_suppress_future_Codex_launches() {
         #expect(CodexCLILaunchGate.shouldThrottleLaunchFailure("openpty failed") == false)
         #expect(CodexCLILaunchGate.shouldThrottleLaunchFailure("write to PTY failed") == false)
         #expect(CodexCLILaunchGate.shouldThrottleLaunchFailure("The operation could not be completed") == true)

@@ -98,7 +98,7 @@ private final class AntigravityCLIOutputSequence: @unchecked Sendable {
 
 struct AntigravityCLIHTTPSFetchStrategyTests {
     @Test
-    func `local strategy falls back to cli HTTPS in cli source mode`() {
+    func local_strategy_falls_back_to_cli_HTTPS_in_cli_source_mode() {
         let strategy = AntigravityStatusFetchStrategy()
         let context = self.makeFetchContext(sourceMode: .cli)
 
@@ -106,7 +106,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `local strategy falls back to cli HTTPS in auto source mode`() {
+    func local_strategy_falls_back_to_cli_HTTPS_in_auto_source_mode() {
         let strategy = AntigravityStatusFetchStrategy()
         let context = self.makeFetchContext(sourceMode: .auto)
 
@@ -114,7 +114,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `local strategy does not fallback for unrelated source modes`() {
+    func local_strategy_does_not_fallback_for_unrelated_source_modes() {
         let strategy = AntigravityStatusFetchStrategy()
 
         #expect(!strategy.shouldFallback(
@@ -129,7 +129,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `strategy pipeline includes cli HTTPS fallback in cli and auto modes`() async {
+    func strategy_pipeline_includes_cli_HTTPS_fallback_in_cli_and_auto_modes() async {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .antigravity)
 
         let cliStrategies = await descriptor.fetchPlan.pipeline.resolveStrategies(
@@ -150,7 +150,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `strategy pipeline keeps source mode authoritative with selected token account`() async {
+    func strategy_pipeline_keeps_source_mode_authoritative_with_selected_token_account() async {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .antigravity)
 
         let accountID = UUID()
@@ -176,7 +176,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `auto strategy pipeline includes oauth when credentials are injected`() async {
+    func auto_strategy_pipeline_includes_oauth_when_credentials_are_injected() async {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .antigravity)
 
         let autoStrategies = await descriptor.fetchPlan.pipeline.resolveStrategies(
@@ -193,7 +193,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `auto strategy pipeline preserves oauth fallback for shared credentials file`() async throws {
+    func auto_strategy_pipeline_preserves_oauth_fallback_for_shared_credentials_file() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("antigravity-shared-auto-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -221,7 +221,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     // MARK: - Selected-account guard
 
     @Test
-    func `account guard ignores fetches without a selected account`() throws {
+    func account_guard_ignores_fetches_without_a_selected_account() throws {
         let usage = self.makeUsage(accountEmail: "ambient@example.com")
         let context = self.makeFetchContext(
             sourceMode: .auto,
@@ -231,7 +231,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `account guard accepts matching ambient snapshot in auto mode`() throws {
+    func account_guard_accepts_matching_ambient_snapshot_in_auto_mode() throws {
         let usage = self.makeUsage(accountEmail: "Selected@Example.com")
         let context = self.makeFetchContext(
             sourceMode: .auto,
@@ -242,7 +242,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `account guard rejects mismatched ambient snapshot in auto mode`() {
+    func account_guard_rejects_mismatched_ambient_snapshot_in_auto_mode() {
         let usage = self.makeUsage(accountEmail: "ambient@example.com")
         let context = self.makeFetchContext(
             sourceMode: .auto,
@@ -258,7 +258,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `account guard rejects snapshot without an identity email`() {
+    func account_guard_rejects_snapshot_without_an_identity_email() {
         let usage = self.makeUsage(accountEmail: nil)
         let context = self.makeFetchContext(
             sourceMode: .auto,
@@ -274,7 +274,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `account guard rejects when selected account email cannot be resolved`() {
+    func account_guard_rejects_when_selected_account_email_cannot_be_resolved() {
         let usage = self.makeUsage(accountEmail: "ambient@example.com")
         let context = self.makeFetchContext(
             sourceMode: .auto,
@@ -289,7 +289,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `account guard leaves explicit cli source mode authoritative`() throws {
+    func account_guard_leaves_explicit_cli_source_mode_authoritative() throws {
         let usage = self.makeUsage(accountEmail: "ambient@example.com")
         let context = self.makeFetchContext(
             sourceMode: .cli,
@@ -300,7 +300,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `selected account email resolves from id_token when email field missing`() {
+    func selected_account_email_resolves_from_id_token_when_email_field_missing() {
         let idToken = Self.makeIDToken(email: "jwt@example.com")
         let context = self.makeFetchContext(
             sourceMode: .auto,
@@ -311,7 +311,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `selected account email prefers id_token over stored email field`() {
+    func selected_account_email_prefers_id_token_over_stored_email_field() {
         let idToken = Self.makeIDToken(email: "jwt@example.com")
         let context = self.makeFetchContext(
             sourceMode: .auto,
@@ -322,7 +322,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS resets session only for one-shot CLI runtime`() {
+    func cli_HTTPS_resets_session_only_for_one_shot_CLI_runtime() {
         // One-shot CLI invocation: reset after fetch.
         #expect(AntigravityCLIHTTPSFetchStrategy.shouldResetSessionAfterFetch(self.makeFetchContext(runtime: .cli)))
         // App runtime keeps the warm session.
@@ -333,12 +333,12 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS reports public source as cli`() {
+    func cli_HTTPS_reports_public_source_as_cli() {
         #expect(AntigravityCLIHTTPSFetchStrategy.sourceLabel == "cli")
     }
 
     @Test
-    func `cli local strategy availability requires binary`() async throws {
+    func cli_local_strategy_availability_requires_binary() async throws {
         let binaryURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-antigravity-\(UUID().uuidString)")
         try Data("#!/bin/sh\n".utf8).write(to: binaryURL)
@@ -355,7 +355,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli local endpoints remain HTTPS only on macOS`() {
+    func cli_local_endpoints_remain_HTTPS_only_on_macOS() {
         #expect(
             AntigravityStatusProbe.cliEndpoints(ports: [55624]) == [
                 AntigravityStatusProbe.AntigravityConnectionEndpoint(
@@ -367,7 +367,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS falls back to command model configs when quota summary and user status fail`() async throws {
+    func cli_HTTPS_falls_back_to_command_model_configs_when_quota_summary_and_user_status_fail() async throws {
         let endpoints = [
             AntigravityStatusProbe.AntigravityConnectionEndpoint(
                 scheme: "https",
@@ -411,7 +411,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS waits for user status after ports appear`() async throws {
+    func cli_HTTPS_waits_for_user_status_after_ports_appear() async throws {
         let fetchAttempts = AntigravityCLICounter()
         let drainAttempts = AntigravityCLICounter()
         let fetchedPorts = AntigravityCLIPortRecorder()
@@ -451,7 +451,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS retries empty quota snapshots until usage is parseable`() async throws {
+    func cli_HTTPS_retries_empty_quota_snapshots_until_usage_is_parseable() async throws {
         let fetchAttempts = AntigravityCLICounter()
 
         let snapshot = try await AntigravityCLIHTTPSFetchStrategy.waitForSnapshot(
@@ -488,7 +488,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS drains output before ports appear`() async throws {
+    func cli_HTTPS_drains_output_before_ports_appear() async throws {
         let portPolls = AntigravityCLICounter()
         let drainAttempts = AntigravityCLICounter()
         let snapshot = try await AntigravityCLIHTTPSFetchStrategy.waitForSnapshot(
@@ -524,7 +524,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS stops before probing when signed out prompt spans output chunks`() async {
+    func cli_HTTPS_stops_before_probing_when_signed_out_prompt_spans_output_chunks() async {
         let output = AntigravityCLIOutputSequence([
             Data("Welcome. You are currently ".utf8),
             Data("Welcome. You are currently not signed in.\nSelect login method:".utf8),
@@ -561,7 +561,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS allows transient automatic sign in banner`() async throws {
+    func cli_HTTPS_allows_transient_automatic_sign_in_banner() async throws {
         let output = AntigravityCLIOutputSequence([
             Data("Welcome. You are currently not signed in.\nSigning in...".utf8),
             Data("user@example.com\nGemini 3.1 Pro (High)".utf8),
@@ -595,7 +595,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS rechecks signed out prompt after snapshot readiness`() async {
+    func cli_HTTPS_rechecks_signed_out_prompt_after_snapshot_readiness() async {
         let output = AntigravityCLIOutputSequence([
             Data(),
             Data("You are currently not signed in.\nSelect login method:".utf8),
@@ -634,7 +634,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS treats empty lsof exit as ports not ready`() async throws {
+    func cli_HTTPS_treats_empty_lsof_exit_as_ports_not_ready() async throws {
         let portPolls = AntigravityCLICounter()
         let snapshot = try await AntigravityCLIHTTPSFetchStrategy.waitForSnapshot(
             pid: 123,
@@ -668,7 +668,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `parsed requests recompute timeout from shared deadline between endpoints`() async throws {
+    func parsed_requests_recompute_timeout_from_shared_deadline_between_endpoints() async throws {
         let timeoutRecorder = AntigravityCLITimeoutRecorder()
         let attempts = AntigravityCLICounter()
         let endpoints = [
@@ -713,7 +713,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `parsed request reports timeout when shared deadline is already expired`() async {
+    func parsed_request_reports_timeout_when_shared_deadline_is_already_expired() async {
         do {
             _ = try await AntigravityStatusProbe.makeParsedRequest(
                 payload: AntigravityStatusProbe.RequestPayload(path: "/status", body: [:]),
@@ -740,7 +740,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS reports last readiness error when ports never become usable`() async {
+    func cli_HTTPS_reports_last_readiness_error_when_ports_never_become_usable() async {
         let fetchAttempts = AntigravityCLICounter()
         let start = Date(timeIntervalSinceReferenceDate: 0)
         let clock = AntigravityCLITestClock(date: start)
@@ -768,7 +768,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS preserves non transient port detection errors`() async {
+    func cli_HTTPS_preserves_non_transient_port_detection_errors() async {
         do {
             _ = try await AntigravityCLIHTTPSFetchStrategy.waitForSnapshot(
                 pid: 123,
@@ -796,7 +796,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `cli HTTPS endpoint does not require CSRF token`() {
+    func cli_HTTPS_endpoint_does_not_require_CSRF_token() {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 55624,
@@ -806,7 +806,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `languageServer endpoint requires CSRF token`() {
+    func languageServer_endpoint_requires_CSRF_token() {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -816,7 +816,7 @@ struct AntigravityCLIHTTPSFetchStrategyTests {
     }
 
     @Test
-    func `extensionServer endpoint requires CSRF token`() {
+    func extensionServer_endpoint_requires_CSRF_token() {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "http",
             port: 64432,

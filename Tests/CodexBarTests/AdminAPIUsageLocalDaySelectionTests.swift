@@ -4,7 +4,7 @@ import Testing
 
 struct AdminAPIUsageLocalDaySelectionTests {
     @Test
-    func `OpenAI current day includes UTC bucket containing positive timezone morning`() throws {
+    func OpenAI_current_day_includes_UTC_bucket_containing_positive_timezone_morning() throws {
         let calendar = try Self.calendar(timeZoneIdentifier: "Australia/Sydney")
         let now = try Self.date(year: 2026, month: 5, day: 18, hour: 8, timeZoneIdentifier: "Australia/Sydney")
         let staleUTCStart = try Self.date(year: 2026, month: 5, day: 16, hour: 0, timeZoneIdentifier: "UTC")
@@ -46,7 +46,7 @@ struct AdminAPIUsageLocalDaySelectionTests {
     }
 
     @Test
-    func `OpenAI current day does not sum adjacent UTC buckets after positive timezone UTC rollover`() throws {
+    func OpenAI_current_day_does_not_sum_adjacent_UTC_buckets_after_positive_timezone_UTC_rollover() throws {
         let calendar = try Self.calendar(timeZoneIdentifier: "Australia/Sydney")
         let now = try Self.date(year: 2026, month: 5, day: 18, hour: 16, timeZoneIdentifier: "Australia/Sydney")
         let previousUTCStart = try Self.date(year: 2026, month: 5, day: 17, hour: 0, timeZoneIdentifier: "UTC")
@@ -88,7 +88,7 @@ struct AdminAPIUsageLocalDaySelectionTests {
     }
 
     @Test
-    func `Claude Admin current day includes UTC bucket containing positive timezone morning`() throws {
+    func Claude_Admin_current_day_includes_UTC_bucket_containing_positive_timezone_morning() throws {
         let calendar = try Self.calendar(timeZoneIdentifier: "Australia/Sydney")
         let now = try Self.date(year: 2026, month: 5, day: 18, hour: 8, timeZoneIdentifier: "Australia/Sydney")
         let staleUTCStart = try Self.date(year: 2026, month: 5, day: 16, hour: 0, timeZoneIdentifier: "UTC")
@@ -130,7 +130,7 @@ struct AdminAPIUsageLocalDaySelectionTests {
     }
 
     @Test
-    func `Claude Admin current day does not sum adjacent UTC buckets after negative timezone UTC rollover`() throws {
+    func Claude_Admin_current_day_does_not_sum_adjacent_UTC_buckets_after_negative_timezone_UTC_rollover() throws {
         let calendar = try Self.calendar(timeZoneIdentifier: "America/Los_Angeles")
         let now = try Self.date(year: 2026, month: 6, day: 22, hour: 20, timeZoneIdentifier: "America/Los_Angeles")
         let previousUTCStart = try Self.date(year: 2026, month: 6, day: 22, hour: 0, timeZoneIdentifier: "UTC")

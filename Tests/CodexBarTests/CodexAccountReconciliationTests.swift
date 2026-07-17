@@ -21,7 +21,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store exposes codex reconciliation accessors using managed and live overrides`() throws {
+    func settings_store_exposes_codex_reconciliation_accessors_using_managed_and_live_overrides() throws {
         let suite = "CodexAccountReconciliationTests-settings-store"
         let settings = try Self.makeSettings(suite: suite)
         let managed = ManagedCodexAccount(
@@ -66,7 +66,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store managed override does not leak ambient live system account`() throws {
+    func settings_store_managed_override_does_not_leak_ambient_live_system_account() throws {
         let suite = "CodexAccountReconciliationTests-managed-only"
         let settings = try Self.makeSettings(suite: suite)
         let managed = ManagedCodexAccount(
@@ -96,7 +96,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store reconciliation environment override drives live observation with synthetic store`() throws {
+    func settings_store_reconciliation_environment_override_drives_live_observation_with_synthetic_store() throws {
         let suite = "CodexAccountReconciliationTests-environment-only"
         let settings = try Self.makeSettings(suite: suite)
         let ambientHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -126,7 +126,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store can reuse short lived codex reconciliation snapshot`() throws {
+    func settings_store_can_reuse_short_lived_codex_reconciliation_snapshot() throws {
         let suite = "CodexAccountReconciliationTests-short-lived-cache"
         let settings = try Self.makeSettings(suite: suite)
         let ambientHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -154,7 +154,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `codex active source write invalidates short lived reconciliation snapshot`() throws {
+    func codex_active_source_write_invalidates_short_lived_reconciliation_snapshot() throws {
         let suite = "CodexAccountReconciliationTests-active-source-cache-invalidation"
         let settings = try Self.makeSettings(suite: suite)
         let ambientHome = FileManager.default.temporaryDirectory.appendingPathComponent(
@@ -178,7 +178,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `managed account changes invalidate short lived reconciliation snapshot`() throws {
+    func managed_account_changes_invalidate_short_lived_reconciliation_snapshot() throws {
         let suite = "CodexAccountReconciliationTests-managed-change-cache-invalidation"
         let settings = try Self.makeSettings(suite: suite)
         let storeURL = FileManager.default.temporaryDirectory
@@ -213,7 +213,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store home path override also keeps reconciliation hermetic`() throws {
+    func settings_store_home_path_override_also_keeps_reconciliation_hermetic() throws {
         let suite = "CodexAccountReconciliationTests-home-path-only"
         let settings = try Self.makeSettings(suite: suite)
         settings._test_activeManagedCodexRemoteHomePath = "/tmp/managed-route-home"
@@ -239,7 +239,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store home path override keeps active source hermetic without persisted source`() throws {
+    func settings_store_home_path_override_keeps_active_source_hermetic_without_persisted_source() throws {
         let suite = "CodexAccountReconciliationTests-home-path-hermetic-source"
         let settings = try Self.makeSettings(suite: suite)
         let ambient = ManagedCodexAccount(
@@ -276,7 +276,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store normal reconciliation path honors persisted active source`() throws {
+    func settings_store_normal_reconciliation_path_honors_persisted_active_source() throws {
         let suite = "CodexAccountReconciliationTests-normal-path-active-source"
         let settings = try Self.makeSettings(suite: suite)
         let persistedSource = CodexActiveSource.managedAccount(id: UUID())
@@ -289,7 +289,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store debug managed store U R L override loads on disk accounts`() throws {
+    func settings_store_debug_managed_store_U_R_L_override_loads_on_disk_accounts() throws {
         let suite = "CodexAccountReconciliationTests-debug-store-url"
         let settings = try Self.makeSettings(suite: suite)
         let stored = ManagedCodexAccount(
@@ -323,7 +323,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `live only visible account is active when active source is live system`() {
+    func live_only_visible_account_is_active_when_active_source_is_live_system() {
         let live = ObservedSystemCodexAccount(
             email: "live@example.com",
             codexHomePath: "/Users/test/.codex",
@@ -342,7 +342,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `workspace hydration changes snapshot equality and visible display state`() {
+    func workspace_hydration_changes_snapshot_equality_and_visible_display_state() {
         let accountID = UUID()
         let baseAccount = ManagedCodexAccount(
             id: accountID,
@@ -386,7 +386,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `matching live system account does not duplicate stored identity`() {
+    func matching_live_system_account_does_not_duplicate_stored_identity() {
         let stored = ManagedCodexAccount(
             id: UUID(),
             email: "user@example.com",
@@ -413,7 +413,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `matching live system account prefers live workspace label and keeps stored fallback`() {
+    func matching_live_system_account_prefers_live_workspace_label_and_keeps_stored_fallback() {
         let stored = ManagedCodexAccount(
             id: UUID(),
             email: "user@example.com",
@@ -489,7 +489,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `matching live system account resolves merged row selection to live system`() {
+    func matching_live_system_account_resolves_merged_row_selection_to_live_system() {
         let stored = ManagedCodexAccount(
             id: UUID(),
             email: "user@example.com",
@@ -520,7 +520,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `provider account does not collapse with email only live account on same email`() throws {
+    func provider_account_does_not_collapse_with_email_only_live_account_on_same_email() throws {
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
             isDirectory: true)
@@ -566,7 +566,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `missing managed source resolves to live system when live account exists`() {
+    func missing_managed_source_resolves_to_live_system_when_live_account_exists() {
         let live = ObservedSystemCodexAccount(
             email: "live@example.com",
             codexHomePath: "/Users/test/.codex",
@@ -588,7 +588,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `unreadable managed source resolves to live system when live account exists`() {
+    func unreadable_managed_source_resolves_to_live_system_when_live_account_exists() {
         let live = ObservedSystemCodexAccount(
             email: "live@example.com",
             codexHomePath: "/Users/test/.codex",
@@ -610,7 +610,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `managed account remains active when active source stays managed while live account changes`() {
+    func managed_account_remains_active_when_active_source_stays_managed_while_live_account_changes() {
         let managed = ManagedCodexAccount(
             id: UUID(),
             email: "managed@example.com",
@@ -639,7 +639,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `live system account that differs from active stored account remains visible`() {
+    func live_system_account_that_differs_from_active_stored_account_remains_visible() {
         let active = ManagedCodexAccount(
             id: UUID(),
             email: "managed@example.com",
@@ -666,7 +666,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `inactive stored account still appears as visible`() {
+    func inactive_stored_account_still_appears_as_visible() {
         let active = ManagedCodexAccount(
             id: UUID(),
             email: "active@example.com",
@@ -706,7 +706,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `unreadable account store still exposes live system account and degraded flag`() {
+    func unreadable_account_store_still_exposes_live_system_account_and_degraded_flag() {
         let live = ObservedSystemCodexAccount(
             email: "live@example.com",
             codexHomePath: "/Users/test/.codex",
@@ -725,7 +725,7 @@ struct CodexAccountReconciliationTests {
     }
 
     @Test
-    func `whitespace only live email is ignored`() {
+    func whitespace_only_live_email_is_ignored() {
         let accounts = ManagedCodexAccountSet(version: 1, accounts: [])
         let live = ObservedSystemCodexAccount(
             email: "   \n\t  ",
@@ -745,7 +745,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `settings store can override active source to live system`() throws {
+    func settings_store_can_override_active_source_to_live_system() throws {
         let suite = "CodexAccountReconciliationTests-live-source-override"
         let settings = try Self.makeSettings(suite: suite)
         let managed = ManagedCodexAccount(
@@ -778,7 +778,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `selecting merged visible account persists live system source`() throws {
+    func selecting_merged_visible_account_persists_live_system_source() throws {
         let suite = "CodexAccountReconciliationTests-select-merged-visible-account"
         let settings = try Self.makeSettings(suite: suite)
         let managed = ManagedCodexAccount(
@@ -809,7 +809,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `selecting authenticated managed account prefers live system when visible row is merged`() throws {
+    func selecting_authenticated_managed_account_prefers_live_system_when_visible_row_is_merged() throws {
         let suite = "CodexAccountReconciliationTests-select-authenticated-managed-merged"
         let settings = try Self.makeSettings(suite: suite)
         let managed = ManagedCodexAccount(
@@ -839,7 +839,7 @@ struct CodexAccountReconciliationTests {
 
     @Test
     @MainActor
-    func `selecting authenticated managed account keeps managed source for split identity rows`() throws {
+    func selecting_authenticated_managed_account_keeps_managed_source_for_split_identity_rows() throws {
         let suite = "CodexAccountReconciliationTests-select-authenticated-managed-split"
         let settings = try Self.makeSettings(suite: suite)
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(

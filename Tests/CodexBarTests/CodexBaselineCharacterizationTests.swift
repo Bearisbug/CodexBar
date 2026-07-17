@@ -141,19 +141,19 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `app auto pipeline order is OAuth then CLI without web`() async {
+    func app_auto_pipeline_order_is_OAuth_then_CLI_without_web() async {
         let strategyIDs = await self.strategyIDs(runtime: .app, sourceMode: .auto)
         #expect(strategyIDs == ["codex.oauth", "codex.cli"])
     }
 
     @Test
-    func `CLI auto pipeline order is OAuth then CLI without web`() async {
+    func CLI_auto_pipeline_order_is_OAuth_then_CLI_without_web() async {
         let strategyIDs = await self.strategyIDs(runtime: .cli, sourceMode: .auto)
         #expect(strategyIDs == ["codex.oauth", "codex.cli"])
     }
 
     @Test
-    func `explicit fetch plan modes keep single Codex strategy selection`() async {
+    func explicit_fetch_plan_modes_keep_single_Codex_strategy_selection() async {
         let appCases: [(ProviderSourceMode, [String])] = [
             (.oauth, ["codex.oauth"]),
             (.cli, ["codex.cli"]),
@@ -172,7 +172,7 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `app auto records unavailable OAuth before successful CLI fallback`() async throws {
+    func app_auto_records_unavailable_OAuth_before_successful_CLI_fallback() async throws {
         let stubCLI = self.makeStubCodexCLI()
         let codexHome = try self.makeEmptyCodexHome()
         defer { try? FileManager.default.removeItem(at: codexHome) }
@@ -201,7 +201,7 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `app auto does not fall back from non auth failing OAuth`() async throws {
+    func app_auto_does_not_fall_back_from_non_auth_failing_OAuth() async throws {
         let stubCLI = self.makeStubCodexCLI()
         let oauthHome = try self.makeUnavailableOAuthHome()
         defer { try? FileManager.default.removeItem(at: oauthHome) }
@@ -237,7 +237,7 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `Codex CLI strategy fetches usage and credits with one app-server process`() async {
+    func Codex_CLI_strategy_fetches_usage_and_credits_with_one_app_server_process() async {
         let stubCLI = self.makeStubCodexCLI()
         let counterURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-stub-counter-\(UUID().uuidString)", isDirectory: false)
@@ -271,7 +271,7 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `Codex CLI strategy keeps credits when rate limit windows are absent`() async {
+    func Codex_CLI_strategy_keeps_credits_when_rate_limit_windows_are_absent() async {
         let stubCLI = self.makeStubCodexCLI()
 
         let outcome = await self.fetchOutcome(
@@ -297,7 +297,7 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `Codex CLI strategy maps monthly credit limit`() async {
+    func Codex_CLI_strategy_maps_monthly_credit_limit() async {
         let stubCLI = self.makeStubCodexCLI()
 
         let outcome = await self.fetchOutcome(
@@ -324,7 +324,7 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `CLI auto records unavailable OAuth before successful CLI`() async throws {
+    func CLI_auto_records_unavailable_OAuth_before_successful_CLI() async throws {
         let stubCLI = self.makeStubCodexCLI()
         let codexHome = try self.makeEmptyCodexHome()
         defer { try? FileManager.default.removeItem(at: codexHome) }
@@ -358,7 +358,7 @@ struct CodexBaselineCharacterizationTests {
     }
 
     @Test
-    func `CLI auto tries OAuth before missing CLI fallback`() async throws {
+    func CLI_auto_tries_OAuth_before_missing_CLI_fallback() async throws {
         let oauthHome = try self.makeUnavailableOAuthHome()
         defer { try? FileManager.default.removeItem(at: oauthHome) }
         let settings = ProviderSettingsSnapshot.make(

@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct OpenAIWebAccountSwitchTests {
     @Test
-    func `clears dashboard when codex email changes`() {
+    func clears_dashboard_when_codex_email_changes() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "OpenAIWebAccountSwitchTests-clears"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -35,7 +35,7 @@ struct OpenAIWebAccountSwitchTests {
     }
 
     @Test
-    func `keeps dashboard when codex email stays same`() {
+    func keeps_dashboard_when_codex_email_stays_same() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "OpenAIWebAccountSwitchTests-keeps"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -63,7 +63,7 @@ struct OpenAIWebAccountSwitchTests {
     }
 
     @Test
-    func `clears dashboard when profile source changes with the same email`() {
+    func clears_dashboard_when_profile_source_changes_with_the_same_email() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "OpenAIWebAccountSwitchTests-profile-source"),
             zaiTokenStore: NoopZaiTokenStore(),

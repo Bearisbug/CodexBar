@@ -3,7 +3,7 @@ import Testing
 
 struct UserFacingLocalizationCoverageTests {
     @Test
-    func `selected user-facing UI surfaces avoid raw English literals`() throws {
+    func selected_user_facing_UI_surfaces_avoid_raw_English_literals() throws {
         let root = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()

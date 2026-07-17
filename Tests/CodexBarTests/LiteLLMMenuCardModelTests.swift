@@ -5,7 +5,7 @@ import Testing
 
 struct LiteLLMMenuCardModelTests {
     @Test
-    func `litellm budget rows show spend detail with reset time`() throws {
+    func litellm_budget_rows_show_spend_detail_with_reset_time() throws {
         let now = Date(timeIntervalSince1970: 0)
         let metadata = try #require(ProviderDefaults.metadata[.litellm])
         let json = """
@@ -76,7 +76,7 @@ struct LiteLLMMenuCardModelTests {
     }
 
     @Test
-    func `litellm budget row details redact team aliases when hiding personal info`() throws {
+    func litellm_budget_row_details_redact_team_aliases_when_hiding_personal_info() throws {
         let teamAlias = "Private Workspace"
         let model = try self.redactedTeamAliasModel(teamAlias)
 
@@ -86,7 +86,7 @@ struct LiteLLMMenuCardModelTests {
     }
 
     @Test
-    func `litellm budget row details redact email team aliases when hiding personal info`() throws {
+    func litellm_budget_row_details_redact_email_team_aliases_when_hiding_personal_info() throws {
         let teamAlias = "workspace@example.com"
         let model = try self.redactedTeamAliasModel(teamAlias)
 
@@ -97,7 +97,7 @@ struct LiteLLMMenuCardModelTests {
     }
 
     @Test
-    func `litellm team-only budget stays on the team row`() throws {
+    func litellm_team_only_budget_stays_on_the_team_row() throws {
         let now = Date(timeIntervalSince1970: 0)
         let metadata = try #require(ProviderDefaults.metadata[.litellm])
         let snapshot = UsageSnapshot(
@@ -141,7 +141,7 @@ struct LiteLLMMenuCardModelTests {
     }
 
     @Test
-    func `litellm spend without budget remains visible`() throws {
+    func litellm_spend_without_budget_remains_visible() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.litellm])
         let snapshot = UsageSnapshot(

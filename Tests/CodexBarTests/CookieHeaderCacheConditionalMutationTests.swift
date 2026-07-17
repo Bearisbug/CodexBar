@@ -6,7 +6,7 @@ import Testing
 struct CookieHeaderCacheConditionalMutationTests {
     #if os(macOS)
     @Test
-    func `temporary keychain read permits fresh replacement when legacy state is unchanged`() {
+    func temporary_keychain_read_permits_fresh_replacement_when_legacy_state_is_unchanged() {
         self.withIsolatedCookieCache {
             let legacy = CookieHeaderCache.Entry(
                 cookieHeader: "sessionKey=sk-ant-legacy",
@@ -31,7 +31,7 @@ struct CookieHeaderCacheConditionalMutationTests {
     }
 
     @Test
-    func `temporary keychain read does not overwrite a concurrent keychain entry`() {
+    func temporary_keychain_read_does_not_overwrite_a_concurrent_keychain_entry() {
         self.withIsolatedCookieCache {
             let observation = KeychainCacheStore.withLoadFailureStatusOverrideForTesting(errSecInteractionNotAllowed) {
                 CookieHeaderCache.observeForConditionalMutation(provider: .claude)
@@ -53,7 +53,7 @@ struct CookieHeaderCacheConditionalMutationTests {
     }
 
     @Test
-    func `observable store failure preserves the current cookie entry`() {
+    func observable_store_failure_preserves_the_current_cookie_entry() {
         self.withIsolatedCookieCache {
             let initiallyStored = CookieHeaderCache.storeResult(
                 provider: .cursor,
@@ -76,7 +76,7 @@ struct CookieHeaderCacheConditionalMutationTests {
     #endif
 
     @Test
-    func `legacy clear failure still permits replacing the keychain entry`() {
+    func legacy_clear_failure_still_permits_replacing_the_keychain_entry() {
         self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -110,7 +110,7 @@ struct CookieHeaderCacheConditionalMutationTests {
     }
 
     @Test
-    func `interactive mutation gate invalidates an earlier background observation`() {
+    func interactive_mutation_gate_invalidates_an_earlier_background_observation() {
         self.withIsolatedCookieCache {
             let scope = CookieHeaderCache.Scope.providerVariant(UUID().uuidString)
             CookieHeaderCache.store(
@@ -145,7 +145,7 @@ struct CookieHeaderCacheConditionalMutationTests {
     }
 
     @Test
-    func `owned clear observation accepts fallback but preserves gate generation`() {
+    func owned_clear_observation_accepts_fallback_but_preserves_gate_generation() {
         self.withIsolatedCookieCache {
             let scope = CookieHeaderCache.Scope.providerVariant(UUID().uuidString)
             CookieHeaderCache.store(
@@ -181,7 +181,7 @@ struct CookieHeaderCacheConditionalMutationTests {
     }
 
     @Test
-    func `observation captured during cancelled interactive mutation remains stale`() {
+    func observation_captured_during_cancelled_interactive_mutation_remains_stale() {
         self.withIsolatedCookieCache {
             let scope = CookieHeaderCache.Scope.providerVariant(UUID().uuidString)
             CookieHeaderCache.store(
@@ -211,7 +211,7 @@ struct CookieHeaderCacheConditionalMutationTests {
     }
 
     @Test
-    func `nested interactive mutation gate blocks until outer flow ends`() {
+    func nested_interactive_mutation_gate_blocks_until_outer_flow_ends() {
         self.withIsolatedCookieCache {
             let scope = CookieHeaderCache.Scope.providerVariant(UUID().uuidString)
             CookieHeaderCache.store(

@@ -38,7 +38,7 @@ struct T3ChatUsageFetcherTests {
     ].joined(separator: "\n")
 
     @Test
-    func `parses customer data from json lines response`() throws {
+    func parses_customer_data_from_json_lines_response() throws {
         let snapshot = try T3ChatUsageParser.parseJSONLines(Self.sampleResponse, now: Self.now)
 
         #expect(snapshot.customerData.subTier == "pro")
@@ -49,7 +49,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `maps customer data to base and overage windows`() throws {
+    func maps_customer_data_to_base_and_overage_windows() throws {
         let usage = try T3ChatUsageParser.parseJSONLines(Self.sampleResponse, now: Self.now)
             .toUsageSnapshot()
 
@@ -64,7 +64,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `falls back to usage period percentage when month percentage is absent`() throws {
+    func falls_back_to_usage_period_percentage_when_month_percentage_is_absent() throws {
         let response = """
         {"json":[2,0,[[{"subTier":"free","usageFourHourPercentage":5,"usagePeriodPercentage":65}]]]}
         """
@@ -76,7 +76,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `overage reset ignores billing next reset`() throws {
+    func overage_reset_ignores_billing_next_reset() throws {
         let response = Self.customerDataResponse(
             #"{"usageMonthPercentage":20,"billingNextResetAt":\#(Self.billingNextResetMilliseconds)}"#)
         let usage = try T3ChatUsageParser.parseJSONLines(response, now: Self.now)
@@ -87,7 +87,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `overage reset uses subscription current period end`() throws {
+    func overage_reset_uses_subscription_current_period_end() throws {
         let currentPeriodEnd = Self.subscriptionPeriodEndMilliseconds
         let response = Self.customerDataResponse(
             #"{"usageMonthPercentage":20,"subscription":{"currentPeriodEnd":\#(currentPeriodEnd)}}"#)
@@ -99,7 +99,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `fetch sends trpc headers and cookie`() async throws {
+    func fetch_sends_trpc_headers_and_cookie() async throws {
         let stub = ProviderHTTPTransportStub { request in
             #expect(request.url?.host == "t3.chat")
             #expect(request.url?.path == "/api/trpc/getCustomerData")
@@ -125,7 +125,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `full curl capture forwards browser fingerprint headers`() async throws {
+    func full_curl_capture_forwards_browser_fingerprint_headers() async throws {
         let curl = """
         curl 'https://t3.chat/api/trpc/getCustomerData?batch=1&input=ignored' \\
           -H 'User-Agent: Mozilla/5.0 Firefox/151.0' \\
@@ -160,7 +160,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `curl capture forwards ansi quoted and equals header forms`() async throws {
+    func curl_capture_forwards_ansi_quoted_and_equals_header_forms() async throws {
         let curl = """
         curl 'https://t3.chat/api/trpc/getCustomerData?batch=1&input=ignored' \\
           --header=$'User-Agent: Browser\\'s Agent' \\
@@ -187,7 +187,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `full curl capture extracts cookie from long header form`() async throws {
+    func full_curl_capture_extracts_cookie_from_long_header_form() async throws {
         let curl = """
         curl 'https://t3.chat/api/trpc/getCustomerData?batch=1&input=ignored' \\
           --compressed \\
@@ -215,7 +215,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `manual strategy accepts full curl capture`() async {
+    func manual_strategy_accepts_full_curl_capture() async {
         let curl = """
         curl 'https://t3.chat/api/trpc/getCustomerData?batch=1&input=ignored' \\
           --header "Referer: https://t3.chat/settings/customization" \\
@@ -231,7 +231,7 @@ struct T3ChatUsageFetcherTests {
     }
 
     @Test
-    func `unauthorized response is invalid credentials`() async throws {
+    func unauthorized_response_is_invalid_credentials() async throws {
         let stub = ProviderHTTPTransportStub { request in
             let response = HTTPURLResponse(
                 url: request.url!,
@@ -241,19 +241,23 @@ struct T3ChatUsageFetcherTests {
             return (Data("unauthorized".utf8), response)
         }
 
-        await #expect {
+        do {
             _ = try await T3ChatUsageFetcher.fetchCustomerData(
                 cookieHeader: "session=abc",
                 now: Self.now,
                 transport: stub)
-        } throws: { error in
-            guard case T3ChatUsageError.invalidCredentials = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case T3ChatUsageError.invalidCredentials = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `vercel challenge response asks for full curl capture`() async throws {
+    func vercel_challenge_response_asks_for_full_curl_capture() async throws {
         let stub = ProviderHTTPTransportStub { request in
             let response = HTTPURLResponse(
                 url: request.url!,
@@ -263,14 +267,18 @@ struct T3ChatUsageFetcherTests {
             return (Data("checkpoint".utf8), response)
         }
 
-        await #expect {
+        do {
             _ = try await T3ChatUsageFetcher.fetchCustomerData(
                 cookieHeader: "session=abc",
                 now: Self.now,
                 transport: stub)
-        } throws: { error in
-            guard case T3ChatUsageError.vercelChallenge = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case T3ChatUsageError.vercelChallenge = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 

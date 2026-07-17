@@ -204,7 +204,7 @@ func withStatusItemControllerForTesting<T>(
 
 @MainActor
 @discardableResult
-func withStatusItemControllerForTesting<T>(
+func withStatusItemControllerForTesting<T: Sendable>(
     store: UsageStore,
     settings: SettingsStore,
     fetcher: UsageFetcher,

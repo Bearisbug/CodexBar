@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardQuotaWarningMarkerTests {
     @Test
-    func `progress fill matches rounded edge labels`() {
+    func progress_fill_matches_rounded_edge_labels() {
         #expect(UsageProgressBar.renderedFillPercent(0.4) == 0)
         #expect(UsageProgressBar.renderedFillPercent(0.6) == 0.6)
         #expect(UsageProgressBar.renderedFillPercent(99.4) == 99.4)
@@ -13,7 +13,7 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `quota warning marker geometry matches pace stripe edges`() {
+    func quota_warning_marker_geometry_matches_pace_stripe_edges() {
         let rect = UsageProgressBar.warningMarkerRect(
             x: 50,
             size: CGSize(width: 100, height: 6),
@@ -35,7 +35,7 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `quota warning marker geometry stays centered across display scales`() {
+    func quota_warning_marker_geometry_stays_centered_across_display_scales() {
         let scales: [CGFloat] = [1, 2, 3]
 
         for scale in scales {
@@ -59,7 +59,7 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `workday boundary is a subtle lower tick`() {
+    func workday_boundary_is_a_subtle_lower_tick() {
         let rect = UsageProgressBar.workdayMarkerRect(
             x: 50,
             size: CGSize(width: 100, height: 6),
@@ -72,7 +72,7 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `quota warning wins when marker kinds overlap`() {
+    func quota_warning_wins_when_marker_kinds_overlap() {
         let markers = UsageProgressBar.resolvedMarkers(
             warningPercents: [50, 80],
             workdayPercents: [20, 50, 60])
@@ -86,7 +86,7 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `marker resolver removes edges duplicates and invalid values`() {
+    func marker_resolver_removes_edges_duplicates_and_invalid_values() {
         let markers = UsageProgressBar.resolvedMarkers(
             warningPercents: [-10, 0, 50, 50, 100, 120],
             workdayPercents: [Double.nan, 25, 25])
@@ -98,7 +98,7 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `omits quota warning markers for disabled windows`() throws {
+    func omits_quota_warning_markers_for_disabled_windows() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let identity = ProviderIdentitySnapshot(
@@ -160,17 +160,17 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `work day marker percents for 5-day week`() {
+    func work_day_marker_percents_for_5_day_week() {
         #expect(workDayMarkerPercents(workDays: 5, windowMinutes: 10080) == [20.0, 40.0, 60.0, 80.0])
     }
 
     @Test
-    func `work day marker percents for 4-day week`() {
+    func work_day_marker_percents_for_4_day_week() {
         #expect(workDayMarkerPercents(workDays: 4, windowMinutes: 10080) == [25.0, 50.0, 75.0])
     }
 
     @Test
-    func `work day marker percents for 7-day week`() {
+    func work_day_marker_percents_for_7_day_week() {
         let markers = workDayMarkerPercents(workDays: 7, windowMinutes: 10080)
         #expect(markers.count == 6)
         #expect(abs(markers[0] - 14.2857) < 0.001)
@@ -178,23 +178,23 @@ struct MenuCardQuotaWarningMarkerTests {
     }
 
     @Test
-    func `work day marker percents nil work days returns empty`() {
+    func work_day_marker_percents_nil_work_days_returns_empty() {
         #expect(workDayMarkerPercents(workDays: nil, windowMinutes: 10080).isEmpty)
     }
 
     @Test
-    func `work day marker percents nil window minutes returns empty`() {
+    func work_day_marker_percents_nil_window_minutes_returns_empty() {
         #expect(workDayMarkerPercents(workDays: 5, windowMinutes: nil).isEmpty)
     }
 
     @Test
-    func `work day marker percents non-weekly window returns empty`() {
+    func work_day_marker_percents_non_weekly_window_returns_empty() {
         #expect(workDayMarkerPercents(workDays: 5, windowMinutes: 300).isEmpty)
         #expect(workDayMarkerPercents(workDays: 5, windowMinutes: 1440).isEmpty)
     }
 
     @Test
-    func `work day marker percents invalid work days returns empty`() {
+    func work_day_marker_percents_invalid_work_days_returns_empty() {
         #expect(workDayMarkerPercents(workDays: 1, windowMinutes: 10080).isEmpty)
         #expect(workDayMarkerPercents(workDays: 0, windowMinutes: 10080).isEmpty)
         #expect(workDayMarkerPercents(workDays: 8, windowMinutes: 10080).isEmpty)

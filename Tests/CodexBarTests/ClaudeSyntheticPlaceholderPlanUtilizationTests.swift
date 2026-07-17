@@ -6,7 +6,7 @@ import Testing
 extension UsageStorePlanUtilizationTests {
     @MainActor
     @Test
-    func `Claude placeholder is omitted from session history while weekly history continues`() async {
+    func Claude_placeholder_is_omitted_from_session_history_while_weekly_history_continues() async {
         let store = Self.makeStore()
         let now = Date(timeIntervalSince1970: 1_780_000_000)
         let snapshot = UsageSnapshot(

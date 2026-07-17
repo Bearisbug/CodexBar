@@ -33,7 +33,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex falls back when cookies missing`() {
+    func codex_falls_back_when_cookies_missing() {
         let context = self.makeContext()
         let strategy = CodexWebDashboardStrategy()
         #expect(strategy.shouldFallback(
@@ -54,7 +54,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex falls back for dashboard data errors in auto`() {
+    func codex_falls_back_for_dashboard_data_errors_in_auto() {
         let context = self.makeContext()
         let strategy = CodexWebDashboardStrategy()
         #expect(strategy.shouldFallback(
@@ -63,7 +63,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex retries fresh browser import for missing usage and no data`() {
+    func codex_retries_fresh_browser_import_for_missing_usage_and_no_data() {
         #expect(CodexWebDashboardStrategy.shouldRetryWithFreshBrowserImport(
             after: OpenAIWebCodexError.missingUsage))
         #expect(CodexWebDashboardStrategy.shouldRetryWithFreshBrowserImport(
@@ -75,13 +75,13 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex shared deadline timeout has useful error`() {
+    func codex_shared_deadline_timeout_has_useful_error() {
         let error = OpenAIWebCodexError.timedOut(seconds: 30)
         #expect(error.localizedDescription == "OpenAI web dashboard fetch timed out after 30 seconds.")
     }
 
     @Test
-    func `codex display only falls back in auto`() {
+    func codex_display_only_falls_back_in_auto() {
         let strategy = CodexWebDashboardStrategy()
         let decision = self.makeCodexDisplayOnlyDecision()
 
@@ -91,7 +91,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex display only does not fall back in explicit web`() {
+    func codex_display_only_does_not_fall_back_in_explicit_web() {
         let strategy = CodexWebDashboardStrategy()
         let decision = self.makeCodexDisplayOnlyDecision()
 
@@ -101,7 +101,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex web strategy is unavailable when managed account store is unreadable`() async {
+    func codex_web_strategy_is_unavailable_when_managed_account_store_is_unreadable() async {
         let context = self.makeContext(settings: ProviderSettingsSnapshot.make(
             codex: .init(
                 usageDataSource: .auto,
@@ -115,7 +115,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex web strategy is unavailable when selected managed target is unavailable`() async {
+    func codex_web_strategy_is_unavailable_when_selected_managed_target_is_unavailable() async {
         let context = self.makeContext(settings: ProviderSettingsSnapshot.make(
             codex: .init(
                 usageDataSource: .auto,
@@ -129,7 +129,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `codex web strategy fails closed when profile target is unavailable`() async {
+    func codex_web_strategy_fails_closed_when_profile_target_is_unavailable() async {
         let settings = ProviderSettingsSnapshot.make(
             codex: .init(
                 usageDataSource: .auto,
@@ -156,7 +156,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `claude falls back when no session key`() {
+    func claude_falls_back_when_no_session_key() {
         let context = self.makeContext()
         let strategy = ClaudeWebFetchStrategy(browserDetection: BrowserDetection(cacheTTL: 0))
         #expect(strategy.shouldFallback(on: ClaudeWebAPIFetcher.FetchError.noSessionKeyFound, context: context))
@@ -164,7 +164,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `claude CLI fallback is enabled only for app auto`() {
+    func claude_CLI_fallback_is_enabled_only_for_app_auto() {
         let webAvailableStrategy = ClaudeCLIFetchStrategy(
             useWebExtras: false,
             manualCookieHeader: nil,
@@ -200,7 +200,7 @@ struct CLIWebFallbackTests {
     }
 
     @Test
-    func `claude web fallback is disabled for app auto`() {
+    func claude_web_fallback_is_disabled_for_app_auto() {
         let strategy = ClaudeWebFetchStrategy(browserDetection: BrowserDetection(cacheTTL: 0))
         let error = ClaudeWebAPIFetcher.FetchError.unauthorized
         #expect(strategy.shouldFallback(on: error, context: self.makeContext(runtime: .cli, sourceMode: .auto)))

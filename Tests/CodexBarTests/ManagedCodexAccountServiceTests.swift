@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct ManagedCodexAccountServiceTests {
     @Test
-    func `upsert preserves uuid for matching canonical email`() async throws {
+    func upsert_preserves_uuid_for_matching_canonical_email() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -35,7 +35,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `new authentication appends managed account without implicit selection side effect`() async throws {
+    func new_authentication_appends_managed_account_without_implicit_selection_side_effect() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -68,7 +68,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `same email provider backed workspaces coexist across sequential add account flows`() async throws {
+    func same_email_provider_backed_workspaces_coexist_across_sequential_add_account_flows() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -114,7 +114,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `same workspace provider id with different emails does not overwrite existing account`() async throws {
+    func same_workspace_provider_id_with_different_emails_does_not_overwrite_existing_account() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let existingHome = root.appendingPathComponent("accounts/existing", isDirectory: true)
         try FileManager.default.createDirectory(at: existingHome, withIntermediateDirectories: true)
@@ -165,7 +165,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `selected workspace is persisted and used as account identity`() async throws {
+    func selected_workspace_is_persisted_and_used_as_account_identity() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -209,7 +209,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `reauth keeps previous home when store write fails`() async throws {
+    func reauth_keeps_previous_home_when_store_write_fails() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let existingHome = root.appendingPathComponent("accounts/existing", isDirectory: true)
         try FileManager.default.createDirectory(at: existingHome, withIntermediateDirectories: true)
@@ -248,7 +248,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `reauth reconciles by provider account id before existing account id`() async throws {
+    func reauth_reconciles_by_provider_account_id_before_existing_account_id() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let alphaHome = root.appendingPathComponent("accounts/alpha", isDirectory: true)
         let betaHome = root.appendingPathComponent("accounts/beta", isDirectory: true)
@@ -306,7 +306,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `reauth to different account does not overwrite existing account id match`() async throws {
+    func reauth_to_different_account_does_not_overwrite_existing_account_id_match() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let aliceHome = root.appendingPathComponent("accounts/alice", isDirectory: true)
         try FileManager.default.createDirectory(at: aliceHome, withIntermediateDirectories: true)
@@ -352,7 +352,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `reauth on same email different workspace does not overwrite selected workspace`() async throws {
+    func reauth_on_same_email_different_workspace_does_not_overwrite_selected_workspace() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let personalHome = root.appendingPathComponent("accounts/personal", isDirectory: true)
         try FileManager.default.createDirectory(at: personalHome, withIntermediateDirectories: true)
@@ -404,7 +404,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `legacy row collapses onto provider backed row when provider id resolves elsewhere`() async throws {
+    func legacy_row_collapses_onto_provider_backed_row_when_provider_id_resolves_elsewhere() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let legacyHome = root.appendingPathComponent("accounts/legacy", isDirectory: true)
         let providerHome = root.appendingPathComponent("accounts/provider", isDirectory: true)
@@ -453,7 +453,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `fresh provider login removes stale legacy row without explicit existing account id`() async throws {
+    func fresh_provider_login_removes_stale_legacy_row_without_explicit_existing_account_id() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let legacyHome = root.appendingPathComponent("accounts/legacy", isDirectory: true)
         let providerHome = root.appendingPathComponent("accounts/provider", isDirectory: true)
@@ -501,7 +501,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `authentication persists workspace metadata and tolerates missing workspace label`() async throws {
+    func authentication_persists_workspace_metadata_and_tolerates_missing_workspace_label() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -536,7 +536,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `reauth preserves stored provider metadata when refresh cannot resolve account id`() async throws {
+    func reauth_preserves_stored_provider_metadata_when_refresh_cannot_resolve_account_id() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let existingHome = root.appendingPathComponent("accounts/existing", isDirectory: true)
         try FileManager.default.createDirectory(at: existingHome, withIntermediateDirectories: true)
@@ -583,7 +583,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `auth failure cleanup uses managed root safety check`() async throws {
+    func auth_failure_cleanup_uses_managed_root_safety_check() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let outsideHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -612,7 +612,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `auth failure preserves codex login result output`() async throws {
+    func auth_failure_preserves_codex_login_result_output() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -642,7 +642,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `remove deletes managed home under managed root`() async throws {
+    func remove_deletes_managed_home_under_managed_root() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let home = root.appendingPathComponent("accounts/account-a", isDirectory: true)
         try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
@@ -672,7 +672,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `remove keeps remaining managed account records`() async throws {
+    func remove_keeps_remaining_managed_account_records() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let firstHome = root.appendingPathComponent("accounts/account-a", isDirectory: true)
         let secondHome = root.appendingPathComponent("accounts/account-b", isDirectory: true)
@@ -715,7 +715,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `remove keeps persisted account when store write fails`() async throws {
+    func remove_keeps_persisted_account_when_store_write_fails() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let home = root.appendingPathComponent("accounts/account-a", isDirectory: true)
         try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
@@ -748,7 +748,7 @@ struct ManagedCodexAccountServiceTests {
     }
 
     @Test
-    func `remove drops account but leaves unsafe home untouched`() async throws {
+    func remove_drops_account_but_leaves_unsafe_home_untouched() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let outsideRoot = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,

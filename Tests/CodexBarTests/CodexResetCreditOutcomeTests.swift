@@ -5,7 +5,7 @@ import Testing
 
 struct CodexResetCreditOutcomeTests {
     @Test
-    func `supplemental inventory skips stale credentials without issuing a request`() async throws {
+    func supplemental_inventory_skips_stale_credentials_without_issuing_a_request() async throws {
         let recorder = ResetCreditRequestRecorder()
         let result = try await UsageStore._fetchCodexResetCreditsForTesting(
             credentials: Self.credentials(lastRefresh: .distantPast),
@@ -19,7 +19,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `supplemental inventory uses fresh credentials for one read only request`() async throws {
+    func supplemental_inventory_uses_fresh_credentials_for_one_read_only_request() async throws {
         let recorder = ResetCreditRequestRecorder()
         let now = Date()
         let expected = Self.resetSnapshot(id: "fresh", now: now)
@@ -39,7 +39,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `embedded OAuth inventory prevents a duplicate supplemental GET`() async throws {
+    func embedded_OAuth_inventory_prevents_a_duplicate_supplemental_GET() async throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let embedded = Self.resetSnapshot(id: "embedded", now: now)
         let recorder = ResetCreditFetchRecorder()
@@ -57,7 +57,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `supplemental inventory uses each scoped account environment once`() async throws {
+    func supplemental_inventory_uses_each_scoped_account_environment_once() async throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let recorder = ResetCreditFetchRecorder()
         let fetcher: UsageStore.CodexResetCreditsFetcher = { env in
@@ -86,7 +86,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `failed supplemental GET clears inventory on a successful usage refresh`() async throws {
+    func failed_supplemental_GET_clears_inventory_on_a_successful_usage_refresh() async throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let recorder = ResetCreditFetchRecorder()
         let outcome = await UsageStore.attachingCodexResetCreditsIfNeeded(
@@ -102,7 +102,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `single failed GET restores failure for reset-credit-only O auth usage`() async {
+    func single_failed_GET_restores_failure_for_reset_credit_only_O_auth_usage() async {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let recorder = ResetCreditFetchRecorder()
         let outcome = await UsageStore.attachingCodexResetCreditsIfNeeded(
@@ -122,7 +122,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `single GET rescues reset-credit-only O auth usage`() async throws {
+    func single_GET_rescues_reset_credit_only_O_auth_usage() async throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let recorder = ResetCreditFetchRecorder()
         let resetCredits = Self.resetSnapshot(id: "rescued", now: now)
@@ -139,7 +139,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `supplemental GET cancellation remains a cancelled provider outcome`() async {
+    func supplemental_GET_cancellation_remains_a_cancelled_provider_outcome() async {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let outcome = await UsageStore.attachingCodexResetCreditsIfNeeded(
             to: Self.outcome(resetCredits: nil, now: now),
@@ -154,7 +154,7 @@ struct CodexResetCreditOutcomeTests {
     }
 
     @Test
-    func `display preference does not strip embedded inventory or issue a duplicate GET`() async throws {
+    func display_preference_does_not_strip_embedded_inventory_or_issue_a_duplicate_GET() async throws {
         let now = Date(timeIntervalSince1970: 1_781_726_400)
         let recorder = ResetCreditFetchRecorder()
         let outcome = await UsageStore.attachingCodexResetCreditsIfNeeded(

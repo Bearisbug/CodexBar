@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeWebAccountInfoTests {
     @Test
-    func `selected organization determines the team seat label`() {
+    func selected_organization_determines_the_team_seat_label() {
         let json = """
         {
           "email_address": "steipete@gmail.com",
@@ -38,7 +38,7 @@ struct ClaudeWebAccountInfoTests {
     }
 
     @Test
-    func `enterprise membership preserves its plan when it has a legacy seat tier`() {
+    func enterprise_membership_preserves_its_plan_when_it_has_a_legacy_seat_tier() {
         let json = """
         {
           "email_address": "enterprise@example.com",

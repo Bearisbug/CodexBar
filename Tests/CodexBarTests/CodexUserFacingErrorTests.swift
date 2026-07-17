@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CodexUserFacingErrorTests {
     @Test
-    func `missing codex CLI guidance is not collapsed to not running`() {
+    func missing_codex_CLI_guidance_is_not_collapsed_to_not_running() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-missing-cli")
         store.errors[.codex] = "Codex not running. Try running a Codex command first. "
             + "(Codex CLI not found. Install with `npm i -g @openai/codex`.)"
@@ -15,7 +15,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `logged out codex CLI guidance is not collapsed to temporary outage`() {
+    func logged_out_codex_CLI_guidance_is_not_collapsed_to_temporary_outage() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-cli-login-required")
         store.errors[.codex] =
             "Codex connection failed: codex account authentication required to read rate limits"
@@ -26,7 +26,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `cached logged out codex CLI failure preserves cached suffix`() {
+    func cached_logged_out_codex_CLI_failure_preserves_cached_suffix() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-cached-cli-login-required")
         store.lastCreditsError =
             "Last Codex credits refresh failed: Codex connection failed: "
@@ -39,7 +39,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `expired codex auth is sanitized`() {
+    func expired_codex_auth_is_sanitized() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-expired-auth")
         store.errors[.codex] = """
         Codex connection failed: failed to fetch codex rate limits: GET https://chatgpt.com/backend-api/wham/usage \
@@ -51,7 +51,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `transport codex error is sanitized`() {
+    func transport_codex_error_is_sanitized() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-transport")
         store.errors[.codex] =
             "Codex connection failed: failed to fetch codex rate limits: "
@@ -61,7 +61,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `decode mismatch codex error is sanitized`() {
+    func decode_mismatch_codex_error_is_sanitized() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-decode-mismatch")
         store.errors[.codex] =
             "Codex connection failed: failed to fetch codex rate limits: "
@@ -72,7 +72,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `cached credits failure preserves cached suffix while sanitizing body`() {
+    func cached_credits_failure_preserves_cached_suffix_while_sanitizing_body() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-cached-credits")
         store.lastCreditsError =
             "Last Codex credits refresh failed: Codex connection failed: failed to fetch codex rate limits: "
@@ -85,7 +85,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `localized cached credits failure preserves cached suffix while sanitizing body`() {
+    func localized_cached_credits_failure_preserves_cached_suffix_while_sanitizing_body() {
         let result = CodexBarLocalizationOverride.$appLanguage.withValue("zh-Hant") {
             let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-localized-cached-credits")
             store.lastCreditsError =
@@ -99,7 +99,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `cached missing codex CLI failure preserves cached suffix`() {
+    func cached_missing_codex_CLI_failure_preserves_cached_suffix() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-cached-missing-cli")
         store.lastCreditsError =
             "Last Codex credits refresh failed: Codex CLI not found. "
@@ -111,7 +111,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `browser mismatch remains unchanged`() {
+    func browser_mismatch_remains_unchanged() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-browser-mismatch")
         store.lastOpenAIDashboardError =
             "OpenAI cookies are for ratulsarna@gmail.com, not rdsarna@gmail.com. "
@@ -124,7 +124,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `frame load interrupted becomes retry guidance`() {
+    func frame_load_interrupted_becomes_retry_guidance() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-frame-load")
         store.lastOpenAIDashboardError = "Frame load interrupted"
 
@@ -134,7 +134,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `open A I web timeout becomes retry guidance`() {
+    func open_A_I_web_timeout_becomes_retry_guidance() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-openai-web-timeout")
         store.lastOpenAIDashboardError = "The operation couldn’t be completed. (NSURLErrorDomain error -1001.)"
 
@@ -144,7 +144,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `localized cached open A I web timeout preserves cached suffix`() {
+    func localized_cached_open_A_I_web_timeout_preserves_cached_suffix() {
         let result = CodexBarLocalizationOverride.$appLanguage.withValue("zh-Hant") {
             let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-localized-openai-web-timeout")
             store.lastOpenAIDashboardError =
@@ -161,7 +161,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `open A I web network error becomes connection guidance`() {
+    func open_A_I_web_network_error_becomes_connection_guidance() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-openai-web-network")
         store.lastOpenAIDashboardError = "The operation couldn’t be completed. (NSURLErrorDomain error -1004.)"
         let expected = [
@@ -173,7 +173,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `non codex providers keep raw errors`() {
+    func non_codex_providers_keep_raw_errors() {
         let store = self.makeUsageStore(suite: "CodexUserFacingErrorTests-non-codex")
         store.errors[.claude] = "Claude probe failed with debug detail"
 
@@ -181,7 +181,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `successful provider diagnostic does not make usage stale`() {
+    func successful_provider_diagnostic_does_not_make_usage_stale() {
         let settings = self.makeSettingsStore(suite: "CodexUserFacingErrorTests-success-diagnostic")
         let store = self.makeUsageStore(settings: settings)
         store.diagnostics[.grok] = GrokStatusProbe.teamUsageUnavailableMessage
@@ -196,7 +196,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `providers pane codex model uses sanitized values`() {
+    func providers_pane_codex_model_uses_sanitized_values() {
         let settings = self.makeSettingsStore(suite: "CodexUserFacingErrorTests-pane-model")
         let store = self.makeUsageStore(settings: settings)
         store.errors[.codex] =
@@ -223,7 +223,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `menu card hides optional codex setup diagnostics kept by providers pane`() throws {
+    func menu_card_hides_optional_codex_setup_diagnostics_kept_by_providers_pane() throws {
         let settings = self.makeSettingsStore(suite: "CodexUserFacingErrorTests-menu-diagnostics")
         let store = self.makeUsageStore(settings: settings)
         store.lastCreditsError = UsageError.noRateLimitsFound.errorDescription
@@ -255,7 +255,7 @@ struct CodexUserFacingErrorTests {
     }
 
     @Test
-    func `providers pane codex error display keeps raw full text for copy`() {
+    func providers_pane_codex_error_display_keeps_raw_full_text_for_copy() {
         let settings = self.makeSettingsStore(suite: "CodexUserFacingErrorTests-pane-error-display")
         let store = self.makeUsageStore(settings: settings)
         let raw =

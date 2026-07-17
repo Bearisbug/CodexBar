@@ -6,7 +6,7 @@ import Testing
 
 extension StatusMenuTests {
     @Test
-    func `store observation marks open menu stale without rebuilding during tracking`() async {
+    func store_observation_marks_open_menu_stale_without_rebuilding_during_tracking() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -63,7 +63,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `closed merged menu defers rebuild until next open instead of pre-warming`() async {
+    func closed_merged_menu_defers_rebuild_until_next_open_instead_of_pre_warming() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -130,7 +130,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `data refresh invalidation does not rebuild closed non merged attached menu`() async {
+    func data_refresh_invalidation_does_not_rebuild_closed_non_merged_attached_menu() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -187,7 +187,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `required non merged closed menu preparation survives later data refresh invalidation`() async {
+    func required_non_merged_closed_menu_preparation_survives_later_data_refresh_invalidation() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -232,7 +232,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `closed attached menu preparation waits for store refresh to finish`() async {
+    func closed_attached_menu_preparation_waits_for_store_refresh_to_finish() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -283,7 +283,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `closed attached menu preparation waits for token refresh to finish`() async {
+    func closed_attached_menu_preparation_waits_for_token_refresh_to_finish() async {
         StatusItemController.setClosedMenuPreparationDelayForTesting(.zero)
         defer { StatusItemController.resetClosedMenuPreparationDelayForTesting() }
 
@@ -335,7 +335,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `closed menu rebuild cleanup runs when weak menu disappears`() async {
+    func closed_menu_rebuild_cleanup_runs_when_weak_menu_disappears() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -373,7 +373,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `merged menu close defers stale rebuild until next open`() async {
+    func merged_menu_close_defers_stale_rebuild_until_next_open() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -417,7 +417,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu open keeps stale nonempty content while store refresh is active`() {
+    func menu_open_keeps_stale_nonempty_content_while_store_refresh_is_active() {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -459,7 +459,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu open rebuilds stale content after privacy setting changes during refresh`() {
+    func menu_open_rebuilds_stale_content_after_privacy_setting_changes_during_refresh() {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -500,7 +500,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu open keeps stale nonempty content while token refresh is active`() {
+    func menu_open_keeps_stale_nonempty_content_while_token_refresh_is_active() {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -542,7 +542,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `explicit store actions defer visible parent menu rebuild`() async {
+    func explicit_store_actions_defer_visible_parent_menu_rebuild() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -584,7 +584,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `repeated explicit store actions keep parent rebuild deferred`() async {
+    func repeated_explicit_store_actions_keep_parent_rebuild_deferred() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -627,7 +627,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `explicit refresh rebuilds stale parent after hosted submenu closes`() async {
+    func explicit_refresh_rebuilds_stale_parent_after_hosted_submenu_closes() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -681,7 +681,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `hosted submenu close waits for active refresh before rebuilding parent`() async {
+    func hosted_submenu_close_waits_for_active_refresh_before_rebuilding_parent() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -742,7 +742,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `plain open menu refresh preserves pending switcher hosted submenu cleanup`() async {
+    func plain_open_menu_refresh_preserves_pending_switcher_hosted_submenu_cleanup() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -791,7 +791,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `rapid switcher rebuild requests coalesce before populating open menu`() async {
+    func rapid_switcher_rebuild_requests_coalesce_before_populating_open_menu() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -869,7 +869,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `codex parent menu open defers stale OpenAI web refresh until tracking ends`() async {
+    func codex_parent_menu_open_defers_stale_OpenAI_web_refresh_until_tracking_ends() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -930,7 +930,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `programmatic parent menu close schedules deferred OpenAI web refresh`() async {
+    func programmatic_parent_menu_close_schedules_deferred_OpenAI_web_refresh() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -981,7 +981,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `deferred OpenAI web refresh retries after active store refresh completes`() async {
+    func deferred_OpenAI_web_refresh_retries_after_active_store_refresh_completes() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1031,7 +1031,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `deferred OpenAI web refresh waits for deferred store refresh`() async {
+    func deferred_OpenAI_web_refresh_waits_for_deferred_store_refresh() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1088,7 +1088,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `reopened menu keeps dashboard refresh deferred after store refresh`() async {
+    func reopened_menu_keeps_dashboard_refresh_deferred_after_store_refresh() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1150,7 +1150,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `codex parent menu close refreshes recent dashboard cache with no chart history`() async {
+    func codex_parent_menu_close_refreshes_recent_dashboard_cache_with_no_chart_history() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1205,7 +1205,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `codex parent menu open throttles recent empty dashboard retry`() async {
+    func codex_parent_menu_open_throttles_recent_empty_dashboard_retry() async {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1249,7 +1249,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `credits history arriving after open rebuilds parent menu after tracking ends`() async throws {
+    func credits_history_arriving_after_open_rebuilds_parent_menu_after_tracking_ends() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1301,7 +1301,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `fresh dashboard history with same day count rebuilds parent menu after tracking ends`() async throws {
+    func fresh_dashboard_history_with_same_day_count_rebuilds_parent_menu_after_tracking_ends() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1355,7 +1355,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `token cost history arriving after open rebuilds parent menu after tracking ends`() async throws {
+    func token_cost_history_arriving_after_open_rebuilds_parent_menu_after_tracking_ends() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1399,7 +1399,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `fresh token cost history with same day count rebuilds parent menu after tracking ends`() async throws {
+    func fresh_token_cost_history_with_same_day_count_rebuilds_parent_menu_after_tracking_ends() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1457,7 +1457,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `plan utilization history arriving after open rebuilds parent menu after tracking ends`() async throws {
+    func plan_utilization_history_arriving_after_open_rebuilds_parent_menu_after_tracking_ends() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1502,7 +1502,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `dashboard attachment authorization arriving after open rebuilds parent menu after close`() async throws {
+    func dashboard_attachment_authorization_arriving_after_open_rebuilds_parent_menu_after_close() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -1682,7 +1682,7 @@ extension StatusMenuTests {
     /// other adaptive-refresh test drives `UsageStore` directly, so none of them would catch that
     /// wiring line being deleted — this test drives the real menu-open path instead.
     @Test
-    func `menuWillOpen records the menu-open signal on the store`() {
+    func menuWillOpen_records_the_menu_open_signal_on_the_store() {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false

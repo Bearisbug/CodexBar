@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardModelCodexDegradedQuotaTests {
     @Test
-    func `codex local token usage keeps remote quota unavailable error visible`() throws {
+    func codex_local_token_usage_keeps_remote_quota_unavailable_error_visible() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -56,7 +56,7 @@ struct MenuCardModelCodexDegradedQuotaTests {
     }
 
     @Test
-    func `codex remote quota unavailable error stays visible when token usage is hidden`() throws {
+    func codex_remote_quota_unavailable_error_stays_visible_when_token_usage_is_hidden() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -95,7 +95,7 @@ struct MenuCardModelCodexDegradedQuotaTests {
     }
 
     @Test
-    func `codex local token usage preserves limits unavailable placeholder`() throws {
+    func codex_local_token_usage_preserves_limits_unavailable_placeholder() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -133,7 +133,7 @@ struct MenuCardModelCodexDegradedQuotaTests {
     }
 
     @Test
-    func `codex local token usage preserves sign-in guidance`() throws {
+    func codex_local_token_usage_preserves_sign_in_guidance() throws {
         let model = try self.makeModel(
             tokenCostUsageEnabled: true,
             lastError: "Codex CLI is not signed in. Run `codex login --device-auth`, then refresh.")
@@ -145,7 +145,7 @@ struct MenuCardModelCodexDegradedQuotaTests {
     }
 
     @Test
-    func `codex local token usage preserves mapped transport error`() throws {
+    func codex_local_token_usage_preserves_mapped_transport_error() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -184,7 +184,7 @@ struct MenuCardModelCodexDegradedQuotaTests {
     }
 
     @Test
-    func `credits select stacked detail layout without quota metrics`() {
+    func credits_select_stacked_detail_layout_without_quota_metrics() {
         let model = UsageMenuCardView.Model(
             provider: .codex,
             providerName: "Codex",

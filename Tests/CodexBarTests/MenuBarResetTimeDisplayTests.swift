@@ -5,7 +5,7 @@ import Testing
 
 struct MenuBarResetTimeDisplayTests {
     @Test
-    func `reset time mode formats the selected window reset`() {
+    func reset_time_mode_formats_the_selected_window_reset() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let resetsAt = now.addingTimeInterval(2 * 3600)
         let window = RateWindow(
@@ -25,7 +25,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `reset time mode uses countdown preference`() {
+    func reset_time_mode_uses_countdown_preference() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let resetsAt = now.addingTimeInterval(2 * 3600 + 15 * 60)
         let window = RateWindow(
@@ -45,7 +45,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `reset time mode falls back to used percent without reset metadata`() {
+    func reset_time_mode_falls_back_to_used_percent_without_reset_metadata() {
         let window = RateWindow(
             usedPercent: 42,
             windowMinutes: 300,
@@ -61,7 +61,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `reset time mode uses text reset metadata`() {
+    func reset_time_mode_uses_text_reset_metadata() {
         let window = RateWindow(
             usedPercent: 42,
             windowMinutes: 300,
@@ -77,7 +77,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `reset time mode surfaces daily reset metadata`() {
+    func reset_time_mode_surfaces_daily_reset_metadata() {
         let window = RateWindow(
             usedPercent: 39,
             windowMinutes: 1440,
@@ -98,7 +98,7 @@ struct MenuBarResetTimeDisplayTests {
         "next week",
         "expires in 4d",
     ])
-    func `reset time mode accepts reset timing phrases`(_ description: String) {
+    func reset_time_mode_accepts_reset_timing_phrases(_ description: String) {
         let window = RateWindow(
             usedPercent: 42,
             windowMinutes: 300,
@@ -119,7 +119,7 @@ struct MenuBarResetTimeDisplayTests {
         "5 hours window",
         "$10.00 available",
     ])
-    func `reset time mode rejects non-reset provider summaries`(_ description: String) {
+    func reset_time_mode_rejects_non_reset_provider_summaries(_ description: String) {
         let window = RateWindow(
             usedPercent: 42,
             windowMinutes: 300,
@@ -135,7 +135,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `reset time mode falls back to remaining percent without reset metadata`() {
+    func reset_time_mode_falls_back_to_remaining_percent_without_reset_metadata() {
         let window = RateWindow(
             usedPercent: 42,
             windowMinutes: 300,
@@ -151,7 +151,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test(arguments: [MenuBarDisplayMode.percent, .pace, .both])
-    func `smart reset shows countdown when the quota is exhausted`(_ mode: MenuBarDisplayMode) {
+    func smart_reset_shows_countdown_when_the_quota_is_exhausted(_ mode: MenuBarDisplayMode) {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let window = RateWindow(
             usedPercent: 100,
@@ -171,7 +171,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset honors the absolute clock preference`() {
+    func smart_reset_honors_the_absolute_clock_preference() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let resetsAt = now.addingTimeInterval(2 * 3600)
         let window = RateWindow(
@@ -192,7 +192,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset leaves a non-exhausted quota untouched`() {
+    func smart_reset_leaves_a_non_exhausted_quota_untouched() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let window = RateWindow(
             usedPercent: 42,
@@ -211,7 +211,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset disabled keeps the exhausted percent`() {
+    func smart_reset_disabled_keeps_the_exhausted_percent() {
         let window = RateWindow(
             usedPercent: 100,
             windowMinutes: 300,
@@ -227,7 +227,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset falls back to percent once the reset has elapsed`() {
+    func smart_reset_falls_back_to_percent_once_the_reset_has_elapsed() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         // Exhausted window whose reset moment is already in the past (e.g. snapshot lingering at 100%
         // before the next provider refresh). Showing "↻ now" here would be stale and could stick.
@@ -249,7 +249,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset ignores textual reset metadata without a concrete reset time`() {
+    func smart_reset_ignores_textual_reset_metadata_without_a_concrete_reset_time() {
         // Provider supplies only a textual resetDescription (no resetsAt). The smart option can't hand
         // that to the refresh scheduler, so it keeps the percent rather than freezing on "↻ in 2h".
         let window = RateWindow(
@@ -274,7 +274,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset falls back to percent without reset metadata`() {
+    func smart_reset_falls_back_to_percent_without_reset_metadata() {
         let window = RateWindow(
             usedPercent: 100,
             windowMinutes: 300,
@@ -291,7 +291,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test(arguments: [MenuBarDisplayMode.pace, .both])
-    func `smart reset keeps exhausted percent when pace exists but reset is unusable`(_ mode: MenuBarDisplayMode) {
+    func smart_reset_keeps_exhausted_percent_when_pace_exists_but_reset_is_unusable(_ mode: MenuBarDisplayMode) {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let window = RateWindow(
             usedPercent: 100,
@@ -318,7 +318,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset does not alter reset time mode`() {
+    func smart_reset_does_not_alter_reset_time_mode() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let resetsAt = now.addingTimeInterval(3600)
         let window = RateWindow(
@@ -339,7 +339,7 @@ struct MenuBarResetTimeDisplayTests {
     }
 
     @Test
-    func `smart reset replaces only the exhausted lane in combined text`() {
+    func smart_reset_replaces_only_the_exhausted_lane_in_combined_text() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let session = RateWindow(
             usedPercent: 100,

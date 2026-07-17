@@ -6,7 +6,7 @@ import Testing
 // MARK: - Catalog
 
 @Test
-func `copilot catalog entry exists`() {
+func copilot_catalog_entry_exists() {
     let support = TokenAccountSupportCatalog.support(for: .copilot)
     #expect(support != nil)
     #expect(support?.requiresManualCookieSource == false)
@@ -14,7 +14,7 @@ func `copilot catalog entry exists`() {
 }
 
 @Test
-func `copilot catalog entry uses environment injection`() {
+func copilot_catalog_entry_uses_environment_injection() {
     let support = TokenAccountSupportCatalog.support(for: .copilot)
     guard let support else {
         Issue.record("Copilot catalog entry missing")
@@ -28,7 +28,7 @@ func `copilot catalog entry uses environment injection`() {
 }
 
 @Test
-func `copilot env override uses correct key`() {
+func copilot_env_override_uses_correct_key() {
     let override = TokenAccountSupportCatalog.envOverride(for: .copilot, token: "gh_abc")
     #expect(override == ["COPILOT_API_TOKEN": "gh_abc"])
 }
@@ -36,7 +36,7 @@ func `copilot env override uses correct key`() {
 // MARK: - Username Fetch (parsing only)
 
 @Test
-func `GitHub user response parses stable id and login`() throws {
+func GitHub_user_response_parses_stable_id_and_login() throws {
     let json = #"{"login": "testuser", "id": 123, "name": "Test User"}"#
     let user = try JSONDecoder().decode(CopilotUsageFetcher.GitHubUserIdentity.self, from: Data(json.utf8))
     #expect(user.id == 123)
@@ -44,7 +44,7 @@ func `GitHub user response parses stable id and login`() throws {
 }
 
 @Test
-func `GitHub user response requires stable id`() throws {
+func GitHub_user_response_requires_stable_id() throws {
     let json = #"{"login": "minimaluser"}"#
     #expect(throws: DecodingError.self) {
         try JSONDecoder().decode(CopilotUsageFetcher.GitHubUserIdentity.self, from: Data(json.utf8))
@@ -56,7 +56,7 @@ func `GitHub user response requires stable id`() throws {
 @MainActor
 struct CopilotAPIKeyFallbackTests {
     @Test
-    func `ensure loader preserves config token`() {
+    func ensure_loader_preserves_config_token() {
         let settings = Self.makeSettingsStore(suite: "copilot-api-key-loader")
         settings.copilotAPIToken = "gh_token_123"
 
@@ -67,7 +67,7 @@ struct CopilotAPIKeyFallbackTests {
     }
 
     @Test
-    func `token accounts clear legacy config token`() {
+    func token_accounts_clear_legacy_config_token() {
         let settings = Self.makeSettingsStore(suite: "copilot-api-key-with-accounts")
         settings.copilotAPIToken = "gh_token_old"
         settings.addTokenAccount(provider: .copilot, label: "existing", token: "gh_token_existing")
@@ -106,7 +106,7 @@ struct CopilotAPIKeyFallbackTests {
 @MainActor
 struct CopilotEnvironmentPrecedenceTests {
     @Test
-    func `token account overrides config API key`() throws {
+    func token_account_overrides_config_API_key() throws {
         let settings = Self.makeSettingsStore(suite: "copilot-env-override")
         settings.copilotAPIToken = "old_config_token"
         settings.addTokenAccount(provider: .copilot, label: "new", token: "new_account_token")
@@ -125,7 +125,7 @@ struct CopilotEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `selected token account is included in copilot settings snapshot`() {
+    func selected_token_account_is_included_in_copilot_settings_snapshot() {
         let settings = Self.makeSettingsStore(suite: "copilot-settings-snapshot-account")
         settings.copilotAPIToken = "old_config_token"
         settings.addTokenAccount(provider: .copilot, label: "new", token: "new_account_token")
@@ -136,7 +136,7 @@ struct CopilotEnvironmentPrecedenceTests {
     }
 
     @Test
-    func `config API key used when no token accounts`() {
+    func config_API_key_used_when_no_token_accounts() {
         let settings = Self.makeSettingsStore(suite: "copilot-env-config-only")
         settings.copilotAPIToken = "config_token"
 
@@ -177,7 +177,7 @@ struct CopilotEnvironmentPrecedenceTests {
 @MainActor
 struct CopilotExternalIdentifierTests {
     @Test
-    func `addTokenAccount persists external identifier`() throws {
+    func addTokenAccount_persists_external_identifier() throws {
         let settings = Self.makeSettingsStore(suite: "copilot-ext-id-add")
         settings.addTokenAccount(
             provider: .copilot,
@@ -190,7 +190,7 @@ struct CopilotExternalIdentifierTests {
     }
 
     @Test
-    func `updateTokenAccount preserves identifier when not provided`() throws {
+    func updateTokenAccount_preserves_identifier_when_not_provided() throws {
         let settings = Self.makeSettingsStore(suite: "copilot-ext-id-preserve")
         settings.addTokenAccount(
             provider: .copilot,
@@ -212,7 +212,7 @@ struct CopilotExternalIdentifierTests {
     }
 
     @Test
-    func `updateTokenAccount writes identifier back for legacy accounts`() throws {
+    func updateTokenAccount_writes_identifier_back_for_legacy_accounts() throws {
         let settings = Self.makeSettingsStore(suite: "copilot-ext-id-backfill")
         // Legacy account: no externalIdentifier (pre-feature).
         settings.addTokenAccount(provider: .copilot, label: "octocat (Pro)", token: "gh_legacy")
@@ -232,7 +232,7 @@ struct CopilotExternalIdentifierTests {
     }
 
     @Test
-    func `legacy Account N account matches reauth by stored token identity`() async {
+    func legacy_Account_N_account_matches_reauth_by_stored_token_identity() async {
         let legacy = Self.makeAccount(label: "Account 1", token: "old-token", externalIdentifier: nil)
         let matched = await CopilotLoginFlow.matchExistingAccount(
             existingAccounts: [legacy],
@@ -246,7 +246,7 @@ struct CopilotExternalIdentifierTests {
     }
 
     @Test
-    func `user renamed legacy account matches reauth by stored token identity`() async {
+    func user_renamed_legacy_account_matches_reauth_by_stored_token_identity() async {
         let legacy = Self.makeAccount(label: "Work GitHub", token: "old-token", externalIdentifier: nil)
         let matched = await CopilotLoginFlow.matchExistingAccount(
             existingAccounts: [legacy],
@@ -260,7 +260,7 @@ struct CopilotExternalIdentifierTests {
     }
 
     @Test
-    func `stable external identifier match is preferred`() async {
+    func stable_external_identifier_match_is_preferred() async {
         let identified = Self.makeAccount(
             label: "Personal",
             token: "identified",
@@ -279,7 +279,7 @@ struct CopilotExternalIdentifierTests {
     }
 
     @Test
-    func `legacy login external identifier still matches and can be backfilled`() async {
+    func legacy_login_external_identifier_still_matches_and_can_be_backfilled() async {
         let identified = Self.makeAccount(label: "Personal", token: "identified", externalIdentifier: "OctoCat")
         let matched = await CopilotLoginFlow.matchExistingAccount(
             existingAccounts: [identified],
@@ -295,7 +295,7 @@ struct CopilotExternalIdentifierTests {
     }
 
     @Test
-    func `decoding legacy token account JSON yields nil identifier`() throws {
+    func decoding_legacy_token_account_JSON_yields_nil_identifier() throws {
         let json = """
         {
           "id": "11111111-1111-1111-1111-111111111111",
@@ -354,14 +354,14 @@ struct CopilotExternalIdentifierTests {
 @MainActor
 struct TokenAccountSnapshotErrorMessageTests {
     @Test
-    func `cancellation is suppressed for global error path`() {
+    func cancellation_is_suppressed_for_global_error_path() {
         let store = Self.makeUsageStore()
         #expect(store.tokenAccountErrorMessage(CancellationError()) == nil)
         #expect(store.tokenAccountErrorMessage(URLError(.cancelled)) == nil)
     }
 
     @Test
-    func `cancellation-like localized errors are suppressed`() {
+    func cancellation_like_localized_errors_are_suppressed() {
         let store = Self.makeUsageStore()
         struct Cancelled: LocalizedError {
             var errorDescription: String? {
@@ -372,7 +372,7 @@ struct TokenAccountSnapshotErrorMessageTests {
     }
 
     @Test
-    func `non-cancellation error preserves localized message`() {
+    func non_cancellation_error_preserves_localized_message() {
         let store = Self.makeUsageStore()
         struct Boom: LocalizedError {
             var errorDescription: String? {

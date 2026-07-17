@@ -5,38 +5,38 @@ import Testing
 @Suite(.serialized)
 struct SessionQuotaNotificationLogicTests {
     @Test
-    func `does nothing without previous value`() {
+    func does_nothing_without_previous_value() {
         let transition = SessionQuotaNotificationLogic.transition(previousRemaining: nil, currentRemaining: 0)
         #expect(transition == .none)
     }
 
     @Test
-    func `detects depleted transition`() {
+    func detects_depleted_transition() {
         let transition = SessionQuotaNotificationLogic.transition(previousRemaining: 12, currentRemaining: 0)
         #expect(transition == .depleted)
     }
 
     @Test
-    func `detects restored transition`() {
+    func detects_restored_transition() {
         let transition = SessionQuotaNotificationLogic.transition(previousRemaining: 0, currentRemaining: 5)
         #expect(transition == .restored)
     }
 
     @Test
-    func `ignores non transitions`() {
+    func ignores_non_transitions() {
         #expect(SessionQuotaNotificationLogic.transition(previousRemaining: 0, currentRemaining: 0) == .none)
         #expect(SessionQuotaNotificationLogic.transition(previousRemaining: 10, currentRemaining: 10) == .none)
         #expect(SessionQuotaNotificationLogic.transition(previousRemaining: 10, currentRemaining: 9) == .none)
     }
 
     @Test
-    func `treats tiny positive remaining as depleted`() {
+    func treats_tiny_positive_remaining_as_depleted() {
         let transition = SessionQuotaNotificationLogic.transition(previousRemaining: 0, currentRemaining: 0.00001)
         #expect(transition == .none)
     }
 
     @Test
-    func `depleted notification copy follows Traditional Chinese app language`() {
+    func depleted_notification_copy_follows_Traditional_Chinese_app_language() {
         Self.withAppLanguage("zh-Hant") {
             let copy = SessionQuotaNotificationLogic.notificationCopy(
                 transition: .depleted,
@@ -48,7 +48,7 @@ struct SessionQuotaNotificationLogicTests {
     }
 
     @Test
-    func `restored notification copy follows Traditional Chinese app language`() {
+    func restored_notification_copy_follows_Traditional_Chinese_app_language() {
         Self.withAppLanguage("zh-Hant") {
             let copy = SessionQuotaNotificationLogic.notificationCopy(
                 transition: .restored,

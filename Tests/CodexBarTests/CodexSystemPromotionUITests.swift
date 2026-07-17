@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexSystemPromotionUITests {
     @Test
-    func `promotion coordinator promotes immediately`() async throws {
+    func promotion_coordinator_promotes_immediately() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexSystemPromotionUITests-coordinator-immediate")
         defer { container.tearDown() }
@@ -41,7 +41,7 @@ struct CodexSystemPromotionUITests {
     }
 
     @Test
-    func `promotion coordinator blocks while live reauthentication is running`() async throws {
+    func promotion_coordinator_blocks_while_live_reauthentication_is_running() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexSystemPromotionUITests-coordinator-live-reauth")
         defer { container.tearDown() }
@@ -75,7 +75,7 @@ struct CodexSystemPromotionUITests {
     }
 
     @Test
-    func `codex menu descriptor includes system account submenu`() throws {
+    func codex_menu_descriptor_includes_system_account_submenu() throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexSystemPromotionUITests-menu-descriptor")
         defer { container.tearDown() }
@@ -121,7 +121,7 @@ struct CodexSystemPromotionUITests {
     }
 
     @Test
-    func `codex menu descriptor hides single live system account submenu`() throws {
+    func codex_menu_descriptor_hides_single_live_system_account_submenu() throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexSystemPromotionUITests-menu-single-live")
         defer { container.tearDown() }

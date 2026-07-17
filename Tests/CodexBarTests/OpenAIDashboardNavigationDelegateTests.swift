@@ -23,26 +23,26 @@ struct OpenAIDashboardNavigationDelegateTests {
     }
 
     @Test
-    func `ignores NSURLErrorCancelled`() {
+    func ignores_NSURLErrorCancelled() {
         let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled)
         #expect(NavigationDelegate.shouldIgnoreNavigationError(error))
     }
 
     @Test
-    func `ignores WebKit frame load interrupted by policy change`() {
+    func ignores_WebKit_frame_load_interrupted_by_policy_change() {
         let error = NSError(domain: "WebKitErrorDomain", code: 102)
         #expect(NavigationDelegate.shouldIgnoreNavigationError(error))
     }
 
     @Test
-    func `does not ignore non-cancelled URL errors`() {
+    func does_not_ignore_non_cancelled_URL_errors() {
         let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut)
         #expect(!NavigationDelegate.shouldIgnoreNavigationError(error))
     }
 
     @MainActor
     @Test
-    func `cancelled failure is ignored until finish`() {
+    func cancelled_failure_is_ignored_until_finish() {
         let webView = WKWebView()
         var result: Result<Void, Error>?
         let delegate = NavigationDelegate { result = $0 }
@@ -61,7 +61,7 @@ struct OpenAIDashboardNavigationDelegateTests {
 
     @MainActor
     @Test
-    func `explicit cancel completes with cancellation error`() {
+    func explicit_cancel_completes_with_cancellation_error() {
         var result: Result<Void, Error>?
         let delegate = NavigationDelegate { result = $0 }
 
@@ -77,7 +77,7 @@ struct OpenAIDashboardNavigationDelegateTests {
 
     @MainActor
     @Test
-    func `commit completes navigation successfully after grace period`() async {
+    func commit_completes_navigation_successfully_after_grace_period() async {
         let webView = WKWebView()
         var result: Result<Void, Error>?
         let box = DelegateBox()
@@ -99,7 +99,7 @@ struct OpenAIDashboardNavigationDelegateTests {
 
     @MainActor
     @Test
-    func `post commit failure wins before delayed success`() async {
+    func post_commit_failure_wins_before_delayed_success() async {
         let webView = WKWebView()
         var result: Result<Void, Error>?
         let box = DelegateBox()
@@ -123,7 +123,7 @@ struct OpenAIDashboardNavigationDelegateTests {
 
     @MainActor
     @Test
-    func `cancelled provisional failure is ignored until real failure`() {
+    func cancelled_provisional_failure_is_ignored_until_real_failure() {
         let webView = WKWebView()
         var result: Result<Void, Error>?
         let delegate = NavigationDelegate { result = $0 }
@@ -148,7 +148,7 @@ struct OpenAIDashboardNavigationDelegateTests {
 
     @MainActor
     @Test
-    func `frame load interrupted provisional failure is ignored until finish`() {
+    func frame_load_interrupted_provisional_failure_is_ignored_until_finish() {
         let webView = WKWebView()
         var result: Result<Void, Error>?
         let delegate = NavigationDelegate { result = $0 }
@@ -170,7 +170,7 @@ struct OpenAIDashboardNavigationDelegateTests {
     }
 
     @Test
-    func `navigation timeout fails with timed out error`() async {
+    func navigation_timeout_fails_with_timed_out_error() async {
         let result = await withCheckedContinuation { (continuation: CheckedContinuation<Result<Void, Error>, Never>) in
             Task { @MainActor in
                 let box = DelegateBox()

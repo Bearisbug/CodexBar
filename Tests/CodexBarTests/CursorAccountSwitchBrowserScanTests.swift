@@ -22,7 +22,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive browser mapping recognizes Comet and Chrome and rejects unknown apps`() {
+    func interactive_browser_mapping_recognizes_Comet_and_Chrome_and_rejects_unknown_apps() {
         let comet = CursorStatusProbe.interactiveBrowser(bundleIdentifier: "ai.perplexity.comet")
         let chrome = CursorStatusProbe.interactiveBrowser(bundleIdentifier: "com.google.Chrome")
         let unknown = CursorStatusProbe.interactiveBrowser(bundleIdentifier: "com.example.unknown")
@@ -39,7 +39,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive browser mapping covers every unambiguous SweetCookieKit browser`() {
+    func interactive_browser_mapping_covers_every_unambiguous_SweetCookieKit_browser() {
         let mapping = CursorStatusProbe.interactiveBrowserByBundleIdentifier
         let mappedBrowsers = Set(mapping.values)
         let deliberatelyUnsupported: Set<Browser> = [.arcBeta, .arcCanary, .yandex]
@@ -51,7 +51,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive browser support requires a readable cookie source`() throws {
+    func interactive_browser_support_requires_a_readable_cookie_source() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let applicationURL = temp.appendingPathComponent("Firefox.app", isDirectory: true)
         let contentsURL = applicationURL.appendingPathComponent("Contents", isDirectory: true)
@@ -96,7 +96,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive browser support accepts a renamed installed application`() throws {
+    func interactive_browser_support_accepts_a_renamed_installed_application() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let applicationURL = try Self.makeBrowserApplication(
             in: temp,
@@ -150,7 +150,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive Safari support accepts any existing readable source`() throws {
+    func interactive_Safari_support_accepts_any_existing_readable_source() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let applicationURL = try Self.makeBrowserApplication(
             in: temp,
@@ -176,7 +176,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive Safari support rejects missing and denied sources while imports remain eligible`() throws {
+    func interactive_Safari_support_rejects_missing_and_denied_sources_while_imports_remain_eligible() throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let applicationURL = try Self.makeBrowserApplication(
             in: temp,
@@ -218,7 +218,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive scan refreshes a cookie store created after browser launch`() async throws {
+    func interactive_scan_refreshes_a_cookie_store_created_after_browser_launch() async throws {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let applicationURL = try Self.makeBrowserApplication(
             in: temp,
@@ -268,7 +268,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive Comet candidate scan ignores valid Safari account and returns only Comet account`() async throws {
+    func interactive_Comet_candidate_scan_ignores_valid_Safari_account_and_returns_only_Comet_account() async throws {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let safari = Self.makeSessionInfo(sourceLabel: "Safari Personal")
         let comet = Self.makeSessionInfo(sourceLabel: "Comet Work")
@@ -308,7 +308,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `interactive Comet login with no session does not fall back to valid Safari account`() async throws {
+    func interactive_Comet_login_with_no_session_does_not_fall_back_to_valid_Safari_account() async throws {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let safari = Self.makeSessionInfo(sourceLabel: "Safari Personal")
         let importedBrowsers = LockedArray<String>()
@@ -341,7 +341,7 @@ struct CursorAccountSwitchBrowserScanTests {
     }
 
     @Test
-    func `browser scan skips rejected old account and caches only accepted new account`() async {
+    func browser_scan_skips_rejected_old_account_and_caches_only_accepted_new_account() async {
         let probe = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
         let safari = Self.makeSessionInfo(sourceLabel: "Safari")
         let chrome = Self.makeSessionInfo(sourceLabel: "Chrome")

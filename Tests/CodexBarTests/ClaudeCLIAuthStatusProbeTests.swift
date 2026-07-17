@@ -3,12 +3,12 @@ import Testing
 
 struct ClaudeCLIAuthStatusProbeTests {
     @Test
-    func `parses logged in status`() {
+    func parses_logged_in_status() {
         #expect(ClaudeCLIAuthStatusProbe.parseLoggedIn(#"{"loggedIn":true,"authMethod":"claude.ai"}"#))
     }
 
     @Test
-    func `rejects logged out and malformed status`() {
+    func rejects_logged_out_and_malformed_status() {
         #expect(!ClaudeCLIAuthStatusProbe.parseLoggedIn(#"{"loggedIn":false,"authMethod":"none"}"#))
         #expect(!ClaudeCLIAuthStatusProbe.parseLoggedIn("not-json"))
         #expect(!ClaudeCLIAuthStatusProbe.parseLoggedIn(#"{"authMethod":"none"}"#))

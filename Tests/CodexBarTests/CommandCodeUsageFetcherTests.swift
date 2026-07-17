@@ -24,7 +24,7 @@ struct CommandCodeUsageFetcherTests {
     """
 
     @Test
-    func `parses credits payload`() throws {
+    func parses_credits_payload() throws {
         let data = try #require(Self.creditsJSON.data(using: .utf8))
         let payload = try CommandCodeUsageFetcher.parseCredits(data: data)
         #expect(payload.monthlyCredits == 8.7784)
@@ -34,7 +34,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `parses subscription payload`() throws {
+    func parses_subscription_payload() throws {
         let data = try #require(Self.subscriptionJSON.data(using: .utf8))
         let payload = try #require(try CommandCodeUsageFetcher.parseSubscription(data: data))
         #expect(payload.planID == "individual-go")
@@ -46,14 +46,14 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `subscription on free tier returns nil`() throws {
+    func subscription_on_free_tier_returns_nil() throws {
         let data = Data(#"{"success":true,"data":null}"#.utf8)
         let payload = try CommandCodeUsageFetcher.parseSubscription(data: data)
         #expect(payload == nil)
     }
 
     @Test
-    func `successful free tier lookup has no usage window`() async throws {
+    func successful_free_tier_lookup_has_no_usage_window() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
             let body = if path.hasSuffix("/credits") {
@@ -76,7 +76,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `subscription failure envelope preserves required credits`() async throws {
+    func subscription_failure_envelope_preserves_required_credits() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
             if path.hasSuffix("/credits") {
@@ -100,7 +100,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `successful subscription envelope requires explicit data`() throws {
+    func successful_subscription_envelope_requires_explicit_data() throws {
         let data = Data(#"{"success":true}"#.utf8)
 
         #expect(throws: CommandCodeUsageError.self) {
@@ -109,7 +109,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `subscription failure preserves required credits`() async throws {
+    func subscription_failure_preserves_required_credits() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
             if path.hasSuffix("/credits") {
@@ -131,7 +131,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `subscription timeout does not hold credits for full request timeout`() async throws {
+    func subscription_timeout_does_not_hold_credits_for_full_request_timeout() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
             if path.hasSuffix("/credits") {
@@ -154,7 +154,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `subscription grace does not wait for transport that ignores cancellation`() async throws {
+    func subscription_grace_does_not_wait_for_transport_that_ignores_cancellation() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
             if path.hasSuffix("/credits") {
@@ -185,7 +185,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `cancellation after credits complete does not return partial snapshot`() async throws {
+    func cancellation_after_credits_complete_does_not_return_partial_snapshot() async throws {
         let subscriptionStarted = CommandCodeRequestGate()
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
@@ -212,7 +212,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `cancellation cleans up subscription when credits transport ignores cancellation`() async throws {
+    func cancellation_cleans_up_subscription_when_credits_transport_ignores_cancellation() async throws {
         let creditsStarted = CommandCodeRequestGate()
         let subscriptionStarted = CommandCodeRequestGate()
         let subscriptionCancelled = CommandCodeRequestGate()
@@ -255,7 +255,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `cancellation wins when optional transport ignores cancellation then fails`() async throws {
+    func cancellation_wins_when_optional_transport_ignores_cancellation_then_fails() async throws {
         let subscriptionStarted = CommandCodeRequestGate()
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
@@ -286,7 +286,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `successful unknown active subscription still fails explicitly`() async {
+    func successful_unknown_active_subscription_still_fails_explicitly() async {
         let unknownPlanJSON = Self.subscriptionJSON.replacingOccurrences(
             of: #""planId":"individual-go""#,
             with: #""planId":"individual-future""#)
@@ -304,7 +304,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `snapshot derives used and total from plan catalog`() throws {
+    func snapshot_derives_used_and_total_from_plan_catalog() throws {
         let plan = try #require(CommandCodePlanCatalog.plan(forID: "individual-go"))
         let snapshot = CommandCodeUsageSnapshot(
             monthlyCreditsRemaining: 8.7784,
@@ -326,7 +326,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `free tier with no allowance has no usage window`() {
+    func free_tier_with_no_allowance_has_no_usage_window() {
         let snapshot = CommandCodeUsageSnapshot(
             monthlyCreditsRemaining: 0,
             purchasedCredits: 0,
@@ -340,7 +340,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `plan catalog covers known plans`() {
+    func plan_catalog_covers_known_plans() {
         #expect(CommandCodePlanCatalog.plan(forID: "individual-go")?.monthlyCreditsUSD == 10)
         #expect(CommandCodePlanCatalog.plan(forID: "individual-pro")?.monthlyCreditsUSD == 30)
         #expect(CommandCodePlanCatalog.plan(forID: "individual-max")?.monthlyCreditsUSD == 150)
@@ -349,7 +349,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `cookie header extracts secure session cookie`() throws {
+    func cookie_header_extracts_secure_session_cookie() throws {
         let raw = "_ga=GA1.2.123; __Secure-better-auth.session_token=abc123; foo=bar"
         let override = try #require(CommandCodeCookieHeader.override(from: raw))
         #expect(override.name == "__Secure-better-auth.session_token")
@@ -358,7 +358,7 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `cookie header accepts non-secure variant`() throws {
+    func cookie_header_accepts_non_secure_variant() throws {
         let raw = "better-auth.session_token=plain-token"
         let override = try #require(CommandCodeCookieHeader.override(from: raw))
         #expect(override.name == "better-auth.session_token")
@@ -366,14 +366,14 @@ struct CommandCodeUsageFetcherTests {
     }
 
     @Test
-    func `cookie header accepts bare token and uses secure name`() throws {
+    func cookie_header_accepts_bare_token_and_uses_secure_name() throws {
         let override = try #require(CommandCodeCookieHeader.override(from: "bare-value"))
         #expect(override.name == "__Secure-better-auth.session_token")
         #expect(override.token == "bare-value")
     }
 
     @Test
-    func `cookie header rejects empty input`() {
+    func cookie_header_rejects_empty_input() {
         #expect(CommandCodeCookieHeader.override(from: nil) == nil)
         #expect(CommandCodeCookieHeader.override(from: "") == nil)
         #expect(CommandCodeCookieHeader.override(from: "   ") == nil)

@@ -5,7 +5,7 @@ import Testing
 
 struct DashboardSnapshotBuilderTests {
     @Test
-    func `builds stable display-oriented dashboard snapshot`() throws {
+    func builds_stable_display_oriented_dashboard_snapshot() throws {
         let generatedAt = Date(timeIntervalSince1970: 1_800_000_000)
         let updatedAt = Date(timeIntervalSince1970: 1_800_000_010)
         let costUpdatedAt = Date(timeIntervalSince1970: 1_800_000_020)
@@ -125,7 +125,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard identity mode none emits null identity`() throws {
+    func dashboard_identity_mode_none_emits_null_identity() throws {
         let usage = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -166,7 +166,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard identity mode redacted hides local part but keeps domain`() throws {
+    func dashboard_identity_mode_redacted_hides_local_part_but_keeps_domain() throws {
         let snapshot = DashboardSnapshotBuilder.makeSnapshot(
             usagePayloads: [self.identityPayload(email: "user@example.com")],
             costPayloads: [],
@@ -191,7 +191,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard redaction keeps only the final email domain`() throws {
+    func dashboard_redaction_keeps_only_the_final_email_domain() throws {
         let snapshot = DashboardSnapshotBuilder.makeSnapshot(
             usagePayloads: [self.identityPayload(email: #""foo@bar"@example.com"#)],
             costPayloads: [],
@@ -206,7 +206,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard provider errors are projected without raw usage internals`() throws {
+    func dashboard_provider_errors_are_projected_without_raw_usage_internals() throws {
         let payload = ProviderPayload(
             provider: .codex,
             account: nil,
@@ -238,7 +238,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard surfaces cost failures when usage succeeds`() throws {
+    func dashboard_surfaces_cost_failures_when_usage_succeeds() throws {
         let usage = self.identityPayload(email: "user@example.com")
         let cost = CostPayload(
             provider: "claude",
@@ -270,7 +270,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard provider freshness includes status updates`() throws {
+    func dashboard_provider_freshness_includes_status_updates() throws {
         let payload = ProviderPayload(
             provider: .claude,
             account: nil,
@@ -302,7 +302,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard safely clamps extreme refresh intervals`() {
+    func dashboard_safely_clamps_extreme_refresh_intervals() {
         let snapshot = DashboardSnapshotBuilder.makeSnapshot(
             usagePayloads: [],
             costPayloads: [],
@@ -317,7 +317,7 @@ struct DashboardSnapshotBuilderTests {
     }
 
     @Test
-    func `dashboard daily cost uses generation day without update metadata`() throws {
+    func dashboard_daily_cost_uses_generation_day_without_update_metadata() throws {
         let generatedAt = Date(timeIntervalSince1970: 1_800_000_000)
         let usage = self.identityPayload(email: "user@example.com")
         let cost = CostPayload(

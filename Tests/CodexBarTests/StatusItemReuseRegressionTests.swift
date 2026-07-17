@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct StatusItemReuseRegressionTests {
     @Test
-    func `usage update during vending reuses the provider status item`() throws {
+    func usage_update_during_vending_reuses_the_provider_status_item() throws {
         let suite = "StatusItemReuseRegressionTests-\(UUID().uuidString)"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false

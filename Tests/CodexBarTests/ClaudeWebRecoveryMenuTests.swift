@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeWebRecoveryMenuTests {
     @Test
-    func `unauthorized error explains how to restore web usage`() {
+    func unauthorized_error_explains_how_to_restore_web_usage() {
         #expect(
             ClaudeWebAPIFetcher.FetchError.unauthorized.localizedDescription ==
                 "Sign in to claude.ai (or refresh Claude cookies) to load usage data.")
@@ -60,7 +60,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `default account action localizes ambient Claude Code sign in`() {
+    func default_account_action_localizes_ambient_Claude_Code_sign_in() {
         let actions = CodexBarLocalizationOverride.$appLanguage.withValue("zh-Hant") {
             self.actions(source: .auto)
         }
@@ -72,7 +72,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `web session errors show claude relogin action`() {
+    func web_session_errors_show_claude_relogin_action() {
         let errors = [
             ClaudeWebAPIFetcher.FetchError.unauthorized.localizedDescription,
             ClaudeWebAPIFetcher.FetchError.noSessionKeyFound.localizedDescription,
@@ -89,7 +89,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `auto source shows relogin action for terminal web session error`() {
+    func auto_source_shows_relogin_action_for_terminal_web_session_error() {
         let actions = self.actions(
             error: ClaudeWebAPIFetcher.FetchError.unauthorized.localizedDescription,
             source: .auto)
@@ -101,7 +101,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `non-web source does not replace account action`() {
+    func non_web_source_does_not_replace_account_action() {
         let actions = self.actions(
             error: ClaudeWebAPIFetcher.FetchError.unauthorized.localizedDescription,
             source: .oauth)
@@ -110,7 +110,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `manual cookies do not show browser relogin action`() {
+    func manual_cookies_do_not_show_browser_relogin_action() {
         let actions = self.actions(
             error: ClaudeWebAPIFetcher.FetchError.unauthorized.localizedDescription,
             source: .web,
@@ -120,7 +120,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `selected session account does not show browser relogin action`() {
+    func selected_session_account_does_not_show_browser_relogin_action() {
         let actions = self.actions(
             error: ClaudeWebAPIFetcher.FetchError.unauthorized.localizedDescription,
             source: .web,
@@ -131,7 +131,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `unavailable web strategy shows relogin action`() {
+    func unavailable_web_strategy_shows_relogin_action() {
         let actions = self.actions(
             error: ProviderFetchError.noAvailableStrategy(.claude).localizedDescription,
             source: .web,
@@ -150,7 +150,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `generic unavailable error without web attempt keeps account action`() {
+    func generic_unavailable_error_without_web_attempt_keeps_account_action() {
         let actions = self.actions(
             error: ProviderFetchError.noAvailableStrategy(.claude).localizedDescription,
             source: .auto,
@@ -166,7 +166,7 @@ struct ClaudeWebRecoveryMenuTests {
     }
 
     @Test
-    func `unrelated web error does not replace account action`() {
+    func unrelated_web_error_does_not_replace_account_action() {
         let actions = self.actions(
             error: ClaudeWebAPIFetcher.FetchError.serverError(statusCode: 500).localizedDescription,
             source: .web)

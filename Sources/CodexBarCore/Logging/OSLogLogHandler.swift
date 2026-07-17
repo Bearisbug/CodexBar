@@ -23,15 +23,24 @@ struct OSLogLogHandler: LogHandler {
         set { self.metadata[metadataKey] = newValue }
     }
 
-    func log(event: LogEvent) {
+    // swiftlint:disable:next function_parameter_count
+    func log(
+        level: Logging.Logger.Level,
+        message: Logging.Logger.Message,
+        metadata: Logging.Logger.Metadata?,
+        source _: String,
+        file _: String,
+        function _: String,
+        line _: UInt)
+    {
         let msg = Self.decorate(
-            message: event.message.description,
+            message: message.description,
             label: self.label,
             subsystem: self.subsystem,
             metadata: self.metadata,
-            extraMetadata: event.metadata)
+            extraMetadata: metadata)
 
-        switch event.level {
+        switch level {
         case .trace:
             self.logger.debug("\(msg, privacy: .public)")
         case .debug:

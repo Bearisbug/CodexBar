@@ -3,7 +3,7 @@ import Testing
 
 struct KeychainPromptSafetyAuditTests {
     @Test
-    func `agent instructions forbid keychain prompt validation`() throws {
+    func agent_instructions_forbid_keychain_prompt_validation() throws {
         let agents = try Self.readRepoFile("AGENTS.md")
 
         #expect(agents.contains("Never run tests/checks or ad-hoc validation that can display macOS Keychain prompts"))
@@ -11,7 +11,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `default test runner explicitly suppresses real keychain access`() throws {
+    func default_test_runner_explicitly_suppresses_real_keychain_access() throws {
         let script = try Self.readRepoFile("Scripts/test.sh")
 
         #expect(script.contains("CODEXBAR_ALLOW_TEST_KEYCHAIN_ACCESS"))
@@ -19,7 +19,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `live TTY integration tests are opt in`() throws {
+    func live_TTY_integration_tests_are_opt_in() throws {
         let ttyTests = try Self.readRepoFile("Tests/CodexBarTests/TTYIntegrationTests.swift")
 
         #expect(ttyTests.contains("LIVE_CODEX_TTY"))
@@ -29,7 +29,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `interactive keychain prompt test paths use test doubles`() throws {
+    func interactive_keychain_prompt_test_paths_use_test_doubles() throws {
         let promptLiteral = "allowKeychainPrompt: true"
         let testFiles = try Self.swiftTestFiles(excludingSelf: true)
         let promptCallSites = try testFiles.flatMap { file in
@@ -50,7 +50,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `claude availability tests with keychain enabled use test doubles`() throws {
+    func claude_availability_tests_with_keychain_enabled_use_test_doubles() throws {
         let file = Self.repoRoot().appendingPathComponent(
             "Tests/CodexBarTests/ClaudeOAuthFetchStrategyAvailabilityTests.swift")
         let lines = try Self.lines(in: file)
@@ -78,7 +78,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `availability audit rejects a Claude-only keychain override`() {
+    func availability_audit_rejects_a_Claude_only_keychain_override() {
         let lines: [Substring] = [
             "KeychainAccessGate.withTaskOverrideForTesting(false) {",
             "ClaudeOAuthCredentialsStore.withKeychainAccessOverrideForTesting(true) {",
@@ -91,7 +91,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `availability audit accepts combined cache and Claude keychain doubles`() {
+    func availability_audit_accepts_combined_cache_and_Claude_keychain_doubles() {
         let lines: [Substring] = [
             "KeychainAccessGate.withTaskOverrideForTesting(false) {",
             "self.withAvailabilityKeychainDoubles {",
@@ -104,7 +104,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `prompt audit accepts interactive Claude keychain read double`() {
+    func prompt_audit_accepts_interactive_Claude_keychain_read_double() {
         let lines: [Substring] = [
             "ClaudeOAuthCredentialsStore.withInteractiveClaudeKeychainReadOverridesForTesting(",
             "    operation: {",
@@ -116,7 +116,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `tests do not call Security item APIs except no UI query coverage`() throws {
+    func tests_do_not_call_Security_item_APIs_except_no_UI_query_coverage() throws {
         let securityItemCalls = ["SecItemCopyMatching", "SecItemUpdate", "SecItemAdd", "SecItemDelete"]
         let offenders = try Self.swiftTestFiles().filter { file in
             let text = try Self.readFile(file)
@@ -129,7 +129,7 @@ struct KeychainPromptSafetyAuditTests {
     }
 
     @Test
-    func `production source routes Security item APIs through the test safety gateway`() throws {
+    func production_source_routes_Security_item_APIs_through_the_test_safety_gateway() throws {
         let securityItemCalls = ["SecItemCopyMatching", "SecItemUpdate", "SecItemAdd", "SecItemDelete"]
         let offenders = try Self.swiftFiles(
             under: Self.repoRoot().appendingPathComponent("Sources", isDirectory: true))

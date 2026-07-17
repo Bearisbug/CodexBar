@@ -5,7 +5,7 @@ import Testing
 
 struct MenuBarMetricWindowResolverTests {
     @Test
-    func `gemini metrics fall back to Flash when Pro is unavailable`() {
+    func gemini_metrics_fall_back_to_Flash_when_Pro_is_unavailable() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: RateWindow(usedPercent: 95, windowMinutes: 1440, resetsAt: nil, resetDescription: nil),
@@ -24,7 +24,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses zai 5-hour token lane when it is most constrained`() {
+    func automatic_metric_uses_zai_5_hour_token_lane_when_it_is_most_constrained() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 10, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -41,7 +41,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses minimax weekly token lane when it is most constrained`() {
+    func automatic_metric_uses_minimax_weekly_token_lane_when_it_is_most_constrained() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 0, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 97, windowMinutes: 7 * 24 * 60, resetsAt: nil, resetDescription: nil),
@@ -58,7 +58,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `combined primary and secondary metric uses the most constrained lane`() {
+    func combined_primary_and_secondary_metric_uses_the_most_constrained_lane() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 91, windowMinutes: 7 * 24 * 60, resetsAt: nil, resetDescription: nil),
@@ -75,7 +75,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric skips exhausted cursor subquota when total remains usable`() {
+    func automatic_metric_skips_exhausted_cursor_subquota_when_total_remains_usable() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 67, windowMinutes: 30 * 24 * 60, resetsAt: nil, resetDescription: "Total"),
             secondary: RateWindow(
@@ -97,7 +97,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric still reports cursor exhausted when every subquota is exhausted`() {
+    func automatic_metric_still_reports_cursor_exhausted_when_every_subquota_is_exhausted() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(
                 usedPercent: 100,
@@ -122,7 +122,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric keeps exhausted cursor total when a subquota remains usable`() {
+    func automatic_metric_keeps_exhausted_cursor_total_when_a_subquota_remains_usable() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(
                 usedPercent: 100,
@@ -148,7 +148,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric reports cursor exhausted when all present subquotas are exhausted`() {
+    func automatic_metric_reports_cursor_exhausted_when_all_present_subquotas_are_exhausted() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 67, windowMinutes: 30 * 24 * 60, resetsAt: nil, resetDescription: "Total"),
             secondary: RateWindow(
@@ -169,7 +169,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric preserves exhausted minimax session lane`() {
+    func automatic_metric_preserves_exhausted_minimax_session_lane() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 100, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 97, windowMinutes: 7 * 24 * 60, resetsAt: nil, resetDescription: nil),
@@ -186,7 +186,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses team budget for team-bound LiteLLM keys`() {
+    func automatic_metric_uses_team_budget_for_team_bound_LiteLLM_keys() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(
                 usedPercent: 10,
@@ -211,7 +211,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses constrained antigravity family lane`() {
+    func automatic_metric_uses_constrained_antigravity_family_lane() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 0, windowMinutes: nil, resetsAt: nil, resetDescription: "Claude"),
             secondary: RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: "Gemini Pro"),
@@ -229,7 +229,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric preserves usable first by default and prioritizes exhausted lane when enabled`() {
+    func automatic_metric_preserves_usable_first_by_default_and_prioritizes_exhausted_lane_when_enabled() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 30, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 67, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
@@ -272,7 +272,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses recognized antigravity gemini pool when claude gpt is reset only`() throws {
+    func automatic_metric_uses_recognized_antigravity_gemini_pool_when_claude_gpt_is_reset_only() throws {
         let resetOnlyReset = Date(timeIntervalSince1970: 1000)
         let exhaustedReset = Date(timeIntervalSince1970: 2000)
         let antigravitySnapshot = AntigravityStatusSnapshot(
@@ -309,7 +309,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses unclassified antigravity compact fallback`() throws {
+    func automatic_metric_uses_unclassified_antigravity_compact_fallback() throws {
         let antigravitySnapshot = AntigravityStatusSnapshot(
             modelQuotas: [
                 AntigravityModelQuota(
@@ -334,7 +334,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric keeps legacy antigravity compact fallback usable first semantics`() {
+    func automatic_metric_keeps_legacy_antigravity_compact_fallback_usable_first_semantics() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -368,7 +368,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `antigravity quota ranking filters unknown and unsupported lanes`() {
+    func antigravity_quota_ranking_filters_unknown_and_unsupported_lanes() {
         let now = Date(timeIntervalSince1970: 100_000)
         let expectedReset = now.addingTimeInterval(120)
         let snapshot = UsageSnapshot(
@@ -420,7 +420,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `antigravity quota ranking breaks usage ties by valid nearest reset`() {
+    func antigravity_quota_ranking_breaks_usage_ties_by_valid_nearest_reset() {
         let now = Date(timeIntervalSince1970: 100_000)
         let nearestFutureReset = now.addingTimeInterval(60)
         let snapshot = UsageSnapshot(
@@ -470,7 +470,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `antigravity quota ranking breaks complete ties by stable row ID`() {
+    func antigravity_quota_ranking_breaks_complete_ties_by_stable_row_ID() {
         let now = Date(timeIntervalSince1970: 100_000)
         let rows = [
             NamedRateWindow(
@@ -506,7 +506,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `antigravity families are blocked only when every understood family has an exhausted lane`() {
+    func antigravity_families_are_blocked_only_when_every_understood_family_has_an_exhausted_lane() {
         let snapshot = Self.antigravitySummarySnapshot(rows: [
             ("gemini-session", 300, 100, true),
             ("gemini-weekly", 10080, 20, true),
@@ -524,7 +524,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `antigravity family blocking accepts underscore cadence delimiters`() {
+    func antigravity_family_blocking_accepts_underscore_cadence_delimiters() {
         let snapshot = Self.antigravitySummarySnapshot(rows: [
             ("gemini_session", 300, 100, true),
             ("gemini_weekly", 10080, 20, true),
@@ -535,7 +535,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `antigravity family blocking accepts limit suffixed cadence`() {
+    func antigravity_family_blocking_accepts_limit_suffixed_cadence() {
         let snapshot = Self.antigravitySummarySnapshot(rows: [
             ("gemini-5h limit", 300, 100, true),
             ("gemini-weekly limit", 10080, 20, true),
@@ -553,7 +553,7 @@ struct MenuBarMetricWindowResolverTests {
         ("gem ini-session", 300, 100.0, true),
         ("invalid-session", 300, Double.nan, true),
     ])
-    func `antigravity family blocking fails open for incomplete summary rows`(
+    func antigravity_family_blocking_fails_open_for_incomplete_summary_rows(
         idSuffix: String,
         windowMinutes: Int,
         usedPercent: Double,
@@ -568,7 +568,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `antigravity family blocking fails open without quota summary rows`() {
+    func antigravity_family_blocking_fails_open_without_quota_summary_rows() {
         let snapshot = UsageSnapshot(primary: nil, secondary: nil, updatedAt: Date())
 
         #expect(!MenuBarMetricWindowResolver.antigravityQuotaSummaryFamiliesAreAllBlocked(snapshot: snapshot))
@@ -596,7 +596,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `explicit antigravity metric keeps requested family lane`() {
+    func explicit_antigravity_metric_keeps_requested_family_lane() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 0, windowMinutes: nil, resetsAt: nil, resetDescription: "Claude"),
             secondary: RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: "Gemini Pro"),
@@ -628,7 +628,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `monthly plan metric selects Mistral subscription window`() {
+    func monthly_plan_metric_selects_Mistral_subscription_window() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -650,7 +650,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `extra usage metric maps provider cost into a menu bar window`() {
+    func extra_usage_metric_maps_provider_cost_into_a_menu_bar_window() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: nil,
@@ -671,7 +671,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses claude enterprise spend limit`() {
+    func automatic_metric_uses_claude_enterprise_spend_limit() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -693,7 +693,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric uses marked claude web spend limit placeholder`() {
+    func automatic_metric_uses_marked_claude_web_spend_limit_placeholder() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(
                 usedPercent: 0,
@@ -720,7 +720,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `combined metric keeps real zero claude session when spend limit exists`() {
+    func combined_metric_keeps_real_zero_claude_session_when_spend_limit_exists() {
         let primary = RateWindow(usedPercent: 0, windowMinutes: 300, resetsAt: nil, resetDescription: nil)
         let snapshot = UsageSnapshot(
             primary: primary,
@@ -743,7 +743,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric keeps real zero claude session when spend limit exists`() {
+    func automatic_metric_keeps_real_zero_claude_session_when_spend_limit_exists() {
         let primary = RateWindow(usedPercent: 0, windowMinutes: 300, resetsAt: nil, resetDescription: nil)
         let snapshot = UsageSnapshot(
             primary: primary,
@@ -766,7 +766,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric keeps claude quota window when extra usage is optional`() {
+    func automatic_metric_keeps_claude_quota_window_when_extra_usage_is_optional() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 42, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
             secondary: nil,
@@ -788,7 +788,7 @@ struct MenuBarMetricWindowResolverTests {
     }
 
     @Test
-    func `automatic metric keeps claude zero quota window when reset exists`() {
+    func automatic_metric_keeps_claude_zero_quota_window_when_reset_exists() {
         let reset = Date(timeIntervalSince1970: 1000)
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 0, windowMinutes: 300, resetsAt: reset, resetDescription: "later"),

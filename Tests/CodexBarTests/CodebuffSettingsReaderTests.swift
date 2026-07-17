@@ -4,14 +4,14 @@ import Testing
 
 struct CodebuffSettingsReaderTests {
     @Test
-    func `api URL defaults to www codebuff com`() {
+    func api_URL_defaults_to_www_codebuff_com() {
         let url = CodebuffSettingsReader.apiURL(environment: [:])
         #expect(url.scheme == "https")
         #expect(url.host() == "www.codebuff.com")
     }
 
     @Test
-    func `api URL honors environment override`() {
+    func api_URL_honors_environment_override() {
         let url = CodebuffSettingsReader.apiURL(environment: [
             "CODEBUFF_API_URL": "https://staging.codebuff.com",
         ])
@@ -19,7 +19,7 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `api key reads from CODEBUFF_API_KEY and trims wrapping whitespace`() {
+    func api_key_reads_from_CODEBUFF_API_KEY_and_trims_wrapping_whitespace() {
         let token = CodebuffSettingsReader.apiKey(environment: [
             CodebuffSettingsReader.apiTokenKey: "  cb-test-token  ",
         ])
@@ -27,7 +27,7 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `api key strips surrounding quotes`() {
+    func api_key_strips_surrounding_quotes() {
         let token = CodebuffSettingsReader.apiKey(environment: [
             CodebuffSettingsReader.apiTokenKey: "\"cb-test-token\"",
         ])
@@ -35,12 +35,12 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `api key returns nil for empty environment`() {
+    func api_key_returns_nil_for_empty_environment() {
         #expect(CodebuffSettingsReader.apiKey(environment: [:]) == nil)
     }
 
     @Test
-    func `auth token parses credentials json`() throws {
+    func auth_token_parses_credentials_json() throws {
         let contents = #"{"authToken":"file-token","fingerprintId":"fp-1","email":"a@b.com"}"#
         let url = try self.writeTempFile(named: "credentials.json", contents: contents)
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
@@ -50,7 +50,7 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `auth token parses default profile credentials json`() throws {
+    func auth_token_parses_default_profile_credentials_json() throws {
         let contents = #"{"default":{"authToken":"default-token","fingerprintId":"fp-1","email":"a@b.com"}}"#
         let url = try self.writeTempFile(named: "credentials.json", contents: contents)
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
@@ -60,7 +60,7 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `auth token returns nil for malformed credentials json`() throws {
+    func auth_token_returns_nil_for_malformed_credentials_json() throws {
         let url = try self.writeTempFile(named: "credentials.json", contents: "{not-json}")
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
 
@@ -69,7 +69,7 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `auth token returns nil when file missing`() {
+    func auth_token_returns_nil_when_file_missing() {
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
             .appendingPathComponent("credentials.json", isDirectory: false)
@@ -77,7 +77,7 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `descriptor uses codebuff dashboard URL`() {
+    func descriptor_uses_codebuff_dashboard_URL() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .codebuff)
         #expect(descriptor.metadata.dashboardURL == "https://www.codebuff.com/usage")
         #expect(descriptor.metadata.displayName == "Codebuff")
@@ -85,13 +85,13 @@ struct CodebuffSettingsReaderTests {
     }
 
     @Test
-    func `descriptor uses dedicated codebuff icon resource`() {
+    func descriptor_uses_dedicated_codebuff_icon_resource() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .codebuff)
         #expect(descriptor.branding.iconResourceName == "ProviderIcon-codebuff")
     }
 
     @Test
-    func `descriptor supports auto and API source modes`() {
+    func descriptor_supports_auto_and_API_source_modes() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .codebuff)
         let expected: Set<ProviderSourceMode> = [.auto, .api]
         #expect(descriptor.fetchPlan.sourceModes == expected)

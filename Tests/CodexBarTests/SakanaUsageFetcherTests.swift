@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct SakanaUsageFetcherTests {
     @Test
-    func `billing html maps five hour and weekly windows`() throws {
+    func billing_html_maps_five_hour_and_weekly_windows() throws {
         let now = Date(timeIntervalSince1970: 1_782_222_000)
         let usage = try SakanaUsageFetcher.parseBillingHTML(
             Self.billingHTML,
@@ -28,7 +28,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `fetch sends normalized cookie header to billing endpoint`() async throws {
+    func fetch_sends_normalized_cookie_header_to_billing_endpoint() async throws {
         let transport = SakanaScriptedTransport(statusCode: 200, body: Self.billingHTML)
 
         let snapshot = try await SakanaUsageFetcher.fetchUsage(
@@ -46,7 +46,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `fetches pay as you go concurrently and merges the credit balance`() async throws {
+    func fetches_pay_as_you_go_concurrently_and_merges_the_credit_balance() async throws {
         let transport = SakanaScriptedTransport(
             statusCode: 200,
             body: Self.billingHTML,
@@ -74,7 +74,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `quick pay as you go response can finish after primary within the shared budget`() async throws {
+    func quick_pay_as_you_go_response_can_finish_after_primary_within_the_shared_budget() async throws {
         let transport = SakanaScriptedTransport(
             statusCode: 200,
             body: Self.billingHTML,
@@ -93,7 +93,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `fetch skips the pay as you go request entirely when optional usage is disabled`() async throws {
+    func fetch_skips_the_pay_as_you_go_request_entirely_when_optional_usage_is_disabled() async throws {
         let transport = SakanaScriptedTransport(
             statusCode: 200,
             body: Self.billingHTML,
@@ -117,7 +117,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `pay as you go bounded fetch does not wait for an operation that ignores cancellation`() async throws {
+    func pay_as_you_go_bounded_fetch_does_not_wait_for_an_operation_that_ignores_cancellation() async throws {
         let startedAt = ContinuousClock.now
 
         let fetched = await SakanaUsageFetcher._boundedFetchPayAsYouGoForTesting(timeout: .milliseconds(20)) {
@@ -136,7 +136,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `fetch tolerates a failing pay as you go request without failing the primary fetch`() async throws {
+    func fetch_tolerates_a_failing_pay_as_you_go_request_without_failing_the_primary_fetch() async throws {
         // Default response is a 500; only the primary billing URL is overridden to succeed, so the
         // pay-as-you-go request (not present in the override map) falls through to that failure.
         let transport = SakanaScriptedTransport(
@@ -156,7 +156,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `slow pay as you go request never delays the primary quota result`() async throws {
+    func slow_pay_as_you_go_request_never_delays_the_primary_quota_result() async throws {
         let transport = SakanaScriptedTransport(
             statusCode: 200,
             body: Self.billingHTML,
@@ -179,7 +179,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `required fetch failure cancels the concurrent pay as you go request`() async throws {
+    func required_fetch_failure_cancels_the_concurrent_pay_as_you_go_request() async throws {
         let transport = SakanaScriptedTransport(
             statusCode: 401,
             body: "expired",
@@ -199,7 +199,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `fetch rejects cross origin login redirect`() async throws {
+    func fetch_rejects_cross_origin_login_redirect() async throws {
         let transport = try SakanaScriptedTransport(
             statusCode: 200,
             body: Self.billingHTML,
@@ -213,7 +213,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `fetch classifies blocked login redirect as login required`() async throws {
+    func fetch_classifies_blocked_login_redirect_as_login_required() async throws {
         let transport = try SakanaScriptedTransport(
             statusCode: 302,
             body: "",
@@ -227,7 +227,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `fetch does not expose error response body`() async {
+    func fetch_does_not_expose_error_response_body() async {
         let transport = SakanaScriptedTransport(statusCode: 500, body: "private account response")
 
         await #expect(throws: SakanaUsageError.apiError(500)) {
@@ -238,14 +238,14 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `missing usage windows throws parse error`() {
+    func missing_usage_windows_throws_parse_error() {
         #expect(throws: SakanaUsageError.parseFailed("Usage limit windows were not found.")) {
             _ = try SakanaUsageFetcher.parseBillingHTML("<main>Billing</main>")
         }
     }
 
     @Test
-    func `out of range percentages are rejected`() {
+    func out_of_range_percentages_are_rejected() {
         let html = Self.billingHTML
             .replacing("92% used", with: "101% used")
             .replacing("32% used", with: "999% used")
@@ -256,7 +256,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `invalid primary percentage rejects otherwise valid weekly response`() {
+    func invalid_primary_percentage_rejects_otherwise_valid_weekly_response() {
         let html = Self.billingHTML.replacing("92% used", with: "101% used")
 
         #expect(throws: SakanaUsageError.parseFailed("Invalid 5-hour usage percentage.")) {
@@ -265,7 +265,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `unparsed reset date does not become reset description`() throws {
+    func unparsed_reset_date_does_not_become_reset_description() throws {
         let usage = try SakanaUsageFetcher.parseBillingHTML(
             Self.billingHTML.replacing("June 23, 2026 at 2:53 PM", with: "soon-ish")).toUsageSnapshot()
 
@@ -275,7 +275,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `window without reset line still maps percent`() throws {
+    func window_without_reset_line_still_maps_percent() throws {
         let html = Self.billingHTML.replacing(
             "<p class=\"text-muted-foreground text-xs tabular-nums\">Resets on June 23, 2026 at 2:53 PM</p>",
             with: "")
@@ -290,7 +290,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `missing window percent rejects response without reading next quota window`() {
+    func missing_window_percent_rejects_response_without_reading_next_quota_window() {
         let html = Self.billingHTML.replacing(
             "<p class=\"text-muted-foreground text-sm\">92% used</p>",
             with: "")
@@ -301,7 +301,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `reset date is parsed as UTC regardless of the device's local timezone`() throws {
+    func reset_date_is_parsed_as_UTC_regardless_of_the_device_s_local_timezone() throws {
         // The console always server-renders "Resets on <date>" in UTC (the client corrects it to
         // the viewer's local time only after JS hydration, which this HTML-only fetcher never
         // runs). Regression coverage for steipete/CodexBar#1826: force the process default far
@@ -320,7 +320,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `pay as you go html maps credit balance usage total and date range label`() {
+    func pay_as_you_go_html_maps_credit_balance_usage_total_and_date_range_label() {
         let usage = SakanaUsageFetcher.parsePayAsYouGoHTML(Self.payAsYouGoHTML)
 
         #expect(usage?.creditBalance == 12.34)
@@ -330,7 +330,7 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `pay as you go html without usage total still maps credit balance`() {
+    func pay_as_you_go_html_without_usage_total_still_maps_credit_balance() {
         let html = Self.payAsYouGoHTML.replacing(
             "<span class=\"text-muted-foreground text-sm\">Total<!-- -->: <!-- -->$5.67</span>",
             with: "")
@@ -342,12 +342,12 @@ struct SakanaUsageFetcherTests {
     }
 
     @Test
-    func `billing html without a pay as you go tab returns nil`() {
+    func billing_html_without_a_pay_as_you_go_tab_returns_nil() {
         #expect(SakanaUsageFetcher.parsePayAsYouGoHTML(Self.billingHTML) == nil)
     }
 
     @Test
-    func `sakana usage snapshot carries pay as you go through to the usage snapshot mapping`() {
+    func sakana_usage_snapshot_carries_pay_as_you_go_through_to_the_usage_snapshot_mapping() {
         let payAsYouGo = SakanaPayAsYouGoSnapshot(creditBalance: 9, periodUsageTotal: 1.5, periodLabel: "Last 30 days")
         let snapshot = SakanaUsageSnapshot(
             planName: "Standard",

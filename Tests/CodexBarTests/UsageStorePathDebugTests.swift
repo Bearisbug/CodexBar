@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct UsageStorePathDebugTests {
     @Test
-    func `refresh path debug info populates snapshot`() async throws {
+    func refresh_path_debug_info_populates_snapshot() async throws {
         let suite = "UsageStorePathDebugTests-path"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -31,7 +31,7 @@ struct UsageStorePathDebugTests {
     }
 
     @Test
-    func `deepseek debug log includes selected token account`() async throws {
+    func deepseek_debug_log_includes_selected_token_account() async throws {
         let suite = "UsageStorePathDebugTests-deepseek-debug-token-account"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -54,7 +54,7 @@ struct UsageStorePathDebugTests {
     }
 
     @Test
-    func `crossmodel debug log includes config backed api key`() async throws {
+    func crossmodel_debug_log_includes_config_backed_api_key() async throws {
         let suite = "UsageStorePathDebugTests-crossmodel-debug-config-key"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

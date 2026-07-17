@@ -13,7 +13,7 @@ struct OpenAIDashboardSparkTests {
     }
 
     @Test
-    func `dashboard api data maps additional spark limit into extra windows`() throws {
+    func dashboard_api_data_maps_additional_spark_limit_into_extra_windows() throws {
         let json = """
         {
           "plan_type": "pro",
@@ -56,7 +56,7 @@ struct OpenAIDashboardSparkTests {
     }
 
     @Test
-    func `dashboard api data has empty extra windows when additional limits are absent`() throws {
+    func dashboard_api_data_has_empty_extra_windows_when_additional_limits_are_absent() throws {
         let json = """
         {
           "rate_limit": {
@@ -71,7 +71,7 @@ struct OpenAIDashboardSparkTests {
     }
 
     @Test
-    func `dashboard api data tolerates non array additional limits while keeping primary`() throws {
+    func dashboard_api_data_tolerates_non_array_additional_limits_while_keeping_primary() throws {
         let json = """
         {
           "rate_limit": {
@@ -87,7 +87,7 @@ struct OpenAIDashboardSparkTests {
     }
 
     @Test
-    func `dashboard api data keeps valid spark when a malformed sibling is present`() throws {
+    func dashboard_api_data_keeps_valid_spark_when_a_malformed_sibling_is_present() throws {
         // Lossy per-element decode (shared with the OAuth path via CodexUsageResponse) means a single
         // malformed entry cannot discard its valid siblings.
         let json = """
@@ -117,7 +117,7 @@ struct OpenAIDashboardSparkTests {
     }
 
     @Test
-    func `dashboard snapshot exposes extra rate windows via to usage snapshot`() throws {
+    func dashboard_snapshot_exposes_extra_rate_windows_via_to_usage_snapshot() throws {
         let now = Date(timeIntervalSince1970: 1_766_948_000)
         let snapshot = OpenAIDashboardSnapshot(
             signedInEmail: "codex@example.com",
@@ -168,7 +168,7 @@ struct OpenAIDashboardSparkTests {
     }
 
     @Test
-    func `dashboard snapshot codable round trips extra rate windows`() throws {
+    func dashboard_snapshot_codable_round_trips_extra_rate_windows() throws {
         let now = Date(timeIntervalSince1970: 1_766_948_000)
         let snapshot = OpenAIDashboardSnapshot(
             signedInEmail: nil,
@@ -210,7 +210,7 @@ struct OpenAIDashboardSparkTests {
     }
 
     @Test
-    func `dashboard snapshot decoder preserves absence of extra rate windows`() throws {
+    func dashboard_snapshot_decoder_preserves_absence_of_extra_rate_windows() throws {
         // Older cached snapshots predate the field; decoding such payloads must yield nil and never
         // throw, so existing dashboard caches keep working.
         let json = """

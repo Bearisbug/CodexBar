@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CodexAccountsSectionStateTests {
     @Test
-    func `system badge shows for merged live row`() {
+    func system_badge_shows_for_merged_live_row() {
         let accountID = UUID()
         let mergedLiveAccount = CodexVisibleAccount(
             id: "merged@example.com",
@@ -33,7 +33,7 @@ struct CodexAccountsSectionStateTests {
     }
 
     @Test
-    func `system promotion availability uses live visible account and stored account id`() {
+    func system_promotion_availability_uses_live_visible_account_and_stored_account_id() {
         let managedAccountID = UUID()
         let liveAccount = CodexVisibleAccount(
             id: "live@example.com",
@@ -70,7 +70,7 @@ struct CodexAccountsSectionStateTests {
     }
 
     @Test
-    func `system promotion controls disable while conflicting work is running`() {
+    func system_promotion_controls_disable_while_conflicting_work_is_running() {
         let managedAccountID = UUID()
         let liveAccount = CodexVisibleAccount(
             id: "live@example.com",
@@ -107,7 +107,7 @@ struct CodexAccountsSectionStateTests {
     }
 
     @Test
-    func `system display does not fall back when no live account exists`() {
+    func system_display_does_not_fall_back_when_no_live_account_exists() {
         let managedAccountID = UUID()
         let managedAccount = CodexVisibleAccount(
             id: "managed:\(managedAccountID.uuidString.lowercased())",
@@ -136,7 +136,7 @@ struct CodexAccountsSectionStateTests {
     }
 
     @Test
-    func `remove in flight blocks add reauth and remove actions`() {
+    func remove_in_flight_blocks_add_reauth_and_remove_actions() {
         let managedAccountID = UUID()
         let managedAccount = CodexVisibleAccount(
             id: "managed:\(managedAccountID.uuidString.lowercased())",
@@ -165,7 +165,7 @@ struct CodexAccountsSectionStateTests {
     }
 
     @Test
-    func `promotion in flight blocks add reauth and remove actions`() {
+    func promotion_in_flight_blocks_add_reauth_and_remove_actions() {
         let managedAccountID = UUID()
         let managedAccount = CodexVisibleAccount(
             id: "managed:\(managedAccountID.uuidString.lowercased())",

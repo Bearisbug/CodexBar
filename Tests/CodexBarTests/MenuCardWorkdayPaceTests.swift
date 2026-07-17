@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardWorkdayPaceTests {
     @Test
-    func `codex weekly lane hides exhausted pace before first configured workday`() throws {
+    func codex_weekly_lane_hides_exhausted_pace_before_first_configured_workday() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = .current
         let now = try #require(calendar.date(from: DateComponents(

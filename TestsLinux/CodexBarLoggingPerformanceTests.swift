@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CodexBarLoggingPerformanceTests {
     @Test
-    func `filtered log messages are not evaluated`() {
+    func filtered_log_messages_are_not_evaluated() {
         let probe = LogEvaluationProbe()
         let logger = CodexBarLogger(minimumLevel: .info) { _, message, _ in
             probe.loggedMessages.append(message)
@@ -23,7 +23,7 @@ struct CodexBarLoggingPerformanceTests {
     }
 
     @Test
-    func `disabled file logging does not format metadata`() {
+    func disabled_file_logging_does_not_format_metadata() {
         let sink = FileLogSink()
         var handler = FileLogHandler(label: "test", sink: sink)
         let probe = LogEvaluationProbe()
@@ -31,27 +31,27 @@ struct CodexBarLoggingPerformanceTests {
             probe.evaluations += 1
         })
 
-        handler.log(event: LogEvent(
+        handler.log(
             level: .info,
             message: "hello",
             metadata: nil,
             source: "test",
             file: #filePath,
             function: #function,
-            line: #line))
+            line: #line)
 
         #expect(probe.evaluations == 0)
     }
 
     @Test
-    func `redactor leaves ordinary log lines unchanged`() {
+    func redactor_leaves_ordinary_log_lines_unchanged() {
         let line = "CodexBar starting version=1.2.3 build=456"
 
         #expect(LogRedactor.redact(line) == line)
     }
 
     @Test
-    func `redactor still redacts sensitive log lines`() {
+    func redactor_still_redacts_sensitive_log_lines() {
         let line = "Authorization: Bearer secret-token\nContact: user@example.com"
         let redacted = LogRedactor.redact(line)
 

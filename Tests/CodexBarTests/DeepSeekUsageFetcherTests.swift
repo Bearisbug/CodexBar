@@ -134,7 +134,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `parses USD balance response`() throws {
+    func parses_USD_balance_response() throws {
         let json = """
         {
           "is_available": true,
@@ -157,7 +157,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `parses paid and granted balances from Platform session summary`() throws {
+    func parses_paid_and_granted_balances_from_Platform_session_summary() throws {
         let json = """
         {
           "code": 0,
@@ -186,7 +186,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `Platform session summary rejects malformed balance`() {
+    func Platform_session_summary_rejects_malformed_balance() {
         let json = """
         {
           "code": 0,
@@ -206,7 +206,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `Platform session summary maps top level auth envelopes before decoding data`() {
+    func Platform_session_summary_maps_top_level_auth_envelopes_before_decoding_data() {
         let json = """
         {
           "code": 40003,
@@ -214,15 +214,19 @@ struct DeepSeekUsageFetcherTests {
         }
         """
 
-        #expect {
+        do {
             try DeepSeekUsageFetcher._parsePlatformBalanceForTesting(Data(json.utf8))
-        } throws: { error in
-            error as? DeepSeekUsageError == .invalidPlatformToken
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? DeepSeekUsageError == .invalidPlatformToken
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `Platform session summary maps nested auth envelopes before decoding wallets`() {
+    func Platform_session_summary_maps_nested_auth_envelopes_before_decoding_wallets() {
         let json = """
         {
           "code": 0,
@@ -233,15 +237,19 @@ struct DeepSeekUsageFetcherTests {
         }
         """
 
-        #expect {
+        do {
             try DeepSeekUsageFetcher._parsePlatformBalanceForTesting(Data(json.utf8))
-        } throws: { error in
-            error as? DeepSeekUsageError == .invalidPlatformToken
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? DeepSeekUsageError == .invalidPlatformToken
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `parses CNY balance response`() throws {
+    func parses_CNY_balance_response() throws {
         let json = """
         {
           "is_available": true,
@@ -262,7 +270,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `prefers USD when both currencies present`() throws {
+    func prefers_USD_when_both_currencies_present() throws {
         let json = """
         {
           "is_available": true,
@@ -288,7 +296,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `prefers positive CNY balance over empty USD balance`() throws {
+    func prefers_positive_CNY_balance_over_empty_USD_balance() throws {
         let json = """
         {
           "is_available": true,
@@ -317,7 +325,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `zero balance prompts top up even when unavailable`() throws {
+    func zero_balance_prompts_top_up_even_when_unavailable() throws {
         let json = """
         {
           "is_available": false,
@@ -340,7 +348,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `full bar when balance available`() throws {
+    func full_bar_when_balance_available() throws {
         let json = """
         {
           "is_available": true,
@@ -362,7 +370,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `throws on malformed balance string`() {
+    func throws_on_malformed_balance_string() {
         let json = """
         {
           "is_available": true,
@@ -376,16 +384,20 @@ struct DeepSeekUsageFetcherTests {
           ]
         }
         """
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseSnapshotForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case DeepSeekUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case DeepSeekUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `empty balance_infos returns unavailable snapshot`() throws {
+    func empty_balance_infos_returns_unavailable_snapshot() throws {
         let json = """
         {
           "is_available": true,
@@ -398,18 +410,22 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `throws on invalid JSON root`() {
+    func throws_on_invalid_JSON_root() {
         let json = "[{ \"is_available\": true }]"
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseSnapshotForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case DeepSeekUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case DeepSeekUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `balance description includes paid and granted breakdown`() throws {
+    func balance_description_includes_paid_and_granted_breakdown() throws {
         let json = """
         {
           "is_available": true,
@@ -432,7 +448,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `CNY balance uses yen symbol`() throws {
+    func CNY_balance_uses_yen_symbol() throws {
         let json = """
         {
           "is_available": true,
@@ -453,7 +469,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `balance snapshot has nil usage summary`() throws {
+    func balance_snapshot_has_nil_usage_summary() throws {
         let json = """
         {
           "is_available": true,
@@ -473,7 +489,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `usage amount and cost fetch concurrently`() async throws {
+    func usage_amount_and_cost_fetch_concurrently() async throws {
         let gate = ConcurrentFetchGate()
         let payloads = try await Self.withTimeout(.seconds(1)) {
             try await DeepSeekUsageFetcher._fetchUsagePayloadsForTesting(
@@ -492,7 +508,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `balance returns promptly when optional usage summary is slow`() async throws {
+    func balance_returns_promptly_when_optional_usage_summary_is_slow() async throws {
         let probe = SummaryCancellationProbe()
         let snapshot = try await Self.withTimeout(.seconds(10)) {
             try await DeepSeekUsageFetcher._fetchUsageForTesting(
@@ -521,7 +537,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `balance grace does not wait for optional summary that ignores cancellation`() async throws {
+    func balance_grace_does_not_wait_for_optional_summary_that_ignores_cancellation() async throws {
         let startedAt = ContinuousClock.now
         let snapshot = try await DeepSeekUsageFetcher._fetchUsageForTesting(
             apiKey: "test-key",
@@ -549,7 +565,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `balance returns when optional usage summary fails closed`() async throws {
+    func balance_returns_when_optional_usage_summary_fails_closed() async throws {
         let snapshot = try await DeepSeekUsageFetcher._fetchUsageForTesting(
             apiKey: "test-key",
             platformToken: "platform-token",
@@ -567,7 +583,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `Platform balance returns when optional usage summary fails`() async throws {
+    func Platform_balance_returns_when_optional_usage_summary_fails() async throws {
         let snapshot = try await DeepSeekUsageFetcher._fetchPlatformUsageForTesting(
             includeOptionalUsage: true,
             optionalSummaryJoinGrace: .seconds(2),
@@ -590,7 +606,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `Platform balance skips detailed endpoints when optional usage is disabled`() async throws {
+    func Platform_balance_skips_detailed_endpoints_when_optional_usage_is_disabled() async throws {
         let counter = SummaryCallCounter()
         let snapshot = try await DeepSeekUsageFetcher._fetchPlatformUsageForTesting(
             includeOptionalUsage: false,
@@ -615,7 +631,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `cancels optional usage summary when balance fetch fails`() async throws {
+    func cancels_optional_usage_summary_when_balance_fetch_fails() async throws {
         let probe = SummaryCancellationProbe()
 
         do {
@@ -645,7 +661,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `cancels optional usage summary when balance parsing fails`() async throws {
+    func cancels_optional_usage_summary_when_balance_parsing_fails() async throws {
         let probe = SummaryCancellationProbe()
 
         do {
@@ -675,7 +691,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `parent cancellation propagates while waiting for optional usage summary`() async throws {
+    func parent_cancellation_propagates_while_waiting_for_optional_usage_summary() async throws {
         let probe = SummaryCancellationProbe()
         let task = Task {
             try await DeepSeekUsageFetcher._fetchUsageForTesting(
@@ -712,7 +728,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `parent cancellation stops summary while balance transport ignores cancellation`() async throws {
+    func parent_cancellation_stops_summary_while_balance_transport_ignores_cancellation() async throws {
         let balanceStarted = AsyncStream<Void>.makeStream(of: Void.self)
         let probe = SummaryCancellationProbe()
         let task = Task {
@@ -755,7 +771,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `usage period defaults to Gregorian API calendar`() throws {
+    func usage_period_defaults_to_Gregorian_API_calendar() throws {
         let date = try #require(Self.utcDate(year: 2026, month: 5, day: 26))
         let period = try DeepSeekUsageFetcher._apiUsagePeriodForTesting(now: date)
 
@@ -764,7 +780,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `usage period supports injected test calendar`() throws {
+    func usage_period_supports_injected_test_calendar() throws {
         var calendar = Calendar(identifier: .buddhist)
         calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .gmt
         let date = try #require(Self.utcDate(year: 2026, month: 5, day: 26))
@@ -775,7 +791,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `production path can populate usage summary when optional fetch succeeds`() async throws {
+    func production_path_can_populate_usage_summary_when_optional_fetch_succeeds() async throws {
         let expected = Self.sampleSummary()
         let snapshot = try await DeepSeekUsageFetcher._fetchUsageForTesting(
             apiKey: "test-key",
@@ -795,7 +811,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `API key alone reports that a web session is required`() async throws {
+    func API_key_alone_reports_that_a_web_session_is_required() async throws {
         let summaryCalls = SummaryCallCounter()
         let snapshot = try await DeepSeekUsageFetcher._fetchUsageForTesting(
             apiKey: "test-key",
@@ -817,7 +833,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `platform token is separate from the balance API key`() async throws {
+    func platform_token_is_separate_from_the_balance_API_key() async throws {
         let snapshot = try await DeepSeekUsageFetcher._fetchUsageForTesting(
             apiKey: "balance-api-key",
             platformToken: "browser-user-token",
@@ -837,7 +853,7 @@ struct DeepSeekUsageFetcherTests {
     }
 
     @Test
-    func `invalid platform token preserves balance and requests sign in`() async throws {
+    func invalid_platform_token_preserves_balance_and_requests_sign_in() async throws {
         let snapshot = try await DeepSeekUsageFetcher._fetchUsageForTesting(
             apiKey: "balance-api-key",
             platformToken: "expired-browser-token",

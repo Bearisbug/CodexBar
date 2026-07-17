@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct BedrockSettingsFlowTests {
     @Test
-    func `settings store maps Bedrock credentials into provider environment`() throws {
+    func settings_store_maps_Bedrock_credentials_into_provider_environment() throws {
         let suite = "BedrockSettingsFlowTests-settings-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -45,7 +45,7 @@ struct BedrockSettingsFlowTests {
     }
 
     @Test
-    func `bedrock availability requires secret access key`() throws {
+    func bedrock_availability_requires_secret_access_key() throws {
         let suite = "BedrockSettingsFlowTests-missing-secret-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -72,7 +72,7 @@ struct BedrockSettingsFlowTests {
     }
 
     @Test
-    func `profile mode maps profile into provider environment and is available`() throws {
+    func profile_mode_maps_profile_into_provider_environment_and_is_available() throws {
         let suite = "BedrockSettingsFlowTests-profile-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

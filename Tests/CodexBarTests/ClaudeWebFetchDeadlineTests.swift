@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeWebFetchDeadlineTests {
     @Test
-    func `CLI auto descriptor defers browser probe and falls back after web deadline`() async throws {
+    func CLI_auto_descriptor_defers_browser_probe_and_falls_back_after_web_deadline() async throws {
         let planningProbe = ClaudeWebPlanningAvailabilityProbe()
         let webProbe = ClaudeWebDeadlineProbe()
         let cliPath = try Self.makeLoggedInClaudeCLI()
@@ -46,7 +46,7 @@ struct ClaudeWebFetchDeadlineTests {
     }
 
     @Test
-    func `stalled app auto browser probe does not delay CLI success`() async throws {
+    func stalled_app_auto_browser_probe_does_not_delay_CLI_success() async throws {
         let planningProbe = ClaudeWebPlanningAvailabilityProbe()
         let cliPath = try Self.makeLoggedInClaudeCLI()
         defer { try? FileManager.default.removeItem(atPath: cliPath) }
@@ -94,7 +94,7 @@ struct ClaudeWebFetchDeadlineTests {
     }
 
     @Test
-    func `caller cancellation during deferred app auto browser probe stops web fallback`() async {
+    func caller_cancellation_during_deferred_app_auto_browser_probe_stops_web_fallback() async {
         let planningProbe = ClaudeWebPlanningAvailabilityProbe()
         let webFetchProbe = ClaudeWebPlanningAvailabilityProbe()
         let context = Self.makeContext(
@@ -155,7 +155,7 @@ struct ClaudeWebFetchDeadlineTests {
     }
 
     @Test
-    func `app auto availability and fetch share one web deadline`() async {
+    func app_auto_availability_and_fetch_share_one_web_deadline() async {
         let deadlineClock = ClaudeWebDeadlineClock()
         let usageProbe = ClaudeWebDeadlineProbe()
         let context = Self.makeContext(
@@ -198,7 +198,7 @@ struct ClaudeWebFetchDeadlineTests {
     }
 
     @Test
-    func `CLI auto timeout cancels web and falls back to CLI`() async throws {
+    func CLI_auto_timeout_cancels_web_and_falls_back_to_CLI() async throws {
         let probe = ClaudeWebDeadlineProbe()
         let web = Self.makeTimedOutWebStrategy(probe: probe)
         let pipeline = ProviderFetchPipeline { _ in [web, ClaudeWebDeadlineCLIStrategy()] }
@@ -214,7 +214,7 @@ struct ClaudeWebFetchDeadlineTests {
     }
 
     @Test
-    func `explicit web timeout surfaces without CLI fallback`() async {
+    func explicit_web_timeout_surfaces_without_CLI_fallback() async {
         let probe = ClaudeWebDeadlineProbe()
         let web = Self.makeTimedOutWebStrategy(probe: probe)
         let pipeline = ProviderFetchPipeline { _ in [web, ClaudeWebDeadlineCLIStrategy()] }
@@ -233,7 +233,7 @@ struct ClaudeWebFetchDeadlineTests {
     }
 
     @Test
-    func `caller cancellation does not fall back to CLI`() async {
+    func caller_cancellation_does_not_fall_back_to_CLI() async {
         let probe = ClaudeWebDeadlineProbe()
         let web = Self.makeTimedOutWebStrategy(probe: probe)
         let pipeline = ProviderFetchPipeline { _ in [web, ClaudeWebDeadlineCLIStrategy()] }
@@ -257,7 +257,7 @@ struct ClaudeWebFetchDeadlineTests {
     }
 
     @Test
-    func `unsafe timeout is rejected before starting web work`() async {
+    func unsafe_timeout_is_rejected_before_starting_web_work() async {
         let strategy = ClaudeWebFetchStrategy(
             browserDetection: BrowserDetection(cacheTTL: 0),
             usageLoader: { _ in

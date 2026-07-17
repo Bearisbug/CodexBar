@@ -4,7 +4,7 @@ import Testing
 
 struct GroqUsageFetcherTests {
     @Test
-    func `parses prometheus scalar response`() throws {
+    func parses_prometheus_scalar_response() throws {
         let json = """
         {
           "status": "success",
@@ -23,7 +23,7 @@ struct GroqUsageFetcherTests {
     }
 
     @Test
-    func `snapshot maps prometheus rates to menu windows`() {
+    func snapshot_maps_prometheus_rates_to_menu_windows() {
         let snapshot = GroqUsageSnapshot(
             requestRatePerSecond: 2,
             inputTokenRatePerSecond: 100,

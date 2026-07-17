@@ -8,7 +8,7 @@ struct AuggieCLIProbeParseTests {
     private let probe = AuggieCLIProbe()
 
     @Test
-    func `parses current auggie account status output`() throws {
+    func parses_current_auggie_account_status_output() throws {
         let output = """
         ╭ Account ───────────────────────────────────────────────╮
         │                                                        │
@@ -31,7 +31,7 @@ struct AuggieCLIProbeParseTests {
     }
 
     @Test
-    func `parses legacy auggie account status output`() throws {
+    func parses_legacy_auggie_account_status_output() throws {
         let output = """
         Max Plan 450,000 credits / month
         11,657 remaining · 953,170 / 964,827 credits used

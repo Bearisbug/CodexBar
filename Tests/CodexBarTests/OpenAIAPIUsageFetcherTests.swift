@@ -4,7 +4,7 @@ import Testing
 
 struct OpenAIAPIUsageFetcherTests {
     @Test
-    func `parses admin costs and completions usage into daily summaries`() throws {
+    func parses_admin_costs_and_completions_usage_into_daily_summaries() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let costs = """
         {
@@ -112,7 +112,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test(arguments: ["NaN", "Infinity", "-Infinity", "1e309", "-1e309"])
-    func `rejects nonfinite cost strings`(value: String) {
+    func rejects_nonfinite_cost_strings(value: String) {
         let costs = """
         {
           "data": [{
@@ -144,7 +144,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage fetch pages long history within endpoint bucket limit`() async throws {
+    func admin_usage_fetch_pages_long_history_within_endpoint_bucket_limit() async throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let emptyPage = Data(#"{"object":"page","data":[],"has_more":false,"next_page":null}"#.utf8)
         let transport = ProviderHTTPTransportStub { request in
@@ -180,7 +180,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage filters costs and completions by project`() async throws {
+    func admin_usage_filters_costs_and_completions_by_project() async throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let emptyPage = Data(#"{"object":"page","data":[],"has_more":false,"next_page":null}"#.utf8)
         let transport = ProviderHTTPTransportStub { request in
@@ -223,7 +223,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage follows costs and completions pagination cursors`() async throws {
+    func admin_usage_follows_costs_and_completions_pagination_cursors() async throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let transport = OpenAIAdminUsagePaginationScript()
 
@@ -254,7 +254,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage rejects repeated pagination cursor`() async throws {
+    func admin_usage_rejects_repeated_pagination_cursor() async throws {
         let transport = OpenAIAdminUsageRepeatingCursorScript()
 
         await #expect(throws: OpenAIAPIUsageError.parseFailed(
@@ -272,7 +272,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage rejects missing pagination cursor`() async throws {
+    func admin_usage_rejects_missing_pagination_cursor() async throws {
         let transport = OpenAIAdminUsageMissingCursorScript()
 
         await #expect(throws: OpenAIAPIUsageError.parseFailed(
@@ -290,7 +290,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage rejects page without costs data`() async throws {
+    func admin_usage_rejects_page_without_costs_data() async throws {
         let transport = OpenAIAdminUsageMalformedPageScript(
             costs: #"{"object":"page","has_more":false,"next_page":null}"#,
             completions: #"{"object":"page","data":[],"has_more":false,"next_page":null}"#)
@@ -317,7 +317,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage rejects page without completions pagination state`() async throws {
+    func admin_usage_rejects_page_without_completions_pagination_state() async throws {
         let transport = OpenAIAdminUsageMalformedPageScript(
             costs: #"{"object":"page","data":[],"has_more":false,"next_page":null}"#,
             completions: #"{"object":"page","data":[],"next_page":null}"#)
@@ -344,7 +344,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `admin usage retries transient completions failure once`() async throws {
+    func admin_usage_retries_transient_completions_failure_once() async throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let emptyPage = Data(#"{"object":"page","data":[],"has_more":false,"next_page":null}"#.utf8)
         let completions = Data("""
@@ -387,7 +387,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `maps admin usage to openai usage snapshot`() {
+    func maps_admin_usage_to_openai_usage_snapshot() {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let apiUsage = OpenAIAPIUsageSnapshot(
             daily: [
@@ -417,7 +417,7 @@ struct OpenAIAPIUsageFetcherTests {
     }
 
     @Test
-    func `maps project scoped admin usage to cost token snapshot`() throws {
+    func maps_project_scoped_admin_usage_to_cost_token_snapshot() throws {
         let now = try Self.localNoon(year: 2023, month: 11, day: 17)
         let firstDay = try Self.localNoon(year: 2023, month: 11, day: 13)
         let secondDay = try Self.localNoon(year: 2023, month: 11, day: 14)

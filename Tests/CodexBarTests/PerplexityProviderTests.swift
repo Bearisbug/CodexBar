@@ -95,7 +95,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `off mode ignores environment session cookie`() async {
+    func off_mode_ignores_environment_session_cookie() async {
         let strategy = PerplexityWebFetchStrategy()
         let settings = ProviderSettingsSnapshot.make(
             perplexity: ProviderSettingsSnapshot.PerplexityProviderSettings(
@@ -109,7 +109,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `manual mode invalid cookie does not fall back to cache or environment`() async {
+    func manual_mode_invalid_cookie_does_not_fall_back_to_cache_or_environment() async {
         await self.withIsolatedCacheStore {
             CookieHeaderCache.store(
                 provider: .perplexity,
@@ -142,7 +142,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `environment token does not populate browser cookie cache`() async throws {
+    func environment_token_does_not_populate_browser_cookie_cache() async throws {
         try await self.withIsolatedCacheStore {
             PerplexityCookieImporter.invalidateImportSessionCache()
             defer {
@@ -175,7 +175,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `manual token does not populate browser cookie cache`() async throws {
+    func manual_token_does_not_populate_browser_cookie_cache() async throws {
         try await self.withIsolatedCacheStore {
             let strategy = PerplexityWebFetchStrategy()
             let settings = ProviderSettingsSnapshot.make(
@@ -196,7 +196,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `bare environment token falls back to auth JS cookie name`() async throws {
+    func bare_environment_token_falls_back_to_auth_JS_cookie_name() async throws {
         try await self.withIsolatedCacheStore {
             PerplexityCookieImporter.invalidateImportSessionCache()
             defer {
@@ -238,7 +238,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `valid environment cookie wins after invalid browser session`() async throws {
+    func valid_environment_cookie_wins_after_invalid_browser_session() async throws {
         try await self.withIsolatedCacheStore {
             PerplexityCookieImporter.invalidateImportSessionCache()
             defer {
@@ -287,7 +287,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `later browser session wins after earlier imported session fails auth`() async throws {
+    func later_browser_session_wins_after_earlier_imported_session_fails_auth() async throws {
         try await self.withIsolatedCacheStore {
             PerplexityCookieImporter.invalidateImportSessionCache()
             defer {
@@ -344,7 +344,7 @@ struct PerplexityProviderTests {
     }
 
     @Test
-    func `auto mode reuses browser import between availability and fetch`() async throws {
+    func auto_mode_reuses_browser_import_between_availability_and_fetch() async throws {
         try await self.withIsolatedCacheStore {
             let importCount = LockedCounter()
             PerplexityCookieImporter.invalidateImportSessionCache()

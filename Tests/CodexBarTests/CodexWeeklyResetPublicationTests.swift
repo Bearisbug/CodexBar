@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `single refresh persists provider snapshot for startup confirmation`() async throws {
+    func single_refresh_persists_provider_snapshot_for_startup_confirmation() async throws {
         let suite = "CodexWeeklyResetPublicationTests-single-startup-hydration"
         let email = "startup-hydrated@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -93,7 +93,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `single persistence rejects another member in the same workspace`() async {
+    func single_persistence_rejects_another_member_in_the_same_workspace() async {
         let suite = "CodexWeeklyResetPublicationTests-single-persistence-member-isolation"
         let email = "current-member@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -125,7 +125,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `single startup rejects hydrated snapshot from another workspace`() async throws {
+    func single_startup_rejects_hydrated_snapshot_from_another_workspace() async throws {
         let suite = "CodexWeeklyResetPublicationTests-single-startup-workspace-isolation"
         let email = "workspace-isolation@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -197,7 +197,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `single refresh retains the weekly lane when a source omits it`() async {
+    func single_refresh_retains_the_weekly_lane_when_a_source_omits_it() async {
         let suite = "CodexWeeklyResetPublicationTests-single-missing-weekly"
         let email = "missing-weekly@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -241,7 +241,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `single refresh keeps prior state private until rebound confirmation publishes`() async {
+    func single_refresh_keeps_prior_state_private_until_rebound_confirmation_publishes() async {
         let suite = "CodexWeeklyResetPublicationTests-single-gated-rebound"
         let email = "gated-rebound@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -314,7 +314,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `single refresh publishes the second matching low observation only`() async {
+    func single_refresh_publishes_the_second_matching_low_observation_only() async {
         let suite = "CodexWeeklyResetPublicationTests-single-confirmed-low"
         let email = "confirmed-low@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -369,7 +369,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test(arguments: CodexRejectedConfirmationCase.allCases)
-    func `rejected single confirmation preserves every prior public surface`(
+    func rejected_single_confirmation_preserves_every_prior_public_surface(
         rejection: CodexRejectedConfirmationCase) async
     {
         let suite = "CodexWeeklyResetPublicationTests-rejected-\(rejection.rawValue)"
@@ -445,7 +445,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `confirmed reset resists a later stale pre reset observation`() async {
+    func confirmed_reset_resists_a_later_stale_pre_reset_observation() async {
         let suite = "CodexWeeklyResetPublicationTests-post-reset-stale"
         let email = "post-reset-stale@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -510,7 +510,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `single refresh never compares a prior snapshot across provider owners`() async {
+    func single_refresh_never_compares_a_prior_snapshot_across_provider_owners() async {
         let suite = "CodexWeeklyResetPublicationTests-owner-transition"
         let email = "owner-transition@example.com"
         let settings = self.makeSettingsStore(suite: suite)
@@ -566,7 +566,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked refresh rejects a response explicitly owned by another member`() async throws {
+    func stacked_refresh_rejects_a_response_explicitly_owned_by_another_member() async throws {
         let suite = "CodexWeeklyResetPublicationTests-stacked-response-email-mismatch"
         let targetID = try #require(UUID(uuidString: "11111111-2222-3333-4444-555555555555"))
         let siblingID = try #require(UUID(uuidString: "66666666-7777-8888-9999-AAAAAAAAAAAA"))
@@ -630,7 +630,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked refresh never publishes or persists an unconfirmed account reset`() async throws {
+    func stacked_refresh_never_publishes_or_persists_an_unconfirmed_account_reset() async throws {
         let suite = "CodexWeeklyResetPublicationTests-stacked"
         let email = "shared-stacked@example.com"
         let settings = self.makeSettingsStore(suite: suite)

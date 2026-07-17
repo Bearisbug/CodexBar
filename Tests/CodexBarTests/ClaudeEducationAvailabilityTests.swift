@@ -5,7 +5,7 @@ import Testing
 
 struct ClaudeEducationAvailabilityTests {
     @Test
-    func `auto CLI subscription notice is terminal before web fallback`() {
+    func auto_CLI_subscription_notice_is_terminal_before_web_fallback() {
         let browserDetection = BrowserDetection(cacheTTL: 0)
         let strategy = ClaudeCLIFetchStrategy(
             useWebExtras: false,
@@ -32,7 +32,7 @@ struct ClaudeEducationAvailabilityTests {
     }
 
     @Test
-    func `subscription-only response is informational across Claude surfaces`() async throws {
+    func subscription_only_response_is_informational_across_Claude_surfaces() async throws {
         try await ClaudeOAuthCredentialsStore.withIsolatedCredentialsFileTrackingForTesting {
             let tempDir = FileManager.default.temporaryDirectory
                 .appendingPathComponent(UUID().uuidString, isDirectory: true)

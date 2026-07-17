@@ -16,7 +16,7 @@ struct MistralUsageParserTests {
     // swiftlint:enable line_length
 
     @Test
-    func `parses response with usage data and computes token totals`() throws {
+    func parses_response_with_usage_data_and_computes_token_totals() throws {
         let data = try #require(Self.novemberResponseJSON.data(using: .utf8))
         let snapshot = try MistralUsageFetcher.parseResponse(data: data, updatedAt: Date())
 
@@ -29,12 +29,13 @@ struct MistralUsageParserTests {
         #expect(snapshot.currency == "EUR")
         #expect(snapshot.currencySymbol == "€")
         #expect(snapshot.daily.map(\.day) == ["2025-11-14", "2025-11-24"])
-        #expect(snapshot.daily.first?.totalTokens == 11121 + 1115 + 20 + 500)
+        let expectedValueLine32 = 11121 + 1115 + 20 + 500
+        #expect(snapshot.daily.first?.totalTokens == expectedValueLine32)
         #expect(snapshot.daily.first?.models.first?.name == "mistral-large-latest")
     }
 
     @Test
-    func `computes cost from tokens and prices`() throws {
+    func computes_cost_from_tokens_and_prices() throws {
         let data = try #require(Self.novemberResponseJSON.data(using: .utf8))
         let snapshot = try MistralUsageFetcher.parseResponse(data: data, updatedAt: Date())
 
@@ -48,7 +49,7 @@ struct MistralUsageParserTests {
     }
 
     @Test(arguments: ["NaN", "Infinity", "1e308"])
-    func `ignores prices that produce nonfinite costs`(price: String) async throws {
+    func ignores_prices_that_produce_nonfinite_costs(price: String) async throws {
         let json = """
         {
           "completion": {
@@ -94,7 +95,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `keeps cost totals finite when individually valid costs overflow their sum`() throws {
+    func keeps_cost_totals_finite_when_individually_valid_costs_overflow_their_sum() throws {
         let json = """
         {
           "completion": {
@@ -143,7 +144,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `parses empty response with no usage`() throws {
+    func parses_empty_response_with_no_usage() throws {
         let data = try #require(Self.emptyResponseJSON.data(using: .utf8))
         let snapshot = try MistralUsageFetcher.parseResponse(data: data, updatedAt: Date())
 
@@ -155,7 +156,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `parses credits response`() throws {
+    func parses_credits_response() throws {
         let json = """
         {
           "wallet_amount": 12.5,
@@ -178,7 +179,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `credits available amount floors after ongoing usage`() {
+    func credits_available_amount_floors_after_ongoing_usage() {
         let credits = MistralCreditsSnapshot(
             walletAmount: 1,
             creditNotesAmount: 0.5,
@@ -190,7 +191,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `rejects credit amounts whose sum overflows`() throws {
+    func rejects_credit_amounts_whose_sum_overflows() throws {
         let json = """
         {
           "wallet_amount": 1e308,
@@ -214,7 +215,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `fetches credits from dashboard endpoint with existing web session`() async throws {
+    func fetches_credits_from_dashboard_endpoint_with_existing_web_session() async throws {
         let json = """
         {
           "wallet_amount": 3,
@@ -247,7 +248,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `daily spend keeps non token Mistral units out of token totals`() throws {
+    func daily_spend_keeps_non_token_Mistral_units_out_of_token_totals() throws {
         let json = """
         {
           "libraries_api": {
@@ -290,7 +291,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `parses dates from response`() throws {
+    func parses_dates_from_response() throws {
         let data = try #require(Self.novemberResponseJSON.data(using: .utf8))
         let snapshot = try MistralUsageFetcher.parseResponse(data: data, updatedAt: Date())
 
@@ -306,7 +307,7 @@ struct MistralUsageParserTests {
     }
 
     @Test
-    func `throws parseFailed for invalid JSON`() {
+    func throws_parseFailed_for_invalid_JSON() {
         let data = Data("not json".utf8)
         #expect(throws: MistralUsageError.self) {
             try MistralUsageFetcher.parseResponse(data: data, updatedAt: Date())
@@ -316,7 +317,7 @@ struct MistralUsageParserTests {
 
 struct MistralUsageSnapshotConversionTests {
     @Test
-    func `converts cost into text only current month api spend`() {
+    func converts_cost_into_text_only_current_month_api_spend() {
         let snapshot = MistralUsageSnapshot(
             totalCost: 1.2345,
             currency: "EUR",
@@ -337,7 +338,7 @@ struct MistralUsageSnapshotConversionTests {
     }
 
     @Test
-    func `converts credits into balance data without replacing api spend or primary percent`() {
+    func converts_credits_into_balance_data_without_replacing_api_spend_or_primary_percent() {
         let credits = MistralCreditsSnapshot(
             walletAmount: 10,
             creditNotesAmount: 2.5,
@@ -364,7 +365,7 @@ struct MistralUsageSnapshotConversionTests {
     }
 
     @Test
-    func `converts zero cost into zero spend text`() {
+    func converts_zero_cost_into_zero_spend_text() {
         let snapshot = MistralUsageSnapshot(
             totalCost: 0,
             currency: "USD",
@@ -383,7 +384,7 @@ struct MistralUsageSnapshotConversionTests {
     }
 
     @Test
-    func `converts billing usage into cost token snapshot`() {
+    func converts_billing_usage_into_cost_token_snapshot() {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let snapshot = MistralUsageSnapshot(
             totalCost: 1.75,
@@ -440,7 +441,7 @@ struct MistralUsageSnapshotConversionTests {
     }
 
     @Test
-    func `clamps negative billing adjustments in cost token snapshot`() {
+    func clamps_negative_billing_adjustments_in_cost_token_snapshot() {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let snapshot = MistralUsageSnapshot(
             totalCost: -2,
@@ -478,7 +479,7 @@ struct MistralUsageSnapshotConversionTests {
     }
 
     @Test
-    func `preserves net monthly cost when billing includes credits`() {
+    func preserves_net_monthly_cost_when_billing_includes_credits() {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let snapshot = MistralUsageSnapshot(
             totalCost: 8,
@@ -551,7 +552,7 @@ struct MistralStrategyTests {
     }
 
     @Test
-    func `strategy is unavailable when cookie source is off`() async {
+    func strategy_is_unavailable_when_cookie_source_is_off() async {
         let settings = ProviderSettingsSnapshot.make(
             mistral: ProviderSettingsSnapshot.MistralProviderSettings(
                 cookieSource: .off,
@@ -564,7 +565,7 @@ struct MistralStrategyTests {
     }
 
     @Test
-    func `strategy is available when cookie source is auto`() async {
+    func strategy_is_available_when_cookie_source_is_auto() async {
         let settings = ProviderSettingsSnapshot.make(
             mistral: ProviderSettingsSnapshot.MistralProviderSettings(
                 cookieSource: .auto,
@@ -577,7 +578,7 @@ struct MistralStrategyTests {
     }
 
     @Test
-    func `strategy is available when cookie source is manual`() async {
+    func strategy_is_available_when_cookie_source_is_manual() async {
         let settings = ProviderSettingsSnapshot.make(
             mistral: ProviderSettingsSnapshot.MistralProviderSettings(
                 cookieSource: .manual,
@@ -590,7 +591,7 @@ struct MistralStrategyTests {
     }
 
     @Test
-    func `strategy never falls back (single strategy provider)`() {
+    func strategy_never_falls_back_single_strategy_provider() {
         let strategy = MistralWebFetchStrategy()
         let context = self.makeContext()
         let shouldFallback = strategy.shouldFallback(
@@ -600,7 +601,7 @@ struct MistralStrategyTests {
     }
 
     @Test
-    func `descriptor metadata is correct`() {
+    func descriptor_metadata_is_correct() {
         let descriptor = MistralProviderDescriptor.descriptor
         #expect(descriptor.id == .mistral)
         #expect(descriptor.metadata.displayName == "Mistral")

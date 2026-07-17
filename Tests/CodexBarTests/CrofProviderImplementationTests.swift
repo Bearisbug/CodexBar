@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CrofProviderImplementationTests {
     @Test
-    func `availability uses crof environment token`() throws {
+    func availability_uses_crof_environment_token() throws {
         let settings = try Self.makeSettings(suite: "CrofProviderImplementationTests-env")
         let implementation = CrofProviderImplementation()
 
@@ -19,7 +19,7 @@ struct CrofProviderImplementationTests {
     }
 
     @Test
-    func `availability uses stored crof API token`() throws {
+    func availability_uses_stored_crof_API_token() throws {
         let settings = try Self.makeSettings(suite: "CrofProviderImplementationTests-settings")
         settings.crofAPIToken = "stored-token"
         let implementation = CrofProviderImplementation()
@@ -30,7 +30,7 @@ struct CrofProviderImplementationTests {
     }
 
     @Test
-    func `availability rejects missing crof API token`() throws {
+    func availability_rejects_missing_crof_API_token() throws {
         let settings = try Self.makeSettings(suite: "CrofProviderImplementationTests-missing")
         settings.crofAPIToken = "   "
         let implementation = CrofProviderImplementation()

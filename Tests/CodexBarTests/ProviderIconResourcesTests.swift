@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct ProviderIconResourcesTests {
     @Test
-    func `provider icon SV gs exist`() throws {
+    func provider_icon_SV_gs_exist() throws {
         let root = try Self.repoRoot()
         let resources = root.appending(path: "Sources/CodexBar/Resources", directoryHint: .isDirectory)
 
@@ -55,7 +55,7 @@ struct ProviderIconResourcesTests {
     }
 
     @Test
-    func `groq and grok provider icons are distinct`() throws {
+    func groq_and_grok_provider_icons_are_distinct() throws {
         let root = try Self.repoRoot()
         let resources = root.appending(path: "Sources/CodexBar/Resources", directoryHint: .isDirectory)
         let groq = try String(contentsOf: resources.appending(path: "ProviderIcon-groq.svg"), encoding: .utf8)
@@ -65,7 +65,7 @@ struct ProviderIconResourcesTests {
     }
 
     @Test
-    func `provider brand icons are cached after first load`() throws {
+    func provider_brand_icons_are_cached_after_first_load() throws {
         ProviderBrandIcon.resetCacheForTesting()
         defer { ProviderBrandIcon.resetCacheForTesting() }
 
@@ -78,7 +78,7 @@ struct ProviderIconResourcesTests {
     }
 
     @Test
-    func `ollama provider icon uses template rendering`() throws {
+    func ollama_provider_icon_uses_template_rendering() throws {
         ProviderBrandIcon.resetCacheForTesting()
         defer { ProviderBrandIcon.resetCacheForTesting() }
 
@@ -118,7 +118,7 @@ struct ProviderIconResourcesTests {
     }
 
     @Test
-    func `registered providers resolve bundled brand icons`() {
+    func registered_providers_resolve_bundled_brand_icons() {
         ProviderBrandIcon.resetCacheForTesting()
         defer { ProviderBrandIcon.resetCacheForTesting() }
 

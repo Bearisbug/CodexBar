@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexManagedOpenAIWebRefreshTests {
     @Test
-    func `regular refresh does not await OpenAI web scrape`() async throws {
+    func regular_refresh_does_not_await_OpenAI_web_scrape() async throws {
         let settings = try self
             .makeSettingsStore(suite: "CodexManagedOpenAIWebRefreshTests-regular-refresh-nonblocking")
         settings.statusChecksEnabled = false
@@ -102,7 +102,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `regular refresh does not await Codex credits fetch`() async throws {
+    func regular_refresh_does_not_await_Codex_credits_fetch() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexManagedOpenAIWebRefreshTests-regular-refresh-nonblocking-credits")
         settings.statusChecksEnabled = false
@@ -158,7 +158,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `background credits refresh persists updated widget snapshot after refresh returns`() async throws {
+    func background_credits_refresh_persists_updated_widget_snapshot_after_refresh_returns() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexManagedOpenAIWebRefreshTests-widget-background-credits")
         settings.statusChecksEnabled = false
@@ -235,7 +235,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `background dashboard refresh persists updated widget snapshot after refresh returns`() async throws {
+    func background_dashboard_refresh_persists_updated_widget_snapshot_after_refresh_returns() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexManagedOpenAIWebRefreshTests-widget-background-dashboard")
         settings.statusChecksEnabled = false
@@ -331,7 +331,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `manual cookie import bypasses same account refresh coalescing`() async throws {
+    func manual_cookie_import_bypasses_same_account_refresh_coalescing() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexManagedOpenAIWebRefreshTests-manual-import-bypass-coalesce")
         let managedHome = FileManager.default.temporaryDirectory
@@ -412,7 +412,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `stale cookie import status does not override later unrelated refresh failure`() async throws {
+    func stale_cookie_import_status_does_not_override_later_unrelated_refresh_failure() async throws {
         let settings = try self.makeSettingsStore(suite: "CodexManagedOpenAIWebRefreshTests-stale-cookie-status")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -444,7 +444,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `navigation timeout imports cookies and retries dashboard refresh`() async throws {
+    func navigation_timeout_imports_cookies_and_retries_dashboard_refresh() async throws {
         let settings = try self.makeSettingsStore(suite: "CodexManagedOpenAIWebRefreshTests-timeout-import-retry")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -509,7 +509,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `background navigation timeout skips immediate WebKit retry`() async throws {
+    func background_navigation_timeout_skips_immediate_WebKit_retry() async throws {
         let settings = try self.makeSettingsStore(
             suite: "CodexManagedOpenAIWebRefreshTests-background-timeout-no-retry")
         let managedAccount = ManagedCodexAccount(
@@ -563,7 +563,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `reset open A I web state blocks stale in flight dashboard completion`() async throws {
+    func reset_open_A_I_web_state_blocks_stale_in_flight_dashboard_completion() async throws {
         let settings = try self.makeSettingsStore(suite: "CodexManagedOpenAIWebRefreshTests-reset-invalidates-task")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -614,7 +614,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `active refresh failure ignores stale import status from older task`() async throws {
+    func active_refresh_failure_ignores_stale_import_status_from_older_task() async throws {
         let settings = try self.makeSettingsStore(suite: "CodexManagedOpenAIWebRefreshTests-concurrent-import-status")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -646,7 +646,7 @@ struct CodexManagedOpenAIWebRefreshTests {
     }
 
     @Test
-    func `post import retry timeout exceeds normal retry timeout`() {
+    func post_import_retry_timeout_exceeds_normal_retry_timeout() {
         #expect(UsageStore.openAIWebDashboardFetchTimeout(didImportCookies: false) == 25)
         #expect(UsageStore.openAIWebDashboardFetchTimeout(didImportCookies: true) == 25)
         #expect(UsageStore.openAIWebRetryDashboardFetchTimeout(afterCookieImport: false) == 8)

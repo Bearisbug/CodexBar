@@ -18,7 +18,7 @@ private actor AntigravityCredentialUpdateCapture {
 // swiftlint:disable:next type_body_length
 struct AntigravityRemoteUsageFetcherTests {
     @Test
-    func `antigravity supports token accounts for quick account switching`() {
+    func antigravity_supports_token_accounts_for_quick_account_switching() {
         let support = TokenAccountSupportCatalog.support(for: .antigravity)
 
         #expect(support?.title == "Google accounts")
@@ -30,7 +30,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `oauth credentials round trip through token account value`() throws {
+    func oauth_credentials_round_trip_through_token_account_value() throws {
         let credentials = AntigravityOAuthCredentials(
             accessToken: "access-token",
             refreshToken: "refresh-token",
@@ -48,7 +48,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch uses selected token account credentials before shared credentials`() async throws {
+    func remote_fetch_uses_selected_token_account_credentials_before_shared_credentials() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -108,7 +108,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch refreshes selected token account without mutating shared credentials`() async throws {
+    func remote_fetch_refreshes_selected_token_account_without_mutating_shared_credentials() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -192,7 +192,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch ignores selected token account project id persistence failure`() async throws {
+    func remote_fetch_ignores_selected_token_account_project_id_persistence_failure() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let selectedCredentials = AntigravityOAuthCredentials(
@@ -248,7 +248,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch rejects invalid selected token account`() async throws {
+    func remote_fetch_rejects_invalid_selected_token_account() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -281,7 +281,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch maps cloud code models into antigravity usage`() async throws {
+    func remote_fetch_maps_cloud_code_models_into_antigravity_usage() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -338,7 +338,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch verifies full model quotas with quota endpoint`() async throws {
+    func remote_fetch_verifies_full_model_quotas_with_quota_endpoint() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -446,7 +446,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch ignores full model availability when verification has no quota data`() async throws {
+    func remote_fetch_ignores_full_model_availability_when_verification_has_no_quota_data() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -511,7 +511,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch propagates quota verification server errors`() async throws {
+    func remote_fetch_propagates_quota_verification_server_errors() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -584,7 +584,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch keeps full quotas when verified quota endpoint has fractions`() async throws {
+    func remote_fetch_keeps_full_quotas_when_verified_quota_endpoint_has_fractions() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -664,7 +664,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch drops full quota rows absent from partial verification`() async throws {
+    func remote_fetch_drops_full_quota_rows_absent_from_partial_verification() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -730,7 +730,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch refreshes expired shared google token`() async throws {
+    func remote_fetch_refreshes_expired_shared_google_token() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -793,7 +793,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch refreshes nearly expired shared google token`() async throws {
+    func remote_fetch_refreshes_nearly_expired_shared_google_token() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -855,7 +855,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote refresh requires configured oauth client`() async throws {
+    func remote_refresh_requires_configured_oauth_client() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -888,7 +888,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch onboards project before fetching models`() async throws {
+    func remote_fetch_onboards_project_before_fetching_models() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -971,7 +971,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch falls back to retrieve user quota when model endpoint is forbidden`() async throws {
+    func remote_fetch_falls_back_to_retrieve_user_quota_when_model_endpoint_is_forbidden() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -1054,13 +1054,13 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `antigravity descriptor advertises oauth mode`() {
+    func antigravity_descriptor_advertises_oauth_mode() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .antigravity)
         #expect(descriptor.fetchPlan.sourceModes == [.auto, .cli, .oauth])
     }
 
     @Test
-    func `remote fetch returns identity when both remote quota endpoints are forbidden`() async throws {
+    func remote_fetch_returns_identity_when_both_remote_quota_endpoints_are_forbidden() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(
@@ -1118,7 +1118,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch ignores gemini credentials when antigravity auth is missing`() async throws {
+    func remote_fetch_ignores_gemini_credentials_when_antigravity_auth_is_missing() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -1140,7 +1140,7 @@ struct AntigravityRemoteUsageFetcherTests {
     }
 
     @Test
-    func `remote fetch prefers stored project id from antigravity credentials`() async throws {
+    func remote_fetch_prefers_stored_project_id_from_antigravity_credentials() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeAntigravityCredentials(

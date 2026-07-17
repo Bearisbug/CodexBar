@@ -3,7 +3,7 @@ import Testing
 
 struct MiMoUsageScriptTests {
     @Test
-    func `script keeps final cumulative streaming usage`() throws {
+    func script_keeps_final_cumulative_streaming_usage() throws {
         let rows = [
             self.assistantRow(outputTokens: 10),
             self.assistantRow(outputTokens: 40),
@@ -17,7 +17,7 @@ struct MiMoUsageScriptTests {
     }
 
     @Test
-    func `script keeps final cumulative streaming usage without session id`() throws {
+    func script_keeps_final_cumulative_streaming_usage_without_session_id() throws {
         let rows = [
             self.assistantRow(outputTokens: 10, sessionID: nil),
             self.assistantRow(outputTokens: 40, sessionID: nil),
@@ -31,7 +31,7 @@ struct MiMoUsageScriptTests {
     }
 
     @Test
-    func `script keeps final cumulative usage without request id`() throws {
+    func script_keeps_final_cumulative_usage_without_request_id() throws {
         let rows = [
             self.assistantRow(outputTokens: 10, requestID: nil),
             self.assistantRow(outputTokens: 40, requestID: nil),
@@ -45,7 +45,7 @@ struct MiMoUsageScriptTests {
     }
 
     @Test
-    func `script counts rows without session identity conservatively`() throws {
+    func script_counts_rows_without_session_identity_conservatively() throws {
         let rows = [
             self.assistantRow(outputTokens: 10, sessionID: nil, requestID: nil),
             self.assistantRow(outputTokens: 40, sessionID: nil, requestID: nil),
@@ -59,7 +59,7 @@ struct MiMoUsageScriptTests {
     }
 
     @Test
-    func `script keeps distinct requests sharing a message id`() throws {
+    func script_keeps_distinct_requests_sharing_a_message_id() throws {
         let rows = [
             self.assistantRow(outputTokens: 40, requestID: "req_one"),
             self.assistantRow(outputTokens: 90, requestID: "req_two"),
@@ -72,7 +72,7 @@ struct MiMoUsageScriptTests {
     }
 
     @Test
-    func `script deduplicates copied rows from the same session`() throws {
+    func script_deduplicates_copied_rows_from_the_same_session() throws {
         let rows = [self.assistantRow(outputTokens: 90)]
         let allTime = try self.runScript(files: [
             "session.jsonl": rows,
@@ -85,7 +85,7 @@ struct MiMoUsageScriptTests {
     }
 
     @Test
-    func `script deduplicates copied requests from different sessions`() throws {
+    func script_deduplicates_copied_requests_from_different_sessions() throws {
         let allTime = try self.runScript(files: [
             "session-a.jsonl": [self.assistantRow(outputTokens: 90, sessionID: "session_a")],
             "session-b.jsonl": [self.assistantRow(outputTokens: 90, sessionID: "session_b")],

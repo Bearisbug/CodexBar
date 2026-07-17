@@ -43,7 +43,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `copilot switch from primary to secondary resets baseline`() {
+    func copilot_switch_from_primary_to_secondary_resets_baseline() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-primary-secondary")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -72,7 +72,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `copilot switch from secondary to primary resets baseline`() {
+    func copilot_switch_from_secondary_to_primary_resets_baseline() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-secondary-primary")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -101,7 +101,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `claude weekly primary fallback does not emit session quota notifications`() {
+    func claude_weekly_primary_fallback_does_not_emit_session_quota_notifications() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-claude-weekly")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -130,7 +130,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `claude spend limit fallback does not emit session or quota warning notifications`() throws {
+    func claude_spend_limit_fallback_does_not_emit_session_or_quota_warning_notifications() throws {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-claude-spend-limit")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -170,7 +170,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `mimo balance and monthly credits do not emit quota notifications`() {
+    func mimo_balance_and_monthly_credits_do_not_emit_quota_notifications() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-mimo-balance")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -209,7 +209,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `claude five hour primary still emits session quota notifications`() {
+    func claude_five_hour_primary_still_emits_session_quota_notifications() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-claude-session")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -238,7 +238,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `antigravity session notification uses quota summary duration instead of family representative`() {
+    func antigravity_session_notification_uses_quota_summary_duration_instead_of_family_representative() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-antigravity-session")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -263,7 +263,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `antigravity preserves session notifications for durationless legacy family lanes`() {
+    func antigravity_preserves_session_notifications_for_durationless_legacy_family_lanes() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-antigravity-legacy-session")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -288,7 +288,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `antigravity snapshot mode change resets session notification baseline`() {
+    func antigravity_snapshot_mode_change_resets_session_notification_baseline() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-antigravity-mode-change")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -312,7 +312,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning disabled does not post`() {
+    func quota_warning_disabled_does_not_post() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-disabled")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -335,7 +335,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning posts once per downward threshold crossing`() {
+    func quota_warning_posts_once_per_downward_threshold_crossing() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-once")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -394,7 +394,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning omits account when personal info is hidden`() {
+    func quota_warning_omits_account_when_personal_info_is_hidden() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-account-hidden")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -435,7 +435,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `hidden quota warning markers do not disable warning notifications`() {
+    func hidden_quota_warning_markers_do_not_disable_warning_notifications() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-markers-hidden")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -470,7 +470,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning crossing multiple thresholds posts most severe only`() {
+    func quota_warning_crossing_multiple_thresholds_posts_most_severe_only() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-severe")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -503,7 +503,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning recovers and can fire again`() {
+    func quota_warning_recovers_and_can_fire_again() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-recover")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -536,7 +536,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning provider override beats global thresholds`() {
+    func quota_warning_provider_override_beats_global_thresholds() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-override")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -570,7 +570,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning session only config ignores weekly crossings`() {
+    func quota_warning_session_only_config_ignores_weekly_crossings() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-session-only")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -603,7 +603,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `quota warning weekly only config ignores session crossings`() {
+    func quota_warning_weekly_only_config_ignores_session_crossings() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-weekly-only")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -636,7 +636,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `minimax quota warning posts for session and weekly windows`() {
+    func minimax_quota_warning_posts_for_session_and_weekly_windows() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-minimax")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -665,7 +665,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `antigravity quota warnings use named session and weekly durations`() {
+    func antigravity_quota_warnings_use_named_session_and_weekly_durations() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-antigravity")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -694,7 +694,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `antigravity legacy quota warnings do not infer weekly from family slots`() {
+    func antigravity_legacy_quota_warnings_do_not_infer_weekly_from_family_slots() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-antigravity-legacy")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -721,7 +721,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `antigravity quota warning mode change resets warning baseline`() {
+    func antigravity_quota_warning_mode_change_resets_warning_baseline() {
         let settings = self.makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-antigravity-mode")
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = false
@@ -754,7 +754,7 @@ struct UsageStoreSessionQuotaTransitionTests {
     }
 
     @Test
-    func `disabling quota warning window clears fired state`() {
+    func disabling_quota_warning_window_clears_fired_state() {
         let settings = self
             .makeSettings(suiteName: "UsageStoreSessionQuotaTransitionTests-warning-disabled-clears-state")
         settings.refreshFrequency = .manual
@@ -792,7 +792,7 @@ struct UsageStoreSessionQuotaTransitionTests {
 
         #expect(notifier.quotaWarningPosts.count == 1)
         #expect(store.quotaWarningState[
-            UsageStore.QuotaWarningStateKey(provider: .codex, window: .session, accountDiscriminator: nil),
+            UsageStore.QuotaWarningStateKey(provider: .codex, window: .session, accountDiscriminator: nil)
         ] == nil)
     }
 

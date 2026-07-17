@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardOptionalUsageModelTests {
     @Test
-    func `hides codex credits when disabled`() throws {
+    func hides_codex_credits_when_disabled() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
@@ -58,7 +58,7 @@ struct MenuCardOptionalUsageModelTests {
     }
 
     @Test
-    func `claude model does not show obsolete peak hours note`() throws {
+    func claude_model_does_not_show_obsolete_peak_hours_note() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .claude,

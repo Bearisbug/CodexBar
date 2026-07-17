@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageDecodingTests {
     @Test
-    func `decodes daily report type format`() throws {
+    func decodes_daily_report_type_format() throws {
         let json = """
         {
           "type": "daily",
@@ -43,7 +43,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes daily report legacy format`() throws {
+    func decodes_daily_report_legacy_format() throws {
         let json = """
         {
           "daily": [
@@ -79,7 +79,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes legacy cache token keys`() throws {
+    func decodes_legacy_cache_token_keys() throws {
         let json = """
         {
           "type": "daily",
@@ -107,7 +107,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes daily report legacy format with model map`() throws {
+    func decodes_daily_report_legacy_format_with_model_map() throws {
         let json = """
         {
           "daily": [
@@ -141,7 +141,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes daily report legacy format with model map sorted`() throws {
+    func decodes_daily_report_legacy_format_with_model_map_sorted() throws {
         let json = """
         {
           "daily": [
@@ -164,7 +164,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes daily report legacy format with empty model map as nil`() throws {
+    func decodes_daily_report_legacy_format_with_empty_model_map_as_nil() throws {
         let json = """
         {
           "daily": [
@@ -183,7 +183,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes daily report legacy format prefers models used list over models map`() throws {
+    func decodes_daily_report_legacy_format_prefers_models_used_list_over_models_map() throws {
         let json = """
         {
           "daily": [
@@ -205,7 +205,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes daily report legacy format with models list`() throws {
+    func decodes_daily_report_legacy_format_with_models_list() throws {
         let json = """
         {
           "daily": [
@@ -224,7 +224,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes model breakdown total tokens`() throws {
+    func decodes_model_breakdown_total_tokens() throws {
         let json = """
         {
           "type": "daily",
@@ -252,7 +252,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes daily report legacy format with invalid models field`() throws {
+    func decodes_daily_report_legacy_format_with_invalid_models_field() throws {
         let json = """
         {
           "daily": [
@@ -271,7 +271,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `decodes monthly report legacy format`() throws {
+    func decodes_monthly_report_legacy_format() throws {
         let json = """
         {
           "monthly": [
@@ -296,7 +296,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `selects most recent session`() throws {
+    func selects_most_recent_session() throws {
         let json = """
         {
           "type": "session",
@@ -332,7 +332,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `selects most recent supported month format`() throws {
+    func selects_most_recent_supported_month_format() throws {
         let json = """
         {
           "type": "monthly",
@@ -351,7 +351,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `date parsers handle concurrent mixed formats`() async {
+    func date_parsers_handle_concurrent_mixed_formats() async {
         let dateInputs = [
             "2026-02-03T04:05:06.789Z",
             "2026-02-03T04:05:06Z",
@@ -381,7 +381,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `token snapshot selects current local day`() throws {
+    func token_snapshot_selects_current_local_day() throws {
         let json = """
         {
           "type": "daily",
@@ -414,7 +414,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `token snapshot rejects impossible later calendar day`() throws {
+    func token_snapshot_rejects_impossible_later_calendar_day() throws {
         let json = """
         {
           "type": "daily",
@@ -444,7 +444,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `token snapshot uses summary total cost when available`() throws {
+    func token_snapshot_uses_summary_total_cost_when_available() throws {
         let json = """
         {
           "type": "daily",
@@ -464,7 +464,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `token snapshot falls back to summed entries when summary missing`() throws {
+    func token_snapshot_falls_back_to_summed_entries_when_summary_missing() throws {
         let json = """
         {
           "type": "daily",
@@ -481,7 +481,7 @@ struct CostUsageDecodingTests {
     }
 
     @Test
-    func `token snapshot returns nil total when no costs present`() throws {
+    func token_snapshot_returns_nil_total_when_no_costs_present() throws {
         let json = """
         {
           "type": "daily",

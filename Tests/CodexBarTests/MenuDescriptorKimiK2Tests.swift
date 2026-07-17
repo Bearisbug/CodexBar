@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct MenuDescriptorKimiK2Tests {
     @Test
-    func `kimi K2 menu exposes the usage dashboard action`() {
+    func kimi_K2_menu_exposes_the_usage_dashboard_action() {
         let settings = testSettingsStore(suiteName: "MenuDescriptorKimiK2Tests-dashboard")
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual

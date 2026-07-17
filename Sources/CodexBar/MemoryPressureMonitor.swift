@@ -45,7 +45,9 @@ final class MemoryPressureMonitor {
     private let logger = CodexBarLog.logger(LogCategories.memoryPressure)
     private let releaseFreeMallocPages: @Sendable () -> Void
     private let trimAppCaches: CacheTrimHandler
-    private var source: DispatchSourceMemoryPressure?
+    // nonisolated(unsafe): deinit must cancel the (thread-safe) dispatch source; all
+    // other access stays on MainActor.
+    private nonisolated(unsafe) var source: DispatchSourceMemoryPressure?
 
     init(
         trimAppCaches: @escaping CacheTrimHandler = { MemoryPressureCacheTrimSummary() },
@@ -72,13 +74,24 @@ final class MemoryPressureMonitor {
         source.resume()
     }
 
+    /// Dispatch sources are thread-safe; the box only exists so the weak reference
+    /// can legally cross into the @Sendable event handler.
+    private final class WeakSourceBox: @unchecked Sendable {
+        weak var source: DispatchSourceMemoryPressure?
+
+        init(_ source: DispatchSourceMemoryPressure) {
+            self.source = source
+        }
+    }
+
     nonisolated static func makeEventHandler(
         source: DispatchSourceMemoryPressure,
         handle: @escaping @MainActor @Sendable (_ isWarning: Bool, _ isCritical: Bool) -> Void)
         -> @Sendable () -> Void
     {
-        self.makeEventHandler(
-            eventReader: { [weak source] in source?.data ?? [] },
+        let box = WeakSourceBox(source)
+        return self.makeEventHandler(
+            eventReader: { box.source?.data ?? [] },
             handle: handle)
     }
 

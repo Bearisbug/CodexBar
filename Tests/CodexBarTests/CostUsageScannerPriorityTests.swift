@@ -5,7 +5,7 @@ import Testing
 
 struct CostUsageScannerPriorityTests {
     @Test
-    func `codex daily report applies gpt55 priority rates`() throws {
+    func codex_daily_report_applies_gpt55_priority_rates() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -53,7 +53,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report keeps cached priority surcharge without live sqlite metadata`() throws {
+    func codex_daily_report_keeps_cached_priority_surcharge_without_live_sqlite_metadata() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -105,7 +105,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report rescans when priority metadata appears`() throws {
+    func codex_daily_report_rescans_when_priority_metadata_appears() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -152,7 +152,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report ignores unrelated priority wal changes`() throws {
+    func codex_daily_report_ignores_unrelated_priority_wal_changes() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -199,7 +199,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report reprices cached file when priority turn appears`() throws {
+    func codex_daily_report_reprices_cached_file_when_priority_turn_appears() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -246,7 +246,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report applies gpt54 priority rates`() throws {
+    func codex_daily_report_applies_gpt54_priority_rates() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -288,7 +288,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report prices priority alias with completed response model`() throws {
+    func codex_daily_report_prices_priority_alias_with_completed_response_model() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -332,7 +332,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report totals use completed model priority cost`() throws {
+    func codex_daily_report_totals_use_completed_model_priority_cost() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -376,7 +376,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report reprices cached priority alias when completed model arrives`() throws {
+    func codex_daily_report_reprices_cached_priority_alias_when_completed_model_arrives() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -430,7 +430,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report falls back to session model for unpriced priority alias`() throws {
+    func codex_daily_report_falls_back_to_session_model_for_unpriced_priority_alias() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -469,7 +469,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report keeps base cost when sqlite metadata is missing`() throws {
+    func codex_daily_report_keeps_base_cost_when_sqlite_metadata_is_missing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -507,7 +507,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex daily report attributes base priced priority rows to fast bucket`() throws {
+    func codex_daily_report_attributes_base_priced_priority_rows_to_fast_bucket() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -549,7 +549,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex pricing skips priority surcharge for long context rows`() throws {
+    func codex_pricing_skips_priority_surcharge_for_long_context_rows() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -593,7 +593,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex gpt56 long context rows keep base cost in priority bucket`() throws {
+    func codex_gpt56_long_context_rows_keep_base_cost_in_priority_bucket() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -633,7 +633,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex pricing applies priority surcharge when cached reads exceed limit but input stays under it`() throws {
+    func codex_pricing_applies_priority_surcharge_when_cached_reads_exceed_limit_but_input_stays_under_it() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -675,7 +675,7 @@ struct CostUsageScannerPriorityTests {
     }
 
     @Test
-    func `codex cumulative totals do not trigger long context pricing`() throws {
+    func codex_cumulative_totals_do_not_trigger_long_context_pricing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

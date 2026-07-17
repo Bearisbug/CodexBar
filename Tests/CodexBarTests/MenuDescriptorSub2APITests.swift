@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorSub2APITests {
     @Test
-    func `subscription labels and per key totals reach descriptor output`() throws {
+    func subscription_labels_and_per_key_totals_reach_descriptor_output() throws {
         let suite = "MenuDescriptorSub2APITests-usage"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

@@ -49,7 +49,7 @@ struct CursorLoginRunnerTests {
     }
 
     @Test
-    func `add account opens Cursor auth URL in browser before polling cookies`() async {
+    func add_account_opens_Cursor_auth_URL_in_browser_before_polling_cookies() async {
         var launchedRoutes: [CursorLoginBrowserRouter.Route] = []
         var resolvedURLs: [URL] = []
         var phases: [String] = []
@@ -96,7 +96,7 @@ struct CursorLoginRunnerTests {
     }
 
     @Test
-    func `cancellation during browser selection does not launch the browser`() async {
+    func cancellation_during_browser_selection_does_not_launch_the_browser() async {
         let launchedRoutes = LockedArray<CursorLoginBrowserRouter.Route>()
         let runner = CursorLoginRunner(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -130,7 +130,7 @@ struct CursorLoginRunnerTests {
     }
 
     @Test
-    func `interactive login allows an explicit cookie retry in user initiated context`() async {
+    func interactive_login_allows_an_explicit_cookie_retry_in_user_initiated_context() async {
         var observedInteraction: ProviderInteraction?
         var retryAllowed = false
         let runner = CursorLoginRunner(
@@ -165,7 +165,7 @@ struct CursorLoginRunnerTests {
     }
 
     @Test
-    func `manual cookie identity allows the same browser account after confirmation`() async {
+    func manual_cookie_identity_allows_the_same_browser_account_after_confirmation() async {
         let identity = ProviderIdentitySnapshot(
             providerID: .cursor,
             accountEmail: "same@example.com",
@@ -224,7 +224,7 @@ struct CursorLoginRunnerTests {
     }
 
     @Test
-    func `add account ignores identity-less snapshots`() async {
+    func add_account_ignores_identity_less_snapshots() async {
         let sequence = SnapshotSequence([
             Self.snapshot(email: nil),
             Self.snapshot(email: "cursor@example.com"),
@@ -238,7 +238,7 @@ struct CursorLoginRunnerTests {
     }
 
     @Test
-    func `switch account opens Cursor auth URL and waits for a different normalized email`() async {
+    func switch_account_opens_Cursor_auth_URL_and_waits_for_a_different_normalized_email() async {
         var launchedRoutes: [CursorLoginBrowserRouter.Route] = []
         var resolvedURLs: [URL] = []
         var presentedChoices: [CursorLoginAccountSelector.Choice] = []
@@ -276,7 +276,7 @@ struct CursorLoginRunnerTests {
 
 extension CursorLoginRunnerTests {
     @Test
-    func `switch account accepts the same email when stable account ID changes`() async {
+    func switch_account_accepts_the_same_email_when_stable_account_ID_changes() async {
         let committedHeaders = LockedArray<String>()
         var presentedChoices: [CursorLoginAccountSelector.Choice] = []
         let runner = CursorLoginRunner(
@@ -320,7 +320,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `switch account falls back to normalized email when stable IDs are absent`() async {
+    func switch_account_falls_back_to_normalized_email_when_stable_IDs_are_absent() async {
         let sequence = SnapshotSequence([
             Self.snapshot(id: nil, email: " CURRENT@example.com "),
             Self.snapshot(id: nil, email: "different@example.com"),
@@ -337,7 +337,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `switch account cancellation with a sole candidate commits no session`() async {
+    func switch_account_cancellation_with_a_sole_candidate_commits_no_session() async {
         let committedHeaders = LockedArray<String>()
         var presentedChoices: [CursorLoginAccountSelector.Choice] = []
         let runner = CursorLoginRunner(
@@ -376,7 +376,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `switch with unknown prior identity still requires candidate confirmation`() async {
+    func switch_with_unknown_prior_identity_still_requires_candidate_confirmation() async {
         let committedHeaders = LockedArray<String>()
         var presentedChoices: [CursorLoginAccountSelector.Choice] = []
         let runner = CursorLoginRunner(
@@ -415,7 +415,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `switch account accepts a different stable ID with the same email`() async {
+    func switch_account_accepts_a_different_stable_ID_with_the_same_email() async {
         let sequence = SnapshotSequence([
             Self.snapshot(id: "current-id", email: "same@example.com"),
             Self.snapshot(id: "next-id", email: "same@example.com"),
@@ -436,7 +436,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `switch account accepts an ID only target`() async {
+    func switch_account_accepts_an_ID_only_target() async {
         let sequence = SnapshotSequence([
             Self.snapshot(id: "current-id", email: nil),
             Self.snapshot(id: "next-id", email: nil),
@@ -457,14 +457,14 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `Cursor usage identity preserves stable account ID`() {
+    func Cursor_usage_identity_preserves_stable_account_ID() {
         let usage = Self.snapshot(id: "stable-id", email: "cursor@example.com").toUsageSnapshot()
 
         #expect(usage.identity(for: .cursor)?.accountID == "stable-id")
     }
 
     @Test
-    func `late cancellation still finalizes a committed login`() {
+    func late_cancellation_still_finalizes_a_committed_login() {
         let success = CursorLoginRunner.Result(outcome: .success, email: "cursor@example.com")
         let cancelled = CursorLoginRunner.Result(outcome: .cancelled, email: nil)
 
@@ -474,7 +474,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `switch timeout preserves existing session and explains that a different account is required`() async {
+    func switch_timeout_preserves_existing_session_and_explains_that_a_different_account_is_required() async {
         let replacementEvents = LockedArray<String>()
         let runner = CursorLoginRunner(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -502,7 +502,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `accepted login replaces stale session after selecting candidate`() async {
+    func accepted_login_replaces_stale_session_after_selecting_candidate() async {
         let events = LockedArray<String>()
         let runner = CursorLoginRunner(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -534,7 +534,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `accepted login reports failure when the replacement is not durable`() async {
+    func accepted_login_reports_failure_when_the_replacement_is_not_durable() async {
         var phases: [String] = []
         let runner = CursorLoginRunner(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -571,7 +571,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `login launch failure preserves existing session`() async {
+    func login_launch_failure_preserves_existing_session() async {
         let replacementEvents = LockedArray<String>()
         let runner = CursorLoginRunner(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -599,7 +599,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `login cancellation while waiting preserves existing session`() async {
+    func login_cancellation_while_waiting_preserves_existing_session() async {
         let events = LockedArray<String>()
         let runner = CursorLoginRunner(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -641,7 +641,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `unsupported default browser fails before opening or polling`() async {
+    func unsupported_default_browser_fails_before_opening_or_polling() async {
         var launchedRoutes: [CursorLoginBrowserRouter.Route] = []
         let pollEvents = LockedArray<String>()
         let replacementEvents = LockedArray<String>()
@@ -679,7 +679,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `unresolved default browser fails before opening or polling`() async {
+    func unresolved_default_browser_fails_before_opening_or_polling() async {
         var launchedRoutes: [CursorLoginBrowserRouter.Route] = []
         let pollEvents = LockedArray<String>()
         let replacementEvents = LockedArray<String>()
@@ -715,7 +715,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `browser chooser cancellation happens before replacement launch and polling`() async {
+    func browser_chooser_cancellation_happens_before_replacement_launch_and_polling() async {
         let events = LockedArray<String>()
         let runner = CursorLoginRunner(
             browserDetection: BrowserDetection(cacheTTL: 0),
@@ -746,7 +746,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `production candidate loader receives the exact pinned browser URL`() async {
+    func production_candidate_loader_receives_the_exact_pinned_browser_URL() async {
         let loadedBrowserURLs = LockedArray<URL>()
         let candidateTimeouts = LockedArray<TimeInterval>()
         var launchedRoutes: [CursorLoginBrowserRouter.Route] = []
@@ -788,7 +788,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `account chooser cancel and forged result commit no session`() async {
+    func account_chooser_cancel_and_forged_result_commit_no_session() async {
         for chosenID in [String?.none, "forged-selection"] {
             let committedHeaders = LockedArray<String>()
             var presentedChoices: [CursorLoginAccountSelector.Choice] = []
@@ -837,7 +837,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `account candidates dedupe by stable ID and preserve distinct IDs with the same email`() async {
+    func account_candidates_dedupe_by_stable_ID_and_preserve_distinct_IDs_with_the_same_email() async {
         var presentedChoices: [CursorLoginAccountSelector.Choice] = []
         let committedHeaders = LockedArray<String>()
         let runner = CursorLoginRunner(
@@ -881,7 +881,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `account candidates use normalized email only when stable ID is absent`() async {
+    func account_candidates_use_normalized_email_only_when_stable_ID_is_absent() async {
         var chooserCalls = 0
         let committedHeaders = LockedArray<String>()
         let runner = CursorLoginRunner(
@@ -920,7 +920,7 @@ extension CursorLoginRunnerTests {
     }
 
     @Test
-    func `identified candidate replaces an earlier email only candidate`() async {
+    func identified_candidate_replaces_an_earlier_email_only_candidate() async {
         var chooserCalls = 0
         let committedHeaders = LockedArray<String>()
         let runner = CursorLoginRunner(
@@ -976,7 +976,7 @@ extension CursorLoginRunnerTests {
             loadSnapshot: loadSnapshot,
             sleeper: { _ in },
             browserApplicationResolver: browserApplicationResolver,
-            routeResolver: self.fixtureRouteResolver,
+            routeResolver: { Self.fixtureRouteResolver(loginURL: $0, handlerApplicationURL: $1) },
             accountChooser: accountChooser,
             replaceSessionCache: { _ in true })
     }

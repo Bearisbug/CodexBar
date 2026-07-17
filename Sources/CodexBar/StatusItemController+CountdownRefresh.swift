@@ -101,7 +101,7 @@ extension StatusItemController {
         if self.shouldMergeIcons {
             return [self.primaryProviderForUnifiedIcon()]
         }
-        return UsageProvider.allCases.filter(self.isVisible)
+        return UsageProvider.allCases.filter { self.isVisible($0) }
     }
 
     private func menuBarObservesCodexReset(providers: [UsageProvider]) -> Bool {

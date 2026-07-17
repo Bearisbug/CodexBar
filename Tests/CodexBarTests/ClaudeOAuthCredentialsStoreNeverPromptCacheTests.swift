@@ -124,7 +124,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `never mode loads the credentials file with zero oauth cache IO`() throws {
+    func never_mode_loads_the_credentials_file_with_zero_oauth_cache_IO() throws {
         try self.withTestState { state in
             let fileData = self.makeCredentialsData(
                 accessToken: "file-token",
@@ -148,7 +148,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `never mode file invalidation records a tombstone without oauth cache IO`() throws {
+    func never_mode_file_invalidation_records_a_tombstone_without_oauth_cache_IO() throws {
         try self.withTestState { state in
             let initialData = self.makeCredentialsData(
                 accessToken: "initial-token",
@@ -184,7 +184,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `never mode has cached credentials ignores stale oauth cache with zero IO`() throws {
+    func never_mode_has_cached_credentials_ignores_stale_oauth_cache_with_zero_IO() throws {
         try self.withTestState { state in
             try self.withCredentialsFile(data: nil) { _ in
                 self.seedCache(state, accessToken: "cached-token")
@@ -204,7 +204,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `has cached credentials ignores stale oauth cache when pending clear fails`() throws {
+    func has_cached_credentials_ignores_stale_oauth_cache_when_pending_clear_fails() throws {
         try self.withTestState { state in
             try self.withCredentialsFile(data: nil) { _ in
                 self.seedCache(state, accessToken: "cached-token")
@@ -232,7 +232,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `leaving never mode clears stale oauth cache before repopulating from file`() throws {
+    func leaving_never_mode_clears_stale_oauth_cache_before_repopulating_from_file() throws {
         try self.withTestState { state in
             let fileData = self.makeCredentialsData(
                 accessToken: "file-token-new",
@@ -267,7 +267,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `logout under never mode clears stale oauth cache after access is reenabled`() throws {
+    func logout_under_never_mode_clears_stale_oauth_cache_after_access_is_reenabled() throws {
         try self.withTestState { state in
             try self.withCredentialsFile(data: nil) { _ in
                 self.seedCache(state, accessToken: "cached-token")
@@ -303,7 +303,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `pending oauth cache clear retries after a temporarily unavailable delete`() throws {
+    func pending_oauth_cache_clear_retries_after_a_temporarily_unavailable_delete() throws {
         try self.withTestState { state in
             let fileData = self.makeCredentialsData(
                 accessToken: "file-token-new",
@@ -343,7 +343,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `replacement store failure after successful clear keeps tombstone and cache missing`() throws {
+    func replacement_store_failure_after_successful_clear_keeps_tombstone_and_cache_missing() throws {
         try self.withTestState { state in
             try self.withCredentialsFile(data: nil) { _ in
                 self.seedCache(state, accessToken: "cached-token")
@@ -380,7 +380,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `replacement store failure after failed clear keeps tombstone and stale cache`() throws {
+    func replacement_store_failure_after_failed_clear_keeps_tombstone_and_stale_cache() throws {
         try self.withTestState { state in
             try self.withCredentialsFile(data: nil) { _ in
                 self.seedCache(state, accessToken: "cached-token")
@@ -419,7 +419,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `bundled CLI resolves the owning app prompt policy domain`() throws {
+    func bundled_CLI_resolves_the_owning_app_prompt_policy_domain() throws {
         let tempDirectory = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         let appURL = tempDirectory.appendingPathComponent("CodexBar.app", isDirectory: true)
@@ -480,7 +480,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `shared tombstone propagates across process boundaries`() throws {
+    func shared_tombstone_propagates_across_process_boundaries() throws {
         let domain = "ClaudeOAuthPendingCacheTests.\(UUID().uuidString)"
         let key = "pending"
         let tempDirectory = FileManager.default.temporaryDirectory
@@ -519,7 +519,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `newer tombstone survives an older cache transaction`() throws {
+    func newer_tombstone_survives_an_older_cache_transaction() throws {
         let domain = "ClaudeOAuthPendingCacheRaceTests.\(UUID().uuidString)"
         let key = "pending"
         let tempDirectory = FileManager.default.temporaryDirectory
@@ -552,7 +552,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `legacy boolean tombstone remains pending until cache resolution`() throws {
+    func legacy_boolean_tombstone_remains_pending_until_cache_resolution() throws {
         let domain = "ClaudeOAuthPendingCacheLegacyTests.\(UUID().uuidString)"
         let key = "pending"
         let tempDirectory = FileManager.default.temporaryDirectory
@@ -578,7 +578,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `cache transaction fails closed when its lock is unavailable`() throws {
+    func cache_transaction_fails_closed_when_its_lock_is_unavailable() throws {
         let domain = "ClaudeOAuthPendingCacheLockFailureTests.\(UUID().uuidString)"
         let key = "pending"
         let tempDirectory = FileManager.default.temporaryDirectory
@@ -609,7 +609,7 @@ struct ClaudeOAuthCredentialsStoreNeverPromptCacheTests {
     }
 
     @Test
-    func `never mode bypasses oauth cache while preserving experimental security CLI reader`() throws {
+    func never_mode_bypasses_oauth_cache_while_preserving_experimental_security_CLI_reader() throws {
         try self.withTestState { state in
             try self.withCredentialsFile(data: nil) { _ in
                 self.seedCache(state, accessToken: "cached-token")

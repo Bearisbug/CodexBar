@@ -5,7 +5,7 @@ import Testing
 
 struct ChutesProviderTests {
     @Test
-    func `settings reader trims quoted API key`() {
+    func settings_reader_trims_quoted_API_key() {
         let token = ChutesSettingsReader.apiKey(environment: [
             ChutesSettingsReader.apiKeyEnvironmentKey: " 'chutes-test' ",
         ])
@@ -14,7 +14,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `config API key projects into Chutes environment`() {
+    func config_API_key_projects_into_Chutes_environment() {
         let config = ProviderConfig(id: .chutes, apiKey: "chutes-config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -27,7 +27,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `fetch usage maps active subscription monthly and rolling windows`() async throws {
+    func fetch_usage_maps_active_subscription_monthly_and_rolling_windows() async throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let rollingReset = try Self.date("2026-06-13T18:00:00Z")
         let monthlyReset = try Self.date("2026-07-01T00:00:00Z")
@@ -86,7 +86,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `no active subscription falls back to quotas endpoint`() async throws {
+    func no_active_subscription_falls_back_to_quotas_endpoint() async throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -144,7 +144,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `wrapped quota list fetches per quota usage`() async throws {
+    func wrapped_quota_list_fetches_per_quota_usage() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             switch url.path {
@@ -183,7 +183,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `partial subscription usage fills missing rolling window from quotas`() async throws {
+    func partial_subscription_usage_fills_missing_rolling_window_from_quotas() async throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -239,7 +239,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `missing usage fields returns no data snapshot without decode failure`() throws {
+    func missing_usage_fields_returns_no_data_snapshot_without_decode_failure() throws {
         let data = Data(#"{"subscription":{"active":true},"unexpected":{"nested":true}}"#.utf8)
         let snapshot = try ChutesUsageParser.parse(data: data, now: Date(timeIntervalSince1970: 123))
         let usage = snapshot.toUsageSnapshot()
@@ -251,7 +251,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `identical usage values keep distinct quota windows`() throws {
+    func identical_usage_values_keep_distinct_quota_windows() throws {
         let data = Data(#"""
         {
           "quotas": [
@@ -279,7 +279,7 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `exact percent value of one stays one percent`() throws {
+    func exact_percent_value_of_one_stays_one_percent() throws {
         let usedData = Data(#"""
         {
           "rolling_window": {
@@ -307,25 +307,29 @@ struct ChutesProviderTests {
     }
 
     @Test
-    func `auth failure surfaces invalid credentials`() async {
+    func auth_failure_surfaces_invalid_credentials() async {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             return Self.makeResponse(url: url, body: #"{"detail":"unauthorized"}"#, statusCode: 401)
         }
 
-        await #expect {
+        do {
             _ = try await ChutesUsageFetcher.fetchUsage(
                 apiKey: "bad-key",
                 environment: [ChutesSettingsReader.apiURLEnvironmentKey: "https://chutes.test"],
                 transport: transport)
-        } throws: { error in
-            guard case ChutesUsageError.invalidCredentials = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case ChutesUsageError.invalidCredentials = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `descriptor and app implementation registry include Chutes`() throws {
+    func descriptor_and_app_implementation_registry_include_Chutes() throws {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .chutes)
         #expect(descriptor.metadata.displayName == "Chutes")
         #expect(ProviderDescriptorRegistry.all.contains { $0.id == .chutes })

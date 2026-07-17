@@ -4,7 +4,7 @@ import Testing
 
 struct ProviderRegistryTests {
     @Test
-    func `descriptor registry is complete and deterministic`() {
+    func descriptor_registry_is_complete_and_deterministic() {
         let descriptors = ProviderDescriptorRegistry.all
         let ids = descriptors.map(\.id)
 
@@ -19,7 +19,7 @@ struct ProviderRegistryTests {
     }
 
     @Test
-    func `implementation registry is complete and deterministic`() {
+    func implementation_registry_is_complete_and_deterministic() {
         let implementations = ProviderImplementationRegistry.all
         let ids = implementations.map(\.id)
 
@@ -34,7 +34,7 @@ struct ProviderRegistryTests {
     }
 
     @Test
-    func `minimax sorts after zai in registry`() {
+    func minimax_sorts_after_zai_in_registry() {
         let ids = ProviderDescriptorRegistry.all.map(\.id)
         guard let zaiIndex = ids.firstIndex(of: .zai),
               let minimaxIndex = ids.firstIndex(of: .minimax)

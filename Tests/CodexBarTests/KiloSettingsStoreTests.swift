@@ -17,14 +17,14 @@ struct KiloSettingsStoreTests {
     }
 
     @Test
-    func `defaults to empty known organizations and empty enabled ids`() throws {
+    func defaults_to_empty_known_organizations_and_empty_enabled_ids() throws {
         let settings = try self.makeSettings()
         #expect(settings.kiloKnownOrganizations.isEmpty)
         #expect(settings.kiloEnabledOrganizationIDs.isEmpty)
     }
 
     @Test
-    func `setting known organizations persists them`() throws {
+    func setting_known_organizations_persists_them() throws {
         let settings = try self.makeSettings()
         let orgs = [
             KiloOrganization(id: "org_1", name: "Alpha", role: "owner"),
@@ -35,14 +35,14 @@ struct KiloSettingsStoreTests {
     }
 
     @Test
-    func `setting enabled org ids persists them`() throws {
+    func setting_enabled_org_ids_persists_them() throws {
         let settings = try self.makeSettings()
         settings.kiloEnabledOrganizationIDs = ["org_1", "org_2"]
         #expect(settings.kiloEnabledOrganizationIDs == ["org_1", "org_2"])
     }
 
     @Test
-    func `setKiloKnownOrganizations prunes stale enabled ids`() throws {
+    func setKiloKnownOrganizations_prunes_stale_enabled_ids() throws {
         let settings = try self.makeSettings()
         settings.kiloKnownOrganizations = [
             KiloOrganization(id: "org_1", name: "Alpha", role: nil),

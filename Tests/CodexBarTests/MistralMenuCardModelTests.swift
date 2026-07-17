@@ -5,7 +5,7 @@ import Testing
 
 struct MistralMenuCardModelTests {
     @Test
-    func `mistral credit balance renders like deepseek balance`() throws {
+    func mistral_credit_balance_renders_like_deepseek_balance() throws {
         let now = Date()
         let credits = MistralCreditsSnapshot(
             walletAmount: 0,
@@ -55,7 +55,7 @@ struct MistralMenuCardModelTests {
     }
 
     @Test
-    func `mistral credit balance renders separately from primary percent lane`() throws {
+    func mistral_credit_balance_renders_separately_from_primary_percent_lane() throws {
         let now = Date()
         let credits = MistralCreditsSnapshot(
             walletAmount: 10,
@@ -121,7 +121,7 @@ struct MistralMenuCardModelTests {
     }
 
     @Test
-    func `mistral model surfaces monthly cost as primary detail text`() throws {
+    func mistral_model_surfaces_monthly_cost_as_primary_detail_text() throws {
         let now = Date()
         let resetsAt = now.addingTimeInterval(3 * 24 * 60 * 60)
         let identity = ProviderIdentitySnapshot(

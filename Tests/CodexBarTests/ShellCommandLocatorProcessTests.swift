@@ -9,7 +9,7 @@ import Testing
 
 struct ShellCommandLocatorProcessTests {
     @Test
-    func `shell probe pipe descriptors close across unrelated execs`() throws {
+    func shell_probe_pipe_descriptors_close_across_unrelated_execs() throws {
         let fds = try #require(ShellCommandLocator.test_makeCloseOnExecPipe())
         defer {
             close(fds.read)
@@ -24,7 +24,7 @@ struct ShellCommandLocatorProcessTests {
     }
 
     @Test
-    func `shell runner terminates session escaped partial output holders after timeout`() throws {
+    func shell_runner_terminates_session_escaped_partial_output_holders_after_timeout() throws {
         let pidFile = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-shell-runner-timeout-\(UUID().uuidString)")
             .path

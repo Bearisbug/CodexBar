@@ -13,7 +13,7 @@ struct WindsurfStatusProbeTests {
     // MARK: - JSON Decoding
 
     @Test
-    func `decodes full plan info`() throws {
+    func decodes_full_plan_info() throws {
         let info = try Self.decode("""
         {
           "planName": "Pro",
@@ -52,7 +52,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `decodes minimal plan info`() throws {
+    func decodes_minimal_plan_info() throws {
         let info = try Self.decode("""
         {"planName": "Free"}
         """)
@@ -64,7 +64,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `decodes empty object`() throws {
+    func decodes_empty_object() throws {
         let info = try Self.decode("{}")
 
         #expect(info.planName == nil)
@@ -75,7 +75,7 @@ struct WindsurfStatusProbeTests {
     // MARK: - toUsageSnapshot Conversion
 
     @Test
-    func `converts full plan to usage snapshot`() throws {
+    func converts_full_plan_to_usage_snapshot() throws {
         let info = try Self.decode("""
         {
           "planName": "Pro",
@@ -109,7 +109,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `converts minimal plan to usage snapshot`() throws {
+    func converts_minimal_plan_to_usage_snapshot() throws {
         let info = try Self.decode("""
         {"planName": "Free"}
         """)
@@ -124,7 +124,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `converts usage counts when quota usage is absent`() throws {
+    func converts_usage_counts_when_quota_usage_is_absent() throws {
         let info = try Self.decode("""
         {
           "planName": "Pro",
@@ -151,7 +151,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `usage counts infer used amount from remaining`() throws {
+    func usage_counts_infer_used_amount_from_remaining() throws {
         let info = try Self.decode("""
         {
           "planName": "Pro",
@@ -170,7 +170,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `daily at zero remaining shows 100 percent used`() throws {
+    func daily_at_zero_remaining_shows_100_percent_used() throws {
         let info = try Self.decode("""
         {
           "planName": "Pro",
@@ -185,7 +185,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `weekly at full remaining shows 0 percent used`() throws {
+    func weekly_at_full_remaining_shows_0_percent_used() throws {
         let info = try Self.decode("""
         {
           "planName": "Pro",
@@ -200,7 +200,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `reset dates are correctly converted from unix timestamps`() throws {
+    func reset_dates_are_correctly_converted_from_unix_timestamps() throws {
         let info = try Self.decode("""
         {
           "planName": "Pro",
@@ -218,7 +218,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `end timestamp converts to expiry description`() throws {
+    func end_timestamp_converts_to_expiry_description() throws {
         let futureMs = Int64(Date().addingTimeInterval(86400 * 30).timeIntervalSince1970 * 1000)
         let info = try Self.decode("""
         {"planName": "Pro", "endTimestamp": \(futureMs)}
@@ -232,7 +232,7 @@ struct WindsurfStatusProbeTests {
     // MARK: - Probe Database Decoding
 
     @Test
-    func `probe decodes UTF-8 JSON blob`() throws {
+    func probe_decodes_UTF_8_JSON_blob() throws {
         let dbURL = try Self.makeTemporaryDatabase(
             jsonData: Data(#"{"planName":"UTF-8 Pro"}"#.utf8))
         defer { try? FileManager.default.removeItem(at: dbURL.deletingLastPathComponent()) }
@@ -243,7 +243,7 @@ struct WindsurfStatusProbeTests {
     }
 
     @Test
-    func `probe decodes UTF-16LE JSON blob`() throws {
+    func probe_decodes_UTF_16LE_JSON_blob() throws {
         let jsonData = try #require(#"{"planName":"UTF-16 Pro"}"#.data(using: .utf16LittleEndian))
         let dbURL = try Self.makeTemporaryDatabase(jsonData: jsonData)
         defer { try? FileManager.default.removeItem(at: dbURL.deletingLastPathComponent()) }
@@ -256,7 +256,7 @@ struct WindsurfStatusProbeTests {
     // MARK: - Probe Error Cases
 
     @Test
-    func `probe throws dbNotFound for missing file`() {
+    func probe_throws_dbNotFound_for_missing_file() {
         let probe = WindsurfStatusProbe(dbPath: "/nonexistent/path/state.vscdb")
 
         #expect(throws: WindsurfStatusProbeError.self) {

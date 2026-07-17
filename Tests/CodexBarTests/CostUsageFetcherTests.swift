@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageFetcherTests {
     @Test
-    func `fetcher scopes codex history to selected codex home`() async throws {
+    func fetcher_scopes_codex_history_to_selected_codex_home() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -35,7 +35,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `fetcher refreshes codex cache when legacy roots metadata is missing`() async throws {
+    func fetcher_refreshes_codex_cache_when_legacy_roots_metadata_is_missing() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -74,7 +74,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `fetcher refreshes codex cache when history window expands`() async throws {
+    func fetcher_refreshes_codex_cache_when_history_window_expands() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -121,7 +121,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `fetcher resolves fork parent outside requested codex window`() async throws {
+    func fetcher_resolves_fork_parent_outside_requested_codex_window() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -199,7 +199,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `force refresh only scans requested codex date window`() async throws {
+    func force_refresh_only_scans_requested_codex_date_window() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -268,7 +268,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `narrow codex refresh preserves wider cache window`() async throws {
+    func narrow_codex_refresh_preserves_wider_cache_window() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -353,7 +353,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `force codex rescan narrows cache window to refreshed range`() async throws {
+    func force_codex_rescan_narrows_cache_window_to_refreshed_range() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -429,7 +429,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `codex refresh drops stale cache entry when session moves to archive`() async throws {
+    func codex_refresh_drops_stale_cache_entry_when_session_moves_to_archive() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -486,7 +486,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `fetcher merges native and pi codex history with normalized model names`() async throws {
+    func fetcher_merges_native_and_pi_codex_history_with_normalized_model_names() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -578,7 +578,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `fetcher merges native and pi claude history and ignores unsupported pi providers`() async throws {
+    func fetcher_merges_native_and_pi_claude_history_and_ignores_unsupported_pi_providers() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -680,7 +680,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `fetcher prefers turn context model over token count fallback`() async throws {
+    func fetcher_prefers_turn_context_model_over_token_count_fallback() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -742,7 +742,7 @@ struct CostUsageFetcherTests {
     }
 
     @Test
-    func `app refresh bypasses scanner debounce without changing direct callers`() async throws {
+    func app_refresh_bypasses_scanner_debounce_without_changing_direct_callers() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

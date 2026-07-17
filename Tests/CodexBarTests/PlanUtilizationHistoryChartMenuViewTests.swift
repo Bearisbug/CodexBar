@@ -5,7 +5,7 @@ import Testing
 
 struct PlanUtilizationHistoryChartMenuViewTests {
     @Test
-    func `merged entries preserve first occurrence order while removing duplicates`() {
+    func merged_entries_preserve_first_occurrence_order_while_removing_duplicates() {
         let first = PlanUtilizationHistoryEntry(
             capturedAt: Date(timeIntervalSince1970: 100),
             usedPercent: 10,
@@ -26,7 +26,7 @@ struct PlanUtilizationHistoryChartMenuViewTests {
     }
 
     @Test
-    func `generic primary weekly window keeps weekly history visible`() {
+    func generic_primary_weekly_window_keeps_weekly_history_visible() {
         let history = PlanUtilizationSeriesHistory(
             name: .weekly,
             windowMinutes: 10080,
@@ -51,7 +51,7 @@ struct PlanUtilizationHistoryChartMenuViewTests {
     }
 
     @Test
-    func `generic unknown weekly extra window does not filter saved history`() {
+    func generic_unknown_weekly_extra_window_does_not_filter_saved_history() {
         let history = PlanUtilizationSeriesHistory(
             name: .weekly,
             windowMinutes: 10080,

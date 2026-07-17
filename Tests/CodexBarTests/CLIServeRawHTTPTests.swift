@@ -18,7 +18,7 @@ import Glibc
 @Suite(.serialized)
 struct CLIServeRawHTTPTests {
     @Test
-    func `raw server serializes status body and extra headers on the wire`() async throws {
+    func raw_server_serializes_status_body_and_extra_headers_on_the_wire() async throws {
         try await Self.withServer(handler: { _ in
             CLILocalHTTPResponse(
                 status: .ok,
@@ -39,7 +39,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `raw server rejects non loopback host headers by default`() async throws {
+    func raw_server_rejects_non_loopback_host_headers_by_default() async throws {
         try await Self.withServer(handler: { _ in Self.okResponse() }, body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -51,7 +51,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `raw server accepts a configured non loopback host alongside loopback`() async throws {
+    func raw_server_accepts_a_configured_non_loopback_host_alongside_loopback() async throws {
         try await Self.withServer(
             allowedHosts: .loopbackAnd(["dashboard.local"]),
             handler: { _ in Self.okResponse() },
@@ -73,7 +73,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `raw server rejects duplicate host headers`() async throws {
+    func raw_server_rejects_duplicate_host_headers() async throws {
         try await Self.withServer(handler: { _ in Self.okResponse() }, body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -85,7 +85,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `raw server rejects duplicate authorization headers`() async throws {
+    func raw_server_rejects_duplicate_authorization_headers() async throws {
         try await Self.withServer(handler: { _ in Self.okResponse() }, body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -105,7 +105,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `raw server passes the authorization header to the handler`() async throws {
+    func raw_server_passes_the_authorization_header_to_the_handler() async throws {
         try await Self.withServer(handler: { request in
             CLILocalHTTPResponse(
                 status: .ok,
@@ -127,7 +127,7 @@ struct CLIServeRawHTTPTests {
     // MARK: - Dashboard snapshot auth (production handler)
 
     @Test
-    func `snapshot without credentials returns 401 with challenge and no-store`() async throws {
+    func snapshot_without_credentials_returns_401_with_challenge_and_no_store() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -141,7 +141,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `snapshot with wrong token returns 401`() async throws {
+    func snapshot_with_wrong_token_returns_401() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -155,7 +155,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `snapshot with correct token returns decodable JSON with no-store`() async throws {
+    func snapshot_with_correct_token_returns_decodable_JSON_with_no_store() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -174,7 +174,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `snapshot never accepts the token from the query string`() async throws {
+    func snapshot_never_accepts_the_token_from_the_query_string() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -186,7 +186,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `snapshot with duplicate authorization headers returns 400`() async throws {
+    func snapshot_with_duplicate_authorization_headers_returns_400() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -205,7 +205,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `snapshot rejects non get methods with 405`() async throws {
+    func snapshot_rejects_non_get_methods_with_405() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -218,7 +218,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `dashboard missing routes return no-store`() async throws {
+    func dashboard_missing_routes_return_no_store() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -230,7 +230,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `snapshot fails closed when no token is configured`() async throws {
+    func snapshot_fails_closed_when_no_token_is_configured() async throws {
         try await Self.withServeRuntime(token: nil, body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -243,7 +243,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `usage and cost responses carry no-store on the wire`() async throws {
+    func usage_and_cost_responses_carry_no_store_on_the_wire() async throws {
         try await Self.withServeRuntime(token: nil, body: { port in
             let usage = try await Self.rawExchange(
                 port: port,
@@ -263,7 +263,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `non-loopback binds gate usage and cost behind the token`() async throws {
+    func non_loopback_binds_gate_usage_and_cost_behind_the_token() async throws {
         try await Self.withServeRuntime(token: "secret", bindHost: "0.0.0.0", body: { port in
             let usageDenied = try await Self.rawExchange(
                 port: port,
@@ -292,7 +292,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `dashboard error responses carry no-store`() async throws {
+    func dashboard_error_responses_carry_no_store() async throws {
         try await Self.withServeRuntime(token: "secret", rawConfigJSON: "{not json", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -306,7 +306,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `health stays open when a dashboard token is configured`() async throws {
+    func health_stays_open_when_a_dashboard_token_is_configured() async throws {
         try await Self.withServeRuntime(token: "secret", body: { port in
             let response = try await Self.rawExchange(
                 port: port,
@@ -320,7 +320,7 @@ struct CLIServeRawHTTPTests {
     }
 
     @Test
-    func `snapshot response preserves usage cache metadata`() async throws {
+    func snapshot_response_preserves_usage_cache_metadata() async throws {
         let store = testConfigStore(suiteName: "CLIServeRawHTTPTests-\(UUID().uuidString)")
         defer { try? store.deleteIfPresent() }
         try store.save(CodexBarConfig(providers: UsageProvider.allCases.map {

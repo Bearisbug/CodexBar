@@ -3,7 +3,7 @@ import Testing
 
 struct ClaudeCredentialRoutingTests {
     @Test
-    func `resolves raw OAuth token`() {
+    func resolves_raw_OAuth_token() {
         let routing = ClaudeCredentialRouting.resolve(
             tokenAccountToken: "sk-ant-oat-test-token",
             manualCookieHeader: nil)
@@ -12,7 +12,7 @@ struct ClaudeCredentialRoutingTests {
     }
 
     @Test
-    func `resolves bearer OAuth token`() {
+    func resolves_bearer_OAuth_token() {
         let routing = ClaudeCredentialRouting.resolve(
             tokenAccountToken: "Bearer sk-ant-oat-test-token",
             manualCookieHeader: nil)
@@ -21,7 +21,7 @@ struct ClaudeCredentialRoutingTests {
     }
 
     @Test
-    func `resolves session token to cookie header`() {
+    func resolves_session_token_to_cookie_header() {
         let routing = ClaudeCredentialRouting.resolve(
             tokenAccountToken: "sk-ant-session-token",
             manualCookieHeader: nil)
@@ -30,7 +30,7 @@ struct ClaudeCredentialRoutingTests {
     }
 
     @Test
-    func `resolves config cookie header through shared normalizer`() {
+    func resolves_config_cookie_header_through_shared_normalizer() {
         let routing = ClaudeCredentialRouting.resolve(
             tokenAccountToken: nil,
             manualCookieHeader: "Cookie: sessionKey=sk-ant-session-token; foo=bar")
@@ -39,7 +39,7 @@ struct ClaudeCredentialRoutingTests {
     }
 
     @Test
-    func `token account input wins over config cookie fallback`() {
+    func token_account_input_wins_over_config_cookie_fallback() {
         let routing = ClaudeCredentialRouting.resolve(
             tokenAccountToken: "Bearer sk-ant-oat-test-token",
             manualCookieHeader: "Cookie: sessionKey=sk-ant-session-token")
@@ -48,7 +48,7 @@ struct ClaudeCredentialRoutingTests {
     }
 
     @Test
-    func `empty inputs resolve to none`() {
+    func empty_inputs_resolve_to_none() {
         let routing = ClaudeCredentialRouting.resolve(
             tokenAccountToken: "   ",
             manualCookieHeader: "\n")

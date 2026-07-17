@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct GeminiStatusProbePlanTests {
     @Test
-    func `selects project id for quota requests`() async throws {
+    func selects_project_id_for_quota_requests() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -59,7 +59,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `prefers load code assist project for quota requests`() async throws {
+    func prefers_load_code_assist_project_for_quota_requests() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -116,7 +116,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `separates flash and flash lite quota buckets from api response`() async throws {
+    func separates_flash_and_flash_lite_quota_buckets_from_api_response() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -164,7 +164,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `detects paid from standard tier`() async throws {
+    func detects_paid_from_standard_tier() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -208,7 +208,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `detects workspace from free tier with hosted domain`() async throws {
+    func detects_workspace_from_free_tier_with_hosted_domain() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let idToken = GeminiAPITestHelpers.makeIDToken(email: "user@company.com", hostedDomain: "company.com")
@@ -253,7 +253,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `detects consumer plus from free tier with paid tier name`() async throws {
+    func detects_consumer_plus_from_free_tier_with_paid_tier_name() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let idToken = GeminiAPITestHelpers.makeIDToken(email: "user@gmail.com")
@@ -298,7 +298,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `uses paid tier name for standard tier subscriptions`() async throws {
+    func uses_paid_tier_name_for_standard_tier_subscriptions() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -342,7 +342,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `paid tier name overrides workspace fallback`() async throws {
+    func paid_tier_name_overrides_workspace_fallback() async throws {
         let plan = try await Self.fetchPlan(
             tierId: "free-tier",
             hostedDomain: "example.com",
@@ -352,7 +352,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `paid tier name survives unknown current tier`() async throws {
+    func paid_tier_name_survives_unknown_current_tier() async throws {
         let plan = try await Self.fetchPlan(
             tierId: "future-tier",
             hostedDomain: nil,
@@ -362,7 +362,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `paid tier name survives missing current tier`() async throws {
+    func paid_tier_name_survives_missing_current_tier() async throws {
         let plan = try await Self.fetchPlan(
             tierId: nil,
             hostedDomain: nil,
@@ -372,7 +372,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `detects free from free tier without hosted domain`() async throws {
+    func detects_free_from_free_tier_without_hosted_domain() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let idToken = GeminiAPITestHelpers.makeIDToken(email: "user@gmail.com")
@@ -417,7 +417,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `detects legacy from legacy tier`() async throws {
+    func detects_legacy_from_legacy_tier() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -461,7 +461,7 @@ struct GeminiStatusProbePlanTests {
     }
 
     @Test
-    func `leaves blank when load code assist fails`() async throws {
+    func leaves_blank_when_load_code_assist_fails() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(

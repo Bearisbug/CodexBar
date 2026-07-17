@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardCostComparisonTests {
     @Test
-    func `cost section adds shorter periods from the same history snapshot`() throws {
+    func cost_section_adds_shorter_periods_from_the_same_history_snapshot() throws {
         let snapshot = CostUsageTokenSnapshot(
             sessionTokens: 400,
             sessionCostUSD: 4,
@@ -33,7 +33,7 @@ struct MenuCardCostComparisonTests {
     }
 
     @Test
-    func `comparison periods remain opt in`() throws {
+    func comparison_periods_remain_opt_in() throws {
         let snapshot = CostUsageTokenSnapshot(
             sessionTokens: 1,
             sessionCostUSD: 1,
@@ -53,7 +53,7 @@ struct MenuCardCostComparisonTests {
     }
 
     @Test
-    func `inline dashboard shows enabled comparison periods`() throws {
+    func inline_dashboard_shows_enabled_comparison_periods() throws {
         let now = Date(timeIntervalSince1970: 1_783_123_200)
         let snapshot = CostUsageTokenSnapshot(
             sessionTokens: 400,

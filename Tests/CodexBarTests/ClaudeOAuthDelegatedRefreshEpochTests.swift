@@ -18,7 +18,7 @@ struct ClaudeOAuthDelegatedRefreshEpochTests {
     }
 
     @Test
-    func `post delegated credential reload starts a new prompt coalescing epoch`() async throws {
+    func post_delegated_credential_reload_starts_a_new_prompt_coalescing_epoch() async throws {
         let state = LoadState()
         let initialRequestID = UUID()
         let usageResponse = try ClaudeOAuthUsageFetcher._decodeUsageResponseForTesting(Data("""

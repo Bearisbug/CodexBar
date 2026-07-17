@@ -6,7 +6,7 @@ import Testing
 
 struct CodexBarTests {
     @Test
-    func `icon renderer produces template image`() {
+    func icon_renderer_produces_template_image() {
         let image = IconRenderer.makeIcon(
             primaryRemaining: 50,
             weeklyRemaining: 75,
@@ -18,7 +18,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `icon renderer renders at pixel aligned size`() {
+    func icon_renderer_renders_at_pixel_aligned_size() {
         let image = IconRenderer.makeIcon(
             primaryRemaining: 50,
             weeklyRemaining: 75,
@@ -32,7 +32,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `icon renderer caches static icons`() {
+    func icon_renderer_caches_static_icons() {
         let first = IconRenderer.makeIcon(
             primaryRemaining: 42,
             weeklyRemaining: 17,
@@ -49,7 +49,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity icon ignores legacy model quota lanes`() {
+    func antigravity_icon_ignores_legacy_model_quota_lanes() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 30, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 60, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -73,7 +73,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity quota summary icon shows session on top and weekly on bottom`() {
+    func antigravity_quota_summary_icon_shows_session_on_top_and_weekly_on_bottom() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 84, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 99, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
@@ -107,7 +107,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity renderer draws primary above secondary`() throws {
+    func antigravity_renderer_draws_primary_above_secondary() throws {
         let image = IconRenderer.makeIcon(
             primaryRemaining: 100,
             weeklyRemaining: 10,
@@ -139,7 +139,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity quota summary icon uses most constrained quota summary lanes`() {
+    func antigravity_quota_summary_icon_uses_most_constrained_quota_summary_lanes() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -171,7 +171,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity quota summary icon can pair gemini session with claude gpt weekly`() {
+    func antigravity_quota_summary_icon_can_pair_gemini_session_with_claude_gpt_weekly() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -195,7 +195,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity quota summary icon ignores unknown rows while ranking known lanes`() {
+    func antigravity_quota_summary_icon_ignores_unknown_rows_while_ranking_known_lanes() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -220,7 +220,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity used icon percent matches constrained claude gpt lane`() {
+    func antigravity_used_icon_percent_matches_constrained_claude_gpt_lane() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -255,7 +255,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity quota summary icon falls back when gemini rows are absent`() {
+    func antigravity_quota_summary_icon_falls_back_when_gemini_rows_are_absent() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -279,7 +279,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `antigravity quota summary icon tie break is stable`() {
+    func antigravity_quota_summary_icon_tie_break_is_stable() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -311,7 +311,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `perplexity icon falls back to purchased lane when bonus is exhausted`() {
+    func perplexity_icon_falls_back_to_purchased_lane_when_bonus_is_exhausted() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -324,7 +324,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `perplexity icon skips exhausted recurring lane when purchased credits remain`() {
+    func perplexity_icon_skips_exhausted_recurring_lane_when_purchased_credits_remain() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -337,7 +337,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `perplexity icon prefers purchased lane before bonus`() {
+    func perplexity_icon_prefers_purchased_lane_before_bonus() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: RateWindow(usedPercent: 20, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -350,7 +350,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `kimi icon renders primary bar when secondary is nil`() throws {
+    func kimi_icon_renders_primary_bar_when_secondary_is_nil() throws {
         // Regression: Kimi account connected with usage, but no progress bar shown (issue #1043).
         // When secondary (rate limit) is absent, the icon renderer must still show
         // the primary (weekly quota) bar.
@@ -400,7 +400,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `copilot icon can use selected budget as secondary lane`() {
+    func copilot_icon_can_use_selected_budget_as_secondary_lane() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 20, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 30, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -422,7 +422,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `copying extra rate windows preserves subscription dates`() {
+    func copying_extra_rate_windows_preserves_subscription_dates() {
         let expiresAt = Date(timeIntervalSince1970: 1_810_656_000)
         let renewsAt = Date(timeIntervalSince1970: 1_810_569_600)
         let ampUsage = AmpUsageDetails(
@@ -444,7 +444,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `copying rate windows preserves provider payloads`() {
+    func copying_rate_windows_preserves_provider_payloads() {
         let updatedAt = Date(timeIntervalSince1970: 1_800_000_000)
         let mimoUsage = MiMoUsageSnapshot(
             balance: 12.5,
@@ -484,7 +484,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `copying identity preserves provider payloads`() {
+    func copying_identity_preserves_provider_payloads() {
         let updatedAt = Date(timeIntervalSince1970: 1_800_000_000)
         let ampUsage = AmpUsageDetails(
             individualCredits: 12.5,
@@ -513,7 +513,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `copilot icon falls back to chat lane when selected budget is unavailable`() {
+    func copilot_icon_falls_back_to_chat_lane_when_selected_budget_is_unavailable() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 20, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 30, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -530,7 +530,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `copilot icon uses selected budget in show used mode`() {
+    func copilot_icon_uses_selected_budget_in_show_used_mode() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 20, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 30, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -553,7 +553,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `warp icon preserves exhausted bonus layout in show used mode`() {
+    func warp_icon_preserves_exhausted_bonus_layout_in_show_used_mode() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 10, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -569,7 +569,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `warp icon keeps unused bonus lane visible in show used mode`() {
+    func warp_icon_keeps_unused_bonus_lane_visible_in_show_used_mode() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 10, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 0, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -586,7 +586,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `merged icon keeps exhausted warp bonus fully used`() {
+    func merged_icon_keeps_exhausted_warp_bonus_fully_used() {
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 10, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
             secondary: RateWindow(usedPercent: 100, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -604,14 +604,14 @@ struct CodexBarTests {
 
     @Test
     @MainActor
-    func `status icon accessibility uses percentage scale`() {
+    func status_icon_accessibility_uses_percentage_scale() {
         #expect(
             StatusIconView.accessibilityPercentRemaining(50) ==
                 String(format: L("%d percent remaining"), 50))
     }
 
     @Test
-    func `codex icon promotes weekly only window into primary display lane`() {
+    func codex_icon_promotes_weekly_only_window_into_primary_display_lane() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: RateWindow(usedPercent: 25, windowMinutes: 10080, resetsAt: nil, resetDescription: nil),
@@ -624,7 +624,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `codex icon uses semantic projection lanes when durations drift`() {
+    func codex_icon_uses_semantic_projection_lanes_when_durations_drift() {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: RateWindow(usedPercent: 25, windowMinutes: 11040, resetsAt: nil, resetDescription: nil),
@@ -637,7 +637,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `codex icon caps session only until exhausted weekly lane resets`() {
+    func codex_icon_caps_session_only_until_exhausted_weekly_lane_resets() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let weeklyReset = now.addingTimeInterval(3600)
         let snapshot = UsageSnapshot(
@@ -666,7 +666,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `status overlays cut halos through the quota bar and keep glyphs visible`() throws {
+    func status_overlays_cut_halos_through_the_quota_bar_and_keep_glyphs_visible() throws {
         let plain = IconRenderer.makeIcon(
             primaryRemaining: 100,
             weeklyRemaining: 100,
@@ -715,7 +715,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `icon renderer codex eyes punch through when unknown`() {
+    func icon_renderer_codex_eyes_punch_through_when_unknown() {
         // Regression: when remaining is nil, CoreGraphics inherits the previous fill alpha which caused
         // destinationOut “eyes” to become semi-transparent instead of fully punched through.
         let image = IconRenderer.makeIcon(
@@ -781,7 +781,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `icon renderer warp eyes cut out at expected centers`() {
+    func icon_renderer_warp_eyes_cut_out_at_expected_centers() {
         // Regression: Warp eyes should be tilted in-place and remain centered on the face.
         let image = IconRenderer.makeIcon(
             primaryRemaining: 50,
@@ -834,7 +834,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `account info parses snake case auth token`() throws {
+    func account_info_parses_snake_case_auth_token() throws {
         let tmp = try FileManager.default.url(
             for: .itemReplacementDirectory,
             in: .userDomainMask,
@@ -855,7 +855,7 @@ struct CodexBarTests {
     }
 
     @Test
-    func `account info parses legacy camel case auth token`() throws {
+    func account_info_parses_legacy_camel_case_auth_token() throws {
         let tmp = try FileManager.default.url(
             for: .itemReplacementDirectory,
             in: .userDomainMask,

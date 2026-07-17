@@ -4,7 +4,7 @@ import Testing
 
 struct QoderProviderTests {
     @Test
-    func `descriptor metadata is correct`() {
+    func descriptor_metadata_is_correct() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .qoder)
 
         #expect(descriptor.metadata.displayName == "Qoder")
@@ -24,12 +24,12 @@ struct QoderProviderTests {
 
     @MainActor
     @Test
-    func `implementation is registered`() {
+    func implementation_is_registered() {
         #expect(ProviderCatalog.implementation(for: .qoder) != nil)
     }
 
     @Test
-    func `dashboard URL follows manual header classifier`() {
+    func dashboard_URL_follows_manual_header_classifier() {
         let global = ProviderSettingsSnapshot.QoderProviderSettings(
             cookieSource: .manual,
             manualCookieHeader: "sid=abc")
@@ -49,7 +49,7 @@ struct QoderProviderTests {
     }
 
     @Test
-    func `dashboard URL follows resolved source labels outside manual mode`() {
+    func dashboard_URL_follows_resolved_source_labels_outside_manual_mode() {
         let automatic = ProviderSettingsSnapshot.QoderProviderSettings(cookieSource: .auto, manualCookieHeader: nil)
 
         #expect(QoderProviderDescriptor.dashboardURL(settings: automatic, sourceLabel: "Chrome / qoder.com.cn") ==

@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuMergedOverviewRefreshTests {
     @Test
-    func `overview stays busy for an omitted provider refresh`() async throws {
+    func overview_stays_busy_for_an_omitted_provider_refresh() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = true

@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct TTYIntegrationTests {
     @Test
-    func `codex RPC usage live`() async throws {
+    func codex_RPC_usage_live() async throws {
         guard ProcessInfo.processInfo.environment["LIVE_CODEX_TTY"] == "1" else {
             return
         }
@@ -26,7 +26,7 @@ struct TTYIntegrationTests {
     }
 
     @Test
-    func `claude TTY usage probe live`() async throws {
+    func claude_TTY_usage_probe_live() async throws {
         guard ProcessInfo.processInfo.environment["LIVE_CLAUDE_TTY"] == "1" else {
             return
         }
@@ -60,7 +60,7 @@ struct TTYIntegrationTests {
     }
 
     @Test
-    func `claude pty usage waits for values after session label`() async throws {
+    func claude_pty_usage_waits_for_values_after_session_label() async throws {
         let cli = try Self.makeSlowUsageClaudeCLI()
         defer { Task { await ClaudeCLISession.shared.reset() } }
 
@@ -73,7 +73,7 @@ struct TTYIntegrationTests {
     }
 
     @Test
-    func `claude pty usage stops on subscription notice`() async throws {
+    func claude_pty_usage_stops_on_subscription_notice() async throws {
         let logURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBarTTYTests-\(UUID().uuidString).log")
         let cli = try Self.makeSubscriptionNoticeClaudeCLI(logURL: logURL)

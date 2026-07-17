@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeOAuthKeychainPreAlertGateTests {
     @Test
-    func `acknowledgement suppresses repeated presentation until cooldown expires`() {
+    func acknowledgement_suppresses_repeated_presentation_until_cooldown_expires() {
         let store = ClaudeOAuthKeychainPreAlertGate.StateStore()
         ClaudeOAuthKeychainPreAlertGate.withStateStoreOverrideForTesting(store) {
             let now = Date(timeIntervalSince1970: 1000)
@@ -26,7 +26,7 @@ struct ClaudeOAuthKeychainPreAlertGateTests {
     }
 
     @Test
-    func `cooldown starts when presentation completes`() {
+    func cooldown_starts_when_presentation_completes() {
         let store = ClaudeOAuthKeychainPreAlertGate.StateStore()
         ClaudeOAuthKeychainPreAlertGate.withStateStoreOverrideForTesting(store) {
             let startedAt = Date(timeIntervalSince1970: 1000)
@@ -48,7 +48,7 @@ struct ClaudeOAuthKeychainPreAlertGateTests {
     }
 
     @Test
-    func `missing prompt handler does not consume acknowledgement cooldown`() {
+    func missing_prompt_handler_does_not_consume_acknowledgement_cooldown() {
         let store = ClaudeOAuthKeychainPreAlertGate.StateStore()
         ClaudeOAuthKeychainPreAlertGate.withStateStoreOverrideForTesting(store) {
             let now = Date(timeIntervalSince1970: 2000)
@@ -58,7 +58,7 @@ struct ClaudeOAuthKeychainPreAlertGateTests {
     }
 
     @Test
-    func `duplicate while presentation is in flight is suppressed`() {
+    func duplicate_while_presentation_is_in_flight_is_suppressed() {
         let store = ClaudeOAuthKeychainPreAlertGate.StateStore()
         ClaudeOAuthKeychainPreAlertGate.withStateStoreOverrideForTesting(store) {
             let now = Date(timeIntervalSince1970: 3000)
@@ -78,7 +78,7 @@ struct ClaudeOAuthKeychainPreAlertGateTests {
     }
 
     @Test
-    func `acknowledgement persists across in memory reset`() {
+    func acknowledgement_persists_across_in_memory_reset() {
         ClaudeOAuthKeychainPreAlertGate.resetForTesting()
         defer { ClaudeOAuthKeychainPreAlertGate.resetForTesting() }
 

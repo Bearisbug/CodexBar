@@ -4,21 +4,21 @@ import Testing
 
 struct ClaudeOAuthRefreshDispositionTests {
     @Test
-    func `invalid grant is terminal`() {
+    func invalid_grant_is_terminal() {
         let data = Data(#"{"error":"invalid_grant"}"#.utf8)
         #expect(ClaudeOAuthCredentialsStore
             .refreshFailureDispositionForTesting(statusCode: 400, data: data) == "terminalInvalidGrant")
     }
 
     @Test
-    func `other error is transient`() {
+    func other_error_is_transient() {
         let data = Data(#"{"error":"invalid_request"}"#.utf8)
         #expect(ClaudeOAuthCredentialsStore
             .refreshFailureDispositionForTesting(statusCode: 400, data: data) == "transientBackoff")
     }
 
     @Test
-    func `undecodable body is transient`() {
+    func undecodable_body_is_transient() {
         let data = Data("not-json".utf8)
         #expect(ClaudeOAuthCredentialsStore
             .refreshFailureDispositionForTesting(statusCode: 401, data: data) == "transientBackoff")
@@ -26,7 +26,7 @@ struct ClaudeOAuthRefreshDispositionTests {
     }
 
     @Test
-    func `non auth status is not handled`() {
+    func non_auth_status_is_not_handled() {
         let data = Data(#"{"error":"invalid_grant"}"#.utf8)
         #expect(ClaudeOAuthCredentialsStore.refreshFailureDispositionForTesting(statusCode: 500, data: data) == nil)
     }

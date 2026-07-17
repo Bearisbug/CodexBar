@@ -28,7 +28,7 @@ enum ProviderStatusIndicator: String {
     }
 }
 
-struct ProviderStatus {
+struct ProviderStatus: Sendable {
     let indicator: ProviderStatusIndicator
     let description: String?
     let updatedAt: Date?
@@ -37,7 +37,7 @@ struct ProviderStatus {
 /// A single component/service row on a statuspage.io-style status page
 /// (e.g. "Codex API", "CLI", "FedRAMP") with its current state. A row with non-empty
 /// `children` is a component group and renders as an expandable dropdown.
-struct ProviderStatusComponent: Identifiable, Equatable {
+struct ProviderStatusComponent: Identifiable, Equatable, Sendable {
     let id: String
     let name: String
     let indicator: ProviderStatusIndicator

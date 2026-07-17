@@ -21,7 +21,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `settings reader trims env vars and normalizes endpoint`() {
+    func settings_reader_trims_env_vars_and_normalizes_endpoint() {
         let environment = [
             AzureOpenAISettingsReader.apiKeyEnvironmentKey: " 'azure-key' ",
             AzureOpenAISettingsReader.endpointEnvironmentKey: "my-resource.openai.azure.com",
@@ -37,7 +37,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `missing deployment config returns precise provider error`() async {
+    func missing_deployment_config_returns_precise_provider_error() async {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .azureopenai)
         let outcome = await descriptor.fetchPlan.fetchOutcome(
             context: self.makeContext(environment: [
@@ -57,7 +57,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `invalid endpoint returns precise provider error before fetch`() async {
+    func invalid_endpoint_returns_precise_provider_error_before_fetch() async {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .azureopenai)
         let outcome = await descriptor.fetchPlan.fetchOutcome(
             context: self.makeContext(environment: [
@@ -79,7 +79,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `fetcher validates deployment with chat completions request`() async throws {
+    func fetcher_validates_deployment_with_chat_completions_request() async throws {
         let endpoint = try #require(URL(string: "https://example-resource.openai.azure.com"))
         let updatedAt = Date(timeIntervalSince1970: 1_800_000_000)
         let transport = ProviderHTTPTransportStub { request in
@@ -126,7 +126,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `chat completions URL preserves endpoint path and deployment escaping`() throws {
+    func chat_completions_URL_preserves_endpoint_path_and_deployment_escaping() throws {
         let endpoint = try #require(URL(string: "https://proxy.example.com/base"))
         let url = try AzureOpenAIUsageFetcher._chatCompletionsURLForTesting(
             endpoint: endpoint,
@@ -139,7 +139,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `chat completions URL does not duplicate openai endpoint suffix`() throws {
+    func chat_completions_URL_does_not_duplicate_openai_endpoint_suffix() throws {
         let endpoint = try #require(URL(string: "https://proxy.example.com/base/openai"))
         let url = try AzureOpenAIUsageFetcher._chatCompletionsURLForTesting(
             endpoint: endpoint,
@@ -152,7 +152,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `v1 API validates with OpenAI compatible path and model field`() async throws {
+    func v1_API_validates_with_OpenAI_compatible_path_and_model_field() async throws {
         let endpoint = try #require(URL(string: "https://example-resource.openai.azure.com"))
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.httpMethod == "POST")
@@ -189,7 +189,7 @@ struct AzureOpenAIUsageFetcherTests {
     }
 
     @Test
-    func `v1 API accepts documented openai v1 base URL`() throws {
+    func v1_API_accepts_documented_openai_v1_base_URL() throws {
         let endpoint = try #require(URL(string: "https://example-resource.openai.azure.com/openai/v1"))
         let url = try AzureOpenAIUsageFetcher._chatCompletionsURLForTesting(
             endpoint: endpoint,
@@ -205,7 +205,7 @@ struct AzureOpenAIUsageFetcherTests {
 @MainActor
 struct AzureOpenAIProviderAvailabilityTests {
     @Test
-    func `configured invalid endpoint remains visible for actionable error`() throws {
+    func configured_invalid_endpoint_remains_visible_for_actionable_error() throws {
         let suite = "AzureOpenAIProviderAvailabilityTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -238,7 +238,7 @@ struct AzureOpenAIProviderAvailabilityTests {
 @MainActor
 struct AzureOpenAIMenuDescriptorTests {
     @Test
-    func `azure openai deployment detail appears in menu`() throws {
+    func azure_openai_deployment_detail_appears_in_menu() throws {
         let suite = "AzureOpenAIMenuDescriptorTests-menu"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

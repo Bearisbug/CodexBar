@@ -4,25 +4,25 @@ import Testing
 
 struct AlibabaCodingPlanSettingsReaderTests {
     @Test
-    func `api token reads from environment`() {
+    func api_token_reads_from_environment() {
         let token = AlibabaCodingPlanSettingsReader.apiToken(environment: ["ALIBABA_CODING_PLAN_API_KEY": "abc123"])
         #expect(token == "abc123")
     }
 
     @Test
-    func `api token reads qwen alias from environment`() {
+    func api_token_reads_qwen_alias_from_environment() {
         let token = AlibabaCodingPlanSettingsReader.apiToken(environment: ["ALIBABA_QWEN_API_KEY": "qwen123"])
         #expect(token == "qwen123")
     }
 
     @Test
-    func `api token reads dashscope alias from environment`() {
+    func api_token_reads_dashscope_alias_from_environment() {
         let token = AlibabaCodingPlanSettingsReader.apiToken(environment: ["DASHSCOPE_API_KEY": "dashscope123"])
         #expect(token == "dashscope123")
     }
 
     @Test
-    func `api token prefers coding plan key over aliases`() {
+    func api_token_prefers_coding_plan_key_over_aliases() {
         let token = AlibabaCodingPlanSettingsReader.apiToken(environment: [
             "ALIBABA_CODING_PLAN_API_KEY": "coding-plan",
             "ALIBABA_QWEN_API_KEY": "qwen",
@@ -32,14 +32,14 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `api token strips quotes`() {
+    func api_token_strips_quotes() {
         let token = AlibabaCodingPlanSettingsReader
             .apiToken(environment: ["ALIBABA_CODING_PLAN_API_KEY": "\"token-xyz\""])
         #expect(token == "token-xyz")
     }
 
     @Test
-    func `quota URL infers scheme`() {
+    func quota_URL_infers_scheme() {
         let url = AlibabaCodingPlanSettingsReader
             .quotaURL(environment: [AlibabaCodingPlanSettingsReader
                     .quotaURLKey: "modelstudio.console.alibabacloud.com/data/api.json"])
@@ -47,7 +47,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `endpoint overrides allow custom https hosts by default`() {
+    func endpoint_overrides_allow_custom_https_hosts_by_default() {
         let env = [
             AlibabaCodingPlanSettingsReader.hostKey: "https://attacker.example",
             AlibabaCodingPlanSettingsReader.quotaURLKey: "https://attacker.example/data/api.json",
@@ -59,7 +59,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `host endpoint overrides preserve explicit port`() {
+    func host_endpoint_overrides_preserve_explicit_port() {
         let env = [AlibabaCodingPlanSettingsReader.hostKey: "proxy.example.test:8443"]
 
         #expect(AlibabaCodingPlanSettingsReader.hostOverride(environment: env) == "proxy.example.test:8443")
@@ -73,7 +73,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `endpoint overrides reject encoded host delimiters before suffix matching`() {
+    func endpoint_overrides_reject_encoded_host_delimiters_before_suffix_matching() {
         let encodedSlash = "https://attacker.example%2f.modelstudio.console.alibabacloud.com"
         let doubleEncodedSlash = "https://attacker.example%252f.modelstudio.console.alibabacloud.com"
         let env = [
@@ -89,7 +89,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `endpoint overrides reject whitespace and control characters in hosts`() {
+    func endpoint_overrides_reject_whitespace_and_control_characters_in_hosts() {
         for host in ["https://bad host", "https://bad%20host", "https://bad%09host"] {
             #expect(AlibabaCodingPlanSettingsReader.hostOverride(environment: [
                 AlibabaCodingPlanSettingsReader.hostKey: host,
@@ -101,7 +101,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `endpoint overrides require https and no userinfo`() {
+    func endpoint_overrides_require_https_and_no_userinfo() {
         #expect(AlibabaCodingPlanSettingsReader.hostOverride(environment: [
             AlibabaCodingPlanSettingsReader.hostKey: "http://modelstudio.console.alibabacloud.com",
         ]) == nil)
@@ -112,7 +112,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `strict provider endpoint mode rejects custom hosts`() {
+    func strict_provider_endpoint_mode_rejects_custom_hosts() {
         let env = [
             AlibabaCodingPlanSettingsReader.requireProviderEndpointOverridesKey: "true",
             AlibabaCodingPlanSettingsReader.hostKey: "proxy.example.test",
@@ -126,7 +126,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `strict provider endpoint mode rejects customer controlled Alibaba Cloud hosts`() {
+    func strict_provider_endpoint_mode_rejects_customer_controlled_Alibaba_Cloud_hosts() {
         let env = [
             AlibabaCodingPlanSettingsReader.requireProviderEndpointOverridesKey: "true",
             AlibabaCodingPlanSettingsReader.hostKey: "tenant.cn-beijing.fc.aliyuncs.com",
@@ -138,7 +138,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `strict provider endpoint mode accepts known Coding Plan hosts`() {
+    func strict_provider_endpoint_mode_accepts_known_Coding_Plan_hosts() {
         let env = [
             AlibabaCodingPlanSettingsReader.requireProviderEndpointOverridesKey: "true",
             AlibabaCodingPlanSettingsReader.hostKey: "bailian-beijing-cs.aliyuncs.com",
@@ -151,7 +151,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `custom https compatibility mode still rejects http and userinfo`() {
+    func custom_https_compatibility_mode_still_rejects_http_and_userinfo() {
         #expect(AlibabaCodingPlanSettingsReader.hostOverride(environment: [
             AlibabaCodingPlanSettingsReader.hostKey: "http://proxy.example.test",
         ]) == nil)
@@ -161,7 +161,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
     }
 
     @Test
-    func `missing cookie error includes access hint when present`() {
+    func missing_cookie_error_includes_access_hint_when_present() {
         let error = AlibabaCodingPlanSettingsError
             .missingCookie(details: "Safari cookie file exists but is not readable.")
         #expect(error.errorDescription?.contains("Safari cookie file exists but is not readable.") == true)
@@ -170,7 +170,7 @@ struct AlibabaCodingPlanSettingsReaderTests {
 
 struct AlibabaCodingPlanUsageSnapshotTests {
     @Test
-    func `maps usage snapshot windows`() {
+    func maps_usage_snapshot_windows() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let reset5h = Date(timeIntervalSince1970: 1_700_000_300)
         let resetWeek = Date(timeIntervalSince1970: 1_700_010_000)
@@ -200,7 +200,7 @@ struct AlibabaCodingPlanUsageSnapshotTests {
     }
 
     @Test
-    func `shifts primary reset forward when backend reset is not future`() {
+    func shifts_primary_reset_forward_when_backend_reset_is_not_future() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let stalePrimaryReset = Date(timeIntervalSince1970: 1_699_999_900)
         let snapshot = AlibabaCodingPlanUsageSnapshot(
@@ -223,7 +223,7 @@ struct AlibabaCodingPlanUsageSnapshotTests {
 
 struct AlibabaCodingPlanUsageParsingTests {
     @Test
-    func `parses quota payload`() throws {
+    func parses_quota_payload() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -258,7 +258,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `multi instance quota payload uses selected active instance plan name`() throws {
+    func multi_instance_quota_payload_uses_selected_active_instance_plan_name() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -298,7 +298,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `missing quota data without positive active signal fails`() {
+    func missing_quota_data_without_positive_active_signal_fails() {
         let json = """
         {
           "data": {
@@ -316,7 +316,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `plan usage without positive active proof fails`() {
+    func plan_usage_without_positive_active_proof_fails() {
         let json = """
         {
           "data": {
@@ -337,7 +337,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `parses wrapped JSON string payload`() throws {
+    func parses_wrapped_JSON_string_payload() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let inner = """
         {
@@ -377,7 +377,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `plan usage fallback stays visible but non quantitative`() throws {
+    func plan_usage_fallback_stays_visible_but_non_quantitative() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -408,7 +408,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `falls back to active plan when quota and usage missing`() throws {
+    func falls_back_to_active_plan_when_quota_and_usage_missing() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -437,7 +437,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `future end time counts as positive active signal`() throws {
+    func future_end_time_counts_as_positive_active_signal() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -465,7 +465,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `multi instance fallback uses selected active instance plan name`() throws {
+    func multi_instance_fallback_uses_selected_active_instance_plan_name() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -499,7 +499,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `active instance without quota does not borrow quota from another instance`() throws {
+    func active_instance_without_quota_does_not_borrow_quota_from_another_instance() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -534,7 +534,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `payload level active proof does not label first instance when no instance is active`() {
+    func payload_level_active_proof_does_not_label_first_instance_when_no_instance_is_active() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let json = """
         {
@@ -561,7 +561,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `does not fallback for inactive plan without quota`() {
+    func does_not_fallback_for_inactive_plan_without_quota() {
         let json = """
         {
           "data": {
@@ -582,7 +582,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `console need login payload maps to login required`() {
+    func console_need_login_payload_maps_to_login_required() {
         let json = """
         {
           "code": "ConsoleNeedLogin",
@@ -598,7 +598,7 @@ struct AlibabaCodingPlanUsageParsingTests {
     }
 
     @Test
-    func `console need login payload maps to unavailable API key mode`() {
+    func console_need_login_payload_maps_to_unavailable_API_key_mode() {
         let json = """
         {
           "code": "ConsoleNeedLogin",
@@ -653,21 +653,21 @@ struct AlibabaCodingPlanFallbackTests {
     }
 
     @Test
-    func `falls back on TLS failure in auto mode`() {
+    func falls_back_on_TLS_failure_in_auto_mode() {
         let strategy = AlibabaCodingPlanWebFetchStrategy()
         let context = self.makeContext(sourceMode: .auto)
         #expect(strategy.shouldFallback(on: URLError(.secureConnectionFailed), context: context))
     }
 
     @Test
-    func `does not fallback on TLS failure when source forced to web`() {
+    func does_not_fallback_on_TLS_failure_when_source_forced_to_web() {
         let strategy = AlibabaCodingPlanWebFetchStrategy()
         let context = self.makeContext(sourceMode: .web)
         #expect(strategy.shouldFallback(on: URLError(.secureConnectionFailed), context: context) == false)
     }
 
     @Test
-    func `auto mode does not borrow manual cookie authority when browser import fails`() throws {
+    func auto_mode_does_not_borrow_manual_cookie_authority_when_browser_import_fails() throws {
         let strategy = AlibabaCodingPlanWebFetchStrategy()
         let settings = ProviderSettingsSnapshot.make(
             alibaba: ProviderSettingsSnapshot.AlibabaCodingPlanProviderSettings(
@@ -696,7 +696,7 @@ struct AlibabaCodingPlanFallbackTests {
     }
 
     @Test
-    func `auto mode skips web when no alibaba session is available`() async throws {
+    func auto_mode_skips_web_when_no_alibaba_session_is_available() async throws {
         let strategy = AlibabaCodingPlanWebFetchStrategy()
         let settings = ProviderSettingsSnapshot.make(
             alibaba: ProviderSettingsSnapshot.AlibabaCodingPlanProviderSettings(
@@ -719,20 +719,20 @@ struct AlibabaCodingPlanFallbackTests {
 
 struct AlibabaCodingPlanRegionTests {
     @Test
-    func `defaults to international endpoint`() {
+    func defaults_to_international_endpoint() {
         let url = AlibabaCodingPlanUsageFetcher.resolveQuotaURL(region: .international, environment: [:])
         #expect(url.host == "modelstudio.console.alibabacloud.com")
         #expect(url.path == "/data/api.json")
     }
 
     @Test
-    func `uses china mainland host`() {
+    func uses_china_mainland_host() {
         let url = AlibabaCodingPlanUsageFetcher.resolveQuotaURL(region: .chinaMainland, environment: [:])
         #expect(url.host == "bailian.console.aliyun.com")
     }
 
     @Test
-    func `host override wins for quota URL`() {
+    func host_override_wins_for_quota_URL() {
         let env = [AlibabaCodingPlanSettingsReader.hostKey: "custom.aliyun.com"]
         let url = AlibabaCodingPlanUsageFetcher.resolveQuotaURL(region: .international, environment: env)
         #expect(url.host == "custom.aliyun.com")
@@ -740,7 +740,7 @@ struct AlibabaCodingPlanRegionTests {
     }
 
     @Test
-    func `host override uses selected region for quota URL`() {
+    func host_override_uses_selected_region_for_quota_URL() {
         let env = [AlibabaCodingPlanSettingsReader.hostKey: "custom.aliyun.com"]
         let url = AlibabaCodingPlanUsageFetcher.resolveQuotaURL(region: .chinaMainland, environment: env)
         #expect(url.host == "custom.aliyun.com")
@@ -751,7 +751,7 @@ struct AlibabaCodingPlanRegionTests {
     }
 
     @Test
-    func `bare host override builds console dashboard URL`() {
+    func bare_host_override_builds_console_dashboard_URL() {
         let env = [AlibabaCodingPlanSettingsReader.hostKey: "custom.aliyun.com"]
         let url = AlibabaCodingPlanUsageFetcher.resolveConsoleDashboardURL(region: .international, environment: env)
         #expect(url.scheme == "https")
@@ -764,7 +764,7 @@ struct AlibabaCodingPlanRegionTests {
     }
 
     @Test
-    func `quota url override beats host`() {
+    func quota_url_override_beats_host() {
         let env = [
             AlibabaCodingPlanSettingsReader.quotaURLKey:
                 "https://modelstudio.console.alibabacloud.com/custom/quota",
@@ -774,14 +774,14 @@ struct AlibabaCodingPlanRegionTests {
     }
 
     @Test
-    func `custom quota url override is preserved by default`() {
+    func custom_quota_url_override_is_preserved_by_default() {
         let env = [AlibabaCodingPlanSettingsReader.quotaURLKey: "https://attacker.example/custom/quota"]
         let url = AlibabaCodingPlanUsageFetcher.resolveQuotaURL(region: .international, environment: env)
         #expect(url.host == "attacker.example")
     }
 
     @Test
-    func `strict provider endpoint mode falls back to provider endpoint`() {
+    func strict_provider_endpoint_mode_falls_back_to_provider_endpoint() {
         let env = [
             AlibabaCodingPlanSettingsReader.requireProviderEndpointOverridesKey: "true",
             AlibabaCodingPlanSettingsReader.quotaURLKey: "https://attacker.example/custom/quota",
@@ -791,7 +791,7 @@ struct AlibabaCodingPlanRegionTests {
     }
 
     @Test
-    func `explicit endpoint override rejects invalid api scheme before network`() async {
+    func explicit_endpoint_override_rejects_invalid_api_scheme_before_network() async {
         await #expect(throws: ProviderEndpointOverrideError.alibabaCodingPlan(
             AlibabaCodingPlanSettingsReader.quotaURLKey))
         {
@@ -803,7 +803,7 @@ struct AlibabaCodingPlanRegionTests {
     }
 
     @Test
-    func `explicit endpoint override rejects invalid cookie scheme before network`() async {
+    func explicit_endpoint_override_rejects_invalid_cookie_scheme_before_network() async {
         await #expect(throws: ProviderEndpointOverrideError.alibabaCodingPlan(
             AlibabaCodingPlanSettingsReader.quotaURLKey))
         {
@@ -818,7 +818,7 @@ struct AlibabaCodingPlanRegionTests {
 @Suite(.serialized)
 struct AlibabaCodingPlanUsageFetcherRequestTests {
     @Test
-    func `api401 maps to invalid credentials`() async throws {
+    func api401_maps_to_invalid_credentials() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             guard let url = request.url else { throw URLError(.badURL) }
             let (response, data) = Self.makeResponse(
@@ -840,7 +840,7 @@ struct AlibabaCodingPlanUsageFetcherRequestTests {
     }
 
     @Test
-    func `cookie SEC token fallback survives user info request failure`() async throws {
+    func cookie_SEC_token_fallback_survives_user_info_request_failure() async throws {
         let registered = URLProtocol.registerClass(AlibabaConsoleSECTokenStubURLProtocol.self)
         defer {
             if registered {
@@ -896,7 +896,7 @@ struct AlibabaCodingPlanUsageFetcherRequestTests {
     }
 
     @Test
-    func `host override applies to user info SEC token fallback`() async throws {
+    func host_override_applies_to_user_info_SEC_token_fallback() async throws {
         let registered = URLProtocol.registerClass(AlibabaConsoleSECTokenStubURLProtocol.self)
         defer {
             if registered {
@@ -956,7 +956,7 @@ struct AlibabaCodingPlanUsageFetcherRequestTests {
     }
 
     @Test
-    func `console request body uses region specific metadata`() async throws {
+    func console_request_body_uses_region_specific_metadata() async throws {
         let registered = URLProtocol.registerClass(AlibabaConsoleSECTokenStubURLProtocol.self)
         defer {
             if registered {

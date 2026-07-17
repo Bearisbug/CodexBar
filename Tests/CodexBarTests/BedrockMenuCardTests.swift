@@ -5,7 +5,7 @@ import Testing
 
 struct BedrockMenuCardTests {
     @Test
-    func `bedrock cost section labels latest billing day`() throws {
+    func bedrock_cost_section_labels_latest_billing_day() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.bedrock])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -52,7 +52,7 @@ struct BedrockMenuCardTests {
     }
 
     @Test
-    func `bedrock cost section picks latest valid billing day`() throws {
+    func bedrock_cost_section_picks_latest_valid_billing_day() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.bedrock])
         let tokenSnapshot = CostUsageTokenSnapshot(

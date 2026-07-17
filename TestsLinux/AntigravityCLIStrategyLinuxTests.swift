@@ -5,7 +5,7 @@ import Testing
 #if os(Linux)
 struct AntigravityCLIStrategyLinuxTests {
     @Test
-    func `cli local strategy is available with HTTP fallback`() async throws {
+    func cli_local_strategy_is_available_with_HTTP_fallback() async throws {
         let binaryURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-antigravity-\(UUID().uuidString)")
         try Data("#!/bin/sh\n".utf8).write(to: binaryURL)
@@ -32,7 +32,7 @@ struct AntigravityCLIStrategyLinuxTests {
     }
 
     @Test
-    func `cli local endpoints include Linux HTTP fallback`() {
+    func cli_local_endpoints_include_Linux_HTTP_fallback() {
         #expect(
             AntigravityStatusProbe.cliEndpoints(ports: [55624]) == [
                 AntigravityStatusProbe.AntigravityConnectionEndpoint(
@@ -49,7 +49,7 @@ struct AntigravityCLIStrategyLinuxTests {
     }
 
     @Test
-    func `language server endpoints include Linux HTTP fallback`() {
+    func language_server_endpoints_include_Linux_HTTP_fallback() {
         #expect(
             AntigravityStatusProbe.connectionCandidates(
                 listeningPorts: [64440],

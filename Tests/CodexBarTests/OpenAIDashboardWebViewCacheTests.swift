@@ -20,7 +20,7 @@ struct OpenAIDashboardWebViewCacheTests {
     // MARK: - Data Store Identity Tests
 
     @Test
-    func `navigation retry uses only remaining shared deadline`() throws {
+    func navigation_retry_uses_only_remaining_shared_deadline() throws {
         let start = Date(timeIntervalSinceReferenceDate: 1000)
         let deadline = start.addingTimeInterval(10)
 
@@ -32,7 +32,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `navigation retry refuses expired shared deadline`() {
+    func navigation_retry_refuses_expired_shared_deadline() {
         let deadline = Date(timeIntervalSinceReferenceDate: 1000)
 
         do {
@@ -48,7 +48,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `WKWebsiteDataStore should return same instance for same email`() {
+    func WKWebsiteDataStore_should_return_same_instance_for_same_email() {
         if self.shouldSkipOnCI() { return }
         OpenAIDashboardWebsiteDataStore.clearCacheForTesting()
 
@@ -67,7 +67,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `same email profile homes use distinct website data stores`() {
+    func same_email_profile_homes_use_distinct_website_data_stores() {
         OpenAIDashboardWebsiteDataStore.clearCacheForTesting()
         defer { OpenAIDashboardWebsiteDataStore.clearCacheForTesting() }
 
@@ -94,7 +94,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `live website data store preserves legacy email identifier`() {
+    func live_website_data_store_preserves_legacy_email_identifier() {
         OpenAIDashboardWebsiteDataStore.clearCacheForTesting()
         defer { OpenAIDashboardWebsiteDataStore.clearCacheForTesting() }
 
@@ -106,7 +106,7 @@ struct OpenAIDashboardWebViewCacheTests {
     // MARK: - WebView Reuse Tests
 
     @Test
-    func `WebView should be cached after release, not destroyed`() async throws {
+    func WebView_should_be_cached_after_release_not_destroyed() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -140,7 +140,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Different data stores should have separate cached WebViews`() async throws {
+    func Different_data_stores_should_have_separate_cached_WebViews() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store1 = WKWebsiteDataStore.nonPersistent()
@@ -172,7 +172,7 @@ struct OpenAIDashboardWebViewCacheTests {
     // MARK: - Idle Timeout / Pruning Tests
 
     @Test
-    func `WebView should be pruned after idle timeout`() {
+    func WebView_should_be_pruned_after_idle_timeout() {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -189,7 +189,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Recently used WebView should not be pruned`() {
+    func Recently_used_WebView_should_not_be_pruned() {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -204,7 +204,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Preserved page handoff is consumed only once`() {
+    func Preserved_page_handoff_is_consumed_only_once() {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -223,7 +223,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Expired preserved page is cleared before idle eviction`() {
+    func Expired_preserved_page_is_cleared_before_idle_eviction() {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -242,7 +242,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Preserved page expiry is scheduled without future cache activity`() async throws {
+    func Preserved_page_expiry_is_scheduled_without_future_cache_activity() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -272,7 +272,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Idle prune is scheduled without future cache activity`() async throws {
+    func Idle_prune_is_scheduled_without_future_cache_activity() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache(idleTimeout: 0.2)
         let store = WKWebsiteDataStore.nonPersistent()
@@ -300,7 +300,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Later release does not postpone an older idle entry`() async throws {
+    func Later_release_does_not_postpone_an_older_idle_entry() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache(idleTimeout: 5)
         let firstStore = WKWebsiteDataStore.nonPersistent()
@@ -332,7 +332,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Reused page reset clears one shot scraper globals`() async throws {
+    func Reused_page_reset_clears_one_shot_scraper_globals() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -369,7 +369,7 @@ struct OpenAIDashboardWebViewCacheTests {
     // MARK: - Eviction Tests
 
     @Test
-    func `Evict should remove specific WebView from cache`() async throws {
+    func Evict_should_remove_specific_WebView_from_cache() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store1 = WKWebsiteDataStore.nonPersistent()
@@ -395,7 +395,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Evicted WebView should not be reused on next acquire`() async throws {
+    func Evicted_WebView_should_not_be_reused_on_next_acquire() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -417,7 +417,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Evict all should remove every cached WebView`() async throws {
+    func Evict_all_should_remove_every_cached_WebView() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store1 = WKWebsiteDataStore.nonPersistent()
@@ -439,7 +439,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Evict idle removes idle WebViews without interrupting busy WebViews`() {
+    func Evict_idle_removes_idle_WebViews_without_interrupting_busy_WebViews() {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let idleStore = WKWebsiteDataStore.nonPersistent()
@@ -458,7 +458,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Memory pressure monitor evicts idle shared WebViews without interrupting busy WebViews`() {
+    func Memory_pressure_monitor_evicts_idle_shared_WebViews_without_interrupting_busy_WebViews() {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache.shared
         cache.clearAllForTesting()
@@ -481,7 +481,7 @@ struct OpenAIDashboardWebViewCacheTests {
     }
 
     @Test
-    func `Memory pressure malloc relief runs off the main thread`() async {
+    func Memory_pressure_malloc_relief_runs_off_the_main_thread() async {
         let probe = MemoryPressureThreadProbe()
         let monitor = MemoryPressureMonitor(releaseFreeMallocPages: {
             probe.recordCurrentThread()
@@ -499,7 +499,7 @@ struct OpenAIDashboardWebViewCacheTests {
     // MARK: - Busy WebView Tests
 
     @Test
-    func `Busy WebView should create temporary WebView for concurrent access`() async throws {
+    func Busy_WebView_should_create_temporary_WebView_for_concurrent_access() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -535,7 +535,7 @@ struct OpenAIDashboardWebViewCacheTests {
     // MARK: - Network Traffic Regression Prevention
 
     @Test
-    func `Multiple sequential fetches should reuse same WebView (network optimization)`() async throws {
+    func Multiple_sequential_fetches_should_reuse_same_WebView_network_optimization() async throws {
         if self.shouldSkipOnCI() { return }
         let cache = OpenAIDashboardWebViewCache()
         let store = WKWebsiteDataStore.nonPersistent()
@@ -570,7 +570,7 @@ struct OpenAIDashboardWebViewCacheTests {
     // MARK: - Integration Test with Real Data Store Factory
 
     @Test
-    func `Sequential fetches with OpenAIDashboardWebsiteDataStore should reuse WebView`() async throws {
+    func Sequential_fetches_with_OpenAIDashboardWebsiteDataStore_should_reuse_WebView() async throws {
         if self.shouldSkipOnCI() { return }
         OpenAIDashboardWebsiteDataStore.clearCacheForTesting()
         let cache = OpenAIDashboardWebViewCache()

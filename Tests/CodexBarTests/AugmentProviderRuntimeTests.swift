@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct AugmentProviderRuntimeTests {
     @Test
-    func `repeated stop only reports a running keepalive once`() throws {
+    func repeated_stop_only_reports_a_running_keepalive_once() throws {
         let suite = "AugmentProviderRuntimeTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

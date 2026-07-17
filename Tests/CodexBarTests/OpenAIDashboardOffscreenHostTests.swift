@@ -4,7 +4,7 @@ import Testing
 
 struct OpenAIDashboardOffscreenHostTests {
     @Test
-    func `offscreen host frame only intersects by A sliver`() {
+    func offscreen_host_frame_only_intersects_by_A_sliver() {
         let visibleFrame = CGRect(x: 0, y: 0, width: 1000, height: 800)
         let frame = OpenAIDashboardFetcher.offscreenHostWindowFrame(for: visibleFrame)
         let intersection = frame.intersection(visibleFrame)
@@ -18,7 +18,7 @@ struct OpenAIDashboardOffscreenHostTests {
     }
 
     @Test
-    func `offscreen host alpha value is non zero but tiny`() {
+    func offscreen_host_alpha_value_is_non_zero_but_tiny() {
         let alpha = OpenAIDashboardFetcher.offscreenHostAlphaValue()
         #expect(alpha > 0)
         #expect(alpha <= 0.001)

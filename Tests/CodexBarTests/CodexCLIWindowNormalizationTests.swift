@@ -4,7 +4,7 @@ import Testing
 
 struct CodexCLIWindowNormalizationTests {
     @Test
-    func `normalizer maps lone weekly window into secondary`() {
+    func normalizer_maps_lone_weekly_window_into_secondary() {
         let weekly = RateWindow(
             usedPercent: 5,
             windowMinutes: 10080,
@@ -18,7 +18,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `normalizer keeps lone session window in primary`() {
+    func normalizer_keeps_lone_session_window_in_primary() {
         let session = RateWindow(
             usedPercent: 31,
             windowMinutes: 300,
@@ -32,7 +32,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `normalizer keeps session and weekly ordering unchanged`() {
+    func normalizer_keeps_session_and_weekly_ordering_unchanged() {
         let session = RateWindow(
             usedPercent: 31,
             windowMinutes: 300,
@@ -52,7 +52,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `normalizer swaps reversed weekly and unknown windows`() {
+    func normalizer_swaps_reversed_weekly_and_unknown_windows() {
         let weekly = RateWindow(
             usedPercent: 43,
             windowMinutes: 10080,
@@ -72,7 +72,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `maps weekly only RPC limits into secondary`() throws {
+    func maps_weekly_only_RPC_limits_into_secondary() throws {
         let snapshot = try UsageFetcher._mapCodexRPCLimitsForTesting(
             primary: (usedPercent: 5, windowMinutes: 10080, resetsAt: nil),
             secondary: nil)
@@ -83,7 +83,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `maps session only RPC limits into primary`() throws {
+    func maps_session_only_RPC_limits_into_primary() throws {
         let snapshot = try UsageFetcher._mapCodexRPCLimitsForTesting(
             primary: (usedPercent: 31, windowMinutes: 300, resetsAt: nil),
             secondary: nil)
@@ -94,7 +94,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `maps reversed weekly and unknown RPC limits`() throws {
+    func maps_reversed_weekly_and_unknown_RPC_limits() throws {
         let snapshot = try UsageFetcher._mapCodexRPCLimitsForTesting(
             primary: (usedPercent: 43, windowMinutes: 10080, resetsAt: nil),
             secondary: (usedPercent: 17, windowMinutes: 540, resetsAt: nil))
@@ -106,14 +106,14 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `throws when RPC limits contain no windows`() {
+    func throws_when_RPC_limits_contain_no_windows() {
         #expect(throws: UsageError.noRateLimitsFound) {
             try UsageFetcher._mapCodexRPCLimitsForTesting(primary: nil, secondary: nil)
         }
     }
 
     @Test
-    func `maps plan only RPC limits into empty identified snapshot`() throws {
+    func maps_plan_only_RPC_limits_into_empty_identified_snapshot() throws {
         let snapshot = try UsageFetcher._mapCodexRPCLimitsForTesting(
             primary: nil,
             secondary: nil,
@@ -126,7 +126,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `codex no rate limit error means limits unavailable without snapshot`() {
+    func codex_no_rate_limit_error_means_limits_unavailable_without_snapshot() {
         let availability = UsageLimitsAvailability.resolve(
             provider: .codex,
             snapshot: nil,
@@ -137,7 +137,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `codex no rate limit error stays available without account context`() {
+    func codex_no_rate_limit_error_stays_available_without_account_context() {
         let availability = UsageLimitsAvailability.resolve(
             provider: .codex,
             snapshot: nil,
@@ -148,7 +148,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `codex windowed snapshot wins over stale no rate limit error`() {
+    func codex_windowed_snapshot_wins_over_stale_no_rate_limit_error() {
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
             accountEmail: "user@example.com",
@@ -172,7 +172,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `maps weekly only status snapshot into secondary`() throws {
+    func maps_weekly_only_status_snapshot_into_secondary() throws {
         let status = CodexStatusSnapshot(
             credits: nil,
             fiveHourPercentLeft: nil,
@@ -190,7 +190,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `maps five hour only status snapshot into primary`() throws {
+    func maps_five_hour_only_status_snapshot_into_primary() throws {
         let status = CodexStatusSnapshot(
             credits: nil,
             fiveHourPercentLeft: 69,
@@ -208,7 +208,7 @@ struct CodexCLIWindowNormalizationTests {
     }
 
     @Test
-    func `throws when status snapshot contains no windows`() {
+    func throws_when_status_snapshot_contains_no_windows() {
         let status = CodexStatusSnapshot(
             credits: nil,
             fiveHourPercentLeft: nil,

@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension StatusMenuTests {
     @Test
-    func `cost summary display style controls codex menu presentation`() throws {
+    func cost_summary_display_style_controls_codex_menu_presentation() throws {
         self.disableMenuCardsForTesting()
 
         for style in CostSummaryDisplayStyle.allCases {

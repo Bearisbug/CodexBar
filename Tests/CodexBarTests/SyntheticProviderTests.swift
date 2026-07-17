@@ -4,13 +4,13 @@ import Testing
 
 struct SyntheticSettingsReaderTests {
     @Test
-    func `api key reads from environment`() {
+    func api_key_reads_from_environment() {
         let token = SyntheticSettingsReader.apiKey(environment: ["SYNTHETIC_API_KEY": "abc123"])
         #expect(token == "abc123")
     }
 
     @Test
-    func `api key strips quotes`() {
+    func api_key_strips_quotes() {
         let token = SyntheticSettingsReader.apiKey(environment: ["SYNTHETIC_API_KEY": "\"token-xyz\""])
         #expect(token == "token-xyz")
     }
@@ -18,7 +18,7 @@ struct SyntheticSettingsReaderTests {
 
 struct SyntheticUsageSnapshotTests {
     @Test
-    func `maps usage snapshot windows`() throws {
+    func maps_usage_snapshot_windows() throws {
         let json = """
         {
           "plan": "Starter",
@@ -39,7 +39,7 @@ struct SyntheticUsageSnapshotTests {
     }
 
     @Test
-    func `parses subscription quota`() throws {
+    func parses_subscription_quota() throws {
         let json = """
         {
           "subscription": {
@@ -63,7 +63,7 @@ struct SyntheticUsageSnapshotTests {
     }
 
     @Test
-    func `parses nested subscription pack quota`() throws {
+    func parses_nested_subscription_pack_quota() throws {
         let json = """
         {
           "subscription": {
@@ -90,7 +90,7 @@ struct SyntheticUsageSnapshotTests {
     }
 
     @Test
-    func `parses live root level rolling and weekly quotas`() throws {
+    func parses_live_root_level_rolling_and_weekly_quotas() throws {
         let json = """
         {
           "subscription": {
@@ -146,7 +146,7 @@ struct SyntheticUsageSnapshotTests {
     }
 
     @Test
-    func `parses rolling lane tickPercent into primary nextRegenPercent`() throws {
+    func parses_rolling_lane_tickPercent_into_primary_nextRegenPercent() throws {
         let json = """
         {
           "rollingFiveHourLimit": {
@@ -165,7 +165,7 @@ struct SyntheticUsageSnapshotTests {
     }
 
     @Test
-    func `omits nextRegenPercent when rolling lane lacks tickPercent`() throws {
+    func omits_nextRegenPercent_when_rolling_lane_lacks_tickPercent() throws {
         let json = """
         {
           "rollingFiveHourLimit": {
@@ -182,7 +182,7 @@ struct SyntheticUsageSnapshotTests {
     }
 
     @Test
-    func `parses time string suffixes covering minutes hours and days`() {
+    func parses_time_string_suffixes_covering_minutes_hours_and_days() {
         #expect(SyntheticUsageParser.windowMinutes(fromText: "5min") == 5)
         #expect(SyntheticUsageParser.windowMinutes(fromText: "5m") == 5)
         #expect(SyntheticUsageParser.windowMinutes(fromText: "5hr") == 300)
@@ -196,7 +196,7 @@ struct SyntheticUsageSnapshotTests {
     }
 
     @Test
-    func `preserves slot identity when rolling lane is missing`() throws {
+    func preserves_slot_identity_when_rolling_lane_is_missing() throws {
         let json = """
         {
           "weeklyTokenLimit": {

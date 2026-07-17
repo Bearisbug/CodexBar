@@ -22,7 +22,7 @@ private final class AntigravityQuotaSummaryPathRecorder: @unchecked Sendable {
 
 struct AntigravityQuotaSummaryTests {
     @Test
-    func `parses quota summary response into two model groups with session before weekly windows`() throws {
+    func parses_quota_summary_response_into_two_model_groups_with_session_before_weekly_windows() throws {
         let snapshot = try AntigravityStatusProbe.parseQuotaSummaryResponse(
             Data(antigravityQuotaSummaryJSON().utf8))
 
@@ -60,7 +60,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `parses quota summary oneof remaining value shape`() throws {
+    func parses_quota_summary_oneof_remaining_value_shape() throws {
         let json = """
         {
           "groups": [
@@ -85,7 +85,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test(arguments: ["session", "5h", "5-hour", "five hour", "five-hour"])
-    func `normalizes supported session cadence aliases without rewriting bucket IDs`(alias: String) throws {
+    func normalizes_supported_session_cadence_aliases_without_rewriting_bucket_IDs(alias: String) throws {
         let bucketID = "gemini-\(alias)"
         let json = """
         {
@@ -114,7 +114,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `recognizes underscore cadence without rewriting bucket ID`() throws {
+    func recognizes_underscore_cadence_without_rewriting_bucket_ID() throws {
         let json = """
         {
           "groups": [
@@ -141,7 +141,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `recognizes prefixed cadence before limit suffix`() throws {
+    func recognizes_prefixed_cadence_before_limit_suffix() throws {
         let json = """
         {
           "groups": [
@@ -168,7 +168,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `does not classify cadence aliases embedded inside unrelated words`() throws {
+    func does_not_classify_cadence_aliases_embedded_inside_unrelated_words() throws {
         let json = """
         {
           "groups": [
@@ -194,7 +194,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `fetch snapshot prefers quota summary endpoint and merges identity`() async throws {
+    func fetch_snapshot_prefers_quota_summary_endpoint_and_merges_identity() async throws {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -223,7 +223,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `fetch snapshot keeps quota summary when identity endpoint fails`() async throws {
+    func fetch_snapshot_keeps_quota_summary_when_identity_endpoint_fails() async throws {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -251,7 +251,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `fetch snapshot falls back to user status when quota summary is unavailable`() async throws {
+    func fetch_snapshot_falls_back_to_user_status_when_quota_summary_is_unavailable() async throws {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -278,7 +278,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `fetch snapshot falls back when quota summary has no known usage buckets`() async throws {
+    func fetch_snapshot_falls_back_when_quota_summary_has_no_known_usage_buckets() async throws {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -305,7 +305,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `quota summary timeout reserves deadline for legacy fallback`() async throws {
+    func quota_summary_timeout_reserves_deadline_for_legacy_fallback() async throws {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,
@@ -336,7 +336,7 @@ struct AntigravityQuotaSummaryTests {
     }
 
     @Test
-    func `user status timeout reserves deadline for command model fallback`() async throws {
+    func user_status_timeout_reserves_deadline_for_command_model_fallback() async throws {
         let endpoint = AntigravityStatusProbe.AntigravityConnectionEndpoint(
             scheme: "https",
             port: 64440,

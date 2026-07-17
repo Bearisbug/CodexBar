@@ -4,7 +4,7 @@ import Testing
 
 struct Issue2037FixtureHarnessTests {
     @Test
-    func `issue 2037 fixture harness installs a sanitized family into an isolated codex home`() throws {
+    func issue_2037_fixture_harness_installs_a_sanitized_family_into_an_isolated_codex_home() throws {
         let fixture = try Issue2037FixtureHarness.load(named: "harness-smoke")
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }

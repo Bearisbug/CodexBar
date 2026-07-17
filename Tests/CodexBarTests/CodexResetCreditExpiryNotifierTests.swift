@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CodexResetCreditExpiryNotifierTests {
     @Test
-    func `posts one bounded summary without persisting or logging raw credit IDs`() throws {
+    func posts_one_bounded_summary_without_persisting_or_logging_raw_credit_IDs() throws {
         let suite = "CodexResetCreditExpiryNotifierTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
@@ -42,7 +42,7 @@ struct CodexResetCreditExpiryNotifierTests {
     }
 
     @Test
-    func `switching account inventories does not repeat either notification`() throws {
+    func switching_account_inventories_does_not_repeat_either_notification() throws {
         let suite = "CodexResetCreditExpiryNotifierAccountTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
@@ -70,7 +70,7 @@ struct CodexResetCreditExpiryNotifierTests {
     }
 
     @Test
-    func `no-expiry inventory does not trigger an expiry notification`() throws {
+    func no_expiry_inventory_does_not_trigger_an_expiry_notification() throws {
         let suite = "CodexResetCreditExpiryNotifierNoExpiryTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }

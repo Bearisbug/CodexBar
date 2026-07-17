@@ -5,7 +5,7 @@ import Testing
 
 struct UsageStoreResetBoundaryRefreshTests {
     @Test
-    func `schedules refresh at reset boundary before normal poll`() {
+    func schedules_refresh_at_reset_boundary_before_normal_poll() {
         let now = Date(timeIntervalSince1970: 1000)
         let resetsAt = now.addingTimeInterval(10 * 60)
         let snapshot = Self.snapshot(updatedAt: now, primaryResetsAt: resetsAt)
@@ -19,7 +19,7 @@ struct UsageStoreResetBoundaryRefreshTests {
     }
 
     @Test
-    func `schedules prompt refresh when reset boundary already passed`() {
+    func schedules_prompt_refresh_when_reset_boundary_already_passed() {
         let now = Date(timeIntervalSince1970: 2000)
         let resetsAt = now.addingTimeInterval(-3 * 60)
         let snapshot = Self.snapshot(
@@ -35,7 +35,7 @@ struct UsageStoreResetBoundaryRefreshTests {
     }
 
     @Test
-    func `suppresses repeated prompt refresh after attempted boundary`() {
+    func suppresses_repeated_prompt_refresh_after_attempted_boundary() {
         let now = Date(timeIntervalSince1970: 2500)
         let resetsAt = now.addingTimeInterval(-3 * 60)
         let boundaryRefreshAt = resetsAt.addingTimeInterval(UsageStore.resetBoundaryRefreshGraceSeconds)
@@ -53,7 +53,7 @@ struct UsageStoreResetBoundaryRefreshTests {
     }
 
     @Test
-    func `in flight boundary refresh remains retryable`() {
+    func in_flight_boundary_refresh_remains_retryable() {
         let now = Date(timeIntervalSince1970: 2750)
         let resetsAt = now.addingTimeInterval(-3 * 60)
         let boundaryRefreshAt = resetsAt.addingTimeInterval(UsageStore.resetBoundaryRefreshGraceSeconds)
@@ -83,7 +83,7 @@ struct UsageStoreResetBoundaryRefreshTests {
 
     @Test
     @MainActor
-    func `in flight boundary refresh clears fired schedule marker`() async {
+    func in_flight_boundary_refresh_clears_fired_schedule_marker() async {
         let now = Date(timeIntervalSince1970: 2800)
         let resetsAt = now.addingTimeInterval(-3 * 60)
         let boundaryRefreshAt = resetsAt.addingTimeInterval(UsageStore.resetBoundaryRefreshGraceSeconds)
@@ -115,7 +115,7 @@ struct UsageStoreResetBoundaryRefreshTests {
 
     @Test
     @MainActor
-    func `boundary refresh records its attempt before waiting for forced enrichment`() async {
+    func boundary_refresh_records_its_attempt_before_waiting_for_forced_enrichment() async {
         let settings = testSettingsStore(suiteName: "UsageStoreResetBoundaryRefreshTests-waits-for-tail")
         settings.statusChecksEnabled = false
         settings.costUsageEnabled = true
@@ -184,7 +184,7 @@ struct UsageStoreResetBoundaryRefreshTests {
 
     @Test
     @MainActor
-    func `boundary refresh does not reschedule unchanged stale snapshot`() async {
+    func boundary_refresh_does_not_reschedule_unchanged_stale_snapshot() async {
         let settings = testSettingsStore(suiteName: "UsageStoreResetBoundaryRefreshTests-no-duplicate")
         settings.refreshFrequency = .oneMinute
         settings.statusChecksEnabled = false
@@ -223,7 +223,7 @@ struct UsageStoreResetBoundaryRefreshTests {
     }
 
     @Test
-    func `ignores reset boundary after normal poll`() {
+    func ignores_reset_boundary_after_normal_poll() {
         let now = Date(timeIntervalSince1970: 3000)
         let resetsAt = now.addingTimeInterval(40 * 60)
         let snapshot = Self.snapshot(updatedAt: now, primaryResetsAt: resetsAt)
@@ -237,7 +237,7 @@ struct UsageStoreResetBoundaryRefreshTests {
     }
 
     @Test
-    func `ignores already refreshed reset boundary`() {
+    func ignores_already_refreshed_reset_boundary() {
         let now = Date(timeIntervalSince1970: 4000)
         let resetsAt = now.addingTimeInterval(-3 * 60)
         let snapshot = Self.snapshot(updatedAt: now, primaryResetsAt: resetsAt)
@@ -251,7 +251,7 @@ struct UsageStoreResetBoundaryRefreshTests {
     }
 
     @Test
-    func `uses earliest boundary across secondary and extra windows`() {
+    func uses_earliest_boundary_across_secondary_and_extra_windows() {
         let now = Date(timeIntervalSince1970: 5000)
         let secondaryResetsAt = now.addingTimeInterval(8 * 60)
         let extraResetsAt = now.addingTimeInterval(4 * 60)
@@ -288,7 +288,7 @@ struct UsageStoreResetBoundaryRefreshTests {
     }
 
     @Test
-    func `manual refresh cadence does not schedule boundary refresh`() {
+    func manual_refresh_cadence_does_not_schedule_boundary_refresh() {
         let now = Date(timeIntervalSince1970: 6000)
         let snapshot = Self.snapshot(
             updatedAt: now,

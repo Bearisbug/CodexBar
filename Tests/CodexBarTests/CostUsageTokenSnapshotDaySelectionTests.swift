@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageTokenSnapshotDaySelectionTests {
     @Test
-    func `token snapshot reports zero today when latest history row is stale`() throws {
+    func token_snapshot_reports_zero_today_when_latest_history_row_is_stale() throws {
         let now = try Self.localNoon(year: 2026, month: 5, day: 18)
         let report = CostUsageDailyReport(
             data: [
@@ -29,7 +29,7 @@ struct CostUsageTokenSnapshotDaySelectionTests {
     }
 
     @Test
-    func `token snapshot uses current local day instead of newest historical row`() throws {
+    func token_snapshot_uses_current_local_day_instead_of_newest_historical_row() throws {
         let now = try Self.localNoon(year: 2026, month: 5, day: 18)
         let report = CostUsageDailyReport(
             data: [
@@ -61,7 +61,7 @@ struct CostUsageTokenSnapshotDaySelectionTests {
     }
 
     @Test
-    func `token snapshot can preserve latest bucket semantics`() throws {
+    func token_snapshot_can_preserve_latest_bucket_semantics() throws {
         let now = try Self.localNoon(year: 2026, month: 5, day: 18)
         let report = CostUsageDailyReport(
             data: [
@@ -86,7 +86,7 @@ struct CostUsageTokenSnapshotDaySelectionTests {
     }
 
     @Test
-    func `latest entry ignores invalid calendar dates`() {
+    func latest_entry_ignores_invalid_calendar_dates() {
         let latest = CostUsageTokenSnapshot.latestEntry(in: [
             CostUsageDailyReport.Entry(
                 date: "2026-06-31",

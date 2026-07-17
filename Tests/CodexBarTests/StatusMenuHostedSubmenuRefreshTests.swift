@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuHostedSubmenuRefreshTests {
     @Test
-    func `claude swap completion changes open menu readiness`() {
+    func claude_swap_completion_changes_open_menu_readiness() {
         let settings = Self.makeSettings()
         settings.setProviderEnabled(
             provider: .claude,
@@ -31,7 +31,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `status components change open menu readiness`() {
+    func status_components_change_open_menu_readiness() {
         let settings = Self.makeSettings()
         settings.statusChecksEnabled = true
         settings.setProviderEnabled(
@@ -62,7 +62,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `project source changes open menu readiness`() {
+    func project_source_changes_open_menu_readiness() {
         let settings = Self.makeSettings()
         settings.costUsageEnabled = true
         Self.enableOnly(settings, provider: .codex)
@@ -85,7 +85,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `status submenu link stays scoped to its provider`() throws {
+    func status_submenu_link_stays_scoped_to_its_provider() throws {
         let settings = Self.makeSettings()
         settings.statusChecksEnabled = true
         let fetcher = UsageFetcher()
@@ -113,7 +113,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `storage native row preserves its plain menu title`() throws {
+    func storage_native_row_preserves_its_plain_menu_title() throws {
         let settings = Self.makeSettings()
         settings.providerStorageFootprintsEnabled = true
         let fetcher = UsageFetcher()
@@ -143,7 +143,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `open parent menu defers data rebuild until parent tracking ends`() async throws {
+    func open_parent_menu_defers_data_rebuild_until_parent_tracking_ends() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer {
@@ -226,7 +226,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `open hosted submenu rebuilds from unavailable placeholder when data arrives`() async {
+    func open_hosted_submenu_rebuilds_from_unavailable_placeholder_when_data_arrives() async {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer {
@@ -284,7 +284,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `open hydrated provider submenu preserves identity across refresh`() throws {
+    func open_hydrated_provider_submenu_preserves_identity_across_refresh() throws {
         try self.assertHostedSubmenuPreservesIdentity(
             chartID: StatusItemController.costHistoryChartID,
             provider: .claude,
@@ -308,7 +308,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `hosted chart items size to the displayed view without a throwaway controller`() throws {
+    func hosted_chart_items_size_to_the_displayed_view_without_a_throwaway_controller() throws {
         try self.assertHostedChartItemHeightMatchesRefresh(
             chartID: StatusItemController.costHistoryChartID,
             provider: .claude,
@@ -333,7 +333,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `zai chart render signature follows time range boundaries`() throws {
+    func zai_chart_render_signature_follows_time_range_boundaries() throws {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -356,7 +356,7 @@ struct StatusMenuHostedSubmenuRefreshTests {
     }
 
     @Test
-    func `utilization chart invalidates when active account changes`() throws {
+    func utilization_chart_invalidates_when_active_account_changes() throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousMenuCardRendering }

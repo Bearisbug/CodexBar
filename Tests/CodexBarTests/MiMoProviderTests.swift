@@ -24,7 +24,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `cookie header normalizer keeps required mimo cookies`() {
+    func cookie_header_normalizer_keeps_required_mimo_cookies() {
         let raw = """
         curl 'https://platform.xiaomimimo.com/api/v1/balance' \
           -H 'Cookie: userId=123; api-platform_serviceToken=svc-token; ignored=value; api-platform_ph=ph-token'
@@ -36,14 +36,14 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `cookie header normalizer rejects missing auth cookies`() {
+    func cookie_header_normalizer_rejects_missing_auth_cookies() {
         let normalized = MiMoCookieHeader.normalizedHeader(from: "Cookie: userId=123")
 
         #expect(normalized == nil)
     }
 
     @Test
-    func `cookie header builder keeps mimo auth cookies from one scope`() throws {
+    func cookie_header_builder_keeps_mimo_auth_cookies_from_one_scope() throws {
         let cookies = try [
             self.makeCookie(
                 name: "userId",
@@ -73,7 +73,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `cookie header builder prefers more specific matching cookie`() throws {
+    func cookie_header_builder_prefers_more_specific_matching_cookie() throws {
         let cookies = try [
             self.makeCookie(
                 name: "userId",
@@ -104,7 +104,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `cookie header builder rejects partial path prefix matches`() throws {
+    func cookie_header_builder_rejects_partial_path_prefix_matches() throws {
         let cookies = try [
             self.makeCookie(
                 name: "userId",
@@ -138,7 +138,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `cookie header builder accepts slash terminated path prefixes`() throws {
+    func cookie_header_builder_accepts_slash_terminated_path_prefixes() throws {
         let cookies = try [
             self.makeCookie(
                 name: "userId",
@@ -160,7 +160,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `usage snapshot exposes balance without duplicating identity`() {
+    func usage_snapshot_exposes_balance_without_duplicating_identity() {
         let snapshot = MiMoUsageSnapshot(
             balance: 25.51,
             currency: "USD",
@@ -175,7 +175,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `usage snapshot exposes paid and granted balance components`() {
+    func usage_snapshot_exposes_paid_and_granted_balance_components() {
         let snapshot = MiMoUsageSnapshot(
             balance: 25.51,
             currency: "USD",
@@ -191,7 +191,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `usage snapshot shows token plan as primary when available`() {
+    func usage_snapshot_shows_token_plan_as_primary_when_available() {
         let resetDate = Date(timeIntervalSince1970: 1_778_025_599)
         let snapshot = MiMoUsageSnapshot(
             balance: 25.51,
@@ -216,7 +216,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `menu card preserves compact local summary casing`() throws {
+    func menu_card_preserves_compact_local_summary_casing() throws {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let summary = "Local · 1.5k total · 42 sessions · stale 34d"
         let snapshot = MiMoUsageSnapshot(
@@ -234,7 +234,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `menu card shows balance as status text with and without token plan`() throws {
+    func menu_card_shows_balance_as_status_text_with_and_without_token_plan() throws {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let metadata = try #require(ProviderDefaults.metadata[.mimo])
         let balanceOnly = MiMoUsageSnapshot(
@@ -267,7 +267,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `usage snapshot falls back to balance when no token plan`() {
+    func usage_snapshot_falls_back_to_balance_when_no_token_plan() {
         let snapshot = MiMoUsageSnapshot(
             balance: 0,
             currency: "USD",
@@ -287,7 +287,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `usage snapshot persists mimo balance details`() throws {
+    func usage_snapshot_persists_mimo_balance_details() throws {
         let usage = MiMoUsageSnapshot(
             balance: 25.51,
             currency: "USD",
@@ -303,7 +303,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `balance does not participate in icon or switcher quota percentages`() {
+    func balance_does_not_participate_in_icon_or_switcher_quota_percentages() {
         let balanceOnly = MiMoUsageSnapshot(
             balance: 25.51,
             currency: "USD",
@@ -337,7 +337,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `parses balance payload`() throws {
+    func parses_balance_payload() throws {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let json = """
         {
@@ -362,7 +362,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `parses paid and granted balance fields when available`() throws {
+    func parses_paid_and_granted_balance_fields_when_available() throws {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let json = """
         {
@@ -389,7 +389,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `ignores malformed optional balance components`() throws {
+    func ignores_malformed_optional_balance_components() throws {
         let json = """
         {
           "code": 0,
@@ -411,7 +411,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `parses token plan detail payload`() throws {
+    func parses_token_plan_detail_payload() throws {
         let json = """
         {
           "code": 0,
@@ -432,7 +432,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `parses token plan usage payload`() throws {
+    func parses_token_plan_usage_payload() throws {
         let json = """
         {
           "code": 0,
@@ -461,7 +461,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `combined snapshot merges balance and token plan`() throws {
+    func combined_snapshot_merges_balance_and_token_plan() throws {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let balanceJSON = """
         {"code":0,"message":"","data":{"balance":"25.51","currency":"USD","cashBalance":"20","giftBalance":"5.51"}}
@@ -506,7 +506,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `fetch usage hits mimo balance endpoint with browser headers`() async throws {
+    func fetch_usage_hits_mimo_balance_endpoint_with_browser_headers() async throws {
         let registered = URLProtocol.registerClass(MiMoStubURLProtocol.self)
         defer {
             if registered {
@@ -550,7 +550,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `required balance failure cancels optional mimo requests promptly`() async throws {
+    func required_balance_failure_cancels_optional_mimo_requests_promptly() async throws {
         let optionalStarted = MiMoOptionalRequestGate()
         let transport = ProviderHTTPTransportStub { request in
             let path = try #require(request.url?.path)
@@ -581,7 +581,7 @@ struct MiMoProviderTests {
     }
 
     @Test
-    func `fetch usage treats auth redirect as login required`() async throws {
+    func fetch_usage_treats_auth_redirect_as_login_required() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             let (response, data) = Self.makeResponse(url: url, body: "", statusCode: 302)
@@ -624,7 +624,7 @@ private actor MiMoOptionalRequestGate {
 extension MiMoProviderTests {
     @Test
     @MainActor
-    func `provider detail plan row formats mimo as balance`() {
+    func provider_detail_plan_row_formats_mimo_as_balance() {
         CodexBarLocalizationOverride.$appLanguage.withValue("en") {
             let legacyBalance = ProviderDetailView<Text>.planRow(provider: .mimo, planText: "Balance: $25.51")
             let tokenPlan = ProviderDetailView<Text>.planRow(provider: .mimo, planText: "Standard")
@@ -638,7 +638,7 @@ extension MiMoProviderTests {
 
     @Test(arguments: [UsageProvider.openrouter, .mimo])
     @MainActor
-    func `menu descriptor renders balance providers without duplicate prefix`(provider: UsageProvider) throws {
+    func menu_descriptor_renders_balance_providers_without_duplicate_prefix(provider: UsageProvider) throws {
         let suite = "MiMoProviderTests-menu-balance-\(provider.rawValue)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -680,7 +680,7 @@ extension MiMoProviderTests {
 
     @Test
     @MainActor
-    func `menu descriptor renders mimo token detail without reset date`() throws {
+    func menu_descriptor_renders_mimo_token_detail_without_reset_date() throws {
         let suite = "MiMoProviderTests-menu-token-detail"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -726,7 +726,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo web strategy unavailable when cookie source is off`() async {
+    func mimo_web_strategy_unavailable_when_cookie_source_is_off() async {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.store(
@@ -747,7 +747,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo local strategy works when web cookies are disabled or invalid`() async throws {
+    func mimo_local_strategy_works_when_web_cookies_are_disabled_or_invalid() async throws {
         let dir = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-local-strategy-test-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -791,7 +791,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo malformed local cache stays available and reports its cache error`() async throws {
+    func mimo_malformed_local_cache_stays_available_and_reports_its_cache_error() async throws {
         let dir = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-invalid-local-strategy-test-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -809,7 +809,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo explicit web mode does not use local fallback`() async throws {
+    func mimo_explicit_web_mode_does_not_use_local_fallback() async throws {
         let dir = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-web-mode-test-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -844,7 +844,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo manual mode does not report available from cached browser session`() async {
+    func mimo_manual_mode_does_not_report_available_from_cached_browser_session() async {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.store(
@@ -865,7 +865,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo manual mode rejects invalid header instead of falling back to cached session`() async {
+    func mimo_manual_mode_rejects_invalid_header_instead_of_falling_back_to_cached_session() async {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.store(
@@ -886,7 +886,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo cookie importer surfaces safari access denial`() throws {
+    func mimo_cookie_importer_surfaces_safari_access_denial() throws {
         let detection = BrowserDetection(
             homeDirectory: "/tmp/codexbar-mimo-browser-test",
             cacheTTL: 0,
@@ -909,7 +909,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo web strategy retries imported sessions after decode failure`() async throws {
+    func mimo_web_strategy_retries_imported_sessions_after_decode_failure() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         let registered = URLProtocol.registerClass(MiMoStubURLProtocol.self)
@@ -978,7 +978,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo web strategy retries safari after stale chrome auth redirect`() async throws {
+    func mimo_web_strategy_retries_safari_after_stale_chrome_auth_redirect() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         let registered = URLProtocol.registerClass(MiMoStubURLProtocol.self)
@@ -1045,7 +1045,7 @@ extension MiMoProviderTests {
 
     #if os(macOS)
     @Test
-    func `mimo importer merges profile stores before validating auth cookies`() {
+    func mimo_importer_merges_profile_stores_before_validating_auth_cookies() {
         let profile = BrowserProfile(id: "Default", name: "Default")
         let primaryStore = BrowserCookieStore(
             browser: .chrome,
@@ -1090,7 +1090,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo importer recovers firefox session restore cookies`() throws {
+    func mimo_importer_recovers_firefox_session_restore_cookies() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-session")
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -1138,7 +1138,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `current partial firefox state does not resurrect backup credentials`() throws {
+    func current_partial_firefox_state_does_not_resurrect_backup_credentials() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-backup")
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -1167,7 +1167,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `malformed current firefox state falls back to recovery backup`() throws {
+    func malformed_current_firefox_state_falls_back_to_recovery_backup() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-corrupt")
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -1186,7 +1186,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `partial firefox state does not merge persisted and stale backup credentials`() throws {
+    func partial_firefox_state_does_not_merge_persisted_and_stale_backup_credentials() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-persisted")
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -1235,7 +1235,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `resource limited firefox state preserves persisted credentials`() throws {
+    func resource_limited_firefox_state_preserves_persisted_credentials() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-persisted-limit")
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -1281,7 +1281,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo importer recovers session cookies when firefox query returns no rows`() throws {
+    func mimo_importer_recovers_session_cookies_when_firefox_query_returns_no_rows() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-empty-store")
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -1316,7 +1316,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `mimo import path checks firefox stores after an empty domain query`() throws {
+    func mimo_import_path_checks_firefox_stores_after_an_empty_domain_query() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-import")
         defer { try? FileManager.default.removeItem(at: temp) }
         let store = self.makeFirefoxCookieStore(profileDirectory: profile)
@@ -1366,7 +1366,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `complete firefox session state replaces persisted cookies`() throws {
+    func complete_firefox_session_state_replaces_persisted_cookies() throws {
         let (temp, profile, backups) = try self.makeFirefoxSessionRestoreProfile(prefix: "mimo-firefox-merge")
         defer { try? FileManager.default.removeItem(at: temp) }
 
@@ -1424,7 +1424,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `firefox session restore input is size bounded`() throws {
+    func firefox_session_restore_input_is_size_bounded() throws {
         let file = FileManager.default.temporaryDirectory
             .appendingPathComponent("mimo-firefox-oversized-\(UUID().uuidString).jsonlz4")
         defer { try? FileManager.default.removeItem(at: file) }
@@ -1442,7 +1442,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `firefox session restore decompression is size bounded`() throws {
+    func firefox_session_restore_decompression_is_size_bounded() throws {
         var data = Data([0x6D, 0x6F, 0x7A, 0x4C, 0x7A, 0x34, 0x30, 0x00])
         data.append(contentsOf: [0x1F, 0x41, 0x01, 0x00, 0x14])
 
@@ -1458,7 +1458,7 @@ extension MiMoProviderTests {
     }
 
     @Test
-    func `firefox session restore accepts decoded size prefix`() throws {
+    func firefox_session_restore_accepts_decoded_size_prefix() throws {
         let json = #"{"cookies":[]}"#
         var data = Data([0x6D, 0x6F, 0x7A, 0x4C, 0x7A, 0x34, 0x30, 0x00])
         var decodedSize = UInt32(json.utf8.count).littleEndian

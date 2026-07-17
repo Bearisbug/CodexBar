@@ -5,7 +5,7 @@ import Testing
 
 struct AlibabaCodingPlanMenuCardModelTests {
     @Test
-    func `monthly quota shows deficit and run out details`() throws {
+    func monthly_quota_shows_deficit_and_run_out_details() throws {
         let now = Date(timeIntervalSince1970: 10_368_000) // 1970-05-01T00:00:00Z
         let reset = now.addingTimeInterval(6 * 24 * 3600)
         let snapshot = UsageSnapshot(
@@ -59,7 +59,7 @@ struct AlibabaCodingPlanMenuCardModelTests {
     }
 
     @Test
-    func `monthly pace uses thirty one day reset window`() throws {
+    func monthly_pace_uses_thirty_one_day_reset_window() throws {
         let now = try Self.date("2026-07-01T23:00:00Z")
         let reset = try Self.date("2026-08-01T00:00:00Z")
         let model = try Self.model(
@@ -76,7 +76,7 @@ struct AlibabaCodingPlanMenuCardModelTests {
     }
 
     @Test
-    func `monthly pace uses twenty eight day reset window`() throws {
+    func monthly_pace_uses_twenty_eight_day_reset_window() throws {
         let now = try Self.date("2026-02-02T00:00:00Z")
         let reset = try Self.date("2026-03-01T00:00:00Z")
         let model = try Self.model(

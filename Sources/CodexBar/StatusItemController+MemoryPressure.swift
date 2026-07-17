@@ -36,7 +36,7 @@ extension StatusItemController {
                 scope: UsageProvider.codex.rawValue,
                 width: 30000,
                 textScale: Self.menuCardHeightTextScaleToken(),
-                fingerprint: "debug-memory-pressure"),
+                fingerprint: "debug-memory-pressure")
         ] = 44
         self.measuredStandardMenuWidthCache["debug-memory-pressure-width"] = 300
         self.mergedSwitcherContentCaches[ObjectIdentifier(menu)] = [

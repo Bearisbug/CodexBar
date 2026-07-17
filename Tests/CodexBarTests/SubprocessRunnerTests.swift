@@ -10,7 +10,7 @@ import Glibc
 
 struct SubprocessRunnerTests {
     @Test
-    func `reads large stdout without deadlock`() async throws {
+    func reads_large_stdout_without_deadlock() async throws {
         let result = try await SubprocessRunner.run(
             binary: "/usr/bin/python3",
             arguments: ["-c", "print('x' * 1_000_000)"],
@@ -23,7 +23,7 @@ struct SubprocessRunnerTests {
     }
 
     @Test
-    func `bounds oversized stdout while continuing to drain`() async throws {
+    func bounds_oversized_stdout_while_continuing_to_drain() async throws {
         let result = try await SubprocessRunner.run(
             binary: "/usr/bin/python3",
             arguments: ["-c", "print('x' * 2_000_000)"],
@@ -36,7 +36,7 @@ struct SubprocessRunnerTests {
     }
 
     @Test
-    func `preserves captured prefix when limit splits three byte scalar`() async throws {
+    func preserves_captured_prefix_when_limit_splits_three_byte_scalar() async throws {
         let asciiCount = ProcessPipeCapture.defaultMaxBytes - 1
         let script = "import sys; sys.stdout.buffer.write(b'x' * \(asciiCount) + bytes([0xe2, 0x82, 0xac]) + b'tail')"
         let result = try await SubprocessRunner.run(
@@ -53,7 +53,7 @@ struct SubprocessRunnerTests {
     }
 
     @Test
-    func `bounds simultaneous oversized stdout and stderr while draining`() async throws {
+    func bounds_simultaneous_oversized_stdout_and_stderr_while_draining() async throws {
         let script = """
         import sys
         chunk = 2048
@@ -75,7 +75,7 @@ struct SubprocessRunnerTests {
     }
 
     @Test
-    func `bounds oversized stderr on failure`() async throws {
+    func bounds_oversized_stderr_on_failure() async throws {
         do {
             _ = try await SubprocessRunner.run(
                 binary: "/usr/bin/python3",
@@ -97,7 +97,7 @@ struct SubprocessRunnerTests {
     }
 
     @Test
-    func `returns partial output when detached child keeps pipes open`() async throws {
+    func returns_partial_output_when_detached_child_keeps_pipes_open() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-subprocess-drain-\(UUID().uuidString)", isDirectory: true)
         let childPIDFile = root.appendingPathComponent("child.pid")
@@ -147,7 +147,7 @@ struct SubprocessRunnerTests {
     /// the cooperative thread pool, starving the timeout task. The fix moves blocking calls
     /// to `DispatchQueue.global()`, making this test reliable.
     @Test
-    func `throws timed out when process hangs`() async throws {
+    func throws_timed_out_when_process_hangs() async throws {
         let start = Date()
         do {
             _ = try await SubprocessRunner.run(
@@ -173,7 +173,7 @@ struct SubprocessRunnerTests {
     }
 
     @Test
-    func `timeout kills descendants that escape the process group`() async throws {
+    func timeout_kills_descendants_that_escape_the_process_group() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-subprocess-tree-\(UUID().uuidString)", isDirectory: true)
         let childPIDFile = root.appendingPathComponent("child.pid")
@@ -221,7 +221,7 @@ struct SubprocessRunnerTests {
     /// one blocked subprocess does not starve the timeout mechanism of others.
     /// This is the core scenario that caused the original permanent-refresh-stall bug.
     @Test
-    func `concurrent hung processes all time out`() async {
+    func concurrent_hung_processes_all_time_out() async {
         let start = Date()
         let count = 8
 
@@ -259,7 +259,7 @@ struct SubprocessRunnerTests {
     /// Stress-test the timeout race guard: with very short timeouts, the exit-code task
     /// and the timeout task race tightly, exercising the KillFlag synchronization path.
     @Test
-    func `timeout race stress`() async {
+    func timeout_race_stress() async {
         for i in 0..<20 {
             do {
                 _ = try await SubprocessRunner.run(
@@ -281,7 +281,7 @@ struct SubprocessRunnerTests {
     }
 
     @Test
-    func `cancellation terminates hung process promptly`() async throws {
+    func cancellation_terminates_hung_process_promptly() async throws {
         let start = Date()
         let task = Task {
             try await SubprocessRunner.run(
@@ -310,7 +310,7 @@ struct SubprocessRunnerTests {
 
     /// Verify that many concurrent SubprocessRunner calls complete without starving each other.
     @Test
-    func `concurrent calls do not starve`() async throws {
+    func concurrent_calls_do_not_starve() async throws {
         try await withThrowingTaskGroup(of: SubprocessResult.self) { group in
             for i in 0..<20 {
                 group.addTask {

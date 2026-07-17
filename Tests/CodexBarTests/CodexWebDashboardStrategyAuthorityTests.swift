@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct CodexWebDashboardStrategyAuthorityTests {
     @Test
-    func `web dashboard attach converts snapshot with authority attachment email`() throws {
+    func web_dashboard_attach_converts_snapshot_with_authority_attachment_email() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -32,7 +32,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard attach preserves credits when usage limits are absent`() throws {
+    func web_dashboard_attach_preserves_credits_when_usage_limits_are_absent() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -65,7 +65,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard display only throws typed policy error`() throws {
+    func web_dashboard_display_only_throws_typed_policy_error() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -103,7 +103,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard fail closed throws policy rejection`() throws {
+    func web_dashboard_fail_closed_throws_policy_rejection() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -140,7 +140,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard wrong email throws policy rejection`() throws {
+    func web_dashboard_wrong_email_throws_policy_rejection() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -180,7 +180,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard provider account without scoped auth email fail closes on dashboard collision`() throws {
+    func web_dashboard_provider_account_without_scoped_auth_email_fail_closes_on_dashboard_collision() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -221,7 +221,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard attach saves cache with attached email not routing fallback`() throws {
+    func web_dashboard_attach_saves_cache_with_attached_email_not_routing_fallback() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -249,7 +249,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard fail closed clears stale cache`() throws {
+    func web_dashboard_fail_closed_clears_stale_cache() throws {
         OpenAIDashboardCacheStore.save(OpenAIDashboardCache(
             accountEmail: "stale@example.com",
             snapshot: self.makeDashboard(email: "stale@example.com")))
@@ -280,7 +280,7 @@ struct CodexWebDashboardStrategyAuthorityTests {
     }
 
     @Test
-    func `web dashboard display only clears stale cache`() throws {
+    func web_dashboard_display_only_clears_stale_cache() throws {
         OpenAIDashboardCacheStore.save(OpenAIDashboardCache(
             accountEmail: "stale@example.com",
             snapshot: self.makeDashboard(email: "stale@example.com")))

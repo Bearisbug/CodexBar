@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexAccountPromotionServiceTests {
     @Test
-    func `happy path promotion swaps target auth into live home`() async throws {
+    func happy_path_promotion_swaps_target_auth_into_live_home() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-happy-path")
         defer { container.tearDown() }
@@ -36,7 +36,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `displaced live oauth is imported before target auth is promoted`() async throws {
+    func displaced_live_oauth_is_imported_before_target_auth_is_promoted() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-displaced-import",
             workspaceIdentities: [
@@ -78,7 +78,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `displaced live already managed uses reconciliation identity dedupe`() async throws {
+    func displaced_live_already_managed_uses_reconciliation_identity_dedupe() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-already-managed")
         defer { container.tearDown() }
@@ -110,7 +110,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `provider only live auth refreshes existing managed account using persisted email`() async throws {
+    func provider_only_live_auth_refreshes_existing_managed_account_using_persisted_email() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-already-managed-no-email")
         defer { container.tearDown() }
@@ -136,7 +136,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `provider only live auth matching target converges and keeps managed active source`() async throws {
+    func provider_only_live_auth_matching_target_converges_and_keeps_managed_active_source() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-provider-only-convergence")
         defer { container.tearDown() }
@@ -160,7 +160,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `provider only live auth matching target converges when target managed auth is missing`() async throws {
+    func provider_only_live_auth_matching_target_converges_when_target_managed_auth_is_missing() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-provider-only-convergence-missing-target-auth")
         defer { container.tearDown() }
@@ -186,7 +186,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `snapshot convergence no op does not require target managed auth file`() async throws {
+    func snapshot_convergence_no_op_does_not_require_target_managed_auth_file() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-snapshot-convergence-with-missing-target-auth")
         defer { container.tearDown() }
@@ -216,7 +216,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `convergence no-op does not rewrite live auth or import displaced live`() async throws {
+    func convergence_no_op_does_not_rewrite_live_auth_or_import_displaced_live() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-convergence")
         defer { container.tearDown() }
@@ -240,7 +240,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `same email different workspace imports displaced live as a distinct managed account`() async throws {
+    func same_email_different_workspace_imports_displaced_live_as_a_distinct_managed_account() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-same-email-different-workspace",
             workspaceIdentities: [
@@ -279,7 +279,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `mixed api key and oauth live auth still preserves displaced live identity`() async throws {
+    func mixed_api_key_and_oauth_live_auth_still_preserves_displaced_live_identity() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-mixed-auth-preservation",
             workspaceIdentities: [
@@ -315,7 +315,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `store commit failure leaves live auth untouched because promotion preserves before mutating`() async throws {
+    func store_commit_failure_leaves_live_auth_untouched_because_promotion_preserves_before_mutating() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-store-failure")
         defer { container.tearDown() }
@@ -346,7 +346,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `refresh store failure leaves existing managed metadata stale after auth copy`() async throws {
+    func refresh_store_failure_leaves_existing_managed_metadata_stale_after_auth_copy() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-refresh-store-failure")
         defer { container.tearDown() }
@@ -387,7 +387,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `already managed refresh resolves workspace metadata from live auth home`() async throws {
+    func already_managed_refresh_resolves_workspace_metadata_from_live_auth_home() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-already-managed-workspace-refresh")
         defer { container.tearDown() }
@@ -434,7 +434,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `live swap failure keeps preserved displaced live import in the managed store`() async throws {
+    func live_swap_failure_keeps_preserved_displaced_live_import_in_the_managed_store() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-swap-failure")
         defer { container.tearDown() }
@@ -465,7 +465,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `target managed auth without email is rejected before swap`() async throws {
+    func target_managed_auth_without_email_is_rejected_before_swap() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-target-auth-missing-email")
         defer { container.tearDown() }
@@ -489,7 +489,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `provider account collision after stale managed home repairs existing record to preserved auth`()
+    func provider_account_collision_after_stale_managed_home_repairs_existing_record_to_preserved_auth()
         async throws
     {
         let container = try CodexAccountPromotionTestContainer(
@@ -529,7 +529,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `legacy email only managed account upgrades to provider identity during promotion`() async throws {
+    func legacy_email_only_managed_account_upgrades_to_provider_identity_during_promotion() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-legacy-email-upgrade",
             workspaceIdentities: [
@@ -571,7 +571,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `unsafe managed home refresh is rejected before auth rewrite`() async throws {
+    func unsafe_managed_home_refresh_is_rejected_before_auth_rewrite() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-unsafe-refresh-home")
         defer { container.tearDown() }
@@ -607,7 +607,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `promotion rejects conflicting readable managed home before overwriting auth`() async throws {
+    func promotion_rejects_conflicting_readable_managed_home_before_overwriting_auth() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-conflicting-readable-home")
         defer { container.tearDown() }
@@ -637,7 +637,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `api key only live auth is rejected fail closed`() async throws {
+    func api_key_only_live_auth_is_rejected_fail_closed() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-api-key-only")
         defer { container.tearDown() }
@@ -666,7 +666,7 @@ struct CodexAccountPromotionServiceTests {
     }
 
     @Test
-    func `post promotion refresh re-resolves codex state from the new live auth`() async throws {
+    func post_promotion_refresh_re_resolves_codex_state_from_the_new_live_auth() async throws {
         let container = try CodexAccountPromotionTestContainer(
             suiteName: "CodexAccountPromotionServiceTests-state-reresolution")
         defer { container.tearDown() }

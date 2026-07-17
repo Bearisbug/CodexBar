@@ -31,7 +31,7 @@ struct AdaptiveRefreshPolicyCoreTests {
         (14400.0, .longIdle, 1800),
         (100_000.0, .longIdle, 1800),
     ])
-    func `age determines the canonical table boundary`(
+    func age_determines_the_canonical_table_boundary(
         ageSeconds: TimeInterval,
         expectedReason: AdaptiveRefreshPolicyCore.Reason,
         expectedDelaySeconds: Int)
@@ -42,14 +42,14 @@ struct AdaptiveRefreshPolicyCoreTests {
     }
 
     @Test
-    func `nil last menu open is long idle`() {
+    func nil_last_menu_open_is_long_idle() {
         let decision = AdaptiveRefreshPolicyCore().nextDelay(for: self.input(ageSeconds: nil))
         #expect(decision.reason == .longIdle)
         #expect(decision.delay == .seconds(30 * 60))
     }
 
     @Test
-    func `low power mode wins over recent interaction`() {
+    func low_power_mode_wins_over_recent_interaction() {
         let decision = AdaptiveRefreshPolicyCore().nextDelay(for: self.input(
             ageSeconds: 0,
             lowPowerModeEnabled: true))
@@ -58,7 +58,7 @@ struct AdaptiveRefreshPolicyCoreTests {
     }
 
     @Test
-    func `thermal pressure wins when no menu open is recorded`() {
+    func thermal_pressure_wins_when_no_menu_open_is_recorded() {
         let decision = AdaptiveRefreshPolicyCore().nextDelay(for: self.input(
             ageSeconds: nil,
             thermalPressure: .constrained))
@@ -67,14 +67,14 @@ struct AdaptiveRefreshPolicyCoreTests {
     }
 
     @Test
-    func `future timestamps read as recent`() {
+    func future_timestamps_read_as_recent() {
         let decision = AdaptiveRefreshPolicyCore().nextDelay(for: self.input(ageSeconds: -1_000_000))
         #expect(decision.reason == .recentInteraction)
         #expect(decision.delay == .seconds(2 * 60))
     }
 
     @Test
-    func `every decision stays within the two to thirty minute bounds`() {
+    func every_decision_stays_within_the_two_to_thirty_minute_bounds() {
         let ages: [TimeInterval?] = [nil, -1_000_000, 0, 300, 301, 3600, 3601, 14399, 14400, 1_000_000]
         for age in ages {
             for lowPowerModeEnabled in [false, true] {
@@ -94,7 +94,7 @@ struct AdaptiveRefreshPolicyCoreTests {
     }
 
     @Test
-    func `nominal heuristic interval remains five minutes`() {
+    func nominal_heuristic_interval_remains_five_minutes() {
         #expect(AdaptiveRefreshPolicyCore.nominalIntervalForHeuristics == 5 * 60)
     }
 }

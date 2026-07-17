@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CodexActiveSourceConfigTests {
     @Test
-    func `legacy config without codex active source decodes to nil`() throws {
+    func legacy_config_without_codex_active_source_decodes_to_nil() throws {
         let legacyJSON = """
         {
             "version": 1,
@@ -26,7 +26,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `provider config round trips quota warning overrides`() throws {
+    func provider_config_round_trips_quota_warning_overrides() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -45,7 +45,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `quota warning window enabled defaults stay backward compatible`() throws {
+    func quota_warning_window_enabled_defaults_stay_backward_compatible() throws {
         let legacyJSON = """
         {
             "version": 1,
@@ -71,7 +71,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `provider config encodes live system active source with expected schema`() throws {
+    func provider_config_encodes_live_system_active_source_with_expected_schema() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -91,7 +91,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `provider config encodes managed account active source with expected schema`() throws {
+    func provider_config_encodes_managed_account_active_source_with_expected_schema() throws {
         let accountID = UUID()
         let config = CodexBarConfig(
             providers: [
@@ -112,7 +112,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `provider config encodes profile home source in downgrade readable envelope`() throws {
+    func provider_config_encodes_profile_home_source_in_downgrade_readable_envelope() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -137,7 +137,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `provider config round trips live system active source`() throws {
+    func provider_config_round_trips_live_system_active_source() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -152,7 +152,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `provider config round trips managed account active source`() throws {
+    func provider_config_round_trips_managed_account_active_source() throws {
         let accountID = UUID()
         let config = CodexBarConfig(
             providers: [
@@ -168,7 +168,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `provider config round trips profile home active source`() throws {
+    func provider_config_round_trips_profile_home_active_source() throws {
         let config = CodexBarConfig(
             providers: [
                 ProviderConfig(
@@ -186,7 +186,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `profile home discriminator written by development builds still decodes`() throws {
+    func profile_home_discriminator_written_by_development_builds_still_decodes() throws {
         let data = Data(#"{"kind":"profileHome","homePath":"/Users/test/.codex-work"}"#.utf8)
 
         let decoded = try JSONDecoder().decode(CodexActiveSource.self, from: data)
@@ -199,7 +199,7 @@ struct CodexActiveSourceConfigTests {
     }
 
     @Test
-    func `blank profile home sentinel falls back to live system`() throws {
+    func blank_profile_home_sentinel_falls_back_to_live_system() throws {
         let data = Data(#"{"kind":"liveSystem","homePath":"  "}"#.utf8)
 
         let decoded = try JSONDecoder().decode(CodexActiveSource.self, from: data)

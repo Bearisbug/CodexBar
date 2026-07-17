@@ -6,7 +6,7 @@ import Testing
 
 struct OverviewMenuCardVisibilityTests {
     @Test
-    func `overview hides cards that only contain an error`() throws {
+    func overview_hides_cards_that_only_contain_an_error() throws {
         let metadata = try #require(ProviderDefaults.metadata[.cursor])
         let model = UsageMenuCardView.Model.make(.init(
             provider: .cursor,
@@ -32,7 +32,7 @@ struct OverviewMenuCardVisibilityTests {
     }
 
     @Test
-    func `overview keeps cards with graceful unavailable placeholders`() throws {
+    func overview_keeps_cards_with_graceful_unavailable_placeholders() throws {
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let model = UsageMenuCardView.Model.make(.init(
             provider: .codex,
@@ -59,7 +59,7 @@ struct OverviewMenuCardVisibilityTests {
     }
 
     @Test
-    func `claude subscription-only quota keeps local cost content`() throws {
+    func claude_subscription_only_quota_keeps_local_cost_content() throws {
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -102,7 +102,7 @@ struct OverviewMenuCardVisibilityTests {
 
 struct ProviderInlineDashboardModelTests {
     @Test
-    func `kimi model orders rate limit before weekly quota`() throws {
+    func kimi_model_orders_rate_limit_before_weekly_quota() throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let metadata = try #require(ProviderDefaults.metadata[.kimi])
         let snapshot = UsageSnapshot(
@@ -143,7 +143,7 @@ struct ProviderInlineDashboardModelTests {
     }
 
     @Test
-    func `openrouter period usage gets inline dashboard`() throws {
+    func openrouter_period_usage_gets_inline_dashboard() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.openrouter])
         let usage = OpenRouterUsageSnapshot(
@@ -186,7 +186,7 @@ struct ProviderInlineDashboardModelTests {
     }
 
     @Test
-    func `local cost history gets inline dashboard`() throws {
+    func local_cost_history_gets_inline_dashboard() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let daily = [
@@ -256,7 +256,7 @@ struct ProviderInlineDashboardModelTests {
     }
 
     @Test
-    func `mistral daily buckets get inline dashboard`() throws {
+    func mistral_daily_buckets_get_inline_dashboard() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.mistral])
         let snapshot = MistralUsageSnapshot(
@@ -314,7 +314,7 @@ struct ProviderInlineDashboardModelTests {
     }
 
     @Test
-    func `mistral billing usage can show cost card summary`() throws {
+    func mistral_billing_usage_can_show_cost_card_summary() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.mistral])
         let snapshot = MistralUsageSnapshot(
@@ -372,7 +372,7 @@ struct ProviderInlineDashboardModelTests {
     }
 
     @Test
-    func `zai hourly usage gets inline dashboard`() throws {
+    func zai_hourly_usage_gets_inline_dashboard() throws {
         let now = try #require(Self.zaiDate("2023-11-15 12:00"))
         let metadata = try #require(ProviderDefaults.metadata[.zai])
         let usage = ZaiUsageSnapshot(
@@ -422,7 +422,7 @@ struct ProviderInlineDashboardModelTests {
 
 struct FactoryMenuCardModelTests {
     @Test
-    func `factory token rate billing uses time window labels`() throws {
+    func factory_token_rate_billing_uses_time_window_labels() throws {
         let now = Date()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
@@ -456,7 +456,7 @@ struct FactoryMenuCardModelTests {
     }
 
     @Test
-    func `factory legacy billing keeps pool labels`() throws {
+    func factory_legacy_billing_keeps_pool_labels() throws {
         let now = Date()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: nil, resetsAt: nil, resetDescription: nil),
@@ -489,7 +489,7 @@ struct FactoryMenuCardModelTests {
     }
 
     @Test
-    func `factory extra usage balance renders as optional balance`() throws {
+    func factory_extra_usage_balance_renders_as_optional_balance() throws {
         let now = Date()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 12, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
@@ -554,7 +554,7 @@ struct FactoryMenuCardModelTests {
 
 struct MiniMaxMenuCardModelTests {
     @Test
-    func `minimax service metrics use codex aligned quota copy`() throws {
+    func minimax_service_metrics_use_codex_aligned_quota_copy() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: "Max",
@@ -617,7 +617,7 @@ struct MiniMaxMenuCardModelTests {
     }
 
     @Test
-    func `text generation badge uses real window type when multiple windows exist`() throws {
+    func text_generation_badge_uses_real_window_type_when_multiple_windows_exist() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: "Max",
@@ -686,7 +686,7 @@ struct MiniMaxMenuCardModelTests {
     }
 
     @Test
-    func `minimax token plan model shows weekly quota and points balance`() throws {
+    func minimax_token_plan_model_shows_weekly_quota_and_points_balance() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: "Token Plan · TokenPlanPlus-年度会员",
@@ -761,7 +761,7 @@ struct MiniMaxMenuCardModelTests {
 
 struct ClaudeMenuCardCostTests {
     @Test
-    func `claude extra usage labels monthly denominator as cap`() throws {
+    func claude_extra_usage_labels_monthly_denominator_as_cap() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let snapshot = UsageSnapshot(
@@ -803,7 +803,7 @@ struct ClaudeMenuCardCostTests {
 
 struct MenuCardModelTests {
     @Test
-    func `builds metrics using remaining percent`() throws {
+    func builds_metrics_using_remaining_percent() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
@@ -881,7 +881,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `claude model hides weekly when unavailable`() throws {
+    func claude_model_hides_weekly_when_unavailable() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .claude,
@@ -925,7 +925,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `claude model includes routines bar when present`() throws {
+    func claude_model_includes_routines_bar_when_present() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .claude,
@@ -985,7 +985,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `shows error subtitle when present`() throws {
+    func shows_error_subtitle_when_present() throws {
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let model = UsageMenuCardView.Model.make(.init(
             provider: .codex,
@@ -1013,7 +1013,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `cost section includes last30 days tokens`() throws {
+    func cost_section_includes_last30_days_tokens() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let snapshot = UsageSnapshot(
@@ -1057,7 +1057,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `claude model does not leak codex plan`() throws {
+    func claude_model_does_not_leak_codex_plan() throws {
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let model = UsageMenuCardView.Model.make(.init(
             provider: .claude,
@@ -1084,7 +1084,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `hides claude extra usage when disabled`() throws {
+    func hides_claude_extra_usage_when_disabled() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .claude,
@@ -1125,7 +1125,7 @@ struct MenuCardModelTests {
 
     @Test
     @MainActor
-    func `open router model uses API key quota bar and quota detail`() throws {
+    func open_router_model_uses_API_key_quota_bar_and_quota_detail() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.openrouter])
         let snapshot = OpenRouterUsageSnapshot(
@@ -1171,7 +1171,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `open router model without key limit shows text only summary`() throws {
+    func open_router_model_without_key_limit_shows_text_only_summary() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.openrouter])
         let snapshot = OpenRouterUsageSnapshot(
@@ -1212,7 +1212,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `open router model when key fetch unavailable shows unavailable note`() throws {
+    func open_router_model_when_key_fetch_unavailable_shows_unavailable_note() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.openrouter])
         let snapshot = OpenRouterUsageSnapshot(
@@ -1251,7 +1251,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `hides email when personal info hidden`() throws {
+    func hides_email_when_personal_info_hidden() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .codex,
@@ -1293,7 +1293,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `kilo model splits pass and activity and shows fallback note`() throws {
+    func kilo_model_splits_pass_and_activity_and_shows_fallback_note() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.kilo])
         let snapshot = UsageSnapshot(
@@ -1339,7 +1339,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `kilo model treats auto top up only login as activity`() throws {
+    func kilo_model_treats_auto_top_up_only_login_as_activity() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.kilo])
         let snapshot = UsageSnapshot(
@@ -1378,7 +1378,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `kilo model does not show fallback note when not auto to CLI`() throws {
+    func kilo_model_does_not_show_fallback_note_when_not_auto_to_CLI() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.kilo])
         let snapshot = UsageSnapshot(
@@ -1445,7 +1445,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `kilo model shows primary detail when reset date missing`() throws {
+    func kilo_model_shows_primary_detail_when_reset_date_missing() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.kilo])
         let snapshot = UsageSnapshot(
@@ -1489,7 +1489,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `kilo model keeps zero total edge state visible`() throws {
+    func kilo_model_keeps_zero_total_edge_state_visible() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.kilo])
         let snapshot = KiloUsageSnapshot(
@@ -1528,7 +1528,7 @@ struct MenuCardModelTests {
     }
 
     @Test
-    func `warp model shows primary detail when reset date missing`() throws {
+    func warp_model_shows_primary_detail_when_reset_date_missing() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .warp,

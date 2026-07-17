@@ -5,7 +5,7 @@ import Testing
 
 struct OpenAIDashboardParserTests {
     @Test
-    func `parses signed in email from client bootstrap HTML`() {
+    func parses_signed_in_email_from_client_bootstrap_HTML() {
         let html = """
         <html>
         <head></head>
@@ -21,19 +21,19 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses code review remaining percent inline`() {
+    func parses_code_review_remaining_percent_inline() {
         let body = "Balance\nCode review 42% remaining\nCredits remaining 291"
         #expect(OpenAIDashboardParser.parseCodeReviewRemainingPercent(bodyText: body) == 42)
     }
 
     @Test
-    func `parses code review remaining percent multiline`() {
+    func parses_code_review_remaining_percent_multiline() {
         let body = "Balance\nCode review\n100% remaining\nWeekly usage limit\n0% remaining"
         #expect(OpenAIDashboardParser.parseCodeReviewRemainingPercent(bodyText: body) == 100)
     }
 
     @Test
-    func `parses code review limit with reset`() {
+    func parses_code_review_limit_with_reset() {
         let body = """
         Balance
         Code review
@@ -46,7 +46,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses core review limit with reset`() {
+    func parses_core_review_limit_with_reset() {
         let body = """
         Balance
         Core review
@@ -59,14 +59,14 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses credits remaining`() {
+    func parses_credits_remaining() {
         let body = "Balance\nCredits remaining 1,234.56\nUsage"
         let value = OpenAIDashboardParser.parseCreditsRemaining(bodyText: body)
         #expect(abs((value ?? 0) - 1234.56) < 0.001)
     }
 
     @Test
-    func `parses rate limits`() {
+    func parses_rate_limits() {
         let body = """
         Usage limits
         5h limit
@@ -85,7 +85,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses spaced five hour limit label`() {
+    func parses_spaced_five_hour_limit_label() {
         let body = """
         Limite 5 h
         72 % restant
@@ -96,7 +96,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses plan from client bootstrap`() {
+    func parses_plan_from_client_bootstrap() {
         let html = """
         <html>
         <body>
@@ -110,7 +110,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses prolite plan from client bootstrap`() {
+    func parses_prolite_plan_from_client_bootstrap() {
         let html = """
         <html>
         <body>
@@ -124,7 +124,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses credit events from table rows`() {
+    func parses_credit_events_from_table_rows() {
         let rows: [[String]] = [
             ["Dec 18, 2025", "CLI", "397.205 credits"],
             ["Dec 17, 2025", "GitHub Code Review", "506.235 credits"],
@@ -138,7 +138,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses credit event amount with localized credit label`() {
+    func parses_credit_event_amount_with_localized_credit_label() {
         let rows: [[String]] = [
             ["Dec 18, 2025", "CLI", "397,205 crédits"],
         ]
@@ -148,7 +148,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `parses credit event amount with english comma thousands`() {
+    func parses_credit_event_amount_with_english_comma_thousands() {
         let rows: [[String]] = [
             ["Dec 18, 2025", "CLI", "1,234 credits"],
         ]
@@ -158,7 +158,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `builds daily breakdown from events`() throws {
+    func builds_daily_breakdown_from_events() throws {
         let calendar = Calendar(identifier: .gregorian)
         var components = DateComponents()
         components.calendar = calendar
@@ -186,7 +186,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `decodes snapshot without usage breakdown field`() throws {
+    func decodes_snapshot_without_usage_breakdown_field() throws {
         let json = """
         {
           "signedInEmail": "user@example.com",
@@ -203,7 +203,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `weekly only dashboard usage projects into secondary slot`() {
+    func weekly_only_dashboard_usage_projects_into_secondary_slot() {
         let snapshot = OpenAIDashboardSnapshot(
             signedInEmail: "user@example.com",
             codeReviewRemainingPercent: nil,
@@ -231,7 +231,7 @@ struct OpenAIDashboardParserTests {
     }
 
     @Test
-    func `dashboard usage projection returns nil when all limits are absent`() {
+    func dashboard_usage_projection_returns_nil_when_all_limits_are_absent() {
         let snapshot = OpenAIDashboardSnapshot(
             signedInEmail: "user@example.com",
             codeReviewRemainingPercent: nil,

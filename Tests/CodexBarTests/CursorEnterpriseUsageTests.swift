@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CursorEnterpriseUsageTests {
     @Test
-    func `legacy provider cost snapshot decodes without personal spend`() throws {
+    func legacy_provider_cost_snapshot_decodes_without_personal_spend() throws {
         let json = """
         {
             "used": 12.5,
@@ -25,7 +25,7 @@ struct CursorEnterpriseUsageTests {
     }
 
     @Test
-    func `parses enterprise overall and pooled usage summary`() throws {
+    func parses_enterprise_overall_and_pooled_usage_summary() throws {
         // Live Cursor Enterprise payload (sanitized). The Pro/Hobby `plan` block is absent;
         // instead Cursor reports `individualUsage.overall` (personal cap) and `teamUsage.pooled`
         // (shared team pool). Both blocks use cents like the existing `plan` block.
@@ -74,7 +74,7 @@ struct CursorEnterpriseUsageTests {
     }
 
     @Test
-    func `enterprise overall drives headline percent and dollars`() throws {
+    func enterprise_overall_drives_headline_percent_and_dollars() throws {
         // Regression: Cursor Enterprise/Team accounts ship `individualUsage.overall` instead of
         // `individualUsage.plan`. Without a model for `overall`, the parser used to report 0%
         // (i.e. the menu showed "100% remaining"). The personal cap must take precedence over
@@ -116,7 +116,7 @@ struct CursorEnterpriseUsageTests {
     }
 
     @Test
-    func `enterprise pooled fallback used when no individual data`() {
+    func enterprise_pooled_fallback_used_when_no_individual_data() {
         // When Cursor only reports a shared team pool (no `plan`, no `overall`) we should still surface
         // a non-zero headline so the menu reflects pool consumption rather than appearing "all clear".
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
@@ -147,7 +147,7 @@ struct CursorEnterpriseUsageTests {
     }
 
     @Test
-    func `team on-demand pool is the budget and personal spend rides along`() {
+    func team_on_demand_pool_is_the_budget_and_personal_spend_rides_along() {
         // Live team-plan payload (sanitized): the user's own on-demand spend has no personal limit,
         // so the team pool is the headline budget. The personal spend must still be surfaced.
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
@@ -189,7 +189,7 @@ struct CursorEnterpriseUsageTests {
     }
 
     @Test
-    func `personal on-demand limit keeps personal budget with no rider`() {
+    func personal_on_demand_limit_keeps_personal_budget_with_no_rider() {
         // When the user has their own on-demand limit, that is the budget and there is no separate rider.
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))
             .parseUsageSummary(
@@ -216,7 +216,7 @@ struct CursorEnterpriseUsageTests {
     }
 
     @Test
-    func `existing plan block still wins over overall and pooled`() {
+    func existing_plan_block_still_wins_over_overall_and_pooled() {
         // Guard against future drift: when Cursor sends both legacy `plan` and the newer `overall`
         // blocks, the existing percent precedence must remain intact.
         let snapshot = CursorStatusProbe(browserDetection: BrowserDetection(cacheTTL: 0))

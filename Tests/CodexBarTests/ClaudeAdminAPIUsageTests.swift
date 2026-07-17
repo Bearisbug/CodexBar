@@ -24,7 +24,7 @@ struct ClaudeAdminAPIUsageTests {
     }
 
     @Test
-    func `prefers primary Anthropic admin key environment variable`() {
+    func prefers_primary_Anthropic_admin_key_environment_variable() {
         let token = ClaudeAdminAPISettingsReader.apiKey(environment: [
             ClaudeAdminAPISettingsReader.alternateAdminAPIKeyEnvironmentKey: "sk-ant-admin-alt",
             ClaudeAdminAPISettingsReader.adminAPIKeyEnvironmentKey: "sk-ant-admin-primary",
@@ -34,14 +34,14 @@ struct ClaudeAdminAPIUsageTests {
     }
 
     @Test
-    func `routes Claude token account admin keys into admin api environment`() {
+    func routes_Claude_token_account_admin_keys_into_admin_api_environment() {
         let env = TokenAccountSupportCatalog.envOverride(for: .claude, token: "Bearer sk-ant-admin-token")
 
         #expect(env?[ClaudeAdminAPISettingsReader.adminAPIKeyEnvironmentKey] == "sk-ant-admin-token")
     }
 
     @Test
-    func `auto source uses configured admin api key`() async {
+    func auto_source_uses_configured_admin_api_key() async {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .claude)
         let context = self.makeContext(sourceMode: .auto)
         let strategies = await descriptor.fetchPlan.pipeline.resolveStrategies(context)
@@ -50,7 +50,7 @@ struct ClaudeAdminAPIUsageTests {
     }
 
     @Test
-    func `parses Anthropic admin cost and messages usage into daily summaries`() throws {
+    func parses_Anthropic_admin_cost_and_messages_usage_into_daily_summaries() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let costs = """
         {
@@ -151,7 +151,7 @@ struct ClaudeAdminAPIUsageTests {
     }
 
     @Test
-    func `maps Anthropic admin usage to Claude usage snapshot`() {
+    func maps_Anthropic_admin_usage_to_Claude_usage_snapshot() {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let apiUsage = ClaudeAdminAPIUsageSnapshot(
             daily: [
@@ -182,7 +182,7 @@ struct ClaudeAdminAPIUsageTests {
     }
 
     @Test
-    func `current day summary is zero when Claude admin history is stale`() throws {
+    func current_day_summary_is_zero_when_Claude_admin_history_is_stale() throws {
         let now = try Self.localNoon(year: 2023, month: 11, day: 17)
         let bucketDay = try Self.localNoon(year: 2023, month: 11, day: 14)
         let apiUsage = ClaudeAdminAPIUsageSnapshot(
@@ -209,7 +209,7 @@ struct ClaudeAdminAPIUsageTests {
     }
 
     @Test
-    func `fetch strategy reports admin api source label`() async throws {
+    func fetch_strategy_reports_admin_api_source_label() async throws {
         let strategy = ClaudeAdminAPIFetchStrategy(usageFetcher: { apiKey in
             #expect(apiKey == "sk-ant-admin-test")
             return ClaudeAdminAPIUsageSnapshot(daily: [], updatedAt: Date(timeIntervalSince1970: 1_700_000_000))

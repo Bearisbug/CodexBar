@@ -4,7 +4,7 @@ import Testing
 
 struct JetBrainsStatusProbeTests {
     @Test
-    func `parses quota XML with tariff quota`() throws {
+    func parses_quota_XML_with_tariff_quota() throws {
         // Real-world format with tariffQuota containing available credits
         let quotaInfo = [
             "{&#10;  &quot;type&quot;: &quot;Available&quot;,",
@@ -56,7 +56,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `parses quota XML without tariff quota`() throws {
+    func parses_quota_XML_without_tariff_quota() throws {
         // Fallback format without tariffQuota
         let quotaInfo = [
             "{&#10;  &quot;type&quot;: &quot;paid&quot;,",
@@ -103,7 +103,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `calculates usage percentage from available`() {
+    func calculates_usage_percentage_from_available() {
         // available = 75_000, maximum = 100_000 -> 75% remaining, 25% used
         let quotaInfo = JetBrainsQuotaInfo(
             type: "paid",
@@ -117,7 +117,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `calculates usage percentage at zero`() {
+    func calculates_usage_percentage_at_zero() {
         let quotaInfo = JetBrainsQuotaInfo(
             type: "paid",
             used: 0,
@@ -130,7 +130,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `calculates usage percentage at max`() {
+    func calculates_usage_percentage_at_max() {
         let quotaInfo = JetBrainsQuotaInfo(
             type: "paid",
             used: 100_000,
@@ -143,7 +143,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `handles zero maximum`() {
+    func handles_zero_maximum() {
         let quotaInfo = JetBrainsQuotaInfo(
             type: "free",
             used: 1000,
@@ -156,7 +156,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `converts to usage snapshot`() throws {
+    func converts_to_usage_snapshot() throws {
         let quotaInfo = JetBrainsQuotaInfo(
             type: "Available",
             used: 7478.3,
@@ -195,7 +195,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `usage snapshot uses refill date for reset`() throws {
+    func usage_snapshot_uses_refill_date_for_reset() throws {
         let refillDate = Date().addingTimeInterval(86400 * 6) // 6 days from now
         let untilDate = Date().addingTimeInterval(86400 * 300) // 300 days from now
 
@@ -224,7 +224,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `parses IDE directory`() {
+    func parses_IDE_directory() {
         let ides = [
             ("IntelliJIdea2024.3", "IntelliJ IDEA", "2024.3"),
             ("PyCharm2024.2", "PyCharm", "2024.2"),
@@ -248,7 +248,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `expands tilde in custom path`() async throws {
+    func expands_tilde_in_custom_path() async throws {
         let fileManager = FileManager.default
         let home = fileManager.homeDirectoryForCurrentUser
         let testRoot = home
@@ -299,7 +299,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `handles HTML entities`() throws {
+    func handles_HTML_entities() throws {
         let quotaInfo = [
             "{&quot;type&quot;:&quot;free&quot;",
             ",&quot;current&quot;:&quot;0&quot;",
@@ -325,7 +325,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `throws on missing quota info`() throws {
+    func throws_on_missing_quota_info() throws {
         let xml = """
         <?xml version="1.0" encoding="UTF-8"?>
         <application>
@@ -341,7 +341,7 @@ struct JetBrainsStatusProbeTests {
     }
 
     @Test
-    func `throws on empty quota info`() throws {
+    func throws_on_empty_quota_info() throws {
         let xml = """
         <?xml version="1.0" encoding="UTF-8"?>
         <application>

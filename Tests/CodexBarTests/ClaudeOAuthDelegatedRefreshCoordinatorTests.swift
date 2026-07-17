@@ -96,7 +96,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `cooldown prevents repeated attempts`() async {
+    func cooldown_prevents_repeated_attempts() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
 
@@ -136,7 +136,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `cli unavailable returns cli unavailable`() async {
+    func cli_unavailable_returns_cli_unavailable() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
 
@@ -154,7 +154,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
         (ClaudeOAuthKeychainPromptMode.never, false),
         (ClaudeOAuthKeychainPromptMode.always, true),
     ])
-    func `background refresh never launches delegated Claude CLI without Keychain opt in`(
+    func background_refresh_never_launches_delegated_Claude_CLI_without_Keychain_opt_in(
         promptMode: ClaudeOAuthKeychainPromptMode,
         keychainAccessDisabled: Bool) async
     {
@@ -177,7 +177,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `opaque delegated CLI honors stored prompt mode when read strategy effective mode differs`() async {
+    func opaque_delegated_CLI_honors_stored_prompt_mode_when_read_strategy_effective_mode_differs() async {
         let touches = ClaudeDelegatedTouchCounter()
         let backgroundOutcome = await ClaudeOAuthKeychainReadStrategyPreference.withTaskOverrideForTesting(
             .securityCLIExperimental)
@@ -225,7 +225,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `successful auth touch reports attempted succeeded`() async {
+    func successful_auth_touch_reports_attempted_succeeded() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
 
@@ -262,7 +262,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `failed auth touch reports attempted failed`() async throws {
+    func failed_auth_touch_reports_attempted_failed() async throws {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
 
@@ -295,7 +295,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `environment CLI override avoids CLI unavailable`() async throws {
+    func environment_CLI_override_avoids_CLI_unavailable() async throws {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
 
@@ -334,7 +334,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `concurrent attempts join in flight`() async {
+    func concurrent_attempts_join_in_flight() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
 
@@ -435,7 +435,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `user action retries after joining failed background attempt`() async throws {
+    func user_action_retries_after_joining_failed_background_attempt() async throws {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
 
@@ -565,7 +565,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `experimental strategy does not use security framework fingerprint observation`() async {
+    func experimental_strategy_does_not_use_security_framework_fingerprint_observation() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
         await KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -613,7 +613,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `experimental strategy observes security CLI change after touch`() async {
+    func experimental_strategy_observes_security_CLI_change_after_touch() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
         await KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -685,7 +685,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `experimental strategy missing baseline does not auto succeed when later read succeeds`() async {
+    func experimental_strategy_missing_baseline_does_not_auto_succeed_when_later_read_succeeds() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
         await KeychainAccessGate.withTaskOverrideForTesting(false) {
@@ -757,7 +757,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `experimental strategy observation skips security CLI when global keychain disabled`() async {
+    func experimental_strategy_observation_skips_security_CLI_when_global_keychain_disabled() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
         await ClaudeOAuthKeychainReadStrategyPreference.withTaskOverrideForTesting(
@@ -799,7 +799,7 @@ struct ClaudeOAuthDelegatedRefreshCoordinatorTests {
     }
 
     @Test
-    func `experimental strategy blocks background mcp O auth but lets user action retry`() async {
+    func experimental_strategy_blocks_background_mcp_O_auth_but_lets_user_action_retry() async {
         ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting()
         defer { ClaudeOAuthDelegatedRefreshCoordinator.resetForTesting() }
         await KeychainAccessGate.withTaskOverrideForTesting(false) {

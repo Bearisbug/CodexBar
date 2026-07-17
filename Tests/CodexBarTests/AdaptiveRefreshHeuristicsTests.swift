@@ -12,7 +12,7 @@ import Testing
 @MainActor
 struct AdaptiveRefreshHeuristicsTests {
     @Test
-    func `manual keeps the heuristics interval nil`() {
+    func manual_keeps_the_heuristics_interval_nil() {
         let store = Self.makeStore(suite: "heuristics-manual-nil", frequency: .manual)
         #expect(store.normalRefreshIntervalForHeuristics() == nil)
     }
@@ -24,7 +24,7 @@ struct AdaptiveRefreshHeuristicsTests {
         (.fifteenMinutes, 900.0),
         (.thirtyMinutes, 1800.0)
     ])
-    func `fixed frequencies pass their configured seconds through`(
+    func fixed_frequencies_pass_their_configured_seconds_through(
         frequency: RefreshFrequency,
         expectedSeconds: TimeInterval)
     {
@@ -33,7 +33,7 @@ struct AdaptiveRefreshHeuristicsTests {
     }
 
     @Test
-    func `adaptive resolves to the live adaptive decision delay`() {
+    func adaptive_resolves_to_the_live_adaptive_decision_delay() {
         let store = Self.makeStore(suite: "heuristics-adaptive-live", frequency: .adaptive)
 
         // No recorded menu open: the decision is longIdle, or constrained on a low-power/hot
@@ -53,7 +53,7 @@ struct AdaptiveRefreshHeuristicsTests {
     }
 
     @Test
-    func `adaptive cadence schedules a reset-boundary refresh through the refresh pipeline`() async {
+    func adaptive_cadence_schedules_a_reset_boundary_refresh_through_the_refresh_pipeline() async {
         let store = Self.makeStoreWithStubbedCodex(suite: "heuristics-boundary-adaptive", frequency: .adaptive)
 
         // Goes through the real end-of-refresh scheduling call, which must feed the adaptive
@@ -65,7 +65,7 @@ struct AdaptiveRefreshHeuristicsTests {
     }
 
     @Test
-    func `manual cadence still never schedules a reset-boundary refresh through the refresh pipeline`() async {
+    func manual_cadence_still_never_schedules_a_reset_boundary_refresh_through_the_refresh_pipeline() async {
         let store = Self.makeStoreWithStubbedCodex(suite: "heuristics-boundary-manual", frequency: .manual)
 
         await store.refresh()
@@ -75,7 +75,7 @@ struct AdaptiveRefreshHeuristicsTests {
     }
 
     @Test
-    func `adaptive mode lifts the openai web refresh interval off the manual floor`() {
+    func adaptive_mode_lifts_the_openai_web_refresh_interval_off_the_manual_floor() {
         let adaptiveStore = Self.makeStore(suite: "heuristics-web-adaptive", frequency: .adaptive)
         let manualStore = Self.makeStore(suite: "heuristics-web-manual", frequency: .manual)
 
@@ -89,7 +89,7 @@ struct AdaptiveRefreshHeuristicsTests {
     }
 
     @Test
-    func `registry nominal interval maps adaptive to the policy nominal and keeps manual nil`() {
+    func registry_nominal_interval_maps_adaptive_to_the_policy_nominal_and_keeps_manual_nil() {
         #expect(ProviderRegistry.nominalRefreshInterval(for: .adaptive)
             == AdaptiveRefreshPolicy.nominalIntervalForHeuristics)
         #expect(ProviderRegistry.nominalRefreshInterval(for: .manual) == nil)
@@ -97,7 +97,7 @@ struct AdaptiveRefreshHeuristicsTests {
     }
 
     @Test
-    func `provider specs give adaptive a nominal cli session idle window instead of the floor`() {
+    func provider_specs_give_adaptive_a_nominal_cli_session_idle_window_instead_of_the_floor() {
         let adaptiveStore = Self.makeStore(suite: "heuristics-spec-adaptive", frequency: .adaptive)
         let manualStore = Self.makeStore(suite: "heuristics-spec-manual", frequency: .manual)
 
@@ -112,7 +112,7 @@ struct AdaptiveRefreshHeuristicsTests {
     }
 
     @Test
-    func `account-scoped fetch contexts derive the idle window from the live adaptive interval`() {
+    func account_scoped_fetch_contexts_derive_the_idle_window_from_the_live_adaptive_interval() {
         let adaptiveStore = Self.makeStore(suite: "heuristics-account-adaptive", frequency: .adaptive)
         let manualStore = Self.makeStore(suite: "heuristics-account-manual", frequency: .manual)
 

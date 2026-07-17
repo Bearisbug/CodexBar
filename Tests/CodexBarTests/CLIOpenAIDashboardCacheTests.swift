@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct CLIOpenAIDashboardCacheTests {
     @Test
-    func `cached dashboard restores when authority allows cached reuse`() throws {
+    func cached_dashboard_restores_when_authority_allows_cached_reuse() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -36,7 +36,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard returns nil on display only and clears cache`() throws {
+    func cached_dashboard_returns_nil_on_display_only_and_clears_cache() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -67,7 +67,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard returns nil on fail closed and clears cache`() throws {
+    func cached_dashboard_returns_nil_on_fail_closed_and_clears_cache() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -97,7 +97,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard wrong email returns nil and clears cache`() throws {
+    func cached_dashboard_wrong_email_returns_nil_and_clears_cache() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -127,7 +127,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard provider account without scoped auth email fails closed`() throws {
+    func cached_dashboard_provider_account_without_scoped_auth_email_fails_closed() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -158,7 +158,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard unresolved trusted continuity with competing owner returns nil`() {
+    func cached_dashboard_unresolved_trusted_continuity_with_competing_owner_returns_nil() {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -188,7 +188,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard trusts codex cli usage continuity`() {
+    func cached_dashboard_trusts_codex_cli_usage_continuity() {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -215,7 +215,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard trusts oauth usage continuity`() {
+    func cached_dashboard_trusts_oauth_usage_continuity() {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -242,7 +242,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard does not trust open A I web usage continuity`() {
+    func cached_dashboard_does_not_trust_open_A_I_web_usage_continuity() {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 
@@ -269,7 +269,7 @@ struct CLIOpenAIDashboardCacheTests {
     }
 
     @Test
-    func `cached dashboard ignores cached account email equality when authority rejects`() throws {
+    func cached_dashboard_ignores_cached_account_email_equality_when_authority_rejects() throws {
         OpenAIDashboardCacheStore.clear()
         defer { OpenAIDashboardCacheStore.clear() }
 

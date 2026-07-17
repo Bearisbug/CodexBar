@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct DisplayIntervalOverrideConcurrencyTests {
     @Test(.enabled(if: ProcessInfo.processInfo.environment["CODEXBAR_TSAN_STRESS"] == "1"))
-    func `concurrent display-interval override writes and reads are race-free`() {
+    func concurrent_display_interval_override_writes_and_reads_are_race_free() {
         defer {
             CookieHeaderCache.setDisplayStalenessIntervalOverrideForTesting(nil)
             CookieHeaderCache.setDisplayUnavailableRetryIntervalOverrideForTesting(nil)

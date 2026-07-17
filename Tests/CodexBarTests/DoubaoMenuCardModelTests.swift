@@ -5,7 +5,7 @@ import Testing
 
 struct DoubaoMenuCardModelTests {
     @Test
-    func `coding plan monthly quota shows deficit and run out details`() throws {
+    func coding_plan_monthly_quota_shows_deficit_and_run_out_details() throws {
         let now = Date(timeIntervalSince1970: 10_368_000) // 1970-05-01T00:00:00Z
         let reset = now.addingTimeInterval(6 * 24 * 3600)
         let snapshot = UsageSnapshot(
@@ -58,7 +58,7 @@ struct DoubaoMenuCardModelTests {
     }
 
     @Test
-    func `unknown request limit renders unavailable instead of full quota`() throws {
+    func unknown_request_limit_renders_unavailable_instead_of_full_quota() throws {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let metadata = try #require(ProviderDefaults.metadata[.doubao])
         let snapshot = DoubaoUsageSnapshot(

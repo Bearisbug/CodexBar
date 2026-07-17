@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexManagedRoutingTests {
     @Test
-    func `provider registry injects managed home when active source is managed account`() {
+    func provider_registry_injects_managed_home_when_active_source_is_managed_account() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-registry")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -38,7 +38,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry scopes codex environment with source override without persisting selection`() throws {
+    func provider_registry_scopes_codex_environment_with_source_override_without_persisting_selection() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-source-override-env")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -72,7 +72,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry builds codex snapshot with source override without persisting selection`() throws {
+    func provider_registry_builds_codex_snapshot_with_source_override_without_persisting_selection() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-source-override-snapshot")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -104,7 +104,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry preserves ambient live system home when active source is live system`() {
+    func provider_registry_preserves_ambient_live_system_home_when_active_source_is_live_system() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-live-system-routing")
         let managedHomePath = "/tmp/managed-remote-home"
         let liveHomePath = "/tmp/system-remote-home"
@@ -139,7 +139,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry keeps managed home when live account differs`() {
+    func provider_registry_keeps_managed_home_when_live_account_differs() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-active-vs-live")
         let managedHomePath = "/tmp/managed-remote-home"
         let liveHomePath = "/tmp/system-remote-home"
@@ -174,7 +174,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry prefers live system routing when managed and live share email`() {
+    func provider_registry_prefers_live_system_routing_when_managed_and_live_share_email() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-same-email-prefers-live")
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -214,7 +214,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry keeps managed routing when same email rows differ by identity strength`() throws {
+    func provider_registry_keeps_managed_routing_when_same_email_rows_differ_by_identity_strength() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-same-email-split-by-identity")
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -260,7 +260,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `persisted managed source corrects to live system when selected row collapses with live account`() {
+    func persisted_managed_source_corrects_to_live_system_when_selected_row_collapses_with_live_account() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-same-email-persist-correction")
         let managedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -289,7 +289,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex provider refresh persists live correction for stale managed source`() async {
+    func codex_provider_refresh_persists_live_correction_for_stale_managed_source() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-provider-refresh-persists-correction")
         let ambientHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -318,7 +318,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `full refresh persists live correction for stale managed source`() async {
+    func full_refresh_persists_live_correction_for_stale_managed_source() async {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-full-refresh-persists-correction")
         let ambientHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -347,7 +347,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry fails closed when managed account store is unreadable`() {
+    func provider_registry_fails_closed_when_managed_account_store_is_unreadable() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-unreadable-store")
         settings._test_unreadableManagedCodexAccountStore = true
         settings.codexActiveSource = .managedAccount(id: UUID())
@@ -365,7 +365,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry bootstraps live system source instead of inferring managed fallback`() {
+    func provider_registry_bootstraps_live_system_source_instead_of_inferring_managed_fallback() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-unreadable-legacy-source")
         settings._test_unreadableManagedCodexAccountStore = true
         defer { settings._test_unreadableManagedCodexAccountStore = false }
@@ -385,7 +385,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry fails closed when selected managed source is missing from readable store`() throws {
+    func provider_registry_fails_closed_when_selected_managed_source_is_missing_from_readable_store() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-missing-managed-source")
         let storedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -425,7 +425,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex settings snapshot marks missing selected managed source as unavailable`() throws {
+    func codex_settings_snapshot_marks_missing_selected_managed_source_as_unavailable() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-missing-managed-snapshot")
         let storedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -454,7 +454,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex settings snapshot ignores unreadable added account store when live system is active`() {
+    func codex_settings_snapshot_ignores_unreadable_added_account_store_when_live_system_is_active() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-live-system-snapshot")
         settings._test_unreadableManagedCodexAccountStore = true
         settings.codexActiveSource = .liveSystem
@@ -467,7 +467,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex settings snapshot keeps unreadable managed store fail closed when live account is present`() {
+    func codex_settings_snapshot_keeps_unreadable_managed_store_fail_closed_when_live_account_is_present() {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-unreadable-store-live-present")
         settings._test_unreadableManagedCodexAccountStore = true
         settings.codexActiveSource = .managedAccount(id: UUID())
@@ -488,7 +488,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex settings snapshot keeps missing managed target fail closed when live account is present`() throws {
+    func codex_settings_snapshot_keeps_missing_managed_target_fail_closed_when_live_account_is_present() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-missing-managed-live-present")
         let storedAccount = ManagedCodexAccount(
             id: UUID(),
@@ -523,7 +523,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry ignores debug managed home override without explicit managed source`() throws {
+    func provider_registry_ignores_debug_managed_home_override_without_explicit_managed_source() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-debug-home-override")
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -546,7 +546,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `provider registry builds codex fetcher scoped to managed home`() throws {
+    func provider_registry_builds_codex_fetcher_scoped_to_managed_home() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-registry-fetcher")
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -575,7 +575,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `usage store builds codex fetch context with source override without persisting selection`() throws {
+    func usage_store_builds_codex_fetch_context_with_source_override_without_persisting_selection() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-usage-source-override")
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -619,7 +619,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `usage store builds codex token account fetcher scoped to managed home`() throws {
+    func usage_store_builds_codex_token_account_fetcher_scoped_to_managed_home() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-usage-store")
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -646,7 +646,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `usage store builds codex credits fetcher scoped to managed home`() throws {
+    func usage_store_builds_codex_credits_fetcher_scoped_to_managed_home() throws {
         let settings = self.makeSettingsStore(suite: "CodexManagedRoutingTests-credits-fetcher")
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
@@ -672,7 +672,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `default managed codex identity reader preserves provider account from scoped auth`() throws {
+    func default_managed_codex_identity_reader_preserves_provider_account_from_scoped_auth() throws {
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
             isDirectory: true)
@@ -692,7 +692,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex O auth strategy availability reads auth from context env`() async throws {
+    func codex_O_auth_strategy_availability_reads_auth_from_context_env() async throws {
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
             isDirectory: true)
@@ -713,7 +713,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex O auth credentials store loads and saves using explicit env`() throws {
+    func codex_O_auth_credentials_store_loads_and_saves_using_explicit_env() throws {
         let managedHome = FileManager.default.temporaryDirectory.appendingPathComponent(
             UUID().uuidString,
             isDirectory: true)
@@ -740,7 +740,7 @@ struct CodexManagedRoutingTests {
     }
 
     @Test
-    func `codex no data message uses explicit environment home`() {
+    func codex_no_data_message_uses_explicit_environment_home() {
         let env = ["CODEX_HOME": "/tmp/managed-codex-home"]
 
         let message = CodexProviderDescriptor._noDataMessageForTesting(env: env)

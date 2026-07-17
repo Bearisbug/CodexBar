@@ -152,7 +152,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh row is custom and appears above settings`() throws {
+    func refresh_row_is_custom_and_appears_above_settings() throws {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -183,7 +183,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `persistent refresh installs tracking monitor and handles command R without native shortcut`() async throws {
+    func persistent_refresh_installs_tracking_monitor_and_handles_command_R_without_native_shortcut() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -218,7 +218,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `only refresh uses a custom row while standard actions stay native`() throws {
+    func only_refresh_uses_a_custom_row_while_standard_actions_stay_native() throws {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -259,7 +259,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `persistent refresh row reflects scoped global and manual refresh state`() throws {
+    func persistent_refresh_row_reflects_scoped_global_and_manual_refresh_state() throws {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -325,7 +325,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh monitor follows refresh success and failure`() {
+    func refresh_monitor_follows_refresh_success_and_failure() {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let monitor = controller.menuCardRefreshMonitor
@@ -370,7 +370,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `scoped refresh monitor leaves unrelated providers unchanged`() throws {
+    func scoped_refresh_monitor_leaves_unrelated_providers_unchanged() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let monitor = controller.menuCardRefreshMonitor
@@ -390,7 +390,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh monitor updates compatible usage values after manual refresh completes`() throws {
+    func refresh_monitor_updates_compatible_usage_values_after_manual_refresh_completes() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let now = Date()
@@ -434,7 +434,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `manual refresh keeps frozen quota even if menu rebuilds before completion`() throws {
+    func manual_refresh_keeps_frozen_quota_even_if_menu_rebuilds_before_completion() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let now = Date()
@@ -474,7 +474,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `manual refresh uses fallback when frozen quota layout is incompatible`() throws {
+    func manual_refresh_uses_fallback_when_frozen_quota_layout_is_incompatible() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let now = Date()
@@ -513,7 +513,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `manual refresh preserves frozen quota when supplemental metric remains`() throws {
+    func manual_refresh_preserves_frozen_quota_when_supplemental_metric_remains() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(
             settings: settings,
@@ -560,7 +560,7 @@ struct StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `manual refresh uses fallback when empty quota gains credit content`() throws {
+    func manual_refresh_uses_fallback_when_empty_quota_gains_credit_content() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(
             settings: settings,
@@ -600,7 +600,7 @@ struct StatusMenuPersistentRefreshTests {
 
 extension StatusMenuPersistentRefreshTests {
     @Test
-    func `manual refresh uses fallback when empty quota gains a placeholder`() throws {
+    func manual_refresh_uses_fallback_when_empty_quota_gains_a_placeholder() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let now = Date()
@@ -629,7 +629,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh monitor updates single line credit balances`() throws {
+    func refresh_monitor_updates_single_line_credit_balances() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(
             settings: settings,
@@ -657,7 +657,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh monitor preserves multiline workspace credit text`() throws {
+    func refresh_monitor_preserves_multiline_workspace_credit_text() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         controller.store.snapshots[.amp] = UsageSnapshot(
@@ -682,7 +682,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh monitor preserves tracked layout when refresh adds usage sections`() throws {
+    func refresh_monitor_preserves_tracked_layout_when_refresh_adds_usage_sections() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let fallback = try #require(controller.menuCardModel(for: .claude))
@@ -704,7 +704,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh monitor preserves tracked layout when token error appears`() throws {
+    func refresh_monitor_preserves_tracked_layout_when_token_error_appears() throws {
         let settings = self.makeSettings()
         settings.costUsageEnabled = true
         settings.costSummaryDisplayStyle = .both
@@ -720,7 +720,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh monitor preserves tracked layout when token error text changes`() throws {
+    func refresh_monitor_preserves_tracked_layout_when_token_error_text_changes() throws {
         let settings = self.makeSettings()
         settings.costUsageEnabled = true
         settings.costSummaryDisplayStyle = .both
@@ -738,7 +738,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `live subtitle preserves canonical model error filtering`() throws {
+    func live_subtitle_preserves_canonical_model_error_filtering() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(
             settings: settings,
@@ -756,7 +756,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `override cards keep their own subtitle`() throws {
+    func override_cards_keep_their_own_subtitle() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let liveModel = try #require(controller.menuCardModel(for: .codex))
@@ -771,7 +771,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `live failure keeps the measured card height`() throws {
+    func live_failure_keeps_the_measured_card_height() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
 
@@ -806,7 +806,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `manual refresh is suppressed after shutdown preparation`() {
+    func manual_refresh_is_suppressed_after_shutdown_preparation() {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         var requestCount = 0
@@ -823,7 +823,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `repeated manual refresh clicks share one lifecycle`() async throws {
+    func repeated_manual_refresh_clicks_share_one_lifecycle() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -854,7 +854,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `provider menu persistent refresh row and command R refresh only that provider`() async throws {
+    func provider_menu_persistent_refresh_row_and_command_R_refresh_only_that_provider() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -900,7 +900,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `provider menu does not replace matching scoped refresh`() async throws {
+    func provider_menu_does_not_replace_matching_scoped_refresh() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -928,7 +928,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `merged overview refreshes globally while selected provider stays scoped`() async throws {
+    func merged_overview_refreshes_globally_while_selected_provider_stays_scoped() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = true
@@ -967,7 +967,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `provider scoped refresh updates status and widget snapshot`() async {
+    func provider_scoped_refresh_updates_status_and_widget_snapshot() async {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.statusChecksEnabled = true
@@ -995,7 +995,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `failed manual refresh returns persistent item to enabled and surfaces error`() async throws {
+    func failed_manual_refresh_returns_persistent_item_to_enabled_and_surfaces_error() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1025,7 +1025,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `status item menu intercepts persistent shortcuts without native item selection`() throws {
+    func status_item_menu_intercepts_persistent_shortcuts_without_native_item_selection() throws {
         let menu = StatusItemMenu()
         let recorder = RefreshShortcutRecorder()
         menu.persistentActionDelegate = recorder
@@ -1059,7 +1059,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh row metrics match tuned native-style values`() {
+    func refresh_row_metrics_match_tuned_native_style_values() {
         let metrics = PersistentRefreshRowMetrics.defaults
         #expect(metrics.rowHeight == 24)
         #expect(metrics.selectionHorizontalInset == 5)
@@ -1077,7 +1077,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh shortcut display has stable native-style column`() throws {
+    func refresh_shortcut_display_has_stable_native_style_column() throws {
         let previousRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer { StatusItemController.menuCardRenderingEnabled = previousRendering }
@@ -1115,7 +1115,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refresh row width follows final rendered menu width`() {
+    func refresh_row_width_follows_final_rendered_menu_width() {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         defer { controller.releaseStatusItemsForTesting() }
@@ -1153,7 +1153,7 @@ extension StatusMenuPersistentRefreshTests {
 
 extension StatusMenuPersistentRefreshTests {
     @Test
-    func `global manual refresh only marks active provider cards as refreshing`() {
+    func global_manual_refresh_only_marks_active_provider_cards_as_refreshing() {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let monitor = controller.menuCardRefreshMonitor
@@ -1176,7 +1176,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `completed provider cards stop refreshing while another provider is still running`() async {
+    func completed_provider_cards_stop_refreshing_while_another_provider_is_still_running() async {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.costUsageEnabled = false
@@ -1213,7 +1213,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `token-cost tail does not keep completed provider card refreshing`() async {
+    func token_cost_tail_does_not_keep_completed_provider_card_refreshing() async {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.costUsageEnabled = true
@@ -1272,12 +1272,12 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `credit tail does not keep completed provider card refreshing`() async {
+    func credit_tail_does_not_keep_completed_provider_card_refreshing() async {
         await self.verifyCompletedProviderCardStopsRefreshing(whileBlocking: .credits)
     }
 
     @Test
-    func `dashboard tail does not keep completed provider card refreshing`() async {
+    func dashboard_tail_does_not_keep_completed_provider_card_refreshing() async {
         await self.verifyCompletedProviderCardStopsRefreshing(whileBlocking: .dashboard)
     }
 
@@ -1387,7 +1387,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `provider scoped refresh waits for global forced enrichment`() async {
+    func provider_scoped_refresh_waits_for_global_forced_enrichment() async {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.costUsageEnabled = true
@@ -1454,7 +1454,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `concurrent manual refreshes keep each provider's frozen card`() throws {
+    func concurrent_manual_refreshes_keep_each_provider_s_frozen_card() throws {
         let settings = self.makeSettings()
         let controller = self.makeController(settings: settings)
         let monitor = controller.menuCardRefreshMonitor
@@ -1503,7 +1503,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `refreshing one provider does not block refreshing another`() async throws {
+    func refreshing_one_provider_does_not_block_refreshing_another() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = false
@@ -1537,7 +1537,7 @@ extension StatusMenuPersistentRefreshTests {
     }
 
     @Test
-    func `overview stays busy through a provider refresh tail and blocks a global refresh`() async throws {
+    func overview_stays_busy_through_a_provider_refresh_tail_and_blocks_a_global_refresh() async throws {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = true

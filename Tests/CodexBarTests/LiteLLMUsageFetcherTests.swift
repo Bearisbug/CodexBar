@@ -4,7 +4,7 @@ import Testing
 
 struct LiteLLMUsageFetcherTests {
     @Test
-    func `parses user usage with personal and team budgets`() throws {
+    func parses_user_usage_with_personal_and_team_budgets() throws {
         let json = """
         {
           "user_id": "user-123",
@@ -93,7 +93,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `preserves personal spend when no budget is configured`() throws {
+    func preserves_personal_spend_when_no_budget_is_configured() throws {
         let json = """
         {
           "user_id": "user-123",
@@ -123,7 +123,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `parses key info identity for user lookup`() throws {
+    func parses_key_info_identity_for_user_lookup() throws {
         let json = """
         {
           "key": "sk-redacted",
@@ -147,7 +147,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `parses team-only key info without user identity`() throws {
+    func parses_team_only_key_info_without_user_identity() throws {
         let json = """
         {
           "info": {
@@ -166,7 +166,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `management urls accept root or v1 base urls`() throws {
+    func management_urls_accept_root_or_v1_base_urls() throws {
         let root = try #require(URL(string: "https://litellm.example.com"))
         let versioned = try #require(URL(string: "https://litellm.example.com/v1"))
         let nestedVersioned = try #require(URL(string: "https://gateway.example.com/litellm/v1/"))
@@ -190,7 +190,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `settings reader trims quoted environment values`() {
+    func settings_reader_trims_quoted_environment_values() {
         let environment = [
             "LITELLM_API_KEY": " 'sk-test' ",
             "LITELLM_BASE_URL": #" "https://litellm.example.com/v1" "#,
@@ -202,7 +202,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `fetch trims api key before sending management requests`() async throws {
+    func fetch_trims_api_key_before_sending_management_requests() async throws {
         let baseURL = try #require(URL(string: "https://litellm.example.com/v1"))
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer sk-test")
@@ -259,7 +259,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `fetches team usage for team-only virtual keys`() async throws {
+    func fetches_team_usage_for_team_only_virtual_keys() async throws {
         let baseURL = try #require(URL(string: "https://litellm.example.com/v1"))
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer sk-team")
@@ -332,7 +332,7 @@ struct LiteLLMUsageFetcherTests {
     }
 
     @Test
-    func `fetch surfaces rejected virtual key`() async throws {
+    func fetch_surfaces_rejected_virtual_key() async throws {
         let baseURL = try #require(URL(string: "https://litellm.example.com"))
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer sk-target")

@@ -7,14 +7,14 @@ import FoundationNetworking
 
 struct CodexRateLimitResetCreditsTests {
     @Test
-    func `resolves URL from chat GPT config`() {
+    func resolves_URL_from_chat_GPT_config() {
         let config = "chatgpt_base_url = \"https://chatgpt.com/backend-api/\"\n"
         let url = CodexOAuthUsageFetcher._resolveRateLimitResetCreditsURLForTesting(configContents: config)
         #expect(url.absoluteString == "https://chatgpt.com/backend-api/wham/rate-limit-reset-credits")
     }
 
     @Test
-    func `request scopes auth and account with bounded timeout`() async throws {
+    func request_scopes_auth_and_account_with_bounded_timeout() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.url?.absoluteString == "https://chatgpt.com/backend-api/wham/rate-limit-reset-credits")
             #expect(request.httpMethod == "GET")
@@ -45,7 +45,7 @@ struct CodexRateLimitResetCreditsTests {
     }
 
     @Test
-    func `rejects negative available count`() async throws {
+    func rejects_negative_available_count() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             let response = try #require(HTTPURLResponse(
@@ -71,7 +71,7 @@ struct CodexRateLimitResetCreditsTests {
     }
 
     @Test
-    func `decodes credits and skips stale available expiry`() throws {
+    func decodes_credits_and_skips_stale_available_expiry() throws {
         let json = """
         {
           "credits": [
@@ -150,7 +150,7 @@ struct CodexRateLimitResetCreditsTests {
     }
 
     @Test
-    func `available inventory keeps no-expiry credits and sorts deterministically`() {
+    func available_inventory_keeps_no_expiry_credits_and_sorts_deterministically() {
         let now = Date(timeIntervalSince1970: 1_788_134_400)
         let tiedExpiry = now.addingTimeInterval(3600)
         let snapshot = CodexRateLimitResetCreditsSnapshot(
@@ -179,7 +179,7 @@ struct CodexRateLimitResetCreditsTests {
     }
 
     @Test
-    func `provider IDs always hash even when shaped like persisted stable IDs`() throws {
+    func provider_IDs_always_hash_even_when_shaped_like_persisted_stable_IDs() throws {
         let canonicalLookingRawID = "codex-reset-credit-v1-" + String(repeating: "a", count: 64)
         let json = """
         {
@@ -219,7 +219,7 @@ struct CodexRateLimitResetCreditsTests {
     }
 
     @Test
-    func `reset credit GET preserves transport cancellation`() async throws {
+    func reset_credit_GET_preserves_transport_cancellation() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.httpMethod == "GET")
             throw URLError(.cancelled)

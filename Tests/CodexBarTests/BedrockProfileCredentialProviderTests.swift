@@ -18,7 +18,7 @@ struct BedrockProfileCredentialProviderTests {
     }
 
     @Test
-    func `parses export-credentials json with session token`() async throws {
+    func parses_export_credentials_json_with_session_token() async throws {
         let json = """
         {"Version":1,"AccessKeyId":"AKIA","SecretAccessKey":"secret",\
         "SessionToken":"token","Expiration":"2026-05-27T12:00:00Z"}
@@ -30,7 +30,7 @@ struct BedrockProfileCredentialProviderTests {
     }
 
     @Test
-    func `parses export-credentials json without session token`() async throws {
+    func parses_export_credentials_json_without_session_token() async throws {
         let json = #"{"Version":1,"AccessKeyId":"AKIA","SecretAccessKey":"secret"}"#
         let creds = try await provider(stdout: json).exportCredentials(profile: "work")
         #expect(creds.accessKeyID == "AKIA")
@@ -38,7 +38,7 @@ struct BedrockProfileCredentialProviderTests {
     }
 
     @Test
-    func `maps expired SSO stderr to profileSessionExpired`() async {
+    func maps_expired_SSO_stderr_to_profileSessionExpired() async {
         let stderr = "The SSO session associated with this profile has expired. " +
             "To refresh this SSO session run aws sso login with the corresponding profile."
         let sut = self.provider(stderr: stderr, throwsNonZero: true)
@@ -48,7 +48,7 @@ struct BedrockProfileCredentialProviderTests {
     }
 
     @Test
-    func `maps other non-zero exit to apiError`() async {
+    func maps_other_non_zero_exit_to_apiError() async {
         let sut = self.provider(stderr: "The config profile (work) could not be found", throwsNonZero: true)
         do {
             _ = try await sut.exportCredentials(profile: "work")
@@ -61,7 +61,7 @@ struct BedrockProfileCredentialProviderTests {
     }
 
     @Test
-    func `malformed json throws parseFailed`() async {
+    func malformed_json_throws_parseFailed() async {
         let sut = self.provider(stdout: "not json")
         do {
             _ = try await sut.exportCredentials(profile: "work")
@@ -74,19 +74,19 @@ struct BedrockProfileCredentialProviderTests {
     }
 
     @Test
-    func `resolveRegion returns trimmed value`() async throws {
+    func resolveRegion_returns_trimmed_value() async throws {
         let region = try await provider(stdout: "eu-west-1\n").resolveRegion(profile: "work")
         #expect(region == "eu-west-1")
     }
 
     @Test
-    func `resolveRegion returns nil when unset (non-zero exit)`() async throws {
+    func resolveRegion_returns_nil_when_unset_non_zero_exit() async throws {
         let region = try await provider(throwsNonZero: true).resolveRegion(profile: "work")
         #expect(region == nil)
     }
 
     @Test
-    func `resolveRegion returns nil for empty output`() async throws {
+    func resolveRegion_returns_nil_for_empty_output() async throws {
         let region = try await provider(stdout: "\n").resolveRegion(profile: "work")
         #expect(region == nil)
     }

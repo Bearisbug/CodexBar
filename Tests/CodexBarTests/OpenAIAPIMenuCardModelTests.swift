@@ -5,7 +5,7 @@ import Testing
 
 struct OpenAIAPIMenuCardModelTests {
     @Test
-    func `admin usage model shows summaries and spend without fake quota bars`() throws {
+    func admin_usage_model_shows_summaries_and_spend_without_fake_quota_bars() throws {
         let now = try Self.localNoon(year: 2023, month: 11, day: 17)
         let bucketDay = try Self.localNoon(year: 2023, month: 11, day: 14)
         let metadata = try #require(ProviderDefaults.metadata[.openai])
@@ -72,7 +72,7 @@ struct OpenAIAPIMenuCardModelTests {
     }
 
     @Test
-    func `admin usage dashboard ignores stale token snapshot after fallback refresh`() throws {
+    func admin_usage_dashboard_ignores_stale_token_snapshot_after_fallback_refresh() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.openai])
         let staleTokenSnapshot = CostUsageTokenSnapshot(
@@ -120,7 +120,7 @@ struct OpenAIAPIMenuCardModelTests {
     }
 
     @Test
-    func `admin usage model can show cost card summary`() throws {
+    func admin_usage_model_can_show_cost_card_summary() throws {
         let now = try Self.localNoon(year: 2023, month: 11, day: 17)
         let bucketDay = try Self.localNoon(year: 2023, month: 11, day: 14)
         let metadata = try #require(ProviderDefaults.metadata[.openai])

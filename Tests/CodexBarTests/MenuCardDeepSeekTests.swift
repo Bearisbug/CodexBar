@@ -43,7 +43,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `model shows balance as status text instead of percentage detail`() throws {
+    func model_shows_balance_as_status_text_instead_of_percentage_detail() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .deepseek,
@@ -90,7 +90,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `model hides optional deepseek usage when extras disabled`() throws {
+    func model_hides_optional_deepseek_usage_when_extras_disabled() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.deepseek])
         let snapshot = Self.makeSnapshot(now: now, usageSummary: Self.sampleDeepSeekSummary(now: now))
@@ -120,7 +120,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `model explains unavailable optional deepseek usage`() throws {
+    func model_explains_unavailable_optional_deepseek_usage() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.deepseek])
         let snapshot = Self.makeSnapshot(now: now)
@@ -150,7 +150,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `model shows balance without stale deepseek usage while refreshing`() throws {
+    func model_shows_balance_without_stale_deepseek_usage_while_refreshing() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.deepseek])
         let snapshot = Self.makeSnapshot(now: now, usageSummary: Self.sampleDeepSeekSummary(now: now))
@@ -183,7 +183,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `model explains that detailed usage needs a platform session`() throws {
+    func model_explains_that_detailed_usage_needs_a_platform_session() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.deepseek])
         let snapshot = Self.makeSnapshot(now: now, detailedUsageState: .webSessionRequired)
@@ -213,7 +213,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `browser only sign in remains visible when optional usage is hidden`() throws {
+    func browser_only_sign_in_remains_visible_when_optional_usage_is_hidden() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.deepseek])
         let snapshot = DeepSeekUsageSnapshot(
@@ -252,7 +252,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `model asks for a profile when multiple deepseek sessions are valid`() throws {
+    func model_asks_for_a_profile_when_multiple_deepseek_sessions_are_valid() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.deepseek])
         let snapshot = Self.makeSnapshot(now: now, detailedUsageState: .profileSelectionRequired)
@@ -282,7 +282,7 @@ struct MenuCardDeepSeekTests {
     }
 
     @Test
-    func `model shows optional deepseek usage when extras enabled`() throws {
+    func model_shows_optional_deepseek_usage_when_extras_enabled() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.deepseek])
         let snapshot = Self.makeSnapshot(now: now, usageSummary: Self.sampleDeepSeekSummary(now: now))

@@ -4,7 +4,7 @@ import Testing
 
 struct CLICacheTests {
     @Test
-    func `cache clear parses cookies provider flags`() throws {
+    func cache_clear_parses_cookies_provider_flags() throws {
         let parser = CommandParser(signature: CodexBarCLI._cacheSignatureForTesting())
         let parsed = try parser.parse(arguments: ["--cookies", "--provider", "claude", "--json"])
 
@@ -15,7 +15,7 @@ struct CLICacheTests {
     }
 
     @Test
-    func `provider scope is rejected for cost clearing`() {
+    func provider_scope_is_rejected_for_cost_clearing() {
         #expect(CodexBarCLI.cacheClearProviderScopeError(rawProvider: nil, clearCost: true) == nil)
         #expect(CodexBarCLI.cacheClearProviderScopeError(rawProvider: "claude", clearCost: false) == nil)
         #expect(CodexBarCLI.cacheClearProviderScopeError(rawProvider: "claude", clearCost: true)?
@@ -23,7 +23,7 @@ struct CLICacheTests {
     }
 
     @Test
-    func `cache help documents provider as cookie scoped`() {
+    func cache_help_documents_provider_as_cookie_scoped() {
         let help = CodexBarCLI.cacheHelp(version: "0.0.0")
 
         #expect(help.contains("--provider with --cookies"))

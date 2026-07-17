@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusItemControllerShutdownTests {
     @Test
-    func `app shutdown closes tracked menus and removes status items`() {
+    func app_shutdown_closes_tracked_menus_and_removes_status_items() {
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(true)
         defer {
@@ -74,7 +74,7 @@ struct StatusItemControllerShutdownTests {
     }
 
     @Test
-    func `status menu quit defers shutdown until menu tracking can unwind`() {
+    func status_menu_quit_defers_shutdown_until_menu_tracking_can_unwind() {
         let controller = self.makeController()
         defer {
             StatusItemController.menuCardRenderingEnabled = !SettingsStore.isRunningTests
@@ -109,7 +109,7 @@ struct StatusItemControllerShutdownTests {
     }
 
     @Test
-    func `app shutdown cancels forced enrichment`() async {
+    func app_shutdown_cancels_forced_enrichment() async {
         let controller = self.makeController()
         defer {
             StatusItemController.menuCardRenderingEnabled = !SettingsStore.isRunningTests
@@ -167,7 +167,7 @@ struct StatusItemControllerShutdownTests {
     }
 
     @Test
-    func `app shutdown cancels active and pending forced enrichment without promotion`() async {
+    func app_shutdown_cancels_active_and_pending_forced_enrichment_without_promotion() async {
         let controller = self.makeController()
         defer {
             StatusItemController.menuCardRenderingEnabled = !SettingsStore.isRunningTests

@@ -15,13 +15,13 @@ struct GroqConsoleFetcherTests {
     }
 
     @Test
-    func `decodes organization id from jwt claim`() {
+    func decodes_organization_id_from_jwt_claim() {
         let jwt = Self.makeJWT(orgID: "org_abc123")
         #expect(GroqConsoleFetcher.organizationID(fromJWT: jwt) == "org_abc123")
     }
 
     @Test
-    func `falls back to stytch slug when groq claim absent`() {
+    func falls_back_to_stytch_slug_when_groq_claim_absent() {
         let payload = "{\"https://stytch.com/organization\":{\"slug\":\"org_slug9\"}}"
         let encoded = Data(payload.utf8).base64EncodedString()
             .replacingOccurrences(of: "+", with: "-")
@@ -32,13 +32,13 @@ struct GroqConsoleFetcherTests {
     }
 
     @Test
-    func `returns nil for malformed jwt`() {
+    func returns_nil_for_malformed_jwt() {
         #expect(GroqConsoleFetcher.organizationID(fromJWT: "not-a-jwt") == nil)
         #expect(GroqConsoleFetcher.organizationID(fromJWT: "only.two") == nil)
     }
 
     @Test
-    func `aggregates activity rows into daily buckets`() throws {
+    func aggregates_activity_rows_into_daily_buckets() throws {
         // Two models on the same UTC day plus one on the next day.
         let json = """
         {"object":"list","data":[
@@ -82,7 +82,7 @@ struct GroqConsoleFetcherTests {
     }
 
     @Test
-    func `parses session and jwt from cookie header`() {
+    func parses_session_and_jwt_from_cookie_header() {
         let header = "stytch_session=opaque123; stytch_session_jwt=jwt.abc.def; other=x"
         let session = GroqConsoleSession.session(fromCookieHeader: header)
         #expect(session?.sessionToken == "opaque123")
@@ -90,7 +90,7 @@ struct GroqConsoleFetcherTests {
     }
 
     @Test
-    func `usage snapshot exposes provider cost and console usage`() {
+    func usage_snapshot_exposes_provider_cost_and_console_usage() {
         let bucket = GroqConsoleUsageSnapshot.DailyBucket(
             day: "2026-07-13",
             startTime: Date(timeIntervalSince1970: 1_783_900_800),

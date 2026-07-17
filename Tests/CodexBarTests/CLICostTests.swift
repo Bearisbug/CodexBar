@@ -6,7 +6,7 @@ import Testing
 
 struct CLICostTests {
     @Test
-    func `cost json shortcut does not enable json logs`() throws {
+    func cost_json_shortcut_does_not_enable_json_logs() throws {
         let signature = CodexBarCLI._costSignatureForTesting()
         let parser = CommandParser(signature: signature)
         let parsed = try parser.parse(arguments: ["--json"])
@@ -17,7 +17,7 @@ struct CLICostTests {
     }
 
     @Test
-    func `renders cost text snapshot`() {
+    func renders_cost_text_snapshot() {
         let snap = CostUsageTokenSnapshot(
             sessionTokens: 1200,
             sessionCostUSD: 1.25,
@@ -39,7 +39,7 @@ struct CLICostTests {
     }
 
     @Test
-    func `renders codex project grouped cost text`() {
+    func renders_codex_project_grouped_cost_text() {
         let snap = CostUsageTokenSnapshot(
             sessionTokens: 1200,
             sessionCostUSD: 1.25,
@@ -101,7 +101,7 @@ struct CLICostTests {
     }
 
     @Test
-    func `encodes cost payload JSON`() throws {
+    func encodes_cost_payload_JSON() throws {
         let payload = CostPayload(
             provider: "claude",
             source: "local",
@@ -158,7 +158,7 @@ struct CLICostTests {
     }
 
     @Test
-    func `codex cost payload includes project rollups`() throws {
+    func codex_cost_payload_includes_project_rollups() throws {
         let snapshot = CostUsageTokenSnapshot(
             sessionTokens: 10,
             sessionCostUSD: 0.01,
@@ -241,7 +241,7 @@ struct CLICostTests {
     }
 
     @Test
-    func `encodes exact codex model I ds and zero cost breakdowns`() throws {
+    func encodes_exact_codex_model_I_ds_and_zero_cost_breakdowns() throws {
         let payload = CostPayload(
             provider: "codex",
             source: "local",
@@ -291,7 +291,7 @@ struct CLICostTests {
     }
 
     @Test
-    func `cost estimate hint is stable string`() {
+    func cost_estimate_hint_is_stable_string() {
         let hint = UsageFormatter.costEstimateHint
         #expect(!hint.isEmpty)
         #expect(hint.contains("Estimated"))

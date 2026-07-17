@@ -5,7 +5,7 @@ import Testing
 
 extension StatusMenuTests {
     @Test
-    func `overview card model follows usage display preference`() throws {
+    func overview_card_model_follows_usage_display_preference() throws {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual
@@ -31,7 +31,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `status menu card follows codex spark visibility`() throws {
+    func status_menu_card_follows_codex_spark_visibility() throws {
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual

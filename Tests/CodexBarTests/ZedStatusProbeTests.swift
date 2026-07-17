@@ -53,7 +53,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `decodes free plan with limited edit predictions`() throws {
+    func decodes_free_plan_with_limited_edit_predictions() throws {
         let response = try ZedStatusProbe.parseResponse(Self.fixture(plan: "zed_free", used: 12, limit: "50"))
         #expect(response.plan.planV3 == "zed_free")
         #expect(response.plan.usage.editPredictions.used == 12)
@@ -62,14 +62,14 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `decodes pro plan with unlimited edit predictions`() throws {
+    func decodes_pro_plan_with_unlimited_edit_predictions() throws {
         let response = try ZedStatusProbe.parseResponse(Self.fixture(plan: "zed_pro", used: 0, limit: "\"unlimited\""))
         #expect(response.plan.planV3 == "zed_pro")
         #expect(response.plan.usage.editPredictions.limit == .unlimited)
     }
 
     @Test
-    func `decodes pro trial student and business plans`() throws {
+    func decodes_pro_trial_student_and_business_plans() throws {
         let trial = try ZedStatusProbe.parseResponse(Self.fixture(
             plan: "zed_pro_trial",
             used: 3,
@@ -86,7 +86,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `maps free plan to usage snapshot`() throws {
+    func maps_free_plan_to_usage_snapshot() throws {
         let response = try ZedStatusProbe.parseResponse(Self.fixture(plan: "zed_free", used: 10, limit: "20"))
         let snapshot = ZedUsageSnapshot(response: response).toUsageSnapshot()
 
@@ -99,7 +99,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `maps pro plan with unlimited edit predictions`() throws {
+    func maps_pro_plan_with_unlimited_edit_predictions() throws {
         let response = try ZedStatusProbe.parseResponse(Self.fixture(plan: "zed_pro", used: 0, limit: "\"unlimited\""))
         let snapshot = ZedUsageSnapshot(response: response).toUsageSnapshot()
 
@@ -109,7 +109,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `maps overdue invoices warning window`() throws {
+    func maps_overdue_invoices_warning_window() throws {
         let response = try ZedStatusProbe.parseResponse(
             Self.fixture(plan: "zed_pro", used: 0, limit: "\"unlimited\"", overdue: true))
         let snapshot = ZedUsageSnapshot(response: response).toUsageSnapshot()
@@ -118,7 +118,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `reads credentials url from settings`() {
+    func reads_credentials_url_from_settings() {
         let settings = ZedClientSettings(
             credentialsURL: "https://preview.zed.dev",
             serverURL: "https://zed.dev")
@@ -132,14 +132,14 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `uses documented zed settings path`() {
+    func uses_documented_zed_settings_path() {
         let expected = FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent(".config/zed/settings.json")
         #expect(ZedStatusProbe.defaultSettingsURL == expected)
     }
 
     @Test
-    func `loads client settings from json`() throws {
+    func loads_client_settings_from_json() throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("CodexBar-ZedSettings-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -161,7 +161,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `maps server url independently from keychain identifier`() {
+    func maps_server_url_independently_from_keychain_identifier() {
         let production = ZedClientSettings(credentialsURL: "zed-preview-key", serverURL: "https://zed.dev")
         let staging = ZedClientSettings(credentialsURL: nil, serverURL: "https://staging.zed.dev")
         let localhost = ZedClientSettings(credentialsURL: nil, serverURL: "http://localhost:3000")
@@ -181,14 +181,14 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `display plan names normalize zed enums`() {
+    func display_plan_names_normalize_zed_enums() {
         #expect(ZedUsageSnapshot.displayPlanName("zed_pro") == "Zed Pro")
         #expect(ZedUsageSnapshot.displayPlanName("zed_pro_trial") == "Zed Pro Trial")
         #expect(ZedUsageSnapshot.displayPlanName("zed_student") == "Zed Student")
     }
 
     @Test
-    func `fetch uses authorization header from keychain credentials`() async throws {
+    func fetch_uses_authorization_header_from_keychain_credentials() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.url?.absoluteString == "https://cloud.zed.dev/client/users/me")
             #expect(request.value(forHTTPHeaderField: "Authorization") == "4242 test-token")
@@ -208,7 +208,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `fetch sends credentials only to configured server`() async throws {
+    func fetch_sends_credentials_only_to_configured_server() async throws {
         let transport = ProviderHTTPTransportStub { request in
             #expect(request.url?.absoluteString == "https://zed.example.com/client/users/me")
             #expect(request.value(forHTTPHeaderField: "Authorization") == "4242 custom-token")
@@ -230,7 +230,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `fetch rejects invalid server before reading credentials`() async {
+    func fetch_rejects_invalid_server_before_reading_credentials() async {
         let probe = ZedStatusProbe(
             credentialsReader: StubCredentialsReader(
                 credentials: ZedCredentials(userID: "4242", accessToken: "must-not-send")),
@@ -248,7 +248,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `fetch rejects cross-origin credential override`() async {
+    func fetch_rejects_cross_origin_credential_override() async {
         let probe = ZedStatusProbe(
             credentialsReader: StubCredentialsReader(
                 credentials: ZedCredentials(userID: "4242", accessToken: "must-not-send")),
@@ -268,7 +268,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `fetch surfaces not signed in when keychain is empty`() async {
+    func fetch_surfaces_not_signed_in_when_keychain_is_empty() async {
         let probe = ZedStatusProbe(
             credentialsReader: StubCredentialsReader(credentials: nil),
             transport: ProviderHTTPTransportStub { _ in
@@ -283,7 +283,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `fetch surfaces unauthorized responses`() async {
+    func fetch_surfaces_unauthorized_responses() async {
         let probe = ZedStatusProbe(
             credentialsReader: StubCredentialsReader(
                 credentials: ZedCredentials(userID: "1", accessToken: "bad")),
@@ -298,7 +298,7 @@ struct ZedStatusProbeTests {
     }
 
     @Test
-    func `fetch preserves transport cancellation`() async {
+    func fetch_preserves_transport_cancellation() async {
         let probe = ZedStatusProbe(
             credentialsReader: StubCredentialsReader(
                 credentials: ZedCredentials(userID: "1", accessToken: "cancelled")),

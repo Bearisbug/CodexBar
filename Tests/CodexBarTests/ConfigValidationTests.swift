@@ -4,7 +4,7 @@ import Testing
 
 struct ConfigValidationTests {
     @Test
-    func `fresh config defaults Alibaba Token Plan to International`() throws {
+    func fresh_config_defaults_Alibaba_Token_Plan_to_International() throws {
         let config = CodexBarConfig.makeDefault()
         let provider = try #require(config.providerConfig(for: .alibabatokenplan))
         let issues = CodexBarConfigValidator.validate(config)
@@ -14,7 +14,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `normalization preserves legacy Alibaba Token Plan region`() throws {
+    func normalization_preserves_legacy_Alibaba_Token_Plan_region() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(id: .alibabatokenplan, region: nil),
         ]).normalized()
@@ -24,7 +24,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `normalization adds missing Alibaba Token Plan as China mainland`() throws {
+    func normalization_adds_missing_Alibaba_Token_Plan_as_China_mainland() throws {
         let config = CodexBarConfig(providers: [
             ProviderConfig(id: .codex),
         ]).normalized()
@@ -34,7 +34,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `reports invalid Alibaba Token Plan region`() {
+    func reports_invalid_Alibaba_Token_Plan_region() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .alibabatokenplan, region: "nowhere"))
         let issues = CodexBarConfigValidator.validate(config)
@@ -45,7 +45,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `reports unsupported source`() {
+    func reports_unsupported_source() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .codex, source: .api))
         let issues = CodexBarConfigValidator.validate(config)
@@ -53,7 +53,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `accepts legacy factory cli source as compatibility alias`() {
+    func accepts_legacy_factory_cli_source_as_compatibility_alias() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .factory, source: .cli))
         let issues = CodexBarConfigValidator.validate(config)
@@ -64,7 +64,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `reports missing API key when source API`() {
+    func reports_missing_API_key_when_source_API() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .zai, source: .api, apiKey: nil))
         let issues = CodexBarConfigValidator.validate(config)
@@ -72,7 +72,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `allows credentialless Wayfinder API source`() {
+    func allows_credentialless_Wayfinder_API_source() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(
             id: .wayfinder,
@@ -84,7 +84,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `sub2api token accounts satisfy API credentials`() {
+    func sub2api_token_accounts_satisfy_API_credentials() {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -108,7 +108,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `sub2api accepts HTTPS and loopback HTTP base URLs`() {
+    func sub2api_accepts_HTTPS_and_loopback_HTTP_base_URLs() {
         for host in ["https://sub2api.example.com", "http://127.0.0.1:8080"] {
             var config = CodexBarConfig.makeDefault()
             config.setProviderConfig(ProviderConfig(
@@ -125,7 +125,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `sub2api rejects unsafe base URLs`() {
+    func sub2api_rejects_unsafe_base_URLs() {
         let invalidHosts = [
             "http://sub2api.example.com",
             "https://user:pass@sub2api.example.com",
@@ -150,7 +150,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `sub2api rejects blank token accounts as API credentials`() {
+    func sub2api_rejects_blank_token_accounts_as_API_credentials() {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -174,7 +174,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `reports invalid region`() {
+    func reports_invalid_region() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .minimax, region: "nowhere"))
         let issues = CodexBarConfigValidator.validate(config)
@@ -182,7 +182,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `warns on unsupported token accounts`() {
+    func warns_on_unsupported_token_accounts() {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [ProviderTokenAccount(id: UUID(), label: "a", token: "t", addedAt: 0, lastUsed: nil)],
@@ -194,7 +194,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `allows ollama token accounts`() {
+    func allows_ollama_token_accounts() {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [ProviderTokenAccount(id: UUID(), label: "a", token: "t", addedAt: 0, lastUsed: nil)],
@@ -206,7 +206,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `accepts kilo extras config field`() {
+    func accepts_kilo_extras_config_field() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .kilo, extrasEnabled: true))
         let issues = CodexBarConfigValidator.validate(config)
@@ -214,7 +214,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `allows deepgram project workspace ID`() {
+    func allows_deepgram_project_workspace_ID() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .deepgram, workspaceID: "project-123"))
         let issues = CodexBarConfigValidator.validate(config)
@@ -222,7 +222,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `allows Azure OpenAI endpoint and deployment fields`() {
+    func allows_Azure_OpenAI_endpoint_and_deployment_fields() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(
             id: .azureopenai,
@@ -235,7 +235,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `allows LiteLLM endpoint`() {
+    func allows_LiteLLM_endpoint() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(
             id: .litellm,
@@ -247,7 +247,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `unsupported enterprise host warning lists every supported provider`() throws {
+    func unsupported_enterprise_host_warning_lists_every_supported_provider() throws {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .gemini, enterpriseHost: "https://example.com"))
         let issue = try #require(CodexBarConfigValidator.validate(config).first(where: {
@@ -261,7 +261,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `allows OpenAI API project workspace ID`() {
+    func allows_OpenAI_API_project_workspace_ID() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .openai, workspaceID: "proj_abc"))
         let issues = CodexBarConfigValidator.validate(config)
@@ -270,7 +270,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `allows doubao coding plan credential fields`() {
+    func allows_doubao_coding_plan_credential_fields() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(
             id: .doubao,
@@ -284,7 +284,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `warns when zai team token account is missing BigModel context`() {
+    func warns_when_zai_team_token_account_is_missing_BigModel_context() {
         let accounts = ProviderTokenAccountData(
             version: 1,
             accounts: [
@@ -306,7 +306,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `warns on unsupported workspace ID`() {
+    func warns_on_unsupported_workspace_ID() {
         var config = CodexBarConfig.makeDefault()
         config.setProviderConfig(ProviderConfig(id: .gemini, workspaceID: "workspace-123"))
         let issues = CodexBarConfigValidator.validate(config)
@@ -319,7 +319,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `config store default url honors environment override`() {
+    func config_store_default_url_honors_environment_override() {
         let url = CodexBarConfigStore.defaultURL(environment: [
             CodexBarConfigStore.pathEnvironmentKey: "~/tmp/codexbar-test-config.json",
         ])
@@ -328,7 +328,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `config store default url honors xdg config home`() throws {
+    func config_store_default_url_honors_xdg_config_home() throws {
         let fileManager = FileManager.default
         let home = try Self.makeTemporaryHome()
         defer { try? fileManager.removeItem(at: home) }
@@ -345,7 +345,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `config store default url ignores relative xdg config home`() throws {
+    func config_store_default_url_ignores_relative_xdg_config_home() throws {
         let fileManager = FileManager.default
         let home = try Self.makeTemporaryHome()
         defer { try? fileManager.removeItem(at: home) }
@@ -363,7 +363,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `config store default url creates in xdg default for new installs`() throws {
+    func config_store_default_url_creates_in_xdg_default_for_new_installs() throws {
         let fileManager = FileManager.default
         let home = try Self.makeTemporaryHome()
         defer { try? fileManager.removeItem(at: home) }
@@ -374,7 +374,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `config store default url keeps existing legacy config`() throws {
+    func config_store_default_url_keeps_existing_legacy_config() throws {
         let fileManager = FileManager.default
         let home = try Self.makeTemporaryHome()
         defer { try? fileManager.removeItem(at: home) }
@@ -387,7 +387,7 @@ struct ConfigValidationTests {
     }
 
     @Test
-    func `config store default url prefers existing xdg default over legacy config`() throws {
+    func config_store_default_url_prefers_existing_xdg_default_over_legacy_config() throws {
         let fileManager = FileManager.default
         let home = try Self.makeTemporaryHome()
         defer { try? fileManager.removeItem(at: home) }

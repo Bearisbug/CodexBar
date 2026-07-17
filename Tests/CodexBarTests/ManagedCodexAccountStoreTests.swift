@@ -4,7 +4,7 @@ import Testing
 @testable import CodexBar
 
 @Test
-func `FileManagedCodexAccountStore round trip`() throws {
+func FileManagedCodexAccountStore_round_trip() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -50,7 +50,7 @@ func `FileManagedCodexAccountStore round trip`() throws {
 }
 
 @Test
-func `FileManagedCodexAccountStore missing file loads empty set`() throws {
+func FileManagedCodexAccountStore_missing_file_loads_empty_set() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-nil-active-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -82,7 +82,7 @@ func `FileManagedCodexAccountStore missing file loads empty set`() throws {
 }
 
 @Test
-func `FileManagedCodexAccountStore canonicalizes decoded emails`() throws {
+func FileManagedCodexAccountStore_canonicalizes_decoded_emails() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-decode-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -115,7 +115,7 @@ func `FileManagedCodexAccountStore canonicalizes decoded emails`() throws {
 }
 
 @Test
-func `FileManagedCodexAccountStore drops duplicate canonical emails on load`() throws {
+func FileManagedCodexAccountStore_drops_duplicate_canonical_emails_on_load() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-duplicate-email-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -157,7 +157,7 @@ func `FileManagedCodexAccountStore drops duplicate canonical emails on load`() t
 }
 
 @Test
-func `FileManagedCodexAccountStore keeps same email rows when hydrated provider account I Ds differ`() throws {
+func FileManagedCodexAccountStore_keeps_same_email_rows_when_hydrated_provider_account_I_Ds_differ() throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
     defer { try? FileManager.default.removeItem(at: root) }
 
@@ -205,7 +205,7 @@ func `FileManagedCodexAccountStore keeps same email rows when hydrated provider 
 }
 
 @Test
-func `managed account set keeps same provider account I D when emails differ`() {
+func managed_account_set_keeps_same_provider_account_I_D_when_emails_differ() {
     let firstID = UUID()
     let secondID = UUID()
     let first = ManagedCodexAccount(
@@ -235,7 +235,7 @@ func `managed account set keeps same provider account I D when emails differ`() 
 }
 
 @Test
-func `FileManagedCodexAccountStore hydrates provider account I D from id token when account field is absent`() throws {
+func FileManagedCodexAccountStore_hydrates_provider_account_I_D_from_id_token_when_account_field_is_absent() throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
     defer { try? FileManager.default.removeItem(at: root) }
 
@@ -276,7 +276,7 @@ func `FileManagedCodexAccountStore hydrates provider account I D from id token w
 }
 
 @Test
-func `FileManagedCodexAccountStore drops duplicate IDs on load`() throws {
+func FileManagedCodexAccountStore_drops_duplicate_IDs_on_load() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-duplicate-id-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -318,7 +318,7 @@ func `FileManagedCodexAccountStore drops duplicate IDs on load`() throws {
 }
 
 @Test
-func `FileManagedCodexAccountStore v1 upgrade keeps deleted home row with nil provider account I D`() throws {
+func FileManagedCodexAccountStore_v1_upgrade_keeps_deleted_home_row_with_nil_provider_account_I_D() throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
     defer { try? FileManager.default.removeItem(at: root) }
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -354,7 +354,7 @@ func `FileManagedCodexAccountStore v1 upgrade keeps deleted home row with nil pr
 }
 
 @Test
-func `FileManagedCodexAccountStore ignores legacy active account key on load`() throws {
+func FileManagedCodexAccountStore_ignores_legacy_active_account_key_on_load() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-legacy-active-key-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -388,7 +388,7 @@ func `FileManagedCodexAccountStore ignores legacy active account key on load`() 
 }
 
 @Test
-func `FileManagedCodexAccountStore upgrades v1 rows and writes readable v2 file without reauth`() throws {
+func FileManagedCodexAccountStore_upgrades_v1_rows_and_writes_readable_v2_file_without_reauth() throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
     defer { try? FileManager.default.removeItem(at: root) }
 
@@ -442,7 +442,7 @@ func `FileManagedCodexAccountStore upgrades v1 rows and writes readable v2 file 
 }
 
 @Test
-func `FileManagedCodexAccountStore rejects unsupported on disk versions`() throws {
+func FileManagedCodexAccountStore_rejects_unsupported_on_disk_versions() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-unsupported-version-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -474,7 +474,7 @@ func `FileManagedCodexAccountStore rejects unsupported on disk versions`() throw
 }
 
 @Test
-func `FileManagedCodexAccountStore normalizes stored version to current schema`() throws {
+func FileManagedCodexAccountStore_normalizes_stored_version_to_current_schema() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-managed-codex-accounts-version-normalization-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }

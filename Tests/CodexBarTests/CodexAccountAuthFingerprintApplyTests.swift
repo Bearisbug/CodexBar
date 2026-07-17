@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `same account token refresh fingerprint change keeps codex usage success`() async {
+    func same_account_token_refresh_fingerprint_change_keeps_codex_usage_success() async {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-fingerprint-change")
@@ -48,7 +48,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same account token refresh fingerprint change keeps reset backfill`() async {
+    func same_account_token_refresh_fingerprint_change_keeps_reset_backfill() async {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-reset-backfill")
         defer {
@@ -98,7 +98,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same account token refresh fingerprint change keeps scoped state during prepare`() {
+    func same_account_token_refresh_fingerprint_change_keeps_scoped_state_during_prepare() {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-prepare")
         defer {
@@ -147,7 +147,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `usage success applies when auth fingerprint appears after refresh starts`() {
+    func usage_success_applies_when_auth_fingerprint_appears_after_refresh_starts() {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-auth-fingerprint-appears")
         defer {
@@ -176,7 +176,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same account token refresh fingerprint change discards codex usage failure`() async {
+    func same_account_token_refresh_fingerprint_change_discards_codex_usage_failure() async {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-fingerprint-failure")
@@ -217,7 +217,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same account token refresh fingerprint change keeps codex credits success`() async {
+    func same_account_token_refresh_fingerprint_change_keeps_codex_credits_success() async {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-credits-success")
@@ -254,7 +254,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `credits refresh key separates same account auth fingerprints`() {
+    func credits_refresh_key_separates_same_account_auth_fingerprints() {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-credits-key-auth-fingerprint")
         let store = self.makeUsageStore(settings: settings)
@@ -274,7 +274,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same account token refresh fingerprint change keeps dashboard success`() async throws {
+    func same_account_token_refresh_fingerprint_change_keeps_dashboard_success() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-dashboard-success")
         let codexMetadata = try #require(ProviderDescriptorRegistry.metadata[.codex])
@@ -314,7 +314,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `dashboard refresh key separates same account auth fingerprints`() async throws {
+    func dashboard_refresh_key_separates_same_account_auth_fingerprints() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-dashboard-key-auth-fingerprint")
         let codexMetadata = try #require(ProviderDescriptorRegistry.metadata[.codex])
@@ -377,7 +377,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same account token refresh fingerprint change discards dashboard failure`() async throws {
+    func same_account_token_refresh_fingerprint_change_discards_dashboard_failure() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-dashboard-failure")
         let codexMetadata = try #require(ProviderDescriptorRegistry.metadata[.codex])
@@ -416,7 +416,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same account token refresh fingerprint change applies dashboard policy failure`() async throws {
+    func same_account_token_refresh_fingerprint_change_applies_dashboard_policy_failure() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-token-refresh-dashboard-policy-failure")
         let codexMetadata = try #require(ProviderDescriptorRegistry.metadata[.codex])
@@ -454,7 +454,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh discards selected failure after managed token fingerprint rotates`() async throws {
+    func stacked_visible_refresh_discards_selected_failure_after_managed_token_fingerprint_rotates() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-selected-managed-token-failure")
         settings.refreshFrequency = .manual
@@ -559,7 +559,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh discards selected failure after managed auth file rotates`() async throws {
+    func stacked_visible_refresh_discards_selected_failure_after_managed_auth_file_rotates() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-selected-managed-auth-file-failure")
         settings.refreshFrequency = .manual
@@ -661,7 +661,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh keeps selected failure when managed auth file rotated before start`() async throws {
+    func stacked_visible_refresh_keeps_selected_failure_when_managed_auth_file_rotated_before_start() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-selected-managed-auth-file-current-failure")
         settings.refreshFrequency = .manual
@@ -763,7 +763,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh discards selected success after managed auth file switches accounts`() async throws {
+    func stacked_visible_refresh_discards_selected_success_after_managed_auth_file_switches_accounts() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-selected-managed-auth-file-success")
         settings.refreshFrequency = .manual
@@ -879,7 +879,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh keeps migrated managed account after token rotation`() async throws {
+    func stacked_visible_refresh_keeps_migrated_managed_account_after_token_rotation() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-migrated-managed-token-rotation")
         settings.refreshFrequency = .manual
@@ -1003,7 +1003,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh discards selected success after managed auth file email changes`() async throws {
+    func stacked_visible_refresh_discards_selected_success_after_managed_auth_file_email_changes() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-selected-managed-auth-email-success")
         settings.refreshFrequency = .manual
@@ -1125,7 +1125,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `managed failure guard reads current auth file fingerprint`() throws {
+    func managed_failure_guard_reads_current_auth_file_fingerprint() throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-managed-auth-file-fingerprint")
         settings.refreshFrequency = .manual
@@ -1195,7 +1195,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stale auth fingerprint cache at refresh start keeps current codex usage success`() async {
+    func stale_auth_fingerprint_cache_at_refresh_start_keeps_current_codex_usage_success() async {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-stale-start-cache-current-auth")
@@ -1237,7 +1237,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same provider account live email change discards stale codex usage success`() async {
+    func same_provider_account_live_email_change_discards_stale_codex_usage_success() async {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-provider-email-change")
@@ -1278,7 +1278,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same provider account managed email change discards stale codex usage success`() async throws {
+    func same_provider_account_managed_email_change_discards_stale_codex_usage_success() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-managed-provider-email-change")
         settings.refreshFrequency = .manual
@@ -1333,7 +1333,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `managed codex usage success without email applies when auth guard matches`() async throws {
+    func managed_codex_usage_success_without_email_applies_when_auth_guard_matches() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-managed-usage-without-email")
         settings.refreshFrequency = .manual
@@ -1393,7 +1393,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same provider account managed email change discards stale codex usage success without email`() async throws {
+    func same_provider_account_managed_email_change_discards_stale_codex_usage_success_without_email() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-managed-provider-email-change-without-email")
         settings.refreshFrequency = .manual
@@ -1457,7 +1457,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `same email email-only auth fingerprint switch discards stale codex usage success`() async {
+    func same_email_email_only_auth_fingerprint_switch_discards_stale_codex_usage_success() async {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountScopedRefreshTests-email-only-fingerprint-switch")

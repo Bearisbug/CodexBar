@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct StatusItemBalanceDisplayTests {
     @Test
-    func `menu bar display text uses open router balance`() {
+    func menu_bar_display_text_uses_open_router_balance() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-openrouter-balance",
             provider: .openrouter)
@@ -25,7 +25,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `reset time mode preserves automatic open router balance`() {
+    func reset_time_mode_preserves_automatic_open_router_balance() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-openrouter-reset-time",
             provider: .openrouter)
@@ -44,7 +44,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses crossmodel balance currency`() {
+    func menu_bar_display_text_uses_crossmodel_balance_currency() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-crossmodel-eur-balance",
             provider: .crossmodel)
@@ -70,7 +70,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses zen balance when open code has no subscription`() {
+    func menu_bar_display_text_uses_zen_balance_when_open_code_has_no_subscription() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-opencodego-zen-only",
             provider: .opencodego)
@@ -96,7 +96,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses negative zen balance when open code is in deficit`() {
+    func menu_bar_display_text_uses_negative_zen_balance_when_open_code_is_in_deficit() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-opencodego-zen-deficit",
             provider: .opencodego)
@@ -122,7 +122,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text keeps open code subscription percentage`() {
+    func menu_bar_display_text_keeps_open_code_subscription_percentage() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-opencodego-subscription",
             provider: .opencodego)
@@ -148,7 +148,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `reset time mode preserves balance when provider has no quota window`() {
+    func reset_time_mode_preserves_balance_when_provider_has_no_quota_window() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-moonshot-reset-time",
             provider: .moonshot)
@@ -174,7 +174,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text respects open router primary metric preference`() {
+    func menu_bar_display_text_respects_open_router_primary_metric_preference() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-openrouter-primary-metric",
             provider: .openrouter)
@@ -192,7 +192,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text skips exhausted cursor api subquota when total remains usable`() {
+    func menu_bar_display_text_skips_exhausted_cursor_api_subquota_when_total_remains_usable() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-cursor-exhausted-api",
             provider: .cursor)
@@ -219,7 +219,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses deepseek balance`() {
+    func menu_bar_display_text_uses_deepseek_balance() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-deepseek-balance",
             provider: .deepseek)
@@ -243,7 +243,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses mimo balance without token plan`() {
+    func menu_bar_display_text_uses_mimo_balance_without_token_plan() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-mimo-balance",
             provider: .mimo)
@@ -266,7 +266,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses selected mimo balance with token plan`() {
+    func menu_bar_display_text_uses_selected_mimo_balance_with_token_plan() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-mimo-token-plan",
             provider: .mimo)
@@ -292,7 +292,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses moonshot balance`() {
+    func menu_bar_display_text_uses_moonshot_balance() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-moonshot-balance",
             provider: .moonshot)
@@ -318,7 +318,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses mistral current month api spend`() {
+    func menu_bar_display_text_uses_mistral_current_month_api_spend() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-mistral-spend",
             provider: .mistral)
@@ -347,7 +347,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses mistral monthly plan when selected`() {
+    func menu_bar_display_text_uses_mistral_monthly_plan_when_selected() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-mistral-monthly-plan",
             provider: .mistral)
@@ -387,7 +387,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text falls back to mistral spend when monthly plan is missing`() {
+    func menu_bar_display_text_falls_back_to_mistral_spend_when_monthly_plan_is_missing() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-mistral-monthly-plan-missing",
             provider: .mistral)
@@ -417,7 +417,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `menu bar display text uses kimi k2 api key credits`() {
+    func menu_bar_display_text_uses_kimi_k2_api_key_credits() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kimik2-credits",
             provider: .kimik2)
@@ -440,7 +440,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar automatic uses credits left`() {
+    func kiro_menu_bar_automatic_uses_credits_left() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-automatic",
             provider: .kiro)
@@ -458,7 +458,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar credits and percent combines values`() {
+    func kiro_menu_bar_credits_and_percent_combines_values() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-both",
             provider: .kiro)
@@ -476,7 +476,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar hidden suppresses text value`() {
+    func kiro_menu_bar_hidden_suppresses_text_value() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-hidden",
             provider: .kiro)
@@ -494,7 +494,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar used and total formats credits`() {
+    func kiro_menu_bar_used_and_total_formats_credits() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-used-total",
             provider: .kiro)
@@ -512,7 +512,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar overage credits mode shows overage credits when exhausted`() {
+    func kiro_menu_bar_overage_credits_mode_shows_overage_credits_when_exhausted() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-overage-credits",
             provider: .kiro)
@@ -530,7 +530,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar overage cost mode shows cost when exhausted`() {
+    func kiro_menu_bar_overage_cost_mode_shows_cost_when_exhausted() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-overage-cost",
             provider: .kiro)
@@ -548,7 +548,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar overage credits and cost mode shows both when exhausted`() {
+    func kiro_menu_bar_overage_credits_and_cost_mode_shows_both_when_exhausted() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-overage-both",
             provider: .kiro)
@@ -566,7 +566,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar overage mode keeps credits left before exhaustion`() {
+    func kiro_menu_bar_overage_mode_keeps_credits_left_before_exhaustion() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-overage-not-exhausted",
             provider: .kiro)
@@ -584,7 +584,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro menu bar overage mode ignores disabled overage values`() {
+    func kiro_menu_bar_overage_mode_ignores_disabled_overage_values() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-overage-disabled",
             provider: .kiro)
@@ -602,7 +602,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `kiro managed plan display falls back to percent`() {
+    func kiro_managed_plan_display_falls_back_to_percent() {
         let settings = self.makeSettings(
             suiteName: "StatusItemBalanceDisplayTests-kiro-managed",
             provider: .kiro)
@@ -630,7 +630,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `mistral primary window is nil without credits even when billing end date is set`() {
+    func mistral_primary_window_is_nil_without_credits_even_when_billing_end_date_is_set() {
         let endDate = Date(timeIntervalSinceNow: 3600)
         let snapshot = MistralUsageSnapshot(
             totalCost: 0.5,
@@ -649,7 +649,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `button title spacing only applies when image is present`() {
+    func button_title_spacing_only_applies_when_image_is_present() {
         #expect(StatusItemController.buttonTitle("42%", hasImage: true) == " 42%")
         #expect(StatusItemController.buttonTitle("42%", hasImage: false) == "42%")
         #expect(StatusItemController.buttonTitle(nil, hasImage: true).isEmpty)
@@ -657,14 +657,14 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `debug button title stays visible with or without a usage value`() {
+    func debug_button_title_stays_visible_with_or_without_a_usage_value() {
         #expect(StatusItemController.buttonTitle(nil, hasImage: true, isDebugApp: true) == " D")
         #expect(StatusItemController.buttonTitle("42%", hasImage: true, isDebugApp: true) == " 42% D")
         #expect(StatusItemController.buttonTitle("42%", hasImage: false, isDebugApp: true) == "42% D")
     }
 
     @Test
-    func `high contrast button title embeds image and metric in attributed content`() throws {
+    func high_contrast_button_title_embeds_image_and_metric_in_attributed_content() throws {
         let image = NSImage(size: NSSize(width: 18, height: 18))
         image.isTemplate = true
 
@@ -680,7 +680,7 @@ struct StatusItemBalanceDisplayTests {
     }
 
     @Test
-    func `debug bundle identity updates status item accessibility`() {
+    func debug_bundle_identity_updates_status_item_accessibility() {
         #expect(StatusItemController.isDebugApp(bundleIdentifier: "com.steipete.codexbar.debug"))
         #expect(!StatusItemController.isDebugApp(bundleIdentifier: "com.steipete.codexbar"))
         #expect(!StatusItemController.isDebugApp(bundleIdentifier: nil))

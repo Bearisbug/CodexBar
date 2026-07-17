@@ -5,7 +5,7 @@ import Testing
 
 struct KiroMenuCardModelTests {
     @Test
-    func `kiro model shows account plan credits bonus and overages`() throws {
+    func kiro_model_shows_account_plan_credits_bonus_and_overages() throws {
         let now = Date()
         let snapshot = KiroUsageSnapshot(
             planName: "KIRO FREE",
@@ -64,7 +64,7 @@ struct KiroMenuCardModelTests {
     }
 
     @Test
-    func `kiro model hides overage spend when overages are disabled`() throws {
+    func kiro_model_hides_overage_spend_when_overages_are_disabled() throws {
         let now = Date()
         let snapshot = KiroUsageSnapshot(
             planName: "KIRO FREE",

@@ -118,7 +118,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex menu shows account switcher and add account action for multiple visible accounts`() throws {
+    func codex_menu_shows_account_switcher_and_add_account_action_for_multiple_visible_accounts() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -166,7 +166,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex menu hides account switcher when only one visible account exists`() {
+    func codex_menu_hides_account_switcher_when_only_one_visible_account_exists() {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -193,7 +193,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex segmented multi account layout shows account switcher`() throws {
+    func codex_segmented_multi_account_layout_shows_account_switcher() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -244,7 +244,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `merged codex menu smart refresh keeps account switcher visible`() throws {
+    func merged_codex_menu_smart_refresh_keeps_account_switcher_visible() throws {
         self.disableMenuCardsForTesting()
         StatusItemController.setMenuRefreshEnabledForTesting(true)
         defer { StatusItemController.setMenuRefreshEnabledForTesting(false) }
@@ -323,7 +323,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex menu can select preserved switcher row during transient account projection`() throws {
+    func codex_menu_can_select_preserved_switcher_row_during_transient_account_projection() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -363,7 +363,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex stacked multi account layout shows account cards`() throws {
+    func codex_stacked_multi_account_layout_shows_account_cards() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -421,7 +421,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex stacked multi account layout shows account cards before per account snapshots load`() throws {
+    func codex_stacked_multi_account_layout_shows_account_cards_before_per_account_snapshots_load() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -473,7 +473,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex switcher suppresses personal labels while preserving team workspace tooltips`() {
+    func codex_switcher_suppresses_personal_labels_while_preserving_team_workspace_tooltips() {
         let accounts = [
             CodexVisibleAccount(
                 id: "live:provider:account-personal",
@@ -520,7 +520,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex switcher reports fixed menu width for long account labels`() {
+    func codex_switcher_reports_fixed_menu_width_for_long_account_labels() {
         let accounts = [
             CodexVisibleAccount(
                 id: "live:provider:account-personal",
@@ -558,7 +558,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex switcher middle truncates long account emails`() {
+    func codex_switcher_middle_truncates_long_account_emails() {
         let accounts = [
             CodexVisibleAccount(
                 id: "live:provider:account-personal",
@@ -601,7 +601,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex account switcher passes the selected displayed account`() throws {
+    func codex_account_switcher_passes_the_selected_displayed_account() throws {
         let managedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-111111111111"))
         let accounts = [
             CodexVisibleAccount(
@@ -636,7 +636,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex menu switcher selection activates the visible managed account`() throws {
+    func codex_menu_switcher_selection_activates_the_visible_managed_account() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -672,7 +672,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex menu switcher clears stale account state on the first click`() async throws {
+    func codex_menu_switcher_clears_stale_account_state_on_the_first_click() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -754,7 +754,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex account state disables add account while managed authentication is in flight`() async throws {
+    func codex_account_state_disables_add_account_while_managed_authentication_is_in_flight() async throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -798,7 +798,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex account state disables add account when managed store is unreadable`() throws {
+    func codex_account_state_disables_add_account_when_managed_store_is_unreadable() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -825,7 +825,7 @@ struct StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex menu switcher can select managed row when same email rows split by identity`() throws {
+    func codex_menu_switcher_can_select_managed_row_when_same_email_rows_split_by_identity() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -877,7 +877,7 @@ struct StatusMenuCodexSwitcherTests {
 
 extension StatusMenuCodexSwitcherTests {
     @Test
-    func `codex account switcher swallows child button hit testing for first click`() throws {
+    func codex_account_switcher_swallows_child_button_hit_testing_for_first_click() throws {
         let managedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-111111111111"))
         let accounts = [
             CodexVisibleAccount(
@@ -911,7 +911,7 @@ extension StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex account switcher routes runtime click path to selected account`() throws {
+    func codex_account_switcher_routes_runtime_click_path_to_selected_account() throws {
         let managedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-111111111111"))
         let accounts = [
             CodexVisibleAccount(
@@ -945,7 +945,7 @@ extension StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex account switcher runtime click resolves second row buttons`() throws {
+    func codex_account_switcher_runtime_click_resolves_second_row_buttons() throws {
         let managedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-111111111111"))
         let secondManagedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-222222222222"))
         let accounts = [
@@ -1001,7 +1001,7 @@ extension StatusMenuCodexSwitcherTests {
 @MainActor
 extension StatusMenuCodexSwitcherTests {
     @Test
-    func `codex account switch defers open menu rebuild until after switcher action`() async throws {
+    func codex_account_switch_defers_open_menu_rebuild_until_after_switcher_action() async throws {
         self.disableMenuCardsForTesting()
         StatusItemController.setMenuRefreshEnabledForTesting(true)
         defer { StatusItemController.setMenuRefreshEnabledForTesting(false) }
@@ -1085,7 +1085,7 @@ extension StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex account scoped refresh does not retain status controller while in flight`() async throws {
+    func codex_account_scoped_refresh_does_not_retain_status_controller_while_in_flight() async throws {
         self.disableMenuCardsForTesting()
         StatusItemController.setMenuRefreshEnabledForTesting(true)
         defer { StatusItemController.setMenuRefreshEnabledForTesting(false) }
@@ -1168,7 +1168,7 @@ extension StatusMenuCodexSwitcherTests {
     }
 
     @Test
-    func `codex stacked refresh discards selected outcome when visible selection changes mid flight`() throws {
+    func codex_stacked_refresh_discards_selected_outcome_when_visible_selection_changes_mid_flight() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false

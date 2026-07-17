@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct PreferencesPaneSmokeTests {
     @Test
-    func `builds preference panes with default settings`() {
+    func builds_preference_panes_with_default_settings() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-default")
         let store = Self.makeUsageStore(settings: settings)
 
@@ -25,7 +25,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `builds preference panes with toggled settings`() {
+    func builds_preference_panes_with_toggled_settings() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-toggled")
         settings.menuBarShowsBrandIconWithPercent = true
         settings.menuBarHighContrastOnInactiveDisplays = true
@@ -55,7 +55,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `general menu options cover persisted settings`() {
+    func general_menu_options_cover_persisted_settings() {
         let previousLanguage = UserDefaults.standard.object(forKey: "appLanguage")
         let previousAppleLanguages = UserDefaults.standard.object(forKey: "AppleLanguages")
         defer {
@@ -89,7 +89,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `menu bar and menu options cover persisted settings`() {
+    func menu_bar_and_menu_options_cover_persisted_settings() {
         #expect(MenuBarSettingsMenuOptions.displayModes == MenuBarDisplayMode.allCases)
         #expect(MenuBarSettingsMenuOptions.iconStyles == MenuBarIconStyle.allCases)
         #expect(MenuBarSettingsMenuOptions.switcherRows == SwitcherRowsOption.allCases)
@@ -116,7 +116,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `overview provider limit text formats numeric limit as object argument`() {
+    func overview_provider_limit_text_formats_numeric_limit_as_object_argument() {
         let text = MenuBarPane.overviewProviderLimitText(limit: 3)
 
         #expect(text.contains("3"))
@@ -124,14 +124,14 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `inactive display contrast is available only for icon and percent`() {
+    func inactive_display_contrast_is_available_only_for_icon_and_percent() {
         #expect(!MenuBarPane.inactiveDisplayContrastAvailable(for: .critters))
         #expect(!MenuBarPane.inactiveDisplayContrastAvailable(for: .bars))
         #expect(MenuBarPane.inactiveDisplayContrastAvailable(for: .iconAndPercent))
     }
 
     @Test
-    func `menu bar icon style maps existing booleans`() {
+    func menu_bar_icon_style_maps_existing_booleans() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-menu-bar-icon-style")
 
         settings.menuBarShowsBrandIconWithPercent = false
@@ -159,7 +159,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `confetti celebration option maps all boolean combinations`() {
+    func confetti_celebration_option_maps_all_boolean_combinations() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-confetti-celebration")
 
         for option in ConfettiCelebrationOption.allCases {
@@ -171,7 +171,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `cost summary option disables without losing style`() {
+    func cost_summary_option_disables_without_losing_style() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-cost-summary-option")
 
         settings.costSummaryOption = .costSubmenu
@@ -196,7 +196,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `cost history days editor builds with clamped settings binding`() {
+    func cost_history_days_editor_builds_with_clamped_settings_binding() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-cost-history-days")
 
         settings.costUsageHistoryDays = 999
@@ -208,7 +208,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `quota warning compact threshold text filters and persists typed values`() {
+    func quota_warning_compact_threshold_text_filters_and_persists_typed_values() {
         let suite = "PreferencesPaneSmokeTests-quota-warning-threshold-editor"
         let settings = Self.makeSettingsStore(suite: suite)
 
@@ -224,7 +224,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `quota warning compact draft preserves untouched threshold lists`() {
+    func quota_warning_compact_draft_preserves_untouched_threshold_lists() {
         var singleThreshold = QuotaWarningThresholdEditorText.Draft(thresholds: [50])
         var severalThresholds = QuotaWarningThresholdEditorText.Draft(thresholds: [80, 50, 20])
 
@@ -235,7 +235,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `quota warning compact draft commits only changed text`() {
+    func quota_warning_compact_draft_commits_only_changed_text() {
         var draft = QuotaWarningThresholdEditorText.Draft(thresholds: [80, 50, 20])
 
         draft.setText("80", for: .upper)
@@ -250,7 +250,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `quota warning compact draft treats reverted text as unchanged`() {
+    func quota_warning_compact_draft_treats_reverted_text_as_unchanged() {
         var draft = QuotaWarningThresholdEditorText.Draft(thresholds: [80, 50, 20])
 
         draft.setText("79", for: .upper)
@@ -262,7 +262,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `quota warning compact window toggle keeps thresholds while disabled`() {
+    func quota_warning_compact_window_toggle_keeps_thresholds_while_disabled() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-quota-warning-disabled-window")
 
         settings.setQuotaWarningThresholds(.weekly, thresholds: [80, 30])
@@ -278,7 +278,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `quota warning compact rows build with semantic threshold labels`() {
+    func quota_warning_compact_rows_build_with_semantic_threshold_labels() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-quota-warning-semantic-labels")
         settings.quotaWarningNotificationsEnabled = true
 
@@ -292,7 +292,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `provider quota warning inherited summary keeps additional active thresholds visible`() {
+    func provider_quota_warning_inherited_summary_keeps_additional_active_thresholds_visible() {
         CodexBarLocalizationOverride.$appLanguage.withValue("en") {
             let thresholdText = ProviderQuotaWarningSettingsView.thresholdText([80, 50, 20], enabled: true)
 
@@ -303,7 +303,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `provider quota warning rows build for global custom and off states`() {
+    func provider_quota_warning_rows_build_for_global_custom_and_off_states() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-provider-quota-warning-rows")
         settings.quotaWarningNotificationsEnabled = true
         settings.setQuotaWarningThresholds(.session, thresholds: [50, 20])
@@ -324,7 +324,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `provider quota warning controls follow notification and marker visibility`() {
+    func provider_quota_warning_controls_follow_notification_and_marker_visibility() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-provider-quota-warning-disabled")
         settings.quotaWarningNotificationsEnabled = true
         settings.quotaWarningMarkersVisible = true
@@ -385,7 +385,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `provider quota warning mode binding applies global custom and off transitions`() {
+    func provider_quota_warning_mode_binding_applies_global_custom_and_off_transitions() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-provider-quota-warning-mode-binding")
         settings.quotaWarningNotificationsEnabled = true
         settings.setQuotaWarningWindowEnabled(.session, enabled: true)
@@ -437,7 +437,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `language preference updates global localization resolver`() {
+    func language_preference_updates_global_localization_resolver() {
         let previousLanguage = UserDefaults.standard.object(forKey: "appLanguage")
         let previousAppleLanguages = UserDefaults.standard.object(forKey: "AppleLanguages")
         defer {
@@ -484,7 +484,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `language preference clears stale app level AppleLanguages override`() {
+    func language_preference_clears_stale_app_level_AppleLanguages_override() {
         let previousLanguage = UserDefaults.standard.object(forKey: "appLanguage")
         let previousAppleLanguages = UserDefaults.standard.object(forKey: "AppleLanguages")
         defer {
@@ -516,7 +516,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `german app language resolves localized labels`() {
+    func german_app_language_resolves_localized_labels() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-language-de")
         settings.appLanguage = "de"
 
@@ -533,7 +533,7 @@ struct PreferencesPaneSmokeTests {
     }
 
     @Test
-    func `italian language preference resolves italian strings`() {
+    func italian_language_preference_resolves_italian_strings() {
         let settings = Self.makeSettingsStore(suite: "PreferencesPaneSmokeTests-language-italian")
         settings.appLanguage = "it"
 

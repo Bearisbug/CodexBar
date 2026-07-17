@@ -5,12 +5,12 @@ import Testing
 @Suite(.serialized)
 struct CrofUsageFetcherTests {
     @Test
-    func `usage URL points at public usage API`() {
+    func usage_URL_points_at_public_usage_API() {
         #expect(CrofUsageFetcher.usageURL.absoluteString == "https://crof.ai/usage_api/")
     }
 
     @Test
-    func `usage response parses credits and request quota`() throws {
+    func usage_response_parses_credits_and_request_quota() throws {
         let json = """
         {"credits":10.0,"requests_plan":1000,"usable_requests":998}
         """
@@ -23,7 +23,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `usage snapshot maps usable requests to remaining quota`() {
+    func usage_snapshot_maps_usable_requests_to_remaining_quota() {
         let snapshot = CrofUsageSnapshot(
             credits: 10,
             requestsPlan: 1000,
@@ -42,7 +42,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `usage snapshot floors credit balance to cents`() {
+    func usage_snapshot_floors_credit_balance_to_cents() {
         let snapshot = CrofUsageSnapshot(
             credits: 9.9999,
             requestsPlan: 1000,
@@ -52,7 +52,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `usage snapshot resets requests at next America Chicago midnight`() throws {
+    func usage_snapshot_resets_requests_at_next_America_Chicago_midnight() throws {
         var utc = Calendar(identifier: .gregorian)
         utc.timeZone = try #require(TimeZone(secondsFromGMT: 0))
         let updatedAt = try #require(utc.date(from: DateComponents(
@@ -76,7 +76,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `usage snapshot clamps overreported usable requests`() {
+    func usage_snapshot_clamps_overreported_usable_requests() {
         let snapshot = CrofUsageSnapshot(
             credits: 0,
             requestsPlan: 1000,
@@ -86,7 +86,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `usage snapshot treats zero plan as exhausted`() {
+    func usage_snapshot_treats_zero_plan_as_exhausted() {
         let snapshot = CrofUsageSnapshot(
             credits: 0,
             requestsPlan: 0,
@@ -96,7 +96,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `fetch sends bearer token`() async throws {
+    func fetch_sends_bearer_token() async throws {
         defer {
             CrofStubURLProtocol.handler = nil
             CrofStubURLProtocol.requests = []
@@ -118,7 +118,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `descriptor supports auto and API source modes`() {
+    func descriptor_supports_auto_and_API_source_modes() {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .crof)
         #expect(descriptor.metadata.displayName == "Crof")
         #expect(descriptor.metadata.dashboardURL == "https://crof.ai/dashboard")
@@ -127,7 +127,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `settings reader uses CROF_API_KEY`() {
+    func settings_reader_uses_CROF_API_KEY() {
         let token = CrofSettingsReader.apiKey(environment: [
             CrofSettingsReader.apiKeyEnvironmentKeys[0]: "  crof-token  ",
         ])
@@ -136,7 +136,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `token resolver uses crof environment token`() {
+    func token_resolver_uses_crof_environment_token() {
         let env = [CrofSettingsReader.apiKeyEnvironmentKeys[0]: "crof-token"]
         let resolution = ProviderTokenResolver.crofResolution(environment: env)
 
@@ -145,7 +145,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `config API key override feeds crof environment`() {
+    func config_API_key_override_feeds_crof_environment() {
         let config = ProviderConfig(id: .crof, apiKey: "config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
             base: [:],
@@ -157,7 +157,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `config API key leaves existing crof environment token alone`() {
+    func config_API_key_leaves_existing_crof_environment_token_alone() {
         let key = CrofSettingsReader.apiKeyEnvironmentKeys[0]
         let config = ProviderConfig(id: .crof, apiKey: "config-token")
         let env = ProviderConfigEnvironment.applyAPIKeyOverride(
@@ -170,7 +170,7 @@ struct CrofUsageFetcherTests {
     }
 
     @Test
-    func `missing credentials fetch call throws missing credentials`() async {
+    func missing_credentials_fetch_call_throws_missing_credentials() async {
         do {
             _ = try await CrofUsageFetcher.fetchUsage(apiKey: "   ")
             Issue.record("Expected missingCredentials error")

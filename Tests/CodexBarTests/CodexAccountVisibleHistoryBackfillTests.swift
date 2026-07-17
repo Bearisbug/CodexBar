@@ -6,7 +6,7 @@ import Testing
 @MainActor
 extension CodexAccountScopedRefreshTests {
     @Test
-    func `provider only history never backfills account quota publication`() async throws {
+    func provider_only_history_never_backfills_account_quota_publication() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests")
         settings.refreshFrequency = .manual
@@ -113,7 +113,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `materializes single visible codex account email history into provider account history`() throws {
+    func materializes_single_visible_codex_account_email_history_into_provider_account_history() throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-single-account-materialize")
         let store = self.makeUsageStore(settings: settings)
@@ -153,7 +153,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `materializes provider account email history when sibling visible account uses another email`() throws {
+    func materializes_provider_account_email_history_when_sibling_visible_account_uses_another_email() throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-different-email-materialize")
         settings.multiAccountMenuLayout = .stacked
@@ -215,7 +215,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `selected codex refresh keeps ambiguous same email history out of provider account`() async throws {
+    func selected_codex_refresh_keeps_ambiguous_same_email_history_out_of_provider_account() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-selected-ambiguous-history")
         settings.refreshFrequency = .manual
@@ -315,7 +315,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `ignores active reset cache from another visible codex workspace`() async throws {
+    func ignores_active_reset_cache_from_another_visible_codex_workspace() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-stale-active-cache")
         settings.refreshFrequency = .manual
@@ -419,7 +419,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `uses active reset cache when scoped guard matches codex workspace with plan label`() async throws {
+    func uses_active_reset_cache_when_scoped_guard_matches_codex_workspace_with_plan_label() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-current-active-cache")
         settings.refreshFrequency = .manual
@@ -549,7 +549,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `ignores prior snapshot from same email different codex workspace`() async throws {
+    func ignores_prior_snapshot_from_same_email_different_codex_workspace() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-prior-workspace")
         settings.refreshFrequency = .manual
@@ -656,7 +656,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `ignores ambiguous email history for same email codex workspaces`() async throws {
+    func ignores_ambiguous_email_history_for_same_email_codex_workspaces() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-ambiguous-email-history")
         settings.refreshFrequency = .manual
@@ -748,7 +748,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `email only live codex row does not inherit prior quota windows`() async throws {
+    func email_only_live_codex_row_does_not_inherit_prior_quota_windows() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-live-prior")
         settings.refreshFrequency = .manual
@@ -834,7 +834,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `ignores live codex prior snapshot after auth fingerprint changes`() async throws {
+    func ignores_live_codex_prior_snapshot_after_auth_fingerprint_changes() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-live-prior-auth-change")
         settings.refreshFrequency = .manual
@@ -933,7 +933,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `ignores active reset cache and email history after live auth fingerprint changes`() async throws {
+    func ignores_active_reset_cache_and_email_history_after_live_auth_fingerprint_changes() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-live-active-auth-change")
         settings.refreshFrequency = .manual
@@ -1035,7 +1035,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh skips selected apply after live auth fingerprint changes`() async throws {
+    func stacked_visible_refresh_skips_selected_apply_after_live_auth_fingerprint_changes() async throws {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-selected-auth-change")
@@ -1165,7 +1165,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh keeps selected apply after live token fingerprint rotates`() async throws {
+    func stacked_visible_refresh_keeps_selected_apply_after_live_token_fingerprint_rotates() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-selected-token-rotation")
         settings.refreshFrequency = .manual
@@ -1282,7 +1282,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh clears selected state after live account email changes`() async throws {
+    func stacked_visible_refresh_clears_selected_state_after_live_account_email_changes() async throws {
         SettingsStore.codexAccountReconciliationSnapshotCacheIntervalOverrideForTesting = 60
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-selected-email-change")
@@ -1420,7 +1420,7 @@ extension CodexAccountScopedRefreshTests {
     }
 
     @Test
-    func `stacked visible refresh discards selected apply after provider account email changes`() async throws {
+    func stacked_visible_refresh_discards_selected_apply_after_provider_account_email_changes() async throws {
         let settings = self.makeSettingsStore(
             suite: "CodexAccountVisibleHistoryBackfillTests-selected-provider-email-change")
         settings.refreshFrequency = .manual

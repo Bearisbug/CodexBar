@@ -37,7 +37,7 @@ struct UsageStoreTimeoutTests {
     }
 
     @Test
-    func `timeout does not wait for a cancellation ignoring probe`() async {
+    func timeout_does_not_wait_for_a_cancellation_ignoring_probe() async {
         let gate = ProbeGate()
         defer { gate.release() }
 
@@ -51,7 +51,7 @@ struct UsageStoreTimeoutTests {
     }
 
     @Test
-    func `completed probe wins timeout race`() async {
+    func completed_probe_wins_timeout_race() async {
         let result = await UsageStore.runWithTimeout(seconds: 10) {
             "probe result"
         }

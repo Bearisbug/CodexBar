@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct MenuDescriptorSakanaTests {
     @Test
-    func `sakana pay as you go rows render when optional usage is enabled`() throws {
+    func sakana_pay_as_you_go_rows_render_when_optional_usage_is_enabled() throws {
         let lines = try Self.menuLines(showOptionalUsage: true)
 
         #expect(lines.contains("Balance: $12.34"))
@@ -14,7 +14,7 @@ struct MenuDescriptorSakanaTests {
     }
 
     @Test
-    func `sakana pay as you go rows are hidden when optional usage is disabled`() throws {
+    func sakana_pay_as_you_go_rows_are_hidden_when_optional_usage_is_disabled() throws {
         // Regression for the render-path staleness gap: toggling "Show optional credits and extra
         // usage" off only rebuilds the menu, it does not immediately refetch, so a
         // previously-populated sakanaPayAsYouGo lingers in the cached snapshot. The rows must be
@@ -74,7 +74,7 @@ struct MenuDescriptorSakanaTests {
 
 struct SakanaMenuCardModelTests {
     @Test
-    func `pay as you go renders in the live menu card`() throws {
+    func pay_as_you_go_renders_in_the_live_menu_card() throws {
         let model = try Self.model(showOptionalUsage: true)
 
         #expect(model.providerCost?.title == "Extra usage")
@@ -84,7 +84,7 @@ struct SakanaMenuCardModelTests {
     }
 
     @Test
-    func `pay as you go hides immediately when optional usage is disabled`() throws {
+    func pay_as_you_go_hides_immediately_when_optional_usage_is_disabled() throws {
         let model = try Self.model(showOptionalUsage: false)
 
         #expect(model.providerCost == nil)

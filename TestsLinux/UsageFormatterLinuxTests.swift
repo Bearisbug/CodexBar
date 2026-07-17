@@ -4,7 +4,7 @@ import Testing
 @Suite(.serialized)
 struct UsageFormatterLinuxTests {
     @Test
-    func `rate-window formatting uses the standalone English fallback`() {
+    func rate_window_formatting_uses_the_standalone_English_fallback() {
         UsageFormatter.clearLocalizationProvider()
         UsageFormatter.clearLocaleProvider()
 

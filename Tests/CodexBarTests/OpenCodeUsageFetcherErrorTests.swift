@@ -11,7 +11,7 @@ struct OpenCodeUsageFetcherErrorTests {
     }
 
     @Test
-    func `extracts api error from uppercase HTML title`() async throws {
+    func extracts_api_error_from_uppercase_HTML_title() async throws {
         defer {
             OpenCodeStubURLProtocol.handler = nil
         }
@@ -41,7 +41,7 @@ struct OpenCodeUsageFetcherErrorTests {
     }
 
     @Test
-    func `extracts api error from detail field`() async throws {
+    func extracts_api_error_from_detail_field() async throws {
         defer {
             OpenCodeStubURLProtocol.handler = nil
         }
@@ -71,7 +71,7 @@ struct OpenCodeUsageFetcherErrorTests {
     }
 
     @Test
-    func `subscription get null skips post and returns graceful error`() async throws {
+    func subscription_get_null_skips_post_and_returns_graceful_error() async throws {
         defer {
             OpenCodeStubURLProtocol.handler = nil
         }
@@ -120,7 +120,7 @@ struct OpenCodeUsageFetcherErrorTests {
     }
 
     @Test
-    func `subscription get payload does not fallback to post`() async throws {
+    func subscription_get_payload_does_not_fallback_to_post() async throws {
         defer {
             OpenCodeStubURLProtocol.handler = nil
         }
@@ -151,7 +151,7 @@ struct OpenCodeUsageFetcherErrorTests {
     }
 
     @Test
-    func `workspace get public actor error is treated as invalid credentials without post retry`() async throws {
+    func workspace_get_public_actor_error_is_treated_as_invalid_credentials_without_post_retry() async throws {
         defer {
             OpenCodeStubURLProtocol.handler = nil
         }
@@ -192,7 +192,7 @@ struct OpenCodeUsageFetcherErrorTests {
     }
 
     @Test
-    func `subscription get missing fields falls back to post`() async throws {
+    func subscription_get_missing_fields_falls_back_to_post() async throws {
         defer {
             OpenCodeStubURLProtocol.handler = nil
         }
@@ -235,7 +235,7 @@ struct OpenCodeUsageFetcherErrorTests {
     }
 
     @Test
-    func `fetcher sends only auth cookie to opencode host`() async throws {
+    func fetcher_sends_only_auth_cookie_to_opencode_host() async throws {
         defer {
             OpenCodeStubURLProtocol.handler = nil
         }

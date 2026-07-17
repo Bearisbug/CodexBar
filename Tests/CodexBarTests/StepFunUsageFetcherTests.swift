@@ -4,50 +4,50 @@ import Testing
 
 struct StepFunSettingsReaderTests {
     @Test
-    func `reads STEPFUN_TOKEN`() {
+    func reads_STEPFUN_TOKEN() {
         let env = ["STEPFUN_TOKEN": "some-oasis-token-value"]
         #expect(StepFunSettingsReader.token(environment: env) == "some-oasis-token-value")
     }
 
     @Test
-    func `reads STEPFUN_USERNAME`() {
+    func reads_STEPFUN_USERNAME() {
         let env = ["STEPFUN_USERNAME": "user@example.com"]
         #expect(StepFunSettingsReader.username(environment: env) == "user@example.com")
     }
 
     @Test
-    func `reads STEPFUN_PASSWORD`() {
+    func reads_STEPFUN_PASSWORD() {
         let env = ["STEPFUN_PASSWORD": "secret123"]
         #expect(StepFunSettingsReader.password(environment: env) == "secret123")
     }
 
     @Test
-    func `trims whitespace from token`() {
+    func trims_whitespace_from_token() {
         let env = ["STEPFUN_TOKEN": "  some-token  "]
         #expect(StepFunSettingsReader.token(environment: env) == "some-token")
     }
 
     @Test
-    func `strips double quotes from token`() {
+    func strips_double_quotes_from_token() {
         let env = ["STEPFUN_TOKEN": "\"some-token\""]
         #expect(StepFunSettingsReader.token(environment: env) == "some-token")
     }
 
     @Test
-    func `strips single quotes from token`() {
+    func strips_single_quotes_from_token() {
         let env = ["STEPFUN_TOKEN": "'some-token'"]
         #expect(StepFunSettingsReader.token(environment: env) == "some-token")
     }
 
     @Test
-    func `returns nil when no env vars present`() {
+    func returns_nil_when_no_env_vars_present() {
         #expect(StepFunSettingsReader.token(environment: [:]) == nil)
         #expect(StepFunSettingsReader.username(environment: [:]) == nil)
         #expect(StepFunSettingsReader.password(environment: [:]) == nil)
     }
 
     @Test
-    func `returns nil for empty values`() {
+    func returns_nil_for_empty_values() {
         let env = ["STEPFUN_TOKEN": "", "STEPFUN_USERNAME": "", "STEPFUN_PASSWORD": ""]
         #expect(StepFunSettingsReader.token(environment: env) == nil)
         #expect(StepFunSettingsReader.username(environment: env) == nil)
@@ -55,7 +55,7 @@ struct StepFunSettingsReaderTests {
     }
 
     @Test
-    func `returns nil for whitespace-only values`() {
+    func returns_nil_for_whitespace_only_values() {
         let env = ["STEPFUN_TOKEN": "   "]
         #expect(StepFunSettingsReader.token(environment: env) == nil)
     }
@@ -63,7 +63,7 @@ struct StepFunSettingsReaderTests {
 
 struct StepFunProviderTokenResolverTests {
     @Test
-    func `resolves token from environment`() {
+    func resolves_token_from_environment() {
         let env = ["STEPFUN_TOKEN": "my-test-token"]
         let resolution = ProviderTokenResolver.stepfunResolution(environment: env)
         #expect(resolution?.token == "my-test-token")
@@ -71,7 +71,7 @@ struct StepFunProviderTokenResolverTests {
     }
 
     @Test
-    func `returns nil when token absent`() {
+    func returns_nil_when_token_absent() {
         let resolution = ProviderTokenResolver.stepfunResolution(environment: [:])
         #expect(resolution == nil)
     }
@@ -79,7 +79,7 @@ struct StepFunProviderTokenResolverTests {
 
 struct StepFunUsageFetcherParsingTests {
     @Test
-    func `parses real API response format with string timestamps and integer rates`() throws {
+    func parses_real_API_response_format_with_string_timestamps_and_integer_rates() throws {
         // This matches the actual StepFun API response format:
         // - timestamps as strings (e.g. "1777528800")
         // - rates can be integers (e.g. 1) or floats (e.g. 0.99781543)
@@ -101,7 +101,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `parses response with float rates and integer timestamps`() throws {
+    func parses_response_with_float_rates_and_integer_timestamps() throws {
         let json = """
         {
             "status": 1,
@@ -119,7 +119,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `throws on failed API status`() {
+    func throws_on_failed_API_status() {
         let json = """
         {
             "status": 0,
@@ -137,7 +137,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `throws on missing fields`() {
+    func throws_on_missing_fields() {
         let json = """
         {
             "status": 1
@@ -150,7 +150,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `throws on invalid JSON`() {
+    func throws_on_invalid_JSON() {
         let data = Data("not json".utf8)
         #expect(throws: StepFunUsageError.self) {
             try StepFunUsageFetcher._parseSnapshotForTesting(data)
@@ -158,7 +158,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `snapshot maps to UsageSnapshot correctly`() throws {
+    func snapshot_maps_to_UsageSnapshot_correctly() throws {
         let json = """
         {
             "status": 1,
@@ -187,7 +187,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `clamps used percent to 0-100 range`() throws {
+    func clamps_used_percent_to_0_100_range() throws {
         let json = """
         {
             "status": 1,
@@ -210,7 +210,7 @@ struct StepFunUsageFetcherParsingTests {
     // MARK: - Credit-plan parsing
 
     @Test
-    func `parses credit-plan response and maps credit as primary window`() throws {
+    func parses_credit_plan_response_and_maps_credit_as_primary_window() throws {
         // Real StepFun Mini-plan response: plan_family=2 with credit data.
         // The 5h/weekly rate fields are 0 (no rate-limit window for credit plans).
         let json = """
@@ -253,7 +253,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `does not treat rate-window plan as credit plan`() throws {
+    func does_not_treat_rate_window_plan_as_credit_plan() throws {
         // plan_family absent → classic rate-window plan, unchanged behavior.
         let json = """
         {
@@ -274,7 +274,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `uses credit buckets when explicit rate is absent`() throws {
+    func uses_credit_buckets_when_explicit_rate_is_absent() throws {
         // No subscription_credit_left_rate, but buckets provide residual/total.
         let json = """
         {
@@ -309,7 +309,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `weights mixed subscription and top-up credit buckets`() throws {
+    func weights_mixed_subscription_and_top_up_credit_buckets() throws {
         let json = """
         {
             "status": 1,
@@ -333,7 +333,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `falls back to subscription rate for incomplete credit buckets`() throws {
+    func falls_back_to_subscription_rate_for_incomplete_credit_buckets() throws {
         let json = """
         {
             "status": 1,
@@ -354,7 +354,7 @@ struct StepFunUsageFetcherParsingTests {
     }
 
     @Test
-    func `credit plan does not throw when rate fields are missing`() throws {
+    func credit_plan_does_not_throw_when_rate_fields_are_missing() throws {
         // A credit-plan response might omit the rate-window fields entirely.
         let json = """
         {
@@ -378,24 +378,24 @@ struct StepFunUsageFetcherParsingTests {
 
 struct StepFunTokenNormalizerTests {
     @Test
-    func `extracts Oasis-Token from cookie header`() {
+    func extracts_Oasis_Token_from_cookie_header() {
         let input = "Oasis-Token=abc123...def456; Oasis-Webid=someid"
         #expect(StepFunTokenNormalizer.normalize(input) == "abc123...def456")
     }
 
     @Test
-    func `returns raw value when not a cookie header`() {
+    func returns_raw_value_when_not_a_cookie_header() {
         let input = "abc123...def456"
         #expect(StepFunTokenNormalizer.normalize(input) == "abc123...def456")
     }
 
     @Test
-    func `returns empty for empty string`() {
+    func returns_empty_for_empty_string() {
         #expect(StepFunTokenNormalizer.normalize("").isEmpty)
     }
 
     @Test
-    func `trims whitespace`() {
+    func trims_whitespace() {
         #expect(StepFunTokenNormalizer.normalize("  token123  ") == "token123")
     }
 }
@@ -417,7 +417,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `refresh token returns combined token pair`() async throws {
+    func refresh_token_returns_combined_token_pair() async throws {
         try await self.withStubProtocol { recorder in
             StepFunStubURLProtocol.handler = { request in
                 #expect(request.url?.path.contains("RefreshToken") == true)
@@ -441,7 +441,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `manual token auth failure refreshes token account and retries usage`() async throws {
+    func manual_token_auth_failure_refreshes_token_account_and_retries_usage() async throws {
         let accountID = UUID()
         let updateRecorder = StepFunTokenUpdateRecorder()
 
@@ -506,7 +506,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `manual token auth failure refreshes settings token and retries usage`() async throws {
+    func manual_token_auth_failure_refreshes_settings_token_and_retries_usage() async throws {
         let updateRecorder = StepFunTokenUpdateRecorder()
 
         try await self.withStubProtocol { recorder in
@@ -564,7 +564,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `stale cached token falls back to configured env token`() async throws {
+    func stale_cached_token_falls_back_to_configured_env_token() async throws {
         CookieHeaderCache.store(provider: .stepfun, cookieHeader: "stale-access...stale-refresh", sourceLabel: "test")
         defer { CookieHeaderCache.clear(provider: .stepfun) }
 
@@ -612,7 +612,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `stale cached and env tokens fall back to env login credentials`() async throws {
+    func stale_cached_and_env_tokens_fall_back_to_env_login_credentials() async throws {
         CookieHeaderCache.store(provider: .stepfun, cookieHeader: "stale-access...stale-refresh", sourceLabel: "test")
         defer { CookieHeaderCache.clear(provider: .stepfun) }
 
@@ -699,7 +699,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `post refresh non auth usage failure is not rewritten as auth guidance`() async throws {
+    func post_refresh_non_auth_usage_failure_is_not_rewritten_as_auth_guidance() async throws {
         try await self.withStubProtocol { recorder in
             StepFunStubURLProtocol.handler = { request in
                 let path = request.url?.path ?? ""
@@ -747,7 +747,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `manual token refresh failure does not fall back to ambient env credentials`() async throws {
+    func manual_token_refresh_failure_does_not_fall_back_to_ambient_env_credentials() async throws {
         try await self.withStubProtocol { recorder in
             StepFunStubURLProtocol.handler = { request in
                 let path = request.url?.path ?? ""
@@ -791,7 +791,7 @@ struct StepFunTokenRefreshTests {
     }
 
     @Test
-    func `non auth token wording does not trigger refresh recovery`() async throws {
+    func non_auth_token_wording_does_not_trigger_refresh_recovery() async throws {
         try await self.withStubProtocol { recorder in
             StepFunStubURLProtocol.handler = { request in
                 let path = request.url?.path ?? ""

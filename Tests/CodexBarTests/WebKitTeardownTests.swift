@@ -8,7 +8,7 @@ struct WebKitTeardownTests {
     final class Owner {}
 
     @Test
-    func `schedule cleanup registers owner`() {
+    func schedule_cleanup_registers_owner() {
         let owner = Owner()
         WebKitTeardown.resetForTesting()
         WebKitTeardown.scheduleCleanup(owner: owner, window: nil, webView: nil)

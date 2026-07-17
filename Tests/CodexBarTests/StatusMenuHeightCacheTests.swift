@@ -6,7 +6,7 @@ import Testing
 
 extension StatusMenuTests {
     @Test
-    func `menu card sizing uses displayed hosting view`() throws {
+    func menu_card_sizing_uses_displayed_hosting_view() throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer {
@@ -31,7 +31,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu card height cache is reused for stable card content`() {
+    func menu_card_height_cache_is_reused_for_stable_card_content() {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer {
@@ -72,7 +72,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `standard menu width cache is reused for stable action rows`() {
+    func standard_menu_width_cache_is_reused_for_stable_action_rows() {
         let controller = self.makeHeightCacheController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -90,7 +90,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `fingerprinted menu card height cache survives content version invalidation`() {
+    func fingerprinted_menu_card_height_cache_survives_content_version_invalidation() {
         let controller = self.makeHeightCacheController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -123,7 +123,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `fingerprinted menu card height cache remeasures when content changes`() {
+    func fingerprinted_menu_card_height_cache_remeasures_when_content_changes() {
         let controller = self.makeHeightCacheController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -153,7 +153,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `unfingerprinted menu card height cache remains content version scoped`() {
+    func unfingerprinted_menu_card_height_cache_remains_content_version_scoped() {
         let controller = self.makeHeightCacheController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -184,7 +184,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu invalidation prunes old version scoped height cache entries`() {
+    func menu_invalidation_prunes_old_version_scoped_height_cache_entries() {
         let controller = self.makeHeightCacheController()
         defer { controller.releaseStatusItemsForTesting() }
 
@@ -211,7 +211,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `menu card height cache scopes same row ids by provider`() {
+    func menu_card_height_cache_scopes_same_row_ids_by_provider() {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         StatusItemController.menuCardRenderingEnabled = true
         defer {

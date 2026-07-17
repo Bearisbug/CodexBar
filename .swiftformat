@@ -39,8 +39,11 @@
 --enumthreshold 0
 
 # Swift 6 specific
---swiftversion 6.3
+# Fork note: pinned to 6.0 — this fork builds with Xcode 16.2 (Swift 6.0.3); raw-identifier
+# test names (swiftTestingTestCaseNames) are 6.2+ syntax the local compiler cannot parse.
+--swiftversion 6.0
 --disable redundantSendable # Keep explicit concurrency contracts visible
+--disable swiftTestingTestCaseNames # Requires Swift 6.2 raw identifiers; local toolchain is 6.0
 
 # Other
 --stripunusedargs closure-only

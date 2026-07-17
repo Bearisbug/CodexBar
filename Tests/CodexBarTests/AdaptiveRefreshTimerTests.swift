@@ -9,7 +9,7 @@ import Testing
 @MainActor
 struct AdaptiveRefreshTimerTests {
     @Test
-    func `launch with no menu history begins at thirty minutes`() {
+    func launch_with_no_menu_history_begins_at_thirty_minutes() {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-launch", frequency: .adaptive)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .testing)
 
@@ -24,7 +24,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `menu-open signal changes the next adaptive decision`() {
+    func menu_open_signal_changes_the_next_adaptive_decision() {
         let now = Date(timeIntervalSinceReferenceDate: 900_000_000)
 
         let beforeOpen = UsageStore.adaptiveRefreshDecision(
@@ -37,7 +37,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `menu open advances a long idle timer during refresh without postponing an earlier tick`() async throws {
+    func menu_open_advances_a_long_idle_timer_during_refresh_without_postponing_an_earlier_tick() async throws {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-advance", frequency: .adaptive)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .testing)
         store.restartTimerWithSleepOverrideForTesting(.seconds(10))
@@ -76,7 +76,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `noting a menu open records the signal without starting a refresh`() {
+    func noting_a_menu_open_records_the_signal_without_starting_a_refresh() {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-noteMenuOpened", frequency: .manual)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .testing)
 
@@ -91,7 +91,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `opportunistic timer refresh is a no-op while another refresh is already in flight`() async {
+    func opportunistic_timer_refresh_is_a_no_op_while_another_refresh_is_already_in_flight() async {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-coalesce", frequency: .manual)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .testing)
 
@@ -106,7 +106,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `manual mode performs the initial refresh but no recurring ticks`() async throws {
+    func manual_mode_performs_the_initial_refresh_but_no_recurring_ticks() async throws {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-manual", frequency: .manual)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .full)
         try await Self.waitUntil { store.completedRefreshCountForTesting >= 1 }
@@ -118,7 +118,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `fixed mode ticks recur at the overridden cadence`() async throws {
+    func fixed_mode_ticks_recur_at_the_overridden_cadence() async throws {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-fixed", frequency: .oneMinute)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .full)
         store.restartTimerWithSleepOverrideForTesting(.milliseconds(20))
@@ -131,7 +131,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `fixed cadence advances from scheduled tick instead of refresh completion`() {
+    func fixed_cadence_advances_from_scheduled_tick_instead_of_refresh_completion() {
         let interval = Duration.milliseconds(100)
         let start = ContinuousClock.now
         let firstScheduledAt = start + interval
@@ -168,7 +168,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `fixed timer loop stays interval aligned after a slow refresh`() async {
+    func fixed_timer_loop_stays_interval_aligned_after_a_slow_refresh() async {
         let harness = FixedTimerLoopHarness()
 
         await UsageStore.runFixedRefreshTimer(
@@ -182,7 +182,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `adaptive mode keeps recomputing and refreshing across menu-open changes`() async throws {
+    func adaptive_mode_keeps_recomputing_and_refreshing_across_menu_open_changes() async throws {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-adaptive", frequency: .adaptive)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .full)
         store.restartTimerWithSleepOverrideForTesting(.milliseconds(20))
@@ -198,7 +198,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `changing frequency away from fixed cancels the pending tick without an extra refresh`() async throws {
+    func changing_frequency_away_from_fixed_cancels_the_pending_tick_without_an_extra_refresh() async throws {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-cancel", frequency: .oneMinute)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .full)
         // Deliberately much longer than anything else in this test: the assertion only needs this
@@ -237,7 +237,7 @@ struct AdaptiveRefreshTimerTests {
     // legitimately expected at all, and any extra one proves a canceled sleep still ran its body.
 
     @Test
-    func `restarting the timer cancels a pending fixed tick without an extra refresh`() async throws {
+    func restarting_the_timer_cancels_a_pending_fixed_tick_without_an_extra_refresh() async throws {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-cancel-fixed", frequency: .oneMinute)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .full)
         store.restartTimerWithSleepOverrideForTesting(.seconds(5))
@@ -256,7 +256,7 @@ struct AdaptiveRefreshTimerTests {
     }
 
     @Test
-    func `restarting the timer cancels a pending adaptive tick without an extra refresh`() async throws {
+    func restarting_the_timer_cancels_a_pending_adaptive_tick_without_an_extra_refresh() async throws {
         let settings = Self.makeSettingsStore(suite: "AdaptiveRefreshTimerTests-cancel-adaptive", frequency: .adaptive)
         let store = Self.makeUsageStore(settings: settings, startupBehavior: .full)
         store.restartTimerWithSleepOverrideForTesting(.seconds(5))

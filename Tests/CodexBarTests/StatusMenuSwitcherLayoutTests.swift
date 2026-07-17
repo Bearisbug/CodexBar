@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct StatusMenuSwitcherLayoutTests {
     @Test
-    func `overview switcher segment matches provider segment height when quota bars are present`() throws {
+    func overview_switcher_segment_matches_provider_segment_height_when_quota_bars_are_present() throws {
         let view = ProviderSwitcherView(
             providers: [.claude, .grok, .cursor],
             selected: .overview,
@@ -33,7 +33,7 @@ struct StatusMenuSwitcherLayoutTests {
     }
 
     @Test
-    func `quota bars do not offset inline switcher content`() throws {
+    func quota_bars_do_not_offset_inline_switcher_content() throws {
         let view = ProviderSwitcherView(
             providers: [.codex, .devin],
             selected: .provider(.codex),
@@ -72,7 +72,7 @@ struct StatusMenuSwitcherLayoutTests {
     }
 
     @Test
-    func `integrated quota indicator selects its provider`() {
+    func integrated_quota_indicator_selects_its_provider() {
         let view = ProviderSwitcherView(
             providers: [.codex, .devin],
             selected: .provider(.codex),
@@ -87,7 +87,7 @@ struct StatusMenuSwitcherLayoutTests {
     }
 
     @Test
-    func `localized inline switcher titles fit without losing equal sizing`() throws {
+    func localized_inline_switcher_titles_fit_without_losing_equal_sizing() throws {
         try CodexBarLocalizationOverride.$appLanguage.withValue("tr") {
             for width in stride(from: CGFloat(280), through: CGFloat(330), by: 1) {
                 let view = ProviderSwitcherView(

@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct ProviderHTTPClientTests {
     @Test
-    func `default client configuration fails blocked connections promptly`() {
+    func default_client_configuration_fails_blocked_connections_promptly() {
         let configuration = ProviderHTTPClient.defaultConfiguration()
 
         #expect(configuration.timeoutIntervalForRequest == 30)
@@ -16,7 +16,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `client loads requests through an injected session`() async throws {
+    func client_loads_requests_through_an_injected_session() async throws {
         StubURLProtocol.requests = []
         StubURLProtocol.handler = { request in
             StubURLProtocol.requests.append(request)
@@ -47,7 +47,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `response helper unwraps HTTP responses`() async throws {
+    func response_helper_unwraps_HTTP_responses() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let response = try HTTPURLResponse(
                 url: #require(request.url),
@@ -66,7 +66,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `response helper rejects non HTTP responses`() async throws {
+    func response_helper_rejects_non_HTTP_responses() async throws {
         let transport = ProviderHTTPTransportHandler { request in
             let response = URLResponse(
                 url: request.url ?? URL(string: "https://example.com/not-http")!,
@@ -83,7 +83,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `response helper retries transient HTTP status once`() async throws {
+    func response_helper_retries_transient_HTTP_status_once() async throws {
         let script = ScriptedHTTPTransport(statusCodes: [503, 200])
         let request = try URLRequest(url: #require(URL(string: "https://example.com/retry")))
 
@@ -94,7 +94,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `response helper retries transient URL error once`() async throws {
+    func response_helper_retries_transient_URL_error_once() async throws {
         let script = ScriptedHTTPTransport(results: [
             .failure(URLError(.timedOut)),
             .success(200),
@@ -108,7 +108,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `response helper does not retry non idempotent methods`() async throws {
+    func response_helper_does_not_retry_non_idempotent_methods() async throws {
         let script = ScriptedHTTPTransport(statusCodes: [503, 200])
         var request = try URLRequest(url: #require(URL(string: "https://example.com/post")))
         request.httpMethod = "POST"
@@ -120,7 +120,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `response helper does not retry auth failures`() async throws {
+    func response_helper_does_not_retry_auth_failures() async throws {
         let script = ScriptedHTTPTransport(statusCodes: [403, 200])
         let request = try URLRequest(url: #require(URL(string: "https://example.com/forbidden")))
 
@@ -131,7 +131,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `redirect guard blocks cross origin redirects`() throws {
+    func redirect_guard_blocks_cross_origin_redirects() throws {
         var redirectRequest = try URLRequest(url: #require(URL(string: "https://attacker.example/capture")))
         redirectRequest.setValue("[REDACTED]", forHTTPHeaderField: "Cookie")
         redirectRequest.setValue("[REDACTED]", forHTTPHeaderField: "x-api-key")
@@ -144,7 +144,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `redirect guard blocks non HTTPS redirects`() throws {
+    func redirect_guard_blocks_non_HTTPS_redirects() throws {
         var redirectRequest = try URLRequest(url: #require(URL(string: "http://provider.example/capture")))
         redirectRequest.setValue("[REDACTED]", forHTTPHeaderField: "Cookie")
 
@@ -156,7 +156,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `redirect guard blocks redirects without an original URL`() throws {
+    func redirect_guard_blocks_redirects_without_an_original_URL() throws {
         let redirectRequest = try URLRequest(url: #require(URL(string: "https://provider.example/usage/next")))
 
         let guarded = ProviderHTTPRedirectGuardDelegate.guardedRedirectRequest(
@@ -167,7 +167,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `redirect guard blocks port changes`() throws {
+    func redirect_guard_blocks_port_changes() throws {
         let redirectRequest = try URLRequest(url: #require(URL(string: "https://provider.example:8443/usage")))
 
         let guarded = ProviderHTTPRedirectGuardDelegate.guardedRedirectRequest(
@@ -178,7 +178,7 @@ struct ProviderHTTPClientTests {
     }
 
     @Test
-    func `redirect guard preserves same origin HTTPS requests`() throws {
+    func redirect_guard_preserves_same_origin_HTTPS_requests() throws {
         var redirectRequest = try URLRequest(url: #require(URL(string: "https://provider.example/usage/next")))
         redirectRequest.setValue("[REDACTED]", forHTTPHeaderField: "Cookie")
         redirectRequest.setValue("[REDACTED]", forHTTPHeaderField: "Authorization")

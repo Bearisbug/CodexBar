@@ -8,7 +8,7 @@ import Testing
 /// reset backfill that previously defeated a shape-only heuristic.
 struct RateWindowSyntheticPlaceholderTests {
     @Test
-    func `synthetic placeholder flag round-trips through Codable`() throws {
+    func synthetic_placeholder_flag_round_trips_through_Codable() throws {
         let window = RateWindow(
             usedPercent: 0,
             windowMinutes: 300,
@@ -25,7 +25,7 @@ struct RateWindowSyntheticPlaceholderTests {
     }
 
     @Test
-    func `older payload without the flag decodes as not a placeholder`() throws {
+    func older_payload_without_the_flag_decodes_as_not_a_placeholder() throws {
         // Cached payloads written before the flag existed have no `isSyntheticPlaceholder` key.
         let json = #"{"usedPercent": 50, "windowMinutes": 300}"#
         let decoded = try JSONDecoder().decode(RateWindow.self, from: Data(json.utf8))
@@ -36,7 +36,7 @@ struct RateWindowSyntheticPlaceholderTests {
     }
 
     @Test
-    func `a real window omits the placeholder flag when encoded`() throws {
+    func a_real_window_omits_the_placeholder_flag_when_encoded() throws {
         let window = RateWindow(usedPercent: 50, windowMinutes: 300, resetsAt: nil, resetDescription: nil)
 
         let data = try JSONEncoder().encode(window)
@@ -47,7 +47,7 @@ struct RateWindowSyntheticPlaceholderTests {
     }
 
     @Test
-    func `backfilling a reset preserves the synthetic placeholder flag`() {
+    func backfilling_a_reset_preserves_the_synthetic_placeholder_flag() {
         // Regression: backfilling a still-future cached reset onto the placeholder (which has no reset)
         // must NOT let it masquerade as a real session — the marker has to survive the backfill.
         let now = Date(timeIntervalSince1970: 1_800_000_000)
@@ -70,7 +70,7 @@ struct RateWindowSyntheticPlaceholderTests {
     }
 
     @Test
-    func `web mapping flags the null five-hour session as a synthetic placeholder`() throws {
+    func web_mapping_flags_the_null_five_hour_session_as_a_synthetic_placeholder() throws {
         let json = """
         {
           "five_hour": null,
@@ -87,7 +87,7 @@ struct RateWindowSyntheticPlaceholderTests {
     }
 
     @Test
-    func `web mapping keeps a real five-hour session unflagged`() throws {
+    func web_mapping_keeps_a_real_five_hour_session_unflagged() throws {
         let json = """
         {
           "five_hour": { "utilization": 11, "resets_at": "2025-12-29T20:00:00.000Z" },
@@ -102,7 +102,7 @@ struct RateWindowSyntheticPlaceholderTests {
     }
 
     @Test
-    func `web mapping keeps fractional session and weekly utilization`() throws {
+    func web_mapping_keeps_fractional_session_and_weekly_utilization() throws {
         let json = """
         {
           "five_hour": { "utilization": 45.5, "resets_at": "2025-12-29T20:00:00.000Z" },
@@ -121,7 +121,7 @@ struct RateWindowSyntheticPlaceholderTests {
     }
 
     @Test
-    func `web mapping keeps a real zero-usage session that omits a reset`() throws {
+    func web_mapping_keeps_a_real_zero_usage_session_that_omits_a_reset() throws {
         // A reported `five_hour` object at 0% with no `resets_at` is a real idle session, not the
         // `five_hour: null` placeholder. The flag keys off object presence (not percent/reset), so this
         // must stay unflagged — otherwise the combined metric would hide a genuine empty session.

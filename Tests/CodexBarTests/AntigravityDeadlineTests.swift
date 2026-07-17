@@ -46,7 +46,7 @@ private final class AntigravityConcurrencyRecorder: @unchecked Sendable {
 
 struct AntigravityDeadlineTests {
     @Test
-    func `process candidates probe concurrently while preserving result order`() async throws {
+    func process_candidates_probe_concurrently_while_preserving_result_order() async throws {
         let processInfos = [
             AntigravityStatusProbe.ProcessInfoResult(
                 pid: 1,
@@ -85,7 +85,7 @@ struct AntigravityDeadlineTests {
     }
 
     @Test
-    func `process candidate transport error preserves url error identity`() async throws {
+    func process_candidate_transport_error_preserves_url_error_identity() async throws {
         let processInfo = AntigravityStatusProbe.ProcessInfoResult(
             pid: 1,
             extensionPort: nil,
@@ -101,7 +101,7 @@ struct AntigravityDeadlineTests {
     }
 
     @Test
-    func `process candidate cancellation rejects partial success`() async {
+    func process_candidate_cancellation_rejects_partial_success() async {
         let processInfos = [
             AntigravityStatusProbe.ProcessInfoResult(
                 pid: 1,
@@ -131,7 +131,7 @@ struct AntigravityDeadlineTests {
     }
 
     @Test
-    func `cancelled process request rejects partial success`() async {
+    func cancelled_process_request_rejects_partial_success() async {
         let processInfos = [
             AntigravityStatusProbe.ProcessInfoResult(
                 pid: 1,
@@ -161,7 +161,7 @@ struct AntigravityDeadlineTests {
     }
 
     @Test
-    func `shared deadline reserves time for later endpoint probes`() async throws {
+    func shared_deadline_reserves_time_for_later_endpoint_probes() async throws {
         let endpoints = [
             AntigravityStatusProbe.AntigravityConnectionEndpoint(
                 scheme: "https",

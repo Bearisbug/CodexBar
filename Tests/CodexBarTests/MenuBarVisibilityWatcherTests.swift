@@ -5,7 +5,7 @@ import Testing
 
 struct MenuBarVisibilityWatcherTests {
     @Test
-    func `does not flag intentionally hidden status item`() {
+    func does_not_flag_intentionally_hidden_status_item() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: false,
             hasButton: true,
@@ -17,7 +17,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `flags visible item without attached window`() {
+    func flags_visible_item_without_attached_window() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -29,7 +29,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `flags visible item without button`() {
+    func flags_visible_item_without_button() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: false,
@@ -41,7 +41,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `flags visible item with zero width`() {
+    func flags_visible_item_with_zero_width() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -53,7 +53,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `allows visible item attached to a screen with width`() {
+    func allows_visible_item_attached_to_a_screen_with_width() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -65,7 +65,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `window probe matches autosave name and reports display bounds`() {
+    func window_probe_matches_autosave_name_and_reports_display_bounds() {
         let snapshots = MenuBarStatusItemWindowProbe.snapshots(
             matching: ["codexbar-merged"],
             windowInfo: [[
@@ -89,7 +89,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `window probe detects offscreen status item by bounds`() {
+    func window_probe_detects_offscreen_status_item_by_bounds() {
         let snapshots = MenuBarStatusItemWindowProbe.snapshots(
             matching: ["codexbar-merged"],
             windowInfo: [[
@@ -111,7 +111,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `window probe identifies Tahoe Control Center blocked proxy geometry`() {
+    func window_probe_identifies_Tahoe_Control_Center_blocked_proxy_geometry() {
         let snapshot = MenuBarStatusItemWindowSnapshot(
             name: "codexbar-merged",
             ownerName: "Control Center",
@@ -123,7 +123,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `window probe does not classify generic offscreen manager placement as Tahoe proxy`() {
+    func window_probe_does_not_classify_generic_offscreen_manager_placement_as_Tahoe_proxy() {
         let snapshot = MenuBarStatusItemWindowSnapshot(
             name: "codexbar-merged",
             ownerName: "Control Center",
@@ -135,7 +135,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `window probe does not classify stale hidden Control Center record as Tahoe proxy`() {
+    func window_probe_does_not_classify_stale_hidden_Control_Center_record_as_Tahoe_proxy() {
         let snapshot = MenuBarStatusItemWindowSnapshot(
             name: "codexbar-merged",
             ownerName: "Control Center",
@@ -147,7 +147,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `allows visible item attached to a detached screen`() {
+    func allows_visible_item_attached_to_a_detached_screen() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -160,7 +160,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `classifies detached live item as displaced but not blocked`() {
+    func classifies_detached_live_item_as_displaced_but_not_blocked() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -174,7 +174,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `classifies stale screen live item as displaced but not blocked`() {
+    func classifies_stale_screen_live_item_as_displaced_but_not_blocked() {
         let snapshot = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -188,7 +188,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `guidance shows once then repeats after a day`() throws {
+    func guidance_shows_once_then_repeats_after_a_day() throws {
         let defaults = try #require(UserDefaults(suiteName: "MenuBarVisibilityWatcherTests"))
         defaults.removePersistentDomain(forName: "MenuBarVisibilityWatcherTests")
         let now = Date(timeIntervalSince1970: 1000)
@@ -206,7 +206,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery triggers for blocked visible snapshot`() {
+    func startup_recovery_triggers_for_blocked_visible_snapshot() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let blocked = StatusItemVisibilitySnapshot(
             isVisible: true,
@@ -222,7 +222,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery retries detached Tahoe proxy corroborated by Control Center geometry`() {
+    func startup_recovery_retries_detached_Tahoe_proxy_corroborated_by_Control_Center_geometry() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let detachedProxy = StatusItemVisibilitySnapshot(
             isVisible: true,
@@ -248,7 +248,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery retries expected hidden Tahoe item with enabled default and no window`() {
+    func startup_recovery_retries_expected_hidden_Tahoe_item_with_enabled_default_and_no_window() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let hidden = StatusItemVisibilitySnapshot(
             isVisible: false,
@@ -271,7 +271,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery ignores hidden Tahoe item without app and defaults visibility agreement`() {
+    func startup_recovery_ignores_hidden_Tahoe_item_without_app_and_defaults_visibility_agreement() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let hidden = StatusItemVisibilitySnapshot(
             isVisible: false,
@@ -306,7 +306,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery ignores hidden item when matching window still exists`() {
+    func startup_recovery_ignores_hidden_item_when_matching_window_still_exists() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let hidden = StatusItemVisibilitySnapshot(
             isVisible: false,
@@ -336,7 +336,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery ignores stale hidden matching window record`() {
+    func startup_recovery_ignores_stale_hidden_matching_window_record() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let hidden = StatusItemVisibilitySnapshot(
             isVisible: false,
@@ -366,7 +366,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery keeps hidden no-window detection Tahoe only`() {
+    func startup_recovery_keeps_hidden_no_window_detection_Tahoe_only() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let hidden = StatusItemVisibilitySnapshot(
             isVisible: false,
@@ -388,7 +388,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery ignores detached live item without Tahoe proxy corroboration`() {
+    func startup_recovery_ignores_detached_live_item_without_Tahoe_proxy_corroboration() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let managed = StatusItemVisibilitySnapshot(
             isVisible: true,
@@ -406,7 +406,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery ignores live item attached to a stale screen`() {
+    func startup_recovery_ignores_live_item_attached_to_a_stale_screen() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let managed = StatusItemVisibilitySnapshot(
             isVisible: true,
@@ -423,7 +423,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery triggers when one split status item is blocked`() {
+    func startup_recovery_triggers_when_one_split_status_item_is_blocked() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let healthy = StatusItemVisibilitySnapshot(
             isVisible: true,
@@ -445,7 +445,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery ignores stale checks`() {
+    func startup_recovery_ignores_stale_checks() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let blocked = StatusItemVisibilitySnapshot(
             isVisible: true,
@@ -461,7 +461,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `startup recovery ignores healthy visible snapshot`() {
+    func startup_recovery_ignores_healthy_visible_snapshot() {
         let launchedAt = Date(timeIntervalSince1970: 1000)
         let healthy = StatusItemVisibilitySnapshot(
             isVisible: true,
@@ -477,7 +477,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `screen change placement refresh ignores display removal with healthy status item`() {
+    func screen_change_placement_refresh_ignores_display_removal_with_healthy_status_item() {
         let healthy = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -492,7 +492,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `screen change placement refresh ignores display removal when no status item is visible`() {
+    func screen_change_placement_refresh_ignores_display_removal_when_no_status_item_is_visible() {
         let hidden = StatusItemVisibilitySnapshot(
             isVisible: false,
             hasButton: true,
@@ -507,7 +507,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `screen change recovery triggers for blocked status item without display count change`() {
+    func screen_change_recovery_triggers_for_blocked_status_item_without_display_count_change() {
         let blocked = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -519,7 +519,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `screen change placement refresh triggers for detached live item after display removal`() {
+    func screen_change_placement_refresh_triggers_for_detached_live_item_after_display_removal() {
         let displaced = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -535,7 +535,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `screen change placement refresh triggers for stale screen live item after display removal`() {
+    func screen_change_placement_refresh_triggers_for_stale_screen_live_item_after_display_removal() {
         let displaced = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -551,7 +551,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `screen change placement refresh ignores healthy item when display count does not shrink`() {
+    func screen_change_placement_refresh_ignores_healthy_item_when_display_count_does_not_shrink() {
         let healthy = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -566,7 +566,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `screen change placement refresh triggers for displaced live item when display count is unchanged`() {
+    func screen_change_placement_refresh_triggers_for_displaced_live_item_when_display_count_is_unchanged() {
         let displaced = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -582,7 +582,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `manager parked item with live window is not blocked`() {
+    func manager_parked_item_with_live_window_is_not_blocked() {
         // A menu bar manager parks items off the active screen with the window intact.
         // hasAnyBlockedVisibleSnapshot must return false so verifyScreenChangeRecoveryIfNeeded
         // does not trigger repeated recreation that corrupts Control Center.
@@ -599,7 +599,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `manager parked item with live window on stale screen is not blocked`() {
+    func manager_parked_item_with_live_window_on_stale_screen_is_not_blocked() {
         let managed = StatusItemVisibilitySnapshot(
             isVisible: true,
             hasButton: true,
@@ -613,7 +613,7 @@ struct MenuBarVisibilityWatcherTests {
     }
 
     @Test
-    func `item without window is blocked regardless of screen state`() {
+    func item_without_window_is_blocked_regardless_of_screen_state() {
         // A missing window cannot be caused by a manager parking the item; it signals
         // a genuine system block and must trigger recovery.
         let blocked = StatusItemVisibilitySnapshot(

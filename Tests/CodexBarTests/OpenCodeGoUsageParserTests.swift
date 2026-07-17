@@ -4,7 +4,7 @@ import Testing
 
 struct OpenCodeGoUsageParserTests {
     @Test
-    func `parses workspace ids`() {
+    func parses_workspace_ids() {
         let text = ";0x00000089;((self.$R=self.$R||{})[\"codexbar\"]=[]," +
             "($R=>$R[0]=[$R[1]={id:\"wrk_01K6AR1ZET89H8NB691FQ2C2VB\",name:\"Default\",slug:null}])" +
             "($R[\"codexbar\"]))"
@@ -13,7 +13,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses subscription usage from seroval response`() throws {
+    func parses_subscription_usage_from_seroval_response() throws {
         let text =
             "$R[16]($R[30],$R[41]={rollingUsage:$R[42]={status:\"ok\",resetInSec:5944,usagePercent:17}," +
             "weeklyUsage:$R[43]={status:\"ok\",resetInSec:278201,usagePercent:75}," +
@@ -32,7 +32,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses zen balance from workspace page text`() {
+    func parses_zen_balance_from_workspace_page_text() {
         let text = """
         <main>
         <h2>現在の残高 $1,234.56</h2>
@@ -44,7 +44,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses zen balance from nested JSON`() throws {
+    func parses_zen_balance_from_nested_JSON() throws {
         let payload: [String: Any] = [
             "data": [
                 "billing": [
@@ -60,7 +60,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses scaled zen balance from billing server response`() {
+    func parses_scaled_zen_balance_from_billing_server_response() {
         let text =
             #";0x00000120;((self.$R=self.$R||{})["server-fn:test"]=[],"# +
             #"($R=>$R[0]=$R[1]={customerID:"cus_test",balance:$R[2]=2375000000,reload:!1})"# +
@@ -70,21 +70,21 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `billing server parser ignores unrelated balance metadata`() {
+    func billing_server_parser_ignores_unrelated_balance_metadata() {
         let text = #"$R[0]={balanceEnabled:!0,balanceUpdatedAt:1800000000}"#
 
         #expect(OpenCodeGoZenBalanceParser.parseBillingServerResponse(text: text) == nil)
     }
 
     @Test
-    func `billing server parser ignores balance when billing is disabled`() {
+    func billing_server_parser_ignores_balance_when_billing_is_disabled() {
         let text = #"$R[0]={customerID:null,balance:0,reload:!1}"#
 
         #expect(OpenCodeGoZenBalanceParser.parseBillingServerResponse(text: text) == nil)
     }
 
     @Test
-    func `zen balance parser ignores metadata before amount`() throws {
+    func zen_balance_parser_ignores_metadata_before_amount() throws {
         let payload: [String: Any] = [
             "data": [
                 "billing": [
@@ -101,7 +101,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses subscription usage from live go page hydration`() throws {
+    func parses_subscription_usage_from_live_go_page_hydration() throws {
         let rollingResetInSec = 17591
         let weeklyResetInSec = 444_552
         let monthlyResetInSec = 2_591_424
@@ -125,7 +125,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses rolling only usage from seroval response`() throws {
+    func parses_rolling_only_usage_from_seroval_response() throws {
         let text =
             "$R[16]($R[30],$R[41]={rollingUsage:$R[42]={status:\"ok\",resetInSec:5944,usagePercent:17}});"
         let now = Date(timeIntervalSince1970: 0)
@@ -142,7 +142,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses rolling only usage from JSON response`() throws {
+    func parses_rolling_only_usage_from_JSON_response() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "usage": [
@@ -167,7 +167,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `recovers weekly usage from nested JSON window`() throws {
+    func recovers_weekly_usage_from_nested_JSON_window() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "usage": [
@@ -196,7 +196,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses subscription from JSON with reset at and ratio percentages`() throws {
+    func parses_subscription_from_JSON_with_reset_at_and_ratio_percentages() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let rollingResetAt = now.addingTimeInterval(3600)
         let monthlyResetAt = now.addingTimeInterval(86400)
@@ -233,7 +233,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test(arguments: ["1e309", "1e308"])
-    func `ignores reset timestamps outside integer range`(resetAt: String) throws {
+    func ignores_reset_timestamps_outside_integer_range(resetAt: String) throws {
         let text = """
         {
           "rollingUsage": { "usagePercent": 17, "resetAt": "\(resetAt)" },
@@ -252,7 +252,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `computes usage percent from totals and treats monthly as optional`() throws {
+    func computes_usage_percent_from_totals_and_treats_monthly_as_optional() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "rollingUsage": [
@@ -281,7 +281,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `snapshot exposes zen balance as provider cost`() {
+    func snapshot_exposes_zen_balance_as_provider_cost() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = OpenCodeGoUsageSnapshot(
             hasMonthlyUsage: false,
@@ -303,7 +303,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `zen balance parser ignores balance flags without amounts`() throws {
+    func zen_balance_parser_ignores_balance_flags_without_amounts() throws {
         let payload: [String: Any] = [
             "billing": [
                 "balanceEnabled": true,
@@ -317,7 +317,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parses subscription from nested candidate windows`() throws {
+    func parses_subscription_from_nested_candidate_windows() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "windows": [
@@ -351,7 +351,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `candidate fallback preserves missing weekly window`() throws {
+    func candidate_fallback_preserves_missing_weekly_window() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "windows": [
@@ -382,7 +382,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `clamps invalid percentages`() throws {
+    func clamps_invalid_percentages() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "rollingUsage": [
@@ -404,7 +404,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `parse subscription throws when required fields are missing`() {
+    func parse_subscription_throws_when_required_fields_are_missing() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let text = "{\"monthlyUsage\":{\"usagePercent\":50,\"resetInSec\":123}}"
 
@@ -414,7 +414,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `renewsAt parses from ISO8601 renewAt key`() throws {
+    func renewsAt_parses_from_ISO8601_renewAt_key() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -435,7 +435,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `renewsAt parses from renew_at key`() throws {
+    func renewsAt_parses_from_renew_at_key() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -456,7 +456,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `renewsAt is nil when absent`() throws {
+    func renewsAt_is_nil_when_absent() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let payload: [String: Any] = [
             "rollingUsage": ["usagePercent": 10, "resetInSec": 600],
@@ -472,7 +472,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `top level renewAt is preserved for nested usage object`() throws {
+    func top_level_renewAt_is_preserved_for_nested_usage_object() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -494,7 +494,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `top level renew_at is preserved for nested usage object`() throws {
+    func top_level_renew_at_is_preserved_for_nested_usage_object() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()
@@ -516,7 +516,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `child renewAt overrides parent renewAt`() throws {
+    func child_renewAt_overrides_parent_renewAt() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let parentRenewAt = now.addingTimeInterval(86400 * 30)
         let childRenewAt = now.addingTimeInterval(86400 * 45)
@@ -540,7 +540,7 @@ struct OpenCodeGoUsageParserTests {
     }
 
     @Test
-    func `toUsageSnapshot includes renewal NamedRateWindow when renewsAt present`() throws {
+    func toUsageSnapshot_includes_renewal_NamedRateWindow_when_renewsAt_present() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let renewAt = now.addingTimeInterval(86400 * 30)
         let formatter = ISO8601DateFormatter()

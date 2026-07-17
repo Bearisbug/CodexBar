@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct CodexLimitResetOwnerKeyTests {
     @Test
-    func `limit reset owner stays stable for the same provider workspace and email`() throws {
+    func limit_reset_owner_stays_stable_for_the_same_provider_workspace_and_email() throws {
         let store = self.makeLimitResetOwnerStore(suffix: "provider-stability")
         let original = self.limitResetVisibleAccount(
             id: "original-row",
@@ -36,7 +36,7 @@ struct CodexLimitResetOwnerKeyTests {
     }
 
     @Test
-    func `different emails in the same provider workspace use different owner keys`() throws {
+    func different_emails_in_the_same_provider_workspace_use_different_owner_keys() throws {
         let store = self.makeLimitResetOwnerStore(suffix: "provider-member-distinct")
         let first = self.limitResetVisibleAccount(
             id: "first-member",
@@ -58,7 +58,7 @@ struct CodexLimitResetOwnerKeyTests {
     }
 
     @Test
-    func `different provider workspaces with the same email use different owner keys`() throws {
+    func different_provider_workspaces_with_the_same_email_use_different_owner_keys() throws {
         let store = self.makeLimitResetOwnerStore(suffix: "provider-distinct")
         let first = self.limitResetVisibleAccount(
             id: "first-row",
@@ -85,7 +85,7 @@ struct CodexLimitResetOwnerKeyTests {
     }
 
     @Test
-    func `email only owner fails closed even for one visible row`() {
+    func email_only_owner_fails_closed_even_for_one_visible_row() {
         let store = self.makeLimitResetOwnerStore(suffix: "email-unique")
         let account = self.limitResetVisibleAccount(
             id: "email-row-original",
@@ -100,7 +100,7 @@ struct CodexLimitResetOwnerKeyTests {
     }
 
     @Test
-    func `duplicate email only rows fail closed`() {
+    func duplicate_email_only_rows_fail_closed() {
         let store = self.makeLimitResetOwnerStore(suffix: "email-ambiguous")
         let first = self.limitResetVisibleAccount(
             id: "email-row-one",
@@ -115,7 +115,7 @@ struct CodexLimitResetOwnerKeyTests {
     }
 
     @Test
-    func `provider row wins its own identity while same email fallback fails closed`() throws {
+    func provider_row_wins_its_own_identity_while_same_email_fallback_fails_closed() throws {
         let store = self.makeLimitResetOwnerStore(suffix: "mixed-identity")
         let providerBacked = self.limitResetVisibleAccount(
             id: "provider-row",
@@ -137,7 +137,7 @@ struct CodexLimitResetOwnerKeyTests {
     }
 
     @Test
-    func `guard and visible row normalize the same provider owner`() throws {
+    func guard_and_visible_row_normalize_the_same_provider_owner() throws {
         let store = self.makeLimitResetOwnerStore(suffix: "provider-normalization")
         let account = self.limitResetVisibleAccount(
             id: "provider-row",
@@ -159,7 +159,7 @@ struct CodexLimitResetOwnerKeyTests {
     }
 
     @Test
-    func `unresolved owner identity fails closed`() {
+    func unresolved_owner_identity_fails_closed() {
         let store = self.makeLimitResetOwnerStore(suffix: "unresolved")
         let guardValue = CodexAccountScopedRefreshGuard(
             source: .liveSystem,

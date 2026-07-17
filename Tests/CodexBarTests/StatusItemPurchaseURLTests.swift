@@ -6,7 +6,7 @@ import Testing
 struct StatusItemPurchaseURLTests {
     @Test
     @MainActor
-    func `purchase URL accepts ChatGPT hosts`() {
+    func purchase_URL_accepts_ChatGPT_hosts() {
         #expect(
             StatusItemController.sanitizedCreditsPurchaseURL("https://chatgpt.com/settings/billing")
                 == "https://chatgpt.com/settings/billing")
@@ -21,7 +21,7 @@ struct StatusItemPurchaseURLTests {
 
     @Test
     @MainActor
-    func `purchase URL rejects lookalike hosts`() {
+    func purchase_URL_rejects_lookalike_hosts() {
         #expect(
             StatusItemController
                 .sanitizedCreditsPurchaseURL("https://chatgpt.com.evil.example/settings/billing") == nil)
@@ -35,7 +35,7 @@ struct StatusItemPurchaseURLTests {
 
     @Test
     @MainActor
-    func `purchase URL rejects non HTTPS and unrelated paths`() {
+    func purchase_URL_rejects_non_HTTPS_and_unrelated_paths() {
         #expect(
             StatusItemController.sanitizedCreditsPurchaseURL("http://chatgpt.com/settings/billing")
                 == nil)
@@ -50,7 +50,7 @@ struct StatusItemPurchaseURLTests {
 
     @Test
     @MainActor
-    func `scoped purchase window requires an account email`() {
+    func scoped_purchase_window_requires_an_account_email() {
         let scope = CookieHeaderCache.Scope.profileHome("/tmp/codex-profile")
 
         #expect(!OpenAICreditsPurchaseWindowController.canOpenPurchaseWindow(accountEmail: nil, cacheScope: scope))

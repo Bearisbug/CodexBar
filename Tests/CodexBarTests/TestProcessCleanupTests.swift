@@ -3,7 +3,7 @@ import Testing
 
 struct TestProcessCleanupTests {
     @Test
-    func `cleanup pattern matches only CodexBar test stub app servers`() throws {
+    func cleanup_pattern_matches_only_CodexBar_test_stub_app_servers() throws {
         let regex = try NSRegularExpression(pattern: TestProcessCleanup.codexTestStubCommandRegex)
         let testStubCommands = [
             "/usr/bin/python3 -S /tmp/codex-stub-01234567-89AB-CDEF-0123-456789ABCDEF app-server",

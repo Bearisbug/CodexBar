@@ -4,7 +4,7 @@ import Testing
 @testable import CodexBar
 
 @Test
-func `ProviderTokenAccountData encoding`() throws {
+func ProviderTokenAccountData_encoding() throws {
     let now = Date().timeIntervalSince1970
     let account = ProviderTokenAccount(
         id: UUID(),
@@ -27,7 +27,7 @@ func `ProviderTokenAccountData encoding`() throws {
 }
 
 @Test
-func `FileTokenAccountStore round trip`() throws {
+func FileTokenAccountStore_round_trip() throws {
     let tempDir = FileManager.default.temporaryDirectory
     let fileURL = tempDir.appendingPathComponent("codexbar-token-accounts-test.json")
     defer { try? FileManager.default.removeItem(at: fileURL) }

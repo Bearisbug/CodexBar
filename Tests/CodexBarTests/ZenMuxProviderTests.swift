@@ -5,7 +5,7 @@ import Testing
 
 struct ZenMuxProviderTests {
     @Test
-    func `subscription and balance map to quota windows and USD PAYG`() async throws {
+    func subscription_and_balance_map_to_quota_windows_and_USD_PAYG() async throws {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -56,7 +56,7 @@ struct ZenMuxProviderTests {
     }
 
     @Test
-    func `unhealthy account status is included in identity`() async throws {
+    func unhealthy_account_status_is_included_in_identity() async throws {
         let body = Self.subscriptionFixture.replacingOccurrences(
             of: #""account_status": "healthy""#,
             with: #""account_status": "monitored""#)
@@ -75,7 +75,7 @@ struct ZenMuxProviderTests {
     }
 
     @Test
-    func `balance failure does not discard subscription usage`() async throws {
+    func balance_failure_does_not_discard_subscription_usage() async throws {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             if url.path.hasSuffix("/subscription/detail") {
@@ -94,7 +94,7 @@ struct ZenMuxProviderTests {
     }
 
     @Test
-    func `balance auth failure is not hidden`() async {
+    func balance_auth_failure_is_not_hidden() async {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             if url.path.hasSuffix("/subscription/detail") {
@@ -103,18 +103,22 @@ struct ZenMuxProviderTests {
             return Self.response(url: url, body: #"{"error":"unauthorized"}"#, statusCode: 401)
         }
 
-        await #expect {
+        do {
             _ = try await ZenMuxUsageFetcher.fetchUsage(
                 "management-key",
                 includePaygBalance: true,
                 transport: transport)
-        } throws: { error in
-            error as? ZenMuxUsageError == .authenticationRejected
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? ZenMuxUsageError == .authenticationRejected
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `balance cancellation is preserved`() async {
+    func balance_cancellation_is_preserved() async {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             if url.path.hasSuffix("/subscription/detail") {
@@ -123,60 +127,76 @@ struct ZenMuxProviderTests {
             throw URLError(.cancelled)
         }
 
-        await #expect {
+        do {
             _ = try await ZenMuxUsageFetcher.fetchUsage(
                 "management-key",
                 includePaygBalance: true,
                 transport: transport)
-        } throws: { error in
-            error is CancellationError
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error is CancellationError
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `missing and invalid credentials fail clearly`() async {
-        await #expect {
+    func missing_and_invalid_credentials_fail_clearly() async {
+        do {
             _ = try await ZenMuxUsageFetcher.fetchUsage(
                 "  ",
                 includePaygBalance: false)
-        } throws: { error in
-            error as? ZenMuxUsageError == .notConfigured
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? ZenMuxUsageError == .notConfigured
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
 
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             return Self.response(url: url, body: #"{"error":"unauthorized"}"#, statusCode: 403)
         }
-        await #expect {
+        do {
             _ = try await ZenMuxUsageFetcher.fetchUsage(
                 "wrong-key",
                 includePaygBalance: false,
                 transport: transport)
-        } throws: { error in
-            error as? ZenMuxUsageError == .authenticationRejected
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? ZenMuxUsageError == .authenticationRejected
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `malformed subscription payload fails parsing`() async {
+    func malformed_subscription_payload_fails_parsing() async {
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
             return Self.response(url: url, body: #"{"success":true,"data":{"plan":{}}}"#)
         }
 
-        await #expect {
+        do {
             _ = try await ZenMuxUsageFetcher.fetchUsage(
                 "management-key",
                 includePaygBalance: false,
                 transport: transport)
-        } throws: { error in
-            guard case .parseFailed = error as? ZenMuxUsageError else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case .parseFailed = error as? ZenMuxUsageError else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `non USD PAYG balance is ignored without discarding quota usage`() async throws {
+    func non_USD_PAYG_balance_is_ignored_without_discarding_quota_usage() async throws {
         let nonUSDBalance = Self.balanceFixture.replacingOccurrences(
             of: #""currency": "usd""#,
             with: #""currency": "eur""#)
@@ -197,7 +217,7 @@ struct ZenMuxProviderTests {
     }
 
     @Test
-    func `negative overdue PAYG balance remains visible`() async throws {
+    func negative_overdue_PAYG_balance_remains_visible() async throws {
         let overdueBalance = Self.balanceFixture.replacingOccurrences(
             of: #""total_credits": 482.74"#,
             with: #""total_credits": -12.34"#)
@@ -219,7 +239,7 @@ struct ZenMuxProviderTests {
     }
 
     @Test
-    func `settings reader trims quotes`() {
+    func settings_reader_trims_quotes() {
         #expect(ZenMuxSettingsReader.managementAPIKey(environment: [
             ZenMuxSettingsReader.managementAPIKeyEnvironmentKey: "  'management-key'  ",
         ]) == "management-key")
@@ -227,7 +247,7 @@ struct ZenMuxProviderTests {
     }
 
     @Test @MainActor
-    func `descriptor and app registry include ZenMux`() throws {
+    func descriptor_and_app_registry_include_ZenMux() throws {
         let descriptor = ProviderDescriptorRegistry.descriptor(for: .zenmux)
         #expect(descriptor.metadata.displayName == "ZenMux")
         #expect(descriptor.metadata.defaultEnabled == false)
@@ -239,7 +259,7 @@ struct ZenMuxProviderTests {
     }
 
     @Test @MainActor
-    func `menu card uses compact flow expiry and USD PAYG labels`() async throws {
+    func menu_card_uses_compact_flow_expiry_and_USD_PAYG_labels() async throws {
         let now = try #require(Self.date("2026-03-24T07:35:09.000Z"))
         let transport = ProviderHTTPTransportStub { request in
             let url = try #require(request.url)
@@ -280,7 +300,14 @@ struct ZenMuxProviderTests {
         #expect(primary.resetText == "Resets in 1h")
         #expect(secondary.detailLeftText == "416.11 / 6182 flows")
         #expect(secondary.detailRightText == nil)
-        #expect(model.usageNotes == ["Plan expires: Apr 12, 2026"])
+        // The expiry note is intentionally locale-formatted; compute the expected
+        // string the same way so the test passes on non-English machines.
+        let expiryFormatter = DateFormatter()
+        expiryFormatter.locale = Locale.current
+        expiryFormatter.timeZone = .current
+        expiryFormatter.setLocalizedDateFormatFromTemplate("MMM d, yyyy")
+        let expectedExpiry = try expiryFormatter.string(from: #require(Self.date("2026-04-12T08:26:56.000Z")))
+        #expect(model.usageNotes == ["Plan expires: \(expectedExpiry)"])
         #expect(model.creditsText == nil)
         #expect(model.providerCost?.title == "Pay-as-you-go")
         #expect(model.providerCost?.spendLine == "Balance: $482.74")

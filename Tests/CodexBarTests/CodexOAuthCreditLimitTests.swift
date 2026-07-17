@@ -127,7 +127,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `decodes monthly credit limit from rate limit payload`() throws {
+    func decodes_monthly_credit_limit_from_rate_limit_payload() throws {
         let json = """
         {
           "plan_type": "enterprise",
@@ -156,7 +156,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `monthly credit limit O auth payload displays limit when balance is zero`() throws {
+    func monthly_credit_limit_O_auth_payload_displays_limit_when_balance_is_zero() throws {
         let json = """
         {
           "rate_limit": {
@@ -187,7 +187,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `explicit O auth zero credits without monthly limit keeps partial result`() throws {
+    func explicit_O_auth_zero_credits_without_monthly_limit_keeps_partial_result() throws {
         let json = """
         {
           "rate_limit": {
@@ -212,7 +212,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `auto O auth zero credits preserves O auth usage while adding CLI monthly limit`() async throws {
+    func auto_O_auth_zero_credits_preserves_O_auth_usage_while_adding_CLI_monthly_limit() async throws {
         let mappedOAuth = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(self.oauthZeroCreditRateWindowJSON().utf8),
             credentials: self.makeCredentials(),
@@ -237,7 +237,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `usage-only O auth refresh does not launch CLI monthly limit enrichment`() async throws {
+    func usage_only_O_auth_refresh_does_not_launch_CLI_monthly_limit_enrichment() async throws {
         let mappedOAuth = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(self.oauthZeroCreditRateWindowJSON().utf8),
             credentials: self.makeCredentials(),
@@ -258,7 +258,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `auto O auth zero credits rejects CLI monthly limit without verified identity`() async throws {
+    func auto_O_auth_zero_credits_rejects_CLI_monthly_limit_without_verified_identity() async throws {
         let mappedOAuth = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(self.oauthZeroCreditRateWindowJSON().utf8),
             credentials: self.makeCredentials(),
@@ -277,7 +277,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `auto O auth zero credits rejects CLI monthly limit from another account`() async throws {
+    func auto_O_auth_zero_credits_rejects_CLI_monthly_limit_from_another_account() async throws {
         let mappedOAuth = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(self.oauthZeroCreditRateWindowJSON().utf8),
             credentials: self.makeCredentials(),
@@ -298,7 +298,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `auto O auth zero credits accepts matching CLI account case insensitively`() async throws {
+    func auto_O_auth_zero_credits_accepts_matching_CLI_account_case_insensitively() async throws {
         let mappedOAuth = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(self.oauthZeroCreditRateWindowJSON().utf8),
             credentials: self.makeCredentials(),
@@ -319,7 +319,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `auto O auth zero credits keeps partial result when CLI is unavailable`() async throws {
+    func auto_O_auth_zero_credits_keeps_partial_result_when_CLI_is_unavailable() async throws {
         let oauthResult = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(self.oauthZeroCreditRateWindowJSON().utf8),
             credentials: self.makeCredentials(),
@@ -336,7 +336,7 @@ struct CodexOAuthCreditLimitTests {
     }
 
     @Test
-    func `auto O auth zero credits keeps partial result when CLI lacks monthly limit`() async throws {
+    func auto_O_auth_zero_credits_keeps_partial_result_when_CLI_lacks_monthly_limit() async throws {
         let oauthResult = try CodexOAuthFetchStrategy._mapResultForTesting(
             Data(self.oauthZeroCreditRateWindowJSON().utf8),
             credentials: self.makeCredentials(),

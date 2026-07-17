@@ -14,7 +14,7 @@ struct DeepSeekUsageCostParserTests {
     // MARK: - Amount Parser Tests
 
     @Test
-    func `amount parser decodes total and days`() throws {
+    func amount_parser_decodes_total_and_days() throws {
         let json = """
         {
           "code": 0,
@@ -64,7 +64,7 @@ struct DeepSeekUsageCostParserTests {
     }
 
     @Test
-    func `amount parser handles missing biz_data gracefully`() throws {
+    func amount_parser_handles_missing_biz_data_gracefully() throws {
         let json = """
         {
           "code": 0,
@@ -81,7 +81,7 @@ struct DeepSeekUsageCostParserTests {
     // MARK: - Cost Parser Tests
 
     @Test
-    func `cost parser decodes total, days, and currency`() throws {
+    func cost_parser_decodes_total_days_and_currency() throws {
         let json = """
         {
           "code": 0,
@@ -134,7 +134,7 @@ struct DeepSeekUsageCostParserTests {
     }
 
     @Test
-    func `cost parser handles empty biz_data`() throws {
+    func cost_parser_handles_empty_biz_data() throws {
         let json = """
         {
           "code": 0,
@@ -154,7 +154,7 @@ struct DeepSeekUsageCostParserTests {
     // MARK: - String Parsing Tests
 
     @Test
-    func `string token parsing works`() throws {
+    func string_token_parsing_works() throws {
         let json = """
         {
           "code": 0,
@@ -183,7 +183,7 @@ struct DeepSeekUsageCostParserTests {
     }
 
     @Test
-    func `decimal cost parsing works`() throws {
+    func decimal_cost_parsing_works() throws {
         let json = """
         {
           "code": 0,
@@ -215,7 +215,7 @@ struct DeepSeekUsageCostParserTests {
     // MARK: - Aggregation Tests
 
     @Test
-    func `aggregation computes today token totals`() throws {
+    func aggregation_computes_today_token_totals() throws {
         let amountJSON = """
         {
           "code": 0,
@@ -312,7 +312,7 @@ struct DeepSeekUsageCostParserTests {
     }
 
     @Test
-    func `aggregation uses injected now and calendar for today bucket`() throws {
+    func aggregation_uses_injected_now_and_calendar_for_today_bucket() throws {
         let amountJSON = """
         {
           "code": 0,
@@ -381,7 +381,7 @@ struct DeepSeekUsageCostParserTests {
     }
 
     @Test
-    func `aggregation computes today cost totals`() throws {
+    func aggregation_computes_today_cost_totals() throws {
         let amountJSON = """
         {
           "code": 0,
@@ -468,7 +468,7 @@ struct DeepSeekUsageCostParserTests {
     }
 
     @Test
-    func `aggregation computes model and category breakdown`() throws {
+    func aggregation_computes_model_and_category_breakdown() throws {
         let amountJSON = """
         {
           "code": 0,
@@ -545,7 +545,7 @@ struct DeepSeekUsageCostParserTests {
     // MARK: - Unknown Types Handling
 
     @Test
-    func `unknown usage types are ignored safely`() throws {
+    func unknown_usage_types_are_ignored_safely() throws {
         let amountJSON = """
         {
           "code": 0,
@@ -612,7 +612,7 @@ struct DeepSeekUsageCostParserTests {
     // MARK: - Error Handling
 
     @Test
-    func `missing fields fails closed`() {
+    func missing_fields_fails_closed() {
         let amountJSON = """
         {
           "code": 0,
@@ -639,20 +639,24 @@ struct DeepSeekUsageCostParserTests {
         }
         """
 
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data(amountJSON.utf8),
                 costData: Data(costJSON.utf8),
-                now: fixtureNow,
-                calendar: fixtureCalendar)
-        } throws: { error in
-            guard case DeepSeekUsageError.parseFailed = error else { return false }
-            return true
+                now: self.fixtureNow,
+                calendar: self.fixtureCalendar)
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case DeepSeekUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `non-zero biz_code fails closed`() {
+    func non_zero_biz_code_fails_closed() {
         let amountJSON = """
         {
           "code": 0,
@@ -686,32 +690,40 @@ struct DeepSeekUsageCostParserTests {
         }
         """
 
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data(amountJSON.utf8),
                 costData: Data(costJSON.utf8))
-        } throws: { error in
-            guard case DeepSeekUsageError.apiError = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case DeepSeekUsageError.apiError = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `invalid JSON fails closed`() {
-        #expect {
+    func invalid_JSON_fails_closed() {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data("not json".utf8),
                 costData: Data("{}".utf8))
-        } throws: { error in
-            guard case DeepSeekUsageError.parseFailed = error else { return false }
-            return true
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case DeepSeekUsageError.parseFailed = error else { return false }
+                return true
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     // MARK: - Edge Cases
 
     @Test
-    func `empty days array works`() throws {
+    func empty_days_array_works() throws {
         let amountJSON = """
         {
           "code": 0,
@@ -759,7 +771,7 @@ struct DeepSeekUsageCostParserTests {
     }
 
     @Test
-    func `multiple models works`() throws {
+    func multiple_models_works() throws {
         let amountJSON = """
         {
           "code": 0,
@@ -868,7 +880,7 @@ struct DeepSeekUsageCostParserAuthorizationTests {
     """
 
     @Test
-    func `invalid platform token code requests a new web session`() {
+    func invalid_platform_token_code_requests_a_new_web_session() {
         let amountJSON = """
         {
           "code": 40003,
@@ -888,17 +900,21 @@ struct DeepSeekUsageCostParserAuthorizationTests {
         }
         """
 
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data(amountJSON.utf8),
                 costData: Data(costJSON.utf8))
-        } throws: { error in
-            error as? DeepSeekUsageError == .invalidPlatformToken
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? DeepSeekUsageError == .invalidPlatformToken
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `nested invalid platform token code requests a new web session`() {
+    func nested_invalid_platform_token_code_requests_a_new_web_session() {
         let amountJSON = """
         {
           "code": 0,
@@ -922,17 +938,21 @@ struct DeepSeekUsageCostParserAuthorizationTests {
         }
         """
 
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data(amountJSON.utf8),
                 costData: Data(costJSON.utf8))
-        } throws: { error in
-            error as? DeepSeekUsageError == .invalidPlatformToken
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? DeepSeekUsageError == .invalidPlatformToken
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `top level authentication error survives an unexpected data shape`() {
+    func top_level_authentication_error_survives_an_unexpected_data_shape() {
         let amountJSON = """
         {
           "code": 40003,
@@ -941,17 +961,21 @@ struct DeepSeekUsageCostParserAuthorizationTests {
         }
         """
 
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data(amountJSON.utf8),
                 costData: Data(Self.emptyCostJSON.utf8))
-        } throws: { error in
-            error as? DeepSeekUsageError == .invalidPlatformToken
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? DeepSeekUsageError == .invalidPlatformToken
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `nested authentication error survives an unexpected biz data shape`() {
+    func nested_authentication_error_survives_an_unexpected_biz_data_shape() {
         let amountJSON = """
         {
           "code": 0,
@@ -964,17 +988,21 @@ struct DeepSeekUsageCostParserAuthorizationTests {
         }
         """
 
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data(amountJSON.utf8),
                 costData: Data(Self.emptyCostJSON.utf8))
-        } throws: { error in
-            error as? DeepSeekUsageError == .invalidPlatformToken
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                error as? DeepSeekUsageError == .invalidPlatformToken
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `successful malformed payload reports its decoding path`() {
+    func successful_malformed_payload_reports_its_decoding_path() {
         let amountJSON = """
         {
           "code": 0,
@@ -990,13 +1018,17 @@ struct DeepSeekUsageCostParserAuthorizationTests {
         }
         """
 
-        #expect {
+        do {
             _ = try DeepSeekUsageFetcher._parseUsageSummaryForTesting(
                 amountData: Data(amountJSON.utf8),
                 costData: Data(Self.emptyCostJSON.utf8))
-        } throws: { error in
-            guard case let DeepSeekUsageError.parseFailed(message) = error else { return false }
-            return message.contains("total") && message.contains("typeMismatch")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let DeepSeekUsageError.parseFailed(message) = error else { return false }
+                return message.contains("total") && message.contains("typeMismatch")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 }

@@ -5,14 +5,14 @@ import Testing
 
 struct CodexBarWidgetProviderTests {
     @Test
-    func `usage display follows remaining and used preference`() {
+    func usage_display_follows_remaining_and_used_preference() {
         #expect(WidgetUsageDisplay.percent(fromRemaining: 48, showUsed: false) == 48)
         #expect(WidgetUsageDisplay.percent(fromRemaining: 48, showUsed: true) == 52)
         #expect(WidgetUsageDisplay.percent(fromRemaining: nil, showUsed: true) == nil)
     }
 
     @Test
-    func `small widget falls back to local cost when quota rows are unavailable`() {
+    func small_widget_falls_back_to_local_cost_when_quota_rows_are_unavailable() {
         let tokenUsage = WidgetSnapshot.TokenUsageSummary(
             sessionCostUSD: 1.25,
             sessionTokens: 4200,
@@ -49,7 +49,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `small widget limits custom usage rows`() {
+    func small_widget_limits_custom_usage_rows() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .antigravity,
             updatedAt: Date(),
@@ -72,7 +72,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `small antigravity widget keeps one row per quota family`() {
+    func small_antigravity_widget_keeps_one_row_per_quota_family() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .antigravity,
             updatedAt: Date(),
@@ -119,7 +119,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `small antigravity widget keeps claude gpt family when fallback rows are more constrained`() {
+    func small_antigravity_widget_keeps_claude_gpt_family_when_fallback_rows_are_more_constrained() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .antigravity,
             updatedAt: Date(),
@@ -158,7 +158,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `small widget preserves tertiary rows for other providers`() {
+    func small_widget_preserves_tertiary_rows_for_other_providers() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .cursor,
             updatedAt: Date(),
@@ -182,7 +182,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `small antigravity widget prefers known quota rows`() {
+    func small_antigravity_widget_prefers_known_quota_rows() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .antigravity,
             updatedAt: Date(),
@@ -214,7 +214,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `small antigravity widget keeps nonstandard quota groups visible`() {
+    func small_antigravity_widget_keeps_nonstandard_quota_groups_visible() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .antigravity,
             updatedAt: Date(),
@@ -242,31 +242,31 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `provider choice supports alibaba`() {
+    func provider_choice_supports_alibaba() {
         #expect(ProviderChoice(provider: .alibaba) == .alibaba)
         #expect(ProviderChoice.alibaba.provider == .alibaba)
     }
 
     @Test
-    func `provider choice supports alibaba token plan`() {
+    func provider_choice_supports_alibaba_token_plan() {
         #expect(ProviderChoice(provider: .alibabatokenplan) == .alibabatokenplan)
         #expect(ProviderChoice.alibabatokenplan.provider == .alibabatokenplan)
     }
 
     @Test
-    func `provider choice supports opencode go`() {
+    func provider_choice_supports_opencode_go() {
         #expect(ProviderChoice(provider: .opencodego) == .opencodego)
         #expect(ProviderChoice.opencodego.provider == .opencodego)
     }
 
     @Test
-    func `provider choice supports devin`() {
+    func provider_choice_supports_devin() {
         #expect(ProviderChoice(provider: .devin) == .devin)
         #expect(ProviderChoice.devin.provider == .devin)
     }
 
     @Test
-    func `widget entry carries devin overage balance through providerCost`() {
+    func widget_entry_carries_devin_overage_balance_through_providerCost() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .devin,
             updatedAt: Date(timeIntervalSince1970: 1_700_000_000),
@@ -293,7 +293,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `widget balance formatter renders devin extra usage balance`() {
+    func widget_balance_formatter_renders_devin_extra_usage_balance() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .devin,
             updatedAt: Date(timeIntervalSince1970: 1_700_000_000),
@@ -317,7 +317,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `compact credits render Devin extra usage balance`() {
+    func compact_credits_render_Devin_extra_usage_balance() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .devin,
             updatedAt: Date(timeIntervalSince1970: 1_700_000_000),
@@ -343,7 +343,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `widget balance formatter does not leak another provider balance`() {
+    func widget_balance_formatter_does_not_leak_another_provider_balance() {
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .factory,
             updatedAt: Date(timeIntervalSince1970: 1_700_000_000),
@@ -364,19 +364,19 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `provider choice supports Mistral`() {
+    func provider_choice_supports_Mistral() {
         #expect(ProviderChoice(provider: .mistral) == .mistral)
         #expect(ProviderChoice.mistral.provider == .mistral)
     }
 
     @Test
-    func `provider choice supports Kimi`() {
+    func provider_choice_supports_Kimi() {
         #expect(ProviderChoice(provider: .kimi) == .kimi)
         #expect(ProviderChoice.kimi.provider == .kimi)
     }
 
     @Test
-    func `compact Kimi widgets keep established row fit while large widgets show all quotas`() {
+    func compact_Kimi_widgets_keep_established_row_fit_while_large_widgets_show_all_quotas() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .kimi,
@@ -411,20 +411,20 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `provider choice excludes unsupported Chutes widgets`() {
+    func provider_choice_excludes_unsupported_Chutes_widgets() {
         #expect(ProviderChoice(provider: .chutes) == nil)
         #expect(ProviderChoice(provider: .sub2api) == nil)
     }
 
     @Test
-    func `supported providers fall back to codex when snapshot is empty`() {
+    func supported_providers_fall_back_to_codex_when_snapshot_is_empty() {
         let snapshot = WidgetSnapshot(entries: [], enabledProviders: [], generatedAt: Date())
 
         #expect(CodexBarSwitcherTimelineProvider.supportedProviders(from: snapshot) == [.codex])
     }
 
     @Test
-    func `supported providers keep alibaba when it is the only enabled provider`() {
+    func supported_providers_keep_alibaba_when_it_is_the_only_enabled_provider() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .alibaba,
@@ -442,7 +442,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `supported providers keep alibaba token plan when it is the only enabled provider`() {
+    func supported_providers_keep_alibaba_token_plan_when_it_is_the_only_enabled_provider() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .alibabatokenplan,
@@ -460,7 +460,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `supported providers keep Mistral when it is the only enabled provider`() {
+    func supported_providers_keep_Mistral_when_it_is_the_only_enabled_provider() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .mistral,
@@ -478,7 +478,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `supported providers keep Kimi when it is the only enabled provider`() {
+    func supported_providers_keep_Kimi_when_it_is_the_only_enabled_provider() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .kimi,
@@ -496,7 +496,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `codex weekly only widget rows omit session`() {
+    func codex_weekly_only_widget_rows_omit_session() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .codex,
@@ -517,7 +517,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `codex widget usage rows keep code review separate from rate rows`() {
+    func codex_widget_usage_rows_keep_code_review_separate_from_rate_rows() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .codex,
@@ -538,7 +538,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `widget usage rows prefer projected rows over legacy slots`() {
+    func widget_usage_rows_prefer_projected_rows_over_legacy_slots() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .codex,
@@ -560,7 +560,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `codex widget session cap lifts at weekly reset without a new snapshot`() {
+    func codex_widget_session_cap_lifts_at_weekly_reset_without_a_new_snapshot() {
         let now = Date(timeIntervalSince1970: 1_800_000_000)
         let weeklyReset = now.addingTimeInterval(3600)
         let sessionWindow = RateWindow(
@@ -604,7 +604,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `legacy widget usage rows use antigravity grouped slots`() {
+    func legacy_widget_usage_rows_use_antigravity_grouped_slots() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .antigravity,
@@ -625,7 +625,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `widget configuration intents default to codex and credits`() {
+    func widget_configuration_intents_default_to_codex_and_credits() {
         let providerIntent = ProviderSelectionIntent()
         let compactIntent = CompactMetricSelectionIntent()
         let burnIntent = BurnDownSelectionIntent()
@@ -640,7 +640,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `burn down uses an exact provider entry`() {
+    func burn_down_uses_an_exact_provider_entry() {
         let snapshot = Self.burnSnapshot(provider: .claude, primaryUsed: 20, secondaryUsed: 30)
 
         #expect(BurnDownState(snapshot: snapshot, provider: .codex, selection: .session) == nil)
@@ -648,7 +648,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `codex exhausted weekly cap blocks the session chart until weekly reset`() throws {
+    func codex_exhausted_weekly_cap_blocks_the_session_chart_until_weekly_reset() throws {
         let weeklyReset = Date(timeIntervalSince1970: 1_800_000_000)
         let snapshot = Self.burnSnapshot(
             provider: .codex,
@@ -665,7 +665,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `gemini exhausted secondary window does not block the independent primary`() throws {
+    func gemini_exhausted_secondary_window_does_not_block_the_independent_primary() throws {
         let primaryReset = Date(timeIntervalSince1970: 1_800_000_000)
         let snapshot = Self.burnSnapshot(
             provider: .gemini,
@@ -682,7 +682,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `independent secondary reset never overrides primary reset`() throws {
+    func independent_secondary_reset_never_overrides_primary_reset() throws {
         let primaryReset = Date(timeIntervalSince1970: 1_800_000_000)
         let snapshot = Self.burnSnapshot(
             provider: .gemini,
@@ -697,7 +697,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `burn down preview includes session and weekly windows`() throws {
+    func burn_down_preview_includes_session_and_weekly_windows() throws {
         let snapshot = WidgetPreviewData.snapshot()
 
         let session = try #require(BurnDownState(snapshot: snapshot, provider: .codex, selection: .session))
@@ -708,7 +708,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `burn down selection does not fall back to another window`() throws {
+    func burn_down_selection_does_not_fall_back_to_another_window() throws {
         let weeklyOnly = Self.burnSnapshot(provider: .codex, primaryUsed: nil, secondaryUsed: 30)
         let sessionOnly = Self.burnSnapshot(provider: .codex, primaryUsed: 20, secondaryUsed: nil)
         let weeklyStoredInPrimary = Self.burnSnapshot(
@@ -751,7 +751,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `expired weekly reset no longer blocks the session chart`() throws {
+    func expired_weekly_reset_no_longer_blocks_the_session_chart() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = Self.burnSnapshot(
             provider: .codex,
@@ -772,7 +772,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `explicit reset takes precedence over estimated reset`() {
+    func explicit_reset_takes_precedence_over_estimated_reset() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let future = now.addingTimeInterval(600)
 
@@ -795,7 +795,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `burn down axis shares the effective estimated reset`() throws {
+    func burn_down_axis_shares_the_effective_estimated_reset() throws {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let effectiveReset = try #require(burnEffectiveResetDate(
             explicitResetAt: nil,
@@ -812,7 +812,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `burn down refreshes immediately after the earliest future reset`() {
+    func burn_down_refreshes_immediately_after_the_earliest_future_reset() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = Self.burnSnapshot(
             provider: .codex,
@@ -826,7 +826,7 @@ struct CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `burn down refresh ignores past resets and unrelated provider entries`() {
+    func burn_down_refresh_ignores_past_resets_and_unrelated_provider_entries() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let snapshot = Self.burnSnapshot(
             provider: .claude,
@@ -877,13 +877,13 @@ struct CodexBarWidgetProviderTests {
 
 extension CodexBarWidgetProviderTests {
     @Test
-    func `provider choice supports Cursor`() {
+    func provider_choice_supports_Cursor() {
         #expect(ProviderChoice(provider: .cursor) == .cursor)
         #expect(ProviderChoice.cursor.provider == .cursor)
     }
 
     @Test
-    func `supported providers keep Cursor when it is the only enabled provider`() {
+    func supported_providers_keep_Cursor_when_it_is_the_only_enabled_provider() {
         let now = Date(timeIntervalSince1970: 1_700_000_000)
         let entry = WidgetSnapshot.ProviderEntry(
             provider: .cursor,
@@ -901,7 +901,7 @@ extension CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `widget token titles disclose stale age for today and history rows`() {
+    func widget_token_titles_disclose_stale_age_for_today_and_history_rows() {
         let entryUpdatedAt = Date()
         let staleToken = WidgetSnapshot.TokenUsageSummary(
             sessionCostUSD: 1.25,
@@ -957,7 +957,7 @@ extension CodexBarWidgetProviderTests {
     }
 
     @Test
-    func `usage history chart mode requires every point to expose cost`() {
+    func usage_history_chart_mode_requires_every_point_to_expose_cost() {
         let costPoints = [
             WidgetSnapshot.DailyUsagePoint(dayKey: "2026-07-01", totalTokens: 100, costUSD: 1.2),
             WidgetSnapshot.DailyUsagePoint(dayKey: "2026-07-02", totalTokens: 200, costUSD: 2.4),

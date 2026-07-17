@@ -7,7 +7,7 @@ import Testing
 @MainActor
 struct StatusItemAnimationCodexCreditsTests {
     @Test
-    func `codex icon keeps credits only rendering when usage is missing`() {
+    func codex_icon_keeps_credits_only_rendering_when_usage_is_missing() {
         let settings = testSettingsStore(suiteName: "StatusItemAnimationTests-credits-only-icon")
         settings.statusChecksEnabled = false
         settings.refreshFrequency = .manual

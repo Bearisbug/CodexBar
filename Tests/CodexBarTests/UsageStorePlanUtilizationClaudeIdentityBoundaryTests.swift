@@ -6,7 +6,7 @@ import Testing
 struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
     @MainActor
     @Test
-    func `claude history without identity falls back to last resolved account`() async {
+    func claude_history_without_identity_falls_back_to_last_resolved_account() async {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let snapshot = UsageSnapshot(
             primary: RateWindow(usedPercent: 10, windowMinutes: 300, resetsAt: nil, resetDescription: nil),
@@ -37,7 +37,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `established account accepts same owner after access token rotation`() async throws {
+    func established_account_accepts_same_owner_after_access_token_rotation() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let owner = String(repeating: "a", count: 64)
         let accountIdentity = UsageStore._activeClaudeAccountIdentityForTesting("uuid-A")
@@ -77,7 +77,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `first sighting without keychain match is quarantined`() async {
+    func first_sighting_without_keychain_match_is_quarantined() async {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let snapshot = UsageSnapshot(
             primary: RateWindow(
@@ -103,7 +103,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `file backed owner records history when keychain comparison is unavailable`() async throws {
+    func file_backed_owner_records_history_when_keychain_comparison_is_unavailable() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let owner = String(repeating: "e", count: 64)
         let key = try #require(
@@ -128,7 +128,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `absent keychain still quarantines an owner bound to another account`() async {
+    func absent_keychain_still_quarantines_an_owner_bound_to_another_account() async {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let owner = String(repeating: "f", count: 64)
         store.persistClaudeOAuthAccountUuidMap([
@@ -149,7 +149,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `absent keychain records an unbound file owner`() async throws {
+    func absent_keychain_records_an_unbound_file_owner() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let owner = String(repeating: "b", count: 64)
         let key = try #require(
@@ -171,7 +171,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `account change during identity capture cannot bind or write history`() async {
+    func account_change_during_identity_capture_cannot_bind_or_write_history() async {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let snapshot = UsageSnapshot(
             primary: RateWindow(
@@ -196,7 +196,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `missing active account identity preserves owner scoped history`() async throws {
+    func missing_active_account_identity_preserves_owner_scoped_history() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let owner = String(repeating: "c", count: 64)
         let key = try #require(
@@ -226,7 +226,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
 
     @MainActor
     @Test
-    func `explicit oauth credential ignores Claude Code account identity`() async throws {
+    func explicit_oauth_credential_ignores_Claude_Code_account_identity() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let owner = String(repeating: "d", count: 64)
         let key = try #require(
@@ -256,7 +256,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
     }
 
     @Test
-    func `claude oauth history scope requires full auth fingerprint stability`() {
+    func claude_oauth_history_scope_requires_full_auth_fingerprint_stability() {
         let stablePersistentRefHash = UsageStore._stableClaudeKeychainPersistentRefHashForTesting(
             beforeFetchFingerprintToken: "stable-fingerprint",
             afterFetchFingerprintToken: "stable-fingerprint",
@@ -273,7 +273,7 @@ struct UsageStorePlanUtilizationClaudeIdentityBoundaryTests {
     }
 
     @Test
-    func `credential change around account read invalidates the observation`() {
+    func credential_change_around_account_read_invalidates_the_observation() {
         let identityA = UsageStore._activeClaudeAccountIdentityForTesting("uuid-A")
         let identityB = UsageStore._activeClaudeAccountIdentityForTesting("uuid-B")
         let stable = UsageStore._claudeOAuthActiveAccountObservationForTesting(

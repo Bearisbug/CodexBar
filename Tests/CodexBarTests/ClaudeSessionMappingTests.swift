@@ -4,12 +4,12 @@ import Testing
 
 struct ClaudeSessionMappingTests {
     @Test
-    func `cwd escaping replaces every non alphanumeric ASCII byte`() {
+    func cwd_escaping_replaces_every_non_alphanumeric_ASCII_byte() {
         #expect(ClaudeSessionProjectMapper.escapedCWD("/Users/test/My Project_v2") == "-Users-test-My-Project-v2")
     }
 
     @Test
-    func `newest transcript is selected from mapped project directory`() throws {
+    func newest_transcript_is_selected_from_mapped_project_directory() throws {
         let home = FileManager.default.temporaryDirectory
             .appendingPathComponent("ClaudeSessionMappingTests-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: home) }

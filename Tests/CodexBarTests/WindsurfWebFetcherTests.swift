@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct WindsurfWebFetcherTests {
     @Test
-    func `missing session guidance names current and legacy origins`() {
+    func missing_session_guidance_names_current_and_legacy_origins() {
         let message = WindsurfWebFetcherError.noSessionData.errorDescription
 
         #expect(message?.contains("app.devin.ai") == true)
@@ -46,7 +46,7 @@ struct WindsurfWebFetcherTests {
     }
 
     @Test
-    func `manual devin session sends protobuf request and auth headers`() async throws {
+    func manual_devin_session_sends_protobuf_request_and_auth_headers() async throws {
         defer {
             WindsurfWebFetcherStubURLProtocol.requests = []
             WindsurfWebFetcherStubURLProtocol.handler = nil
@@ -108,7 +108,7 @@ struct WindsurfWebFetcherTests {
     }
 
     @Test
-    func `auto session import retries next profile after auth failure`() async throws {
+    func auto_session_import_retries_next_profile_after_auth_failure() async throws {
         defer {
             WindsurfWebFetcherStubURLProtocol.requests = []
             WindsurfWebFetcherStubURLProtocol.handler = nil
@@ -176,7 +176,7 @@ struct WindsurfWebFetcherTests {
     }
 
     @Test
-    func `auto session import tries fallback browsers after preferred sessions fail`() async throws {
+    func auto_session_import_tries_fallback_browsers_after_preferred_sessions_fail() async throws {
         defer {
             WindsurfWebFetcherStubURLProtocol.requests = []
             WindsurfWebFetcherStubURLProtocol.handler = nil
@@ -252,7 +252,7 @@ struct WindsurfWebFetcherTests {
     }
 
     @Test
-    func `auto import uses complete legacy origin when app origin is partial`() async throws {
+    func auto_import_uses_complete_legacy_origin_when_app_origin_is_partial() async throws {
         defer {
             WindsurfWebFetcherStubURLProtocol.requests = []
             WindsurfWebFetcherStubURLProtocol.handler = nil
@@ -325,7 +325,7 @@ struct WindsurfWebFetcherTests {
     }
 
     @Test
-    func `manual mode with empty session does not fall back to imported session`() async {
+    func manual_mode_with_empty_session_does_not_fall_back_to_imported_session() async {
         defer {
             WindsurfWebFetcherStubURLProtocol.requests = []
             WindsurfWebFetcherStubURLProtocol.handler = nil
@@ -346,23 +346,27 @@ struct WindsurfWebFetcherTests {
         WindsurfWebFetcherStubURLProtocol.requests = []
 
         _ = await self.withWindsurfSessionOverrides(importSessions: importedSessions) {
-            await #expect {
+            do {
                 _ = try await WindsurfWebFetcher.fetchUsage(
                     browserDetection: BrowserDetection(cacheTTL: 0),
                     cookieSource: .manual,
                     manualSessionInput: "   \n",
                     timeout: 2,
                     session: self.makeSession())
-            } throws: { error in
-                guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
-                return message == "empty input"
+                Issue.record("expected an error to be thrown")
+            } catch {
+                let expectationMatches: Bool = { (error: any Error) -> Bool in
+                    guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
+                    return message == "empty input"
+                }(error)
+                #expect(expectationMatches, "unexpected error: \(error)")
             }
         }
         #expect(WindsurfWebFetcherStubURLProtocol.requests.isEmpty)
     }
 
     @Test
-    func `manual key value session input is accepted`() throws {
+    func manual_key_value_session_input_is_accepted() throws {
         let parsed = try WindsurfWebFetcher.parseManualSessionInput(
             """
             devin_session_token=devin-session-token$abc
@@ -378,7 +382,7 @@ struct WindsurfWebFetcherTests {
     }
 
     @Test
-    func `manual JSON camelCase aliases are accepted`() throws {
+    func manual_JSON_camelCase_aliases_are_accepted() throws {
         let parsed = try WindsurfWebFetcher.parseManualSessionInput(
             """
             {
@@ -396,28 +400,36 @@ struct WindsurfWebFetcherTests {
     }
 
     @Test
-    func `manual session input rejects empty string`() {
-        #expect {
+    func manual_session_input_rejects_empty_string() {
+        do {
             try WindsurfWebFetcher.parseManualSessionInput("   \n")
-        } throws: { error in
-            guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
-            return message == "empty input"
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
+                return message == "empty input"
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `manual session input rejects invalid text`() {
-        #expect {
+    func manual_session_input_rejects_invalid_text() {
+        do {
             try WindsurfWebFetcher.parseManualSessionInput("not a valid session bundle")
-        } throws: { error in
-            guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
-            return message.contains("expected JSON")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
+                return message.contains("expected JSON")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `manual session input rejects missing required fields`() {
-        #expect {
+    func manual_session_input_rejects_missing_required_fields() {
+        do {
             try WindsurfWebFetcher.parseManualSessionInput(
                 """
                 {
@@ -426,9 +438,13 @@ struct WindsurfWebFetcherTests {
                   "devin_account_id": "account-123"
                 }
                 """)
-        } throws: { error in
-            guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
-            return message.contains("expected JSON")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let WindsurfWebFetcherError.invalidManualSession(message) = error else { return false }
+                return message.contains("expected JSON")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 

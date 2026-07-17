@@ -4,7 +4,7 @@ import Testing
 
 struct WarpUsageFetcherTests {
     @Test
-    func `parses snapshot and aggregates bonus credits`() throws {
+    func parses_snapshot_and_aggregates_bonus_credits() throws {
         let json = """
         {
           "data": {
@@ -65,7 +65,7 @@ struct WarpUsageFetcherTests {
     }
 
     @Test
-    func `graph QL errors throw API error`() {
+    func graph_QL_errors_throw_API_error() {
         let json = """
         {
           "errors": [
@@ -74,16 +74,20 @@ struct WarpUsageFetcherTests {
         }
         """
 
-        #expect {
+        do {
             _ = try WarpUsageFetcher._parseResponseForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case let WarpUsageError.apiError(code, message) = error else { return false }
-            return code == 200 && message.contains("Unauthorized")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let WarpUsageError.apiError(code, message) = error else { return false }
+                return code == 200 && message.contains("Unauthorized")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `null unlimited and string numerics parse safely`() throws {
+    func null_unlimited_and_string_numerics_parse_safely() throws {
         let json = """
         {
           "data": {
@@ -111,7 +115,7 @@ struct WarpUsageFetcherTests {
     }
 
     @Test
-    func `unexpected typename returns parse error`() {
+    func unexpected_typename_returns_parse_error() {
         let json = """
         {
           "data": {
@@ -122,16 +126,20 @@ struct WarpUsageFetcherTests {
         }
         """
 
-        #expect {
+        do {
             _ = try WarpUsageFetcher._parseResponseForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case let WarpUsageError.parseFailed(message) = error else { return false }
-            return message.contains("Unexpected user type")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let WarpUsageError.parseFailed(message) = error else { return false }
+                return message.contains("Unexpected user type")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `missing request limit info returns parse error`() {
+    func missing_request_limit_info_returns_parse_error() {
         let json = """
         {
           "data": {
@@ -143,30 +151,38 @@ struct WarpUsageFetcherTests {
         }
         """
 
-        #expect {
+        do {
             _ = try WarpUsageFetcher._parseResponseForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case let WarpUsageError.parseFailed(message) = error else { return false }
-            return message.contains("requestLimitInfo")
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let WarpUsageError.parseFailed(message) = error else { return false }
+                return message.contains("requestLimitInfo")
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `invalid root returns parse error`() {
+    func invalid_root_returns_parse_error() {
         let json = """
         [{ "data": {} }]
         """
 
-        #expect {
+        do {
             _ = try WarpUsageFetcher._parseResponseForTesting(Data(json.utf8))
-        } throws: { error in
-            guard case let WarpUsageError.parseFailed(message) = error else { return false }
-            return message == "Root JSON is not an object."
+            Issue.record("expected an error to be thrown")
+        } catch {
+            let expectationMatches: Bool = { (error: any Error) -> Bool in
+                guard case let WarpUsageError.parseFailed(message) = error else { return false }
+                return message == "Root JSON is not an object."
+            }(error)
+            #expect(expectationMatches, "unexpected error: \(error)")
         }
     }
 
     @Test
-    func `to usage snapshot omits secondary when no bonus credits`() {
+    func to_usage_snapshot_omits_secondary_when_no_bonus_credits() {
         let source = WarpUsageSnapshot(
             requestLimit: 100,
             requestsUsed: 10,
@@ -183,7 +199,7 @@ struct WarpUsageFetcherTests {
     }
 
     @Test
-    func `to usage snapshot keeps bonus window when bonus exists`() throws {
+    func to_usage_snapshot_keeps_bonus_window_when_bonus_exists() throws {
         let source = WarpUsageSnapshot(
             requestLimit: 100,
             requestsUsed: 10,
@@ -201,7 +217,7 @@ struct WarpUsageFetcherTests {
     }
 
     @Test
-    func `to usage snapshot unlimited primary does not show reset date`() throws {
+    func to_usage_snapshot_unlimited_primary_does_not_show_reset_date() throws {
         let source = WarpUsageSnapshot(
             requestLimit: 0,
             requestsUsed: 0,
@@ -220,7 +236,7 @@ struct WarpUsageFetcherTests {
     }
 
     @Test
-    func `api error summary includes plain text bodies`() {
+    func api_error_summary_includes_plain_text_bodies() {
         // Regression: Warp edge returns 429 with a non-JSON body ("Rate exceeded.") when User-Agent is missing/wrong.
         let summary = WarpUsageFetcher._apiErrorSummaryForTesting(
             statusCode: 429,

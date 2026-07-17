@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeOAuthCredentialsStoreMCPOnlyGuardTests {
     @Test
-    func `standard reader skips MCP keychain probe in background but preserves user refresh`() async throws {
+    func standard_reader_skips_MCP_keychain_probe_in_background_but_preserves_user_refresh() async throws {
         let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
         let mcpOAuthOnly = Data(#"{"mcpOAuth":{"plugin:test":{"accessToken":"synthetic"}}}"#.utf8)
         let tempDir = FileManager.default.temporaryDirectory

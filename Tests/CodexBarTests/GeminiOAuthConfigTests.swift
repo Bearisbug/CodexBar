@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct GeminiOAuthConfigTests {
     @Test
-    func `environment client requires both id and secret`() {
+    func environment_client_requires_both_id_and_secret() {
         let values = GeminiOAuthConfig.EnvironmentValues(clientID: "env-id", clientSecret: nil)
         GeminiOAuthConfig.$environmentOverride.withValue(values) {
             #expect(GeminiOAuthConfig.environmentClient() == nil)
@@ -13,7 +13,7 @@ struct GeminiOAuthConfigTests {
     }
 
     @Test
-    func `environment client returns configured credentials`() {
+    func environment_client_returns_configured_credentials() {
         let values = GeminiOAuthConfig.EnvironmentValues(
             clientID: "env-id",
             clientSecret: "env-secret")

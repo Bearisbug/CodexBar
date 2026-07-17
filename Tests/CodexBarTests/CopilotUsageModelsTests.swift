@@ -4,7 +4,7 @@ import Testing
 
 struct CopilotUsageModelsTests {
     @Test
-    func `decodes quota snapshots payload`() throws {
+    func decodes_quota_snapshots_payload() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -36,7 +36,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `decodes chat only quota snapshots payload`() throws {
+    func decodes_chat_only_quota_snapshots_payload() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -59,7 +59,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `preserves missing date fields as nil`() throws {
+    func preserves_missing_date_fields_as_nil() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -80,7 +80,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `preserves explicit empty date fields`() throws {
+    func preserves_explicit_empty_date_fields() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -103,7 +103,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `decodes monthly and limited quota payload`() throws {
+    func decodes_monthly_and_limited_quota_payload() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -131,7 +131,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `does not assume full quota when limited quotas are missing`() throws {
+    func does_not_assume_full_quota_when_limited_quotas_are_missing() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -148,7 +148,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `computes monthly fallback per quota only when limited value exists`() throws {
+    func computes_monthly_fallback_per_quota_only_when_limited_value_exists() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -171,7 +171,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `merges direct and monthly fallback lanes when direct is partial`() throws {
+    func merges_direct_and_monthly_fallback_lanes_when_direct_is_partial() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -207,7 +207,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `decodes unknown quota snapshot keys using fallback`() throws {
+    func decodes_unknown_quota_snapshot_keys_using_fallback() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -231,7 +231,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `ignores placeholder known snapshot when selecting unknown key fallback`() throws {
+    func ignores_placeholder_known_snapshot_when_selecting_unknown_key_fallback() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -254,7 +254,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `derives percent remaining when missing but entitlement exists`() throws {
+    func derives_percent_remaining_when_missing_but_entitlement_exists() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -274,7 +274,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `preserves over quota percent remaining`() throws {
+    func preserves_over_quota_percent_remaining() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -300,7 +300,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `derives over quota percent from negative remaining`() throws {
+    func derives_over_quota_percent_from_negative_remaining() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -323,7 +323,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `marks percent remaining as unavailable when underdetermined`() throws {
+    func marks_percent_remaining_as_unavailable_when_underdetermined() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -342,7 +342,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `marks percent remaining as unavailable when remaining is missing`() throws {
+    func marks_percent_remaining_as_unavailable_when_remaining_is_missing() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -361,7 +361,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `falls back to monthly when direct snapshot is missing remaining`() throws {
+    func falls_back_to_monthly_when_direct_snapshot_is_missing_remaining() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -390,7 +390,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `falls back to monthly when direct snapshots lack computable percent`() throws {
+    func falls_back_to_monthly_when_direct_snapshots_lack_computable_percent() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -419,7 +419,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `skips monthly fallback when monthly denominator is zero`() throws {
+    func skips_monthly_fallback_when_monthly_denominator_is_zero() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -438,7 +438,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `treats business token billing zero entitlement quotas as unavailable`() throws {
+    func treats_business_token_billing_zero_entitlement_quotas_as_unavailable() throws {
         // GitHub Copilot Business token-based billing reports every quota as
         // entitlement=0, remaining=0, percent_remaining=100. That previously rendered as a
         // misleading "0% used" (100 - 100). A zero-entitlement quota carries no usage signal,
@@ -477,7 +477,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `keeps unlimited chat fallback quota without percent remaining`() throws {
+    func keeps_unlimited_chat_fallback_quota_without_percent_remaining() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -506,7 +506,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `unlimited quota overrides placeholder percent remaining`() throws {
+    func unlimited_quota_overrides_placeholder_percent_remaining() throws {
         let response = try Self.decodeFixture(
             """
             {
@@ -530,7 +530,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `flags zero entitlement snapshot as placeholder`() {
+    func flags_zero_entitlement_snapshot_as_placeholder() {
         let snapshot = CopilotUsageResponse.QuotaSnapshot(
             entitlement: 0,
             remaining: 0,
@@ -540,7 +540,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `keeps fully consumed quota with positive entitlement`() {
+    func keeps_fully_consumed_quota_with_positive_entitlement() {
         // entitlement > 0 with remaining 0 is a real "100% used" window, not a placeholder.
         let snapshot = CopilotUsageResponse.QuotaSnapshot(
             entitlement: 500,
@@ -552,7 +552,7 @@ struct CopilotUsageModelsTests {
     }
 
     @Test
-    func `keeps percent only quota snapshots available`() throws {
+    func keeps_percent_only_quota_snapshots_available() throws {
         let response = try Self.decodeFixture(
             """
             {

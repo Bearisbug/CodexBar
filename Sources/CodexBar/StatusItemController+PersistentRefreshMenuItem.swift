@@ -6,7 +6,7 @@ extension StatusItemController {
     }
 
     func makePersistentRefreshItem(title: String, menu: NSMenu, width: CGFloat) -> NSMenuItem {
-        let shortcutText = self.shortcut(for: .refresh).map(Self.shortcutDisplayLabel)
+        let shortcutText = self.shortcut(for: .refresh).map { Self.shortcutDisplayLabel(for: $0) }
         let metrics = PersistentRefreshRowMetrics.defaults
         let view = PersistentRefreshMenuView(
             title: title,

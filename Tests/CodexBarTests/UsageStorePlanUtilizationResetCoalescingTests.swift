@@ -5,7 +5,7 @@ import Testing
 
 struct UsageStorePlanUtilizationResetCoalescingTests {
     @Test
-    func `near canonical codex windows merge into canonical history series`() throws {
+    func near_canonical_codex_windows_merge_into_canonical_history_series() throws {
         let base = Date(timeIntervalSince1970: 1_700_000_000)
         let existing = [
             planSeries(name: .session, windowMinutes: 300, entries: [
@@ -35,7 +35,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `same hour entry backfills missing reset metadata`() throws {
+    func same_hour_entry_backfills_missing_reset_metadata() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -63,7 +63,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `same hour later higher usage without reset metadata keeps promoted reset boundary`() throws {
+    func same_hour_later_higher_usage_without_reset_metadata_keeps_promoted_reset_boundary() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -102,7 +102,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `same hour zero usage with drifting reset coalesces to latest entry`() throws {
+    func same_hour_zero_usage_with_drifting_reset_coalesces_to_latest_entry() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -129,7 +129,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `same hour reset times within two minutes still keep single hourly peak`() throws {
+    func same_hour_reset_times_within_two_minutes_still_keep_single_hourly_peak() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -158,7 +158,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `same hour usage drop without meaningful reset still keeps single hourly peak`() throws {
+    func same_hour_usage_drop_without_meaningful_reset_still_keeps_single_hourly_peak() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -187,7 +187,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `same hour reset keeps peak before reset and latest peak after reset`() throws {
+    func same_hour_reset_keeps_peak_before_reset_and_latest_peak_after_reset() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -222,7 +222,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `newer reset within hour replaces earlier post reset record`() throws {
+    func newer_reset_within_hour_replaces_earlier_post_reset_record() throws {
         let calendar = Calendar(identifier: .gregorian)
         let hourStart = try #require(calendar.date(from: DateComponents(
             timeZone: TimeZone(secondsFromGMT: 0),
@@ -256,7 +256,7 @@ struct UsageStorePlanUtilizationResetCoalescingTests {
     }
 
     @Test
-    func `merged histories keep series separated by stable name`() throws {
+    func merged_histories_keep_series_separated_by_stable_name() throws {
         let existing = [
             planSeries(name: .session, windowMinutes: 300, entries: [
                 planEntry(at: Date(timeIntervalSince1970: 1_700_000_000), usedPercent: 20),

@@ -6,7 +6,7 @@ import Testing
 
 struct MenuCardProviderRegressionTests {
     @Test
-    func `menu card keeps positive sub percent usage visible`() {
+    func menu_card_keeps_positive_sub_percent_usage_visible() {
         let metric = UsageMenuCardView.Model.Metric(
             id: "sub-percent",
             title: "Monthly",
@@ -23,12 +23,12 @@ struct MenuCardProviderRegressionTests {
     }
 
     @Test
-    func `elevenlabs progress color stays visible in light menus`() {
+    func elevenlabs_progress_color_stays_visible_in_light_menus() {
         #expect(UsageMenuCardView.Model.progressColor(for: .elevenlabs) == Color(nsColor: .labelColor))
     }
 
     @Test
-    func `open router model shows daily and weekly key spend`() throws {
+    func open_router_model_shows_daily_and_weekly_key_spend() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.openrouter])
         let snapshot = OpenRouterUsageSnapshot(
@@ -67,7 +67,7 @@ struct MenuCardProviderRegressionTests {
     }
 
     @Test
-    func `ollama api key model explains browser session quota requirement`() throws {
+    func ollama_api_key_model_explains_browser_session_quota_requirement() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.ollama])
         let snapshot = OllamaAPIUsageSnapshot(modelCount: 3, updatedAt: now).toUsageSnapshot()
@@ -102,7 +102,7 @@ struct MenuCardProviderRegressionTests {
     }
 
     @Test
-    func `wayfinder model shows gateway routing savings and latency`() throws {
+    func wayfinder_model_shows_gateway_routing_savings_and_latency() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.wayfinder])
         let usage = WayfinderUsageSnapshot(
@@ -154,7 +154,7 @@ struct MenuCardProviderRegressionTests {
     }
 
     @Test
-    func `copilot over quota usage keeps used percentage detail`() throws {
+    func copilot_over_quota_usage_keeps_used_percentage_detail() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.copilot])
         let snapshot = UsageSnapshot(

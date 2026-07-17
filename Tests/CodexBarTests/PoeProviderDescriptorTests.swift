@@ -3,7 +3,7 @@ import Testing
 
 struct PoeProviderDescriptorTests {
     @Test
-    func `Poe uses the official brand color and icon`() {
+    func Poe_uses_the_official_brand_color_and_icon() {
         let branding = PoeProviderDescriptor.descriptor.branding
 
         #expect(branding.iconResourceName == "ProviderIcon-poe")

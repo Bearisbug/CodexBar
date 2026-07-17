@@ -4,7 +4,7 @@ import Testing
 
 struct CodexPlanFormattingTests {
     @Test
-    func `maps Codex pro plans to usage multiplier names`() {
+    func maps_Codex_pro_plans_to_usage_multiplier_names() {
         #expect(CodexPlanFormatting.displayName("pro") == "Pro 20x")
         #expect(CodexPlanFormatting.displayName("Pro") == "Pro 20x")
         #expect(CodexPlanFormatting.displayName("Codex Pro") == "Pro 20x")
@@ -16,14 +16,14 @@ struct CodexPlanFormattingTests {
     }
 
     @Test
-    func `returns nil for empty plan values`() {
+    func returns_nil_for_empty_plan_values() {
         #expect(CodexPlanFormatting.displayName(nil) == nil)
         #expect(CodexPlanFormatting.displayName("") == nil)
         #expect(CodexPlanFormatting.displayName("   ") == nil)
     }
 
     @Test
-    func `humanizes machine style plan identifiers`() {
+    func humanizes_machine_style_plan_identifiers() {
         #expect(
             CodexPlanFormatting.displayName("enterprise_cbp_usage_based")
                 == "Enterprise CBP Usage Based")
@@ -34,7 +34,7 @@ struct CodexPlanFormattingTests {
     }
 
     @Test
-    func `preserves unrelated already readable plan text`() {
+    func preserves_unrelated_already_readable_plan_text() {
         #expect(CodexPlanFormatting.displayName("Enterprise") == "Enterprise")
     }
 }

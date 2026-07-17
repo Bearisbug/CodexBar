@@ -6,7 +6,7 @@ import Testing
 struct UsageStorePlanUtilizationClaudeIdentityTests {
     @MainActor
     @Test
-    func `selected token account chooses matching bucket`() throws {
+    func selected_token_account_chooses_matching_bucket() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         store.settings.addTokenAccount(provider: .claude, label: "Alice", token: "alice-token")
         store.settings.addTokenAccount(provider: .claude, label: "Bob", token: "bob-token")
@@ -44,7 +44,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `fetched non selected accounts persist into separate claude buckets`() async throws {
+    func fetched_non_selected_accounts_persist_into_separate_claude_buckets() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         store.settings.addTokenAccount(provider: .claude, label: "Alice", token: "alice-token")
         store.settings.addTokenAccount(provider: .claude, label: "Bob", token: "bob-token")
@@ -79,7 +79,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `first resolved claude token account adopts unscoped history`() throws {
+    func first_resolved_claude_token_account_adopts_unscoped_history() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         store.settings.addTokenAccount(provider: .claude, label: "Alice", token: "alice-token")
         let alice = try #require(store.settings.tokenAccounts(for: .claude).first)
@@ -101,7 +101,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `claude oauth credential owner separates switched account history`() async throws {
+    func claude_oauth_credential_owner_separates_switched_account_history() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let accountBOwner = self.oauthOwnerIdentifier("b")
         let accountASnapshot = UsageSnapshot(
@@ -152,7 +152,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `claude oauth credential owner wins over configured token account`() async throws {
+    func claude_oauth_credential_owner_wins_over_configured_token_account() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let oauthOwner = self.oauthOwnerIdentifier("a")
         store.settings.addTokenAccount(provider: .claude, label: "Unrelated", token: "unrelated-token")
@@ -190,7 +190,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `claude oauth without credential ownership is not persisted`() async throws {
+    func claude_oauth_without_credential_ownership_is_not_persisted() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         store.settings.addTokenAccount(provider: .claude, label: "Unrelated", token: "unrelated-token")
         store.settings.setActiveTokenAccountIndex(0, for: .claude)
@@ -220,7 +220,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `coalesced claude oauth sample still switches preferred account`() async throws {
+    func coalesced_claude_oauth_sample_still_switches_preferred_account() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let accountAOwner = self.oauthOwnerIdentifier("a")
         let accountBOwner = self.oauthOwnerIdentifier("b")
@@ -268,7 +268,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `same dir account switch quarantines stale background credential`() async throws {
+    func same_dir_account_switch_quarantines_stale_background_credential() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let ownerA = self.oauthOwnerIdentifier("a")
         let ownerB = self.oauthOwnerIdentifier("b")
@@ -366,7 +366,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `exact keychain match arms account map on background poll`() async throws {
+    func exact_keychain_match_arms_account_map_on_background_poll() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let ownerA = self.oauthOwnerIdentifier("a")
         let ownerB = self.oauthOwnerIdentifier("b")
@@ -482,7 +482,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `coalesced claude oauth sample without owner cannot switch preferred account`() async throws {
+    func coalesced_claude_oauth_sample_without_owner_cannot_switch_preferred_account() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let scopedOwner = self.oauthOwnerIdentifier("c")
         let scopedAccountKey = try #require(
@@ -521,7 +521,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `reloaded scoped claude oauth preference wins over configured token account`() throws {
+    func reloaded_scoped_claude_oauth_preference_wins_over_configured_token_account() throws {
         let oauthOwner = self.oauthOwnerIdentifier("a")
         let oauthAccountKey = try #require(
             UsageStore._claudeOAuthPlanUtilizationAccountKeyForTesting(
@@ -546,7 +546,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `reloaded unscoped claude oauth preference wins over configured token account`() {
+    func reloaded_unscoped_claude_oauth_preference_wins_over_configured_token_account() {
         let oauthHistory = planSeries(name: .session, windowMinutes: 300, entries: [
             planEntry(at: Date(timeIntervalSince1970: 1_700_000_000), usedPercent: 55),
         ])
@@ -567,7 +567,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `later token account sample supersedes claude oauth preference`() async throws {
+    func later_token_account_sample_supersedes_claude_oauth_preference() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let oauthOwner = self.oauthOwnerIdentifier("a")
         store.settings.addTokenAccount(provider: .claude, label: "Selected", token: "selected-token")
@@ -612,7 +612,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `first claude oauth owner quarantines legacy unscoped history`() async throws {
+    func first_claude_oauth_owner_quarantines_legacy_unscoped_history() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let currentOwner = self.oauthOwnerIdentifier("c")
         let legacy = planSeries(name: .session, windowMinutes: 300, entries: [
@@ -644,7 +644,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `provenance-less claude oauth credentials stay isolated across restart`() async throws {
+    func provenance_less_claude_oauth_credentials_stay_isolated_across_restart() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let accountAOwner = self.oauthOwnerIdentifier("a")
         let accountBOwner = self.oauthOwnerIdentifier("b")
@@ -685,7 +685,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `same keychain reference credential replacement stays isolated across restart`() async throws {
+    func same_keychain_reference_credential_replacement_stays_isolated_across_restart() async throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let originalOwner = self.oauthOwnerIdentifier("c")
         let replacementOwner = self.oauthOwnerIdentifier("d")
@@ -727,7 +727,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
     }
 
     @Test
-    func `claude oauth history key is stable for one credential owner`() throws {
+    func claude_oauth_history_key_is_stable_for_one_credential_owner() throws {
         let owner = self.oauthOwnerIdentifier("a")
         let first = try #require(
             UsageStore._claudeOAuthPlanUtilizationAccountKeyForTesting(historyOwnerIdentifier: owner))
@@ -746,7 +746,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
     }
 
     @Test
-    func `same claude email separates team and personal plan history keys`() throws {
+    func same_claude_email_separates_team_and_personal_plan_history_keys() throws {
         let team = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -773,7 +773,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
     }
 
     @Test
-    func `claude email only identity keeps legacy history key`() throws {
+    func claude_email_only_identity_keeps_legacy_history_key() throws {
         let snapshot = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -793,7 +793,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
     }
 
     @Test
-    func `claude compact and branded plan labels share history key`() throws {
+    func claude_compact_and_branded_plan_labels_share_history_key() throws {
         let compact = UsageSnapshot(
             primary: nil,
             secondary: nil,
@@ -823,7 +823,7 @@ struct UsageStorePlanUtilizationClaudeIdentityTests {
 
     @MainActor
     @Test
-    func `new claude email discriminator adopts legacy email history`() throws {
+    func new_claude_email_discriminator_adopts_legacy_email_history() throws {
         let store = UsageStorePlanUtilizationTests.makeStore()
         let snapshot = UsageSnapshot(
             primary: nil,

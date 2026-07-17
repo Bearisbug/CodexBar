@@ -6,7 +6,7 @@ import Testing
 extension UsageStorePlanUtilizationTests {
     @MainActor
     @Test
-    func `identity-less Claude reset celebrations require a second low sample`() async throws {
+    func identity_less_Claude_reset_celebrations_require_a_second_low_sample() async throws {
         let store = Self.makeStore()
         let sessionRecorder = SessionLimitResetEventRecorder(provider: .claude, accountLabel: nil)
         let weeklyRecorder = WeeklyLimitResetEventRecorder(provider: .claude, accountLabel: nil)
@@ -108,7 +108,7 @@ extension UsageStorePlanUtilizationTests {
 
     @MainActor
     @Test
-    func `identity-less confirmation and identified weekly dedup compose`() async {
+    func identity_less_confirmation_and_identified_weekly_dedup_compose() async {
         let identitylessStore = Self.makeStore()
         let identitylessSessionRecorder = SessionLimitResetEventRecorder(provider: .claude, accountLabel: nil)
         let identitylessWeeklyRecorder = WeeklyLimitResetEventRecorder(provider: .claude, accountLabel: nil)

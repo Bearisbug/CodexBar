@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageCacheTests {
     @Test
-    func `cache file URL uses provider artifact versions`() {
+    func cache_file_URL_uses_provider_artifact_versions() {
         let root = URL(fileURLWithPath: "/tmp/codexbar-cost-cache", isDirectory: true)
 
         let codexURL = CostUsageCacheIO.cacheFileURL(provider: .codex, cacheRoot: root)
@@ -17,7 +17,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `cost cache ignores predecessor artifact with persisted offset`() throws {
+    func cost_cache_ignores_predecessor_artifact_with_persisted_offset() throws {
         let root = try self.makeTemporaryCacheRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -53,7 +53,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `Pi session cache ignores predecessor artifact with persisted offset`() throws {
+    func Pi_session_cache_ignores_predecessor_artifact_with_persisted_offset() throws {
         let root = try self.makeTemporaryCacheRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -83,7 +83,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `cache load requires matching producer key`() throws {
+    func cache_load_requires_matching_producer_key() throws {
         let root = try self.makeTemporaryCacheRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -115,7 +115,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `legacy cache without producer key is ignored`() throws {
+    func legacy_cache_without_producer_key_is_ignored() throws {
         let root = try self.makeTemporaryCacheRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -147,7 +147,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `current codex cache rejects pre interleave containment producers`() throws {
+    func current_codex_cache_rejects_pre_interleave_containment_producers() throws {
         // Interleave containment (#2037) changed cumulative delta semantics, so caches from
         // previously compatible parser hashes must be rebuilt instead of reused.
         let root = try self.makeTemporaryCacheRoot()
@@ -171,7 +171,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `non codex cache does not require producer key`() throws {
+    func non_codex_cache_does_not_require_producer_key() throws {
         let root = try self.makeTemporaryCacheRoot()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -200,7 +200,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `current producer key uses generated parser hash for codex only`() {
+    func current_producer_key_uses_generated_parser_hash_for_codex_only() {
         let codexKey = CostUsageCacheIO.currentProducerKey(
             provider: .codex,
             parserHash: "abc1234567890def")
@@ -213,7 +213,7 @@ struct CostUsageCacheTests {
     }
 
     @Test
-    func `generated parser hash is stable short lowercase hex`() {
+    func generated_parser_hash_is_stable_short_lowercase_hex() {
         let hash = CodexParserHash.value
 
         #expect(hash.range(of: #"^[0-9a-f]{16}$"#, options: .regularExpression) != nil)

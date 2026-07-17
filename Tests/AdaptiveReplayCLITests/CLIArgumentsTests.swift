@@ -9,7 +9,7 @@ struct CLIArgumentsTests {
         "fixed-3m",
         "fixed-9223372036854775807m",
     ])
-    func `rejects invalid fixed interval names before policy construction`(rawPolicyName: String) {
+    func rejects_invalid_fixed_interval_names_before_policy_construction(rawPolicyName: String) {
         let arguments = CLIArguments.parse(["trace.jsonl", "--policy", rawPolicyName])
 
         guard case let .invalid(message) = arguments else {
@@ -21,7 +21,7 @@ struct CLIArgumentsTests {
     }
 
     @Test(arguments: ReplayPolicyName.allCases)
-    func `accepts every documented policy name`(policyName: ReplayPolicyName) {
+    func accepts_every_documented_policy_name(policyName: ReplayPolicyName) {
         let arguments = CLIArguments.parse(["trace.jsonl", "--policy", policyName.rawValue])
 
         guard case let .run(tracePath, policyNames, jsonOutput, _) = arguments else {
@@ -35,7 +35,7 @@ struct CLIArgumentsTests {
     }
 
     @Test
-    func `omitting policy selects every documented policy`() {
+    func omitting_policy_selects_every_documented_policy() {
         let arguments = CLIArguments.parse(["trace.jsonl"])
 
         guard case let .run(_, policyNames, _, _) = arguments else {

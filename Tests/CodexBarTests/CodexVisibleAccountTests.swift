@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct CodexVisibleAccountTests {
     @Test
-    func `menu display name suppresses personal workspace label`() {
+    func menu_display_name_suppresses_personal_workspace_label() {
         let personal = CodexVisibleAccount(
             id: "personal",
             email: "user@example.com",

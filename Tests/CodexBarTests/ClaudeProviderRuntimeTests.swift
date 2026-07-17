@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct ClaudeProviderRuntimeTests {
     @Test
-    func `disabling adapter immediately clears retained accounts`() {
+    func disabling_adapter_immediately_clears_retained_accounts() {
         let (settings, store) = self.makeStore()
         store.claudeSwapAccountSnapshots = [self.accountSnapshot()]
         store.claudeSwapLastRefreshAt = Date()
@@ -21,7 +21,7 @@ struct ClaudeProviderRuntimeTests {
     }
 
     @Test
-    func `disabled Claude provider does not restart adapter`() {
+    func disabled_Claude_provider_does_not_restart_adapter() {
         let (settings, store) = self.makeStore()
         settings.claudeSwapExecutablePath = "/path/to/cswap"
         settings.claudeSwapEnabled = true
@@ -36,7 +36,7 @@ struct ClaudeProviderRuntimeTests {
     }
 
     @Test
-    func `late adapter result is rejected after executable path changes`() async throws {
+    func late_adapter_result_is_rejected_after_executable_path_changes() async throws {
         let (settings, store) = self.makeStore()
         let executable = try self.makeFakeExecutable()
         let metadata = try #require(ProviderRegistry.shared.metadata[.claude])
@@ -56,7 +56,7 @@ struct ClaudeProviderRuntimeTests {
     }
 
     @Test
-    func `explicit account activation is serialized through claude swap and refreshes Claude`() async throws {
+    func explicit_account_activation_is_serialized_through_claude_swap_and_refreshes_Claude() async throws {
         let (settings, store) = self.makeStore()
         let marker = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-swap-switch-args-\(UUID().uuidString)")
@@ -93,7 +93,7 @@ struct ClaudeProviderRuntimeTests {
     }
 
     @Test
-    func `non actionable account cannot start credential transaction`() throws {
+    func non_actionable_account_cannot_start_credential_transaction() throws {
         let (settings, store) = self.makeStore()
         let metadata = try #require(ProviderRegistry.shared.metadata[.claude])
         settings.setProviderEnabled(provider: .claude, metadata: metadata, enabled: true)
@@ -116,7 +116,7 @@ struct ClaudeProviderRuntimeTests {
     }
 
     @Test
-    func `failed activation stays scoped to its requested account`() async throws {
+    func failed_activation_stays_scoped_to_its_requested_account() async throws {
         let (settings, store) = self.makeStore()
         let executable = try self.makeFailedSwitchExecutable()
         let metadata = try #require(ProviderRegistry.shared.metadata[.claude])
@@ -145,7 +145,7 @@ struct ClaudeProviderRuntimeTests {
     }
 
     @Test
-    func `configuration change during provider refresh discards switch result`() async throws {
+    func configuration_change_during_provider_refresh_discards_switch_result() async throws {
         let (settings, store) = self.makeStore()
         let executable = try self.makeFailedSwitchExecutable()
         let metadata = try #require(ProviderRegistry.shared.metadata[.claude])

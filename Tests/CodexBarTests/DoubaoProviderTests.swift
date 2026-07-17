@@ -23,7 +23,7 @@ private struct DoubaoProviderTestClaudeFetcher: ClaudeUsageFetching {
 
 struct DoubaoProviderTests {
     @Test
-    func `usage snapshot exposes request usage window`() {
+    func usage_snapshot_exposes_request_usage_window() {
         let resetDate = Date(timeIntervalSince1970: 1_742_771_200)
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 80,
@@ -41,7 +41,7 @@ struct DoubaoProviderTests {
     }
 
     @Test
-    func `usage snapshot omits unknown request limit when headers are absent`() {
+    func usage_snapshot_omits_unknown_request_limit_when_headers_are_absent() {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let snapshot = DoubaoUsageSnapshot(
             remainingRequests: 0,
@@ -57,7 +57,7 @@ struct DoubaoProviderTests {
     }
 
     @Test
-    func `primary label preserves ark request windows`() {
+    func primary_label_preserves_ark_request_windows() {
         let arkWindow = RateWindow(
             usedPercent: 30,
             windowMinutes: nil,
@@ -80,7 +80,7 @@ struct DoubaoProviderTests {
     }
 
     @Test
-    func `signed credential failure falls back to ark API key`() async throws {
+    func signed_credential_failure_falls_back_to_ark_API_key() async throws {
         let expectedDate = Date(timeIntervalSince1970: 42)
         let context = Self.makeContext(environment: [
             DoubaoSettingsReader.apiKeyEnvironmentKeys[0]: "ark-env",
@@ -113,7 +113,7 @@ struct DoubaoProviderTests {
     }
 
     @Test
-    func `signed credential cancellation does not fall back to ark API key`() async {
+    func signed_credential_cancellation_does_not_fall_back_to_ark_API_key() async {
         let context = Self.makeContext(environment: [
             DoubaoSettingsReader.apiKeyEnvironmentKeys[0]: "ark-env",
             DoubaoSettingsReader.accessKeyIDEnvironmentKeys[0]: "AKLT-env",

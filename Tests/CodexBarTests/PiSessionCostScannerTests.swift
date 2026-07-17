@@ -4,7 +4,7 @@ import Testing
 
 struct PiSessionCostScannerTests {
     @Test
-    func `pi scanner maps assistant usage to codex and claude reports`() throws {
+    func pi_scanner_maps_assistant_usage_to_codex_and_claude_reports() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -92,7 +92,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi codex cache reads are billed once and use the true context size`() throws {
+    func pi_codex_cache_reads_are_billed_once_and_use_the_true_context_size() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -141,7 +141,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner keeps ambiguous claude errors priced`() throws {
+    func pi_scanner_keeps_ambiguous_claude_errors_priced() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -193,7 +193,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner uses model change fallback and assistant timestamp day`() throws {
+    func pi_scanner_uses_model_change_fallback_and_assistant_timestamp_day() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -248,7 +248,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner refreshes appended file without duplicating existing usage`() throws {
+    func pi_scanner_refreshes_appended_file_without_duplicating_existing_usage() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -329,7 +329,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner ignores explicit unsupported provider even with fallback context`() throws {
+    func pi_scanner_ignores_explicit_unsupported_provider_even_with_fallback_context() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -389,7 +389,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner force rescan bypasses stale same size metadata cache`() throws {
+    func pi_scanner_force_rescan_bypasses_stale_same_size_metadata_cache() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -472,7 +472,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner derives cost when explicit cost is absent`() throws {
+    func pi_scanner_derives_cost_when_explicit_cost_is_absent() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -521,7 +521,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner preserves per-message threshold pricing`() throws {
+    func pi_scanner_preserves_per_message_threshold_pricing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -595,7 +595,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner ignores v3 cache with stale codex cached input pricing`() throws {
+    func pi_scanner_ignores_v3_cache_with_stale_codex_cached_input_pricing() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -699,7 +699,7 @@ struct PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner ignores v4 cache with stale gpt56 cache write pricing`() throws {
+    func pi_scanner_ignores_v4_cache_with_stale_gpt56_cache_write_pricing() throws {
         // v4 stored complete costNanos before cache-write rates existed; v6 must reprice.
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
@@ -807,7 +807,7 @@ struct PiSessionCostScannerTests {
 
 extension PiSessionCostScannerTests {
     @Test
-    func `pi scanner reprices unchanged files when catalog rates change`() throws {
+    func pi_scanner_reprices_unchanged_files_when_catalog_rates_change() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -881,7 +881,7 @@ extension PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner reprices unchanged claude files when anthropic rates change`() throws {
+    func pi_scanner_reprices_unchanged_claude_files_when_anthropic_rates_change() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -953,7 +953,7 @@ extension PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi pricing key ignores catalog fetch time when rates are unchanged`() throws {
+    func pi_pricing_key_ignores_catalog_fetch_time_when_rates_are_unchanged() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1003,7 +1003,7 @@ extension PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi pricing key ignores unrelated providers and non pricing context metadata`() throws {
+    func pi_pricing_key_ignores_unrelated_providers_and_non_pricing_context_metadata() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -1098,7 +1098,7 @@ extension PiSessionCostScannerTests {
     }
 
     @Test
-    func `pi scanner reparses unchanged cached file when scan window expands`() throws {
+    func pi_scanner_reparses_unchanged_cached_file_when_scan_window_expands() throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

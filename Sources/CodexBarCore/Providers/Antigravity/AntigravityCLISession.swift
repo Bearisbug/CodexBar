@@ -443,7 +443,7 @@ actor AntigravityCLISession {
 
     // MARK: Private
 
-    private func withLifecycleOperation<T>(_ operation: () async throws -> T) async throws -> T {
+    private func withLifecycleOperation<T: Sendable>(_ operation: () async throws -> T) async throws -> T {
         await self.acquireLifecycleOperation()
         defer { self.releaseLifecycleOperation() }
         return try await operation()

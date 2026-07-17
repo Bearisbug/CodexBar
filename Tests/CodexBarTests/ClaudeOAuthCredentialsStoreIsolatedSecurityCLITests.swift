@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeOAuthCredentialsStoreIsolatedSecurityCLITests {
     @Test
-    func `safety blocks security CLI access to the login keychain`() {
+    func safety_blocks_security_CLI_access_to_the_login_keychain() {
         let blockedEnvironment = [KeychainTestSafety.suppressAccessEnvironmentKey: "1"]
         #expect(ClaudeOAuthCredentialsStore.securityCLIReadArguments(
             account: nil,
@@ -28,7 +28,7 @@ struct ClaudeOAuthCredentialsStoreIsolatedSecurityCLITests {
     }
 
     @Test
-    func `isolated security CLI keychain requires global keychain disable`() {
+    func isolated_security_CLI_keychain_requires_global_keychain_disable() {
         let keychainPath = "/tmp/codexbar-fixtures/verify.keychain-db"
         let isolatedEnvironment = [
             KeychainAccessGate.disableAccessEnvironmentKey: "1",
@@ -63,7 +63,7 @@ struct ClaudeOAuthCredentialsStoreIsolatedSecurityCLITests {
     }
 
     @Test
-    func `isolated security CLI keychain remains readable while other keychain access is disabled`() {
+    func isolated_security_CLI_keychain_remains_readable_while_other_keychain_access_is_disabled() {
         let mcpOnlyPayload = Data(#"{"mcpOAuth":{"plugin:test":{"accessToken":"synthetic"}}}"#.utf8)
         let environment = [
             KeychainAccessGate.disableAccessEnvironmentKey: "1",
@@ -91,7 +91,7 @@ struct ClaudeOAuthCredentialsStoreIsolatedSecurityCLITests {
     }
 
     @Test
-    func `never prompt mode still detects MCP-only payload via experimental security CLI reader`() {
+    func never_prompt_mode_still_detects_MCP_only_payload_via_experimental_security_CLI_reader() {
         let mcpOnlyPayload = Data(#"{"mcpOAuth":{"plugin:test":{"accessToken":"synthetic"}}}"#.utf8)
         let environment = [
             KeychainAccessGate.disableAccessEnvironmentKey: "1",

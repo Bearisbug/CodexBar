@@ -5,7 +5,7 @@ import Testing
 @Suite(.serialized)
 struct ClaudeWebCookieRenewalTests {
     @Test
-    func `cached web session key renews from set cookie after successful fetch`() async throws {
+    func cached_web_session_key_renews_from_set_cookie_after_successful_fetch() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -33,7 +33,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `cached fetch without renewal does not block concurrent renewal`() async throws {
+    func cached_fetch_without_renewal_does_not_block_concurrent_renewal() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -61,7 +61,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `browser fallback replaces stale cache when conditional clear fails`() async throws {
+    func browser_fallback_replaces_stale_cache_when_conditional_clear_fails() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -101,7 +101,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `concurrent cached fetches serialize session key rotations`() async throws {
+    func concurrent_cached_fetches_serialize_session_key_rotations() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -148,7 +148,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `cancelled waiting fetch relinquishes the serialization gate`() async throws {
+    func cancelled_waiting_fetch_relinquishes_the_serialization_gate() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -199,7 +199,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `manual web session fetch does not rewrite cached cookie`() async throws {
+    func manual_web_session_fetch_does_not_rewrite_cached_cookie() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -226,7 +226,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `usage response renewal propagates to later requests and cache`() async throws {
+    func usage_response_renewal_propagates_to_later_requests_and_cache() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -265,7 +265,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `renewal can return to initial session key`() async throws {
+    func renewal_can_return_to_initial_session_key() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -311,7 +311,7 @@ struct ClaudeWebCookieRenewalTests {
     }
 
     @Test
-    func `last session key assignment in one response wins`() async throws {
+    func last_session_key_assignment_in_one_response_wins() async throws {
         try await self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,

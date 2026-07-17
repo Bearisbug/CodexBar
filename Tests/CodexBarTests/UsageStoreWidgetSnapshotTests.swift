@@ -6,7 +6,7 @@ import Testing
 @MainActor
 struct UsageStoreWidgetSnapshotTests {
     @Test
-    func `widget snapshot preserves raw Codex windows for timeline projection`() async throws {
+    func widget_snapshot_preserves_raw_Codex_windows_for_timeline_projection() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-codex-weekly-cap"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -53,7 +53,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot includes Kimi subscription quota rows`() async throws {
+    func widget_snapshot_includes_Kimi_subscription_quota_rows() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-kimi-subscription-rows"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -122,7 +122,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot includes antigravity grouped usage rows`() async throws {
+    func widget_snapshot_includes_antigravity_grouped_usage_rows() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-antigravity-grouped"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -167,7 +167,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot includes antigravity quota summary rows`() async throws {
+    func widget_snapshot_includes_antigravity_quota_summary_rows() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-antigravity-quota-summary"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -232,7 +232,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot labels antigravity compact fallback with model name`() async throws {
+    func widget_snapshot_labels_antigravity_compact_fallback_with_model_name() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-antigravity-compact-fallback"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -278,7 +278,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot excludes mimo balance from quota rows`() async throws {
+    func widget_snapshot_excludes_mimo_balance_from_quota_rows() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-mimo-balance"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -315,7 +315,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot keeps Claude local cost without quota data`() async throws {
+    func widget_snapshot_keeps_Claude_local_cost_without_quota_data() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-claude-local-cost-only"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -370,7 +370,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test(arguments: [true, false])
-    func `widget snapshot respects extra usage visibility for Devin`(_ showsExtraUsage: Bool) async throws {
+    func widget_snapshot_respects_extra_usage_visibility_for_Devin(_ showsExtraUsage: Bool) async throws {
         let suite = "UsageStoreWidgetSnapshotTests-devin-extra-usage-\(showsExtraUsage)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -418,7 +418,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot carries token usage age separately from entry freshness`() async throws {
+    func widget_snapshot_carries_token_usage_age_separately_from_entry_freshness() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-token-usage-age"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -471,7 +471,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot labels legacy Cursor request quota as Requests`() async throws {
+    func widget_snapshot_labels_legacy_Cursor_request_quota_as_Requests() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-cursor-requests-label"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -509,7 +509,7 @@ struct UsageStoreWidgetSnapshotTests {
     }
 
     @Test
-    func `widget snapshot keeps Cursor Total label for token based plans`() async throws {
+    func widget_snapshot_keeps_Cursor_Total_label_for_token_based_plans() async throws {
         let suite = "UsageStoreWidgetSnapshotTests-cursor-total-label"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

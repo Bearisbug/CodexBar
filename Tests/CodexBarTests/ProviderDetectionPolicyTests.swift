@@ -4,7 +4,7 @@ import Testing
 
 struct ProviderDetectionPolicyTests {
     @Test
-    func `fresh install detects Codex and Claude Desktop without unconfigured Gemini`() {
+    func fresh_install_detects_Codex_and_Claude_Desktop_without_unconfigured_Gemini() {
         let enabled = ProviderDetectionPolicy.enabledProviders(signals: .init(
             codexCLIInstalled: true,
             claudeCLIInstalled: false,
@@ -17,7 +17,7 @@ struct ProviderDetectionPolicyTests {
     }
 
     @Test
-    func `configured Gemini CLI is detected`() {
+    func configured_Gemini_CLI_is_detected() {
         let enabled = ProviderDetectionPolicy.enabledProviders(signals: .init(
             codexCLIInstalled: false,
             claudeCLIInstalled: false,
@@ -30,7 +30,7 @@ struct ProviderDetectionPolicyTests {
     }
 
     @Test
-    func `Codex remains the fallback when no provider source is available`() {
+    func Codex_remains_the_fallback_when_no_provider_source_is_available() {
         let enabled = ProviderDetectionPolicy.enabledProviders(signals: .init(
             codexCLIInstalled: false,
             claudeCLIInstalled: false,

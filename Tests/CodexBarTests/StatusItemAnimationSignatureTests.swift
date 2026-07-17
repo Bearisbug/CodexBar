@@ -7,7 +7,7 @@ import Testing
 @Suite(.serialized)
 struct StatusItemAnimationSignatureTests {
     @Test
-    func `merged render signature changes when unified icon style changes`() {
+    func merged_render_signature_changes_when_unified_icon_style_changes() {
         let suite = "StatusItemAnimationSignatureTests-merged-style-signature"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -66,7 +66,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged antigravity icon resolves quota summary with provider style`() throws {
+    func merged_antigravity_icon_resolves_quota_summary_with_provider_style() throws {
         let suite = "StatusItemAnimationSignatureTests-merged-antigravity-provider-style"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -143,7 +143,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged mistral icon uses monthly plan metric when selected`() throws {
+    func merged_mistral_icon_uses_monthly_plan_metric_when_selected() throws {
         let suite = "StatusItemAnimationSignatureTests-merged-mistral-monthly-plan"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -199,7 +199,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `mistral pay as you go icon ignores balance primary percent`() {
+    func mistral_pay_as_you_go_icon_ignores_balance_primary_percent() {
         let suite = "StatusItemAnimationSignatureTests-mistral-payg-balance-percent"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -238,7 +238,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged brand percent reapplies title when cached render is skipped`() throws {
+    func merged_brand_percent_reapplies_title_when_cached_render_is_skipped() throws {
         let suite = "StatusItemAnimationSignatureTests-merged-brand-percent-title-restore"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -293,7 +293,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged icon only content repairs stale title when cached render is skipped`() throws {
+    func merged_icon_only_content_repairs_stale_title_when_cached_render_is_skipped() throws {
         let suite = "StatusItemAnimationSignatureTests-merged-icon-only-title-restore"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -341,7 +341,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `inactive display contrast embeds the brand and restores standard content when disabled`() throws {
+    func inactive_display_contrast_embeds_the_brand_and_restores_standard_content_when_disabled() throws {
         let suite = "StatusItemAnimationSignatureTests-inactive-display-contrast"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -426,7 +426,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged icon render defers while merged menu is tracking`() async throws {
+    func merged_icon_render_defers_while_merged_menu_is_tracking() async throws {
         let suite = "StatusItemAnimationSignatureTests-merged-icon-defers-during-tracking"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -538,7 +538,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged fallback provider follows enabled provider order`() {
+    func merged_fallback_provider_follows_enabled_provider_order() {
         let suite = "StatusItemAnimationSignatureTests-merged-provider-order"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -581,7 +581,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged icon status indicator follows rendered provider`() throws {
+    func merged_icon_status_indicator_follows_rendered_provider() throws {
         let suite = "StatusItemAnimationSignatureTests-merged-status-provider-scope"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = true
@@ -633,7 +633,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `highest usage icon ranks only overview providers`() throws {
+    func highest_usage_icon_ranks_only_overview_providers() throws {
         let suite = "StatusItemAnimationSignatureTests-highest-usage-overview-subset"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -683,7 +683,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test(arguments: [nil, 100.0] as [Double?])
-    func `highest usage icon keeps nonempty overview authoritative when unrankable`(
+    func highest_usage_icon_keeps_nonempty_overview_authoritative_when_unrankable(
         overviewUsedPercent: Double?) throws
     {
         let suite = "StatusItemAnimationSignatureTests-highest-usage-overview-fallback"
@@ -743,7 +743,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `highest usage icon allows broad fallback for explicit empty overview`() throws {
+    func highest_usage_icon_allows_broad_fallback_for_explicit_empty_overview() throws {
         let suite = "StatusItemAnimationSignatureTests-highest-usage-empty-overview"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -786,7 +786,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `merged icon follows overview provider order when first overview provider is loading`() {
+    func merged_icon_follows_overview_provider_order_when_first_overview_provider_is_loading() {
         let suite = "StatusItemAnimationSignatureTests-merged-overview-provider-order"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false
@@ -839,7 +839,7 @@ struct StatusItemAnimationSignatureTests {
     }
 
     @Test
-    func `split provider icon skips unchanged render signature`() throws {
+    func split_provider_icon_skips_unchanged_render_signature() throws {
         let suite = "StatusItemAnimationSignatureTests-split-provider-signature"
         let settings = testSettingsStore(suiteName: suite)
         settings.statusChecksEnabled = false

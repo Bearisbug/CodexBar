@@ -6,7 +6,7 @@ import Testing
 
 struct MiniMaxMenuCardModelPlanTests {
     @Test
-    func `minimax loginMethod maps to planText in MenuCardModel`() throws {
+    func minimax_loginMethod_maps_to_planText_in_MenuCardModel() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: "MiniMax Star",
@@ -53,7 +53,7 @@ struct MiniMaxMenuCardModelPlanTests {
     }
 
     @Test
-    func `minimax nil loginMethod results in nil planText`() throws {
+    func minimax_nil_loginMethod_results_in_nil_planText() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: nil,
@@ -100,7 +100,7 @@ struct MiniMaxMenuCardModelPlanTests {
     }
 
     @Test
-    func `minimax quota rows include configured warning markers`() throws {
+    func minimax_quota_rows_include_configured_warning_markers() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: "TokenPlanPlus-年度会员",
@@ -159,7 +159,7 @@ struct MiniMaxMenuCardModelPlanTests {
     }
 
     @Test
-    func `minimax quota rows use canonical general first order`() throws {
+    func minimax_quota_rows_use_canonical_general_first_order() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: "TokenPlanMax-年度会员",
@@ -225,7 +225,7 @@ struct MiniMaxMenuCardModelPlanTests {
     }
 
     @Test
-    func `minimax unlimited quota rows omit usage copy and warning markers`() throws {
+    func minimax_unlimited_quota_rows_omit_usage_copy_and_warning_markers() throws {
         let now = Date()
         let minimax = MiniMaxUsageSnapshot(
             planName: "Plus",

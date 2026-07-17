@@ -11,7 +11,7 @@ struct StatusItemQuotaWarningFlashTests {
     }
 
     @Test
-    func `quota warning flash state lasts for configured duration`() {
+    func quota_warning_flash_state_lasts_for_configured_duration() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemQuotaWarningFlashTests-duration"),
             zaiTokenStore: NoopZaiTokenStore(),
@@ -37,7 +37,7 @@ struct StatusItemQuotaWarningFlashTests {
     }
 
     @Test
-    func `quota warning flash image draws non template red overlay`() throws {
+    func quota_warning_flash_image_draws_non_template_red_overlay() throws {
         let size = NSSize(width: 16, height: 16)
         let base = NSImage(size: size)
         base.lockFocus()
@@ -56,7 +56,7 @@ struct StatusItemQuotaWarningFlashTests {
     }
 
     @Test
-    func `merged icon render signature includes quota warning flash for selected provider`() {
+    func merged_icon_render_signature_includes_quota_warning_flash_for_selected_provider() {
         let settings = SettingsStore(
             configStore: testConfigStore(suiteName: "StatusItemQuotaWarningFlashTests-merged"),
             zaiTokenStore: NoopZaiTokenStore(),

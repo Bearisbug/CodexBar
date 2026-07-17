@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct CodexSystemAccountObserverTests {
     @Test
-    func `observer reads ambient CODEX_HOME when present`() throws {
+    func observer_reads_ambient_CODEX_HOME_when_present() throws {
         let home = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: home) }
         try Self.writeCodexAuthFile(
@@ -24,7 +24,7 @@ struct CodexSystemAccountObserverTests {
     }
 
     @Test
-    func `observer falls back to nil when ambient home has no readable email`() throws {
+    func observer_falls_back_to_nil_when_ambient_home_has_no_readable_email() throws {
         let home = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: home) }
         try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
@@ -36,7 +36,7 @@ struct CodexSystemAccountObserverTests {
     }
 
     @Test
-    func `observer records observation timestamp`() throws {
+    func observer_records_observation_timestamp() throws {
         let home = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: home) }
         try Self.writeCodexAuthFile(homeURL: home, email: "user@example.com", plan: "team")
@@ -50,7 +50,7 @@ struct CodexSystemAccountObserverTests {
     }
 
     @Test
-    func `observer preserves provider account identity from scoped auth`() throws {
+    func observer_preserves_provider_account_identity_from_scoped_auth() throws {
         let home = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         defer { try? FileManager.default.removeItem(at: home) }
         try Self.writeCodexAuthFile(
@@ -66,7 +66,7 @@ struct CodexSystemAccountObserverTests {
     }
 
     @Test
-    func `observer uses cached workspace label for provider account`() throws {
+    func observer_uses_cached_workspace_label_for_provider_account() throws {
         let home = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let cacheURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("codex-openai-workspaces-\(UUID().uuidString).json")

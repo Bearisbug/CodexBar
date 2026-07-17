@@ -16,7 +16,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `reads and parses a schema v1 list from the executable`() async throws {
+    func reads_and_parses_a_schema_v1_list_from_the_executable() async throws {
         let path = try self.makeFakeExecutable("""
         [ "$1" = "--list" ] || exit 2
         [ "$2" = "--json" ] || exit 2
@@ -34,7 +34,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `surfaces the error envelope from a non zero exit`() async throws {
+    func surfaces_the_error_envelope_from_a_non_zero_exit() async throws {
         let path = try self.makeFakeExecutable("""
         echo '{"schemaVersion": 1, "error": {"type": "SwitchError", "message": "store locked"}}'
         exit 1
@@ -46,7 +46,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `terminates executables that exceed the timeout`() async throws {
+    func terminates_executables_that_exceed_the_timeout() async throws {
         let path = try self.makeFakeExecutable("sleep 30")
 
         await #expect(throws: (any Error).self) {
@@ -55,7 +55,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `rejects oversized output before parsing`() async throws {
+    func rejects_oversized_output_before_parsing() async throws {
         let path = try self.makeFakeExecutable("""
         i=0
         while [ $i -lt 5000 ]; do
@@ -70,7 +70,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `fails cleanly when the executable is missing`() async throws {
+    func fails_cleanly_when_the_executable_is_missing() async throws {
         await #expect(throws: (any Error).self) {
             try await ClaudeSwapAccountReader.readAccountList(
                 executablePath: "/nonexistent/path/to/cswap")
@@ -81,7 +81,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `reads the executable version`() async throws {
+    func reads_the_executable_version() async throws {
         let path = try self.makeFakeExecutable("""
         [ "$1" = "--version" ] || exit 2
         echo 'cswap 0.16.0'
@@ -92,7 +92,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `switches only by validated numeric slot with fixed arguments`() async throws {
+    func switches_only_by_validated_numeric_slot_with_fixed_arguments() async throws {
         let path = try self.makeFakeExecutable("""
         [ "$1" = "--switch-to" ] || exit 2
         [ "$2" = "7" ] || exit 2
@@ -111,7 +111,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `rejects switch result for another slot`() async throws {
+    func rejects_switch_result_for_another_slot() async throws {
         let path = try self.makeFakeExecutable("""
         echo '{"schemaVersion":1,"switched":true,"from":{"number":1},"to":{"number":8},"reason":"switched"}'
         """)
@@ -122,7 +122,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `surfaces switch error envelope from non zero exit`() async throws {
+    func surfaces_switch_error_envelope_from_non_zero_exit() async throws {
         let path = try self.makeFakeExecutable("""
         echo '{"schemaVersion":1,"error":{"type":"SwitchError","message":"credentials missing"}}'
         exit 1
@@ -137,7 +137,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `started credential switch reaches natural exit after caller cancellation`() async throws {
+    func started_credential_switch_reaches_natural_exit_after_caller_cancellation() async throws {
         let marker = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-swap-switch-finished-\(UUID().uuidString)")
         let path = try self.makeFakeExecutable("""
@@ -158,7 +158,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `version probe returns nil when the executable fails`() async throws {
+    func version_probe_returns_nil_when_the_executable_fails() async throws {
         let path = try self.makeFakeExecutable("exit 3")
 
         let version = await ClaudeSwapAccountReader.readVersion(executablePath: path)
@@ -166,7 +166,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `cancellation during version probe prevents account list launch`() async throws {
+    func cancellation_during_version_probe_prevents_account_list_launch() async throws {
         let marker = FileManager.default.temporaryDirectory
             .appendingPathComponent("claude-swap-list-launched-\(UUID().uuidString)")
         let path = try self.makeFakeExecutable("""
@@ -192,7 +192,7 @@ struct ClaudeSwapAccountReaderTests {
     }
 
     @Test
-    func `expands tilde in configured paths`() throws {
+    func expands_tilde_in_configured_paths() throws {
         let resolved = try ClaudeSwapAccountReader.resolvedExecutablePath("~/bin/cswap")
         #expect(resolved.hasPrefix("/"))
         #expect(!resolved.contains("~"))

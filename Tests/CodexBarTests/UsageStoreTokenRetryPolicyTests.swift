@@ -5,7 +5,7 @@ import Testing
 
 struct UsageStoreTokenRetryPolicyTests {
     @Test
-    func `timed out token scans keep the fetch TTL while fast failures retry early`() {
+    func timed_out_token_scans_keep_the_fetch_TTL_while_fast_failures_retry_early() {
         #expect(!UsageStore.tokenFetchFailureAllowsEarlyRetry(CostUsageError.timedOut(seconds: 600)))
         #expect(UsageStore.tokenFetchFailureAllowsEarlyRetry(CocoaError(.fileReadNoSuchFile)))
     }

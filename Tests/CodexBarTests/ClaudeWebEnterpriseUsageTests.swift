@@ -4,7 +4,7 @@ import Testing
 
 struct ClaudeWebEnterpriseUsageTests {
     @Test
-    func `parses usage response when session window is null`() throws {
+    func parses_usage_response_when_session_window_is_null() throws {
         let json = """
         {
           "five_hour": null,
@@ -18,7 +18,7 @@ struct ClaudeWebEnterpriseUsageTests {
     }
 
     @Test
-    func `parses enterprise credit spend from usage response`() throws {
+    func parses_enterprise_credit_spend_from_usage_response() throws {
         let json = """
         {
           "five_hour": null,

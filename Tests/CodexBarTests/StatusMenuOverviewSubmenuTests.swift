@@ -5,7 +5,7 @@ import Testing
 
 extension StatusMenuTests {
     @Test
-    func `overview rows expose provider detail submenus`() throws {
+    func overview_rows_expose_provider_detail_submenus() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -65,7 +65,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `overview row submenu action does not switch provider detail`() throws {
+    func overview_row_submenu_action_does_not_switch_provider_detail() throws {
         self.disableMenuCardsForTesting()
         let settings = self.makeSettings()
         settings.statusChecksEnabled = false
@@ -129,7 +129,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `selecting overview row defers provider detail rebuild`() async throws {
+    func selecting_overview_row_defers_provider_detail_rebuild() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false
@@ -203,7 +203,7 @@ extension StatusMenuTests {
     }
 
     @Test
-    func `overview row action close renders selected provider on next open`() async throws {
+    func overview_row_action_close_renders_selected_provider_on_next_open() async throws {
         let previousMenuCardRendering = StatusItemController.menuCardRenderingEnabled
         let previousMenuRefresh = StatusItemController.menuRefreshEnabled
         StatusItemController.menuCardRenderingEnabled = false

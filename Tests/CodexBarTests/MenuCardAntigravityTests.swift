@@ -5,7 +5,7 @@ import Testing
 
 struct MenuCardAntigravityTests {
     @Test
-    func `antigravity identity only snapshot shows limits unavailable`() throws {
+    func antigravity_identity_only_snapshot_shows_limits_unavailable() throws {
         let now = Date(timeIntervalSince1970: 1_742_771_200)
         let metadata = try #require(ProviderDefaults.metadata[.antigravity])
         let snapshot = UsageSnapshot(
@@ -46,7 +46,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `antigravity metrics omit missing groups`() throws {
+    func antigravity_metrics_omit_missing_groups() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .antigravity,
@@ -92,7 +92,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `legacy antigravity family row renders session pace without mutating duration`() throws {
+    func legacy_antigravity_family_row_renders_session_pace_without_mutating_duration() throws {
         let now = Date(timeIntervalSince1970: 0)
         let window = RateWindow(
             usedPercent: 80,
@@ -139,7 +139,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `antigravity untracked known row does not duplicate grouped summary`() throws {
+    func antigravity_untracked_known_row_does_not_duplicate_grouped_summary() throws {
         let now = Date(timeIntervalSince1970: 1_735_000_000)
         let resetTime = now.addingTimeInterval(3600)
         let antigravitySnapshot = AntigravityStatusSnapshot(
@@ -193,7 +193,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `antigravity metrics collapse complete per model quota windows`() throws {
+    func antigravity_metrics_collapse_complete_per_model_quota_windows() throws {
         let now = Date(timeIntervalSince1970: 1_735_000_000)
         let resetTime = now.addingTimeInterval(3600)
         let antigravitySnapshot = AntigravityStatusSnapshot(
@@ -260,7 +260,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `antigravity distinct extra windows still render when optional extras are disabled`() throws {
+    func antigravity_distinct_extra_windows_still_render_when_optional_extras_are_disabled() throws {
         // Regression: the optional-credits/extra-usage setting is Codex-specific and must NOT hide
         // other providers' core extra windows.
         let now = Date(timeIntervalSince1970: 1_735_000_000)
@@ -311,7 +311,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `antigravity quota summary renders named session and weekly rows`() throws {
+    func antigravity_quota_summary_renders_named_session_and_weekly_rows() throws {
         let now = Date(timeIntervalSince1970: 1_735_000_000)
         let snapshot = UsageSnapshot(
             primary: RateWindow(
@@ -411,7 +411,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `antigravity quota summary rows render pace details`() throws {
+    func antigravity_quota_summary_rows_render_pace_details() throws {
         let now = Date(timeIntervalSince1970: 0)
         let snapshot = UsageSnapshot(
             primary: nil,
@@ -477,7 +477,7 @@ struct MenuCardAntigravityTests {
     }
 
     @Test
-    func `antigravity missing groups are omitted in used mode`() throws {
+    func antigravity_missing_groups_are_omitted_in_used_mode() throws {
         let now = Date()
         let identity = ProviderIdentitySnapshot(
             providerID: .antigravity,

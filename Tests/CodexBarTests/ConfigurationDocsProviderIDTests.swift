@@ -4,7 +4,7 @@ import Testing
 
 struct ConfigurationDocsProviderIDTests {
     @Test
-    func `configuration docs list every provider id in enum order`() throws {
+    func configuration_docs_list_every_provider_id_in_enum_order() throws {
         let rootURL = try Self.repoRoot()
         let docsURL = rootURL.appending(path: "docs/configuration.md")
         let docs = try String(contentsOf: docsURL, encoding: .utf8)

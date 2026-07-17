@@ -10,7 +10,7 @@ import Glibc
 @Suite(.serialized)
 struct GeminiStatusProbeAPITests {
     @Test
-    func `missing credentials throws not logged in`() async throws {
+    func missing_credentials_throws_not_logged_in() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
 
@@ -21,7 +21,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test(arguments: ["gemini-api-key", "api-key"])
-    func `rejects api key auth types`(authType: String) async throws {
+    func rejects_api_key_auth_types(authType: String) async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeSettings(authType: authType)
@@ -33,7 +33,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `rejects vertex auth type`() async throws {
+    func rejects_vertex_auth_type() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeSettings(authType: "vertex-ai")
@@ -45,7 +45,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `refreshes expired token and updates stored credentials`() async throws {
+    func refreshes_expired_token_and_updates_stored_credentials() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -124,7 +124,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `refreshes when stored Gemini credentials only have refresh token`() async throws {
+    func refreshes_when_stored_Gemini_credentials_only_have_refresh_token() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -195,7 +195,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `refreshes expired token with nix share layout`() async throws {
+    func refreshes_expired_token_with_nix_share_layout() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -271,7 +271,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `refreshes expired token with fnm bundle layout when fnm keeps stdout open`() async throws {
+    func refreshes_expired_token_with_fnm_bundle_layout_when_fnm_keeps_stdout_open() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let childPIDFile = env.homeURL.appendingPathComponent("fnm-child.pid")
@@ -403,7 +403,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `fnm helper timeout hard stops a process that ignores SIGTERM`() throws {
+    func fnm_helper_timeout_hard_stops_a_process_that_ignores_SIGTERM() throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let pidFile = env.homeURL.appendingPathComponent("fnm-timeout.pid")
@@ -434,7 +434,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `fnm helper completed no-output failure returns before deadline`() throws {
+    func fnm_helper_completed_no_output_failure_returns_before_deadline() throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let helper = env.homeURL.appendingPathComponent("fnm-failure")
@@ -457,7 +457,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `fnm helper successful output returns first line`() throws {
+    func fnm_helper_successful_output_returns_first_line() throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         let helper = env.homeURL.appendingPathComponent("fnm-success")
@@ -479,7 +479,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `refreshes expired token with homebrew bundle layout`() async throws {
+    func refreshes_expired_token_with_homebrew_bundle_layout() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -552,7 +552,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `uses code assist project for quota`() async throws {
+    func uses_code_assist_project_for_quota() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -621,7 +621,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `falls back to curl loader when URL session times out`() async throws {
+    func falls_back_to_curl_loader_when_URL_session_times_out() async throws {
         let calls = LoaderCalls()
         let url = try #require(URL(string: "https://cloudcode-pa.googleapis.com/v1internal:retrieveUserQuota"))
         let request = URLRequest(url: url)
@@ -649,7 +649,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `does not fall back to curl loader for non-timeout errors`() async throws {
+    func does_not_fall_back_to_curl_loader_for_non_timeout_errors() async throws {
         let calls = LoaderCalls()
         let url = try #require(URL(string: "https://cloudcode-pa.googleapis.com/v1internal:retrieveUserQuota"))
         let request = URLRequest(url: url)
@@ -680,7 +680,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `reports api errors`() async throws {
+    func reports_api_errors() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -716,7 +716,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `reports not logged in when access token missing`() async throws {
+    func reports_not_logged_in_when_access_token_missing() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -732,7 +732,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `reports not logged in on401`() async throws {
+    func reports_not_logged_in_on401() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -768,7 +768,7 @@ struct GeminiStatusProbeAPITests {
     }
 
     @Test
-    func `reports parse errors for invalid payload`() async throws {
+    func reports_parse_errors_for_invalid_payload() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(

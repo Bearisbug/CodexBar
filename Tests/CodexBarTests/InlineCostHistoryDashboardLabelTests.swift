@@ -5,7 +5,7 @@ import Testing
 
 struct InlineCostHistoryDashboardLabelTests {
     @Test
-    func `local cost history Today KPI uses current day session value`() throws {
+    func local_cost_history_Today_KPI_uses_current_day_session_value() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -54,7 +54,7 @@ struct InlineCostHistoryDashboardLabelTests {
     }
 
     @Test
-    func `local cost history KPI titles preserve one day and dynamic windows`() throws {
+    func local_cost_history_KPI_titles_preserve_one_day_and_dynamic_windows() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let daily = [
@@ -123,7 +123,7 @@ struct InlineCostHistoryDashboardLabelTests {
     }
 
     @Test
-    func `custom cost history KPI title keeps token label distinct`() throws {
+    func custom_cost_history_KPI_title_keeps_token_label_distinct() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -172,7 +172,7 @@ struct InlineCostHistoryDashboardLabelTests {
     }
 
     @Test
-    func `costHistoryInlineDashboard sets currencyCode from snapshot`() throws {
+    func costHistoryInlineDashboard_sets_currencyCode_from_snapshot() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.codex])
         let tokenSnapshot = CostUsageTokenSnapshot(
@@ -226,7 +226,7 @@ struct InlineCostHistoryDashboardLabelTests {
     }
 
     @Test
-    func `token-only inline dashboard leaves currencyCode nil`() throws {
+    func token_only_inline_dashboard_leaves_currencyCode_nil() throws {
         let now = Date(timeIntervalSince1970: 1_700_179_200)
         let metadata = try #require(ProviderDefaults.metadata[.zai])
         let modelUsage = ZaiModelUsageData(

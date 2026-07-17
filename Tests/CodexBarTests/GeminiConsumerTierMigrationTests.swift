@@ -15,7 +15,7 @@ struct GeminiConsumerTierMigrationTests {
         "no longer supported for Gemini Code Assist for individuals",
         "please migrate Gemini to the Antigravity suite",
     ])
-    func `detects consumer tier deprecation signals`(signal: String) {
+    func detects_consumer_tier_deprecation_signals(signal: String) {
         #expect(GeminiStatusProbeError.isConsumerTierDeprecationSignal(signal))
     }
 
@@ -24,12 +24,12 @@ struct GeminiConsumerTierMigrationTests {
         "HTTP 500",
         "quota bucket missing",
     ])
-    func `ignores unrelated api errors`(signal: String) {
+    func ignores_unrelated_api_errors(signal: String) {
         #expect(!GeminiStatusProbeError.isConsumerTierDeprecationSignal(signal))
     }
 
     @Test
-    func `reports consumer tier deprecation from loadCodeAssist`() async throws {
+    func reports_consumer_tier_deprecation_from_loadCodeAssist() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -63,7 +63,7 @@ struct GeminiConsumerTierMigrationTests {
     }
 
     @Test
-    func `reports consumer tier deprecation from quota api`() async throws {
+    func reports_consumer_tier_deprecation_from_quota_api() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(
@@ -108,7 +108,7 @@ struct GeminiConsumerTierMigrationTests {
     }
 
     @Test
-    func `reports consumer tier deprecation from token refresh`() async throws {
+    func reports_consumer_tier_deprecation_from_token_refresh() async throws {
         let env = try GeminiTestEnvironment()
         defer { env.cleanup() }
         try env.writeCredentials(

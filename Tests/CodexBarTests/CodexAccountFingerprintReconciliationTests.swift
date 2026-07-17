@@ -6,7 +6,7 @@ import Testing
 @Suite(.serialized)
 struct CodexAccountFingerprintReconciliationTests {
     @Test
-    func `active source falls back to identity when auth fingerprint rotated`() throws {
+    func active_source_falls_back_to_identity_when_auth_fingerprint_rotated() throws {
         let accountID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-333333333333"))
         let managed = ManagedCodexAccount(
             id: accountID,
@@ -38,7 +38,7 @@ struct CodexAccountFingerprintReconciliationTests {
 
     @Test
     @MainActor
-    func `auth fingerprint matches live account before semantic duplicate identity`() throws {
+    func auth_fingerprint_matches_live_account_before_semantic_duplicate_identity() throws {
         let suite = "CodexAccountFingerprintReconciliationTests-auth-fingerprint"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)

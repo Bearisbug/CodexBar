@@ -15,14 +15,14 @@ struct ProcNetTCPListeningPortParserLinuxTests {
     """
 
     @Test
-    func `returns listening ports for owned socket inodes`() {
+    func returns_listening_ports_for_owned_socket_inodes() {
         let ports = ProcNetTCPListeningPortParser.listeningPorts(
             Self.sample, socketInodes: ["111111", "222222"])
         #expect(ports == [8080, 49152])
     }
 
     @Test
-    func `parses tcp6 and deduplicates ports across tables`() {
+    func parses_tcp6_and_deduplicates_ports_across_tables() {
         let tcp6 = """
           sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
            0: 00000000000000000000000000000000:C000 00000000000000000000000000000000:0000 0A 00000000:00000000 00:00000000 00000000  1000        0 222222
@@ -35,7 +35,7 @@ struct ProcNetTCPListeningPortParserLinuxTests {
     }
 
     @Test
-    func `ignores malformed and out of range ports`() {
+    func ignores_malformed_and_out_of_range_ports() {
         let malformed = """
           sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
            0: 0100007F:NOTHEX 00000000:0000 0A 00000000:00000000 00:00000000 00000000  1000        0 111111
@@ -49,21 +49,21 @@ struct ProcNetTCPListeningPortParserLinuxTests {
     }
 
     @Test
-    func `accepts a headerless proc row`() {
+    func accepts_a_headerless_proc_row() {
         let row = Self.sample.split(separator: "\n")[1]
         #expect(ProcNetTCPListeningPortParser.listeningPorts(
             String(row), socketInodes: ["111111"]) == [8080])
     }
 
     @Test
-    func `ignores listening sockets owned by other processes`() {
+    func ignores_listening_sockets_owned_by_other_processes() {
         let ports = ProcNetTCPListeningPortParser.listeningPorts(
             Self.sample, socketInodes: ["999999"])
         #expect(ports.isEmpty)
     }
 
     @Test
-    func `ignores non listening sockets`() {
+    func ignores_non_listening_sockets() {
         // inode 333333 is an established (st 01) socket, not LISTEN.
         let ports = ProcNetTCPListeningPortParser.listeningPorts(
             Self.sample, socketInodes: ["333333"])
@@ -71,7 +71,7 @@ struct ProcNetTCPListeningPortParserLinuxTests {
     }
 
     @Test
-    func `parses socket inode from FD symlink destination`() {
+    func parses_socket_inode_from_FD_symlink_destination() {
         #expect(ProcNetTCPListeningPortParser.socketInode(fromLink: "socket:[12345]") == "12345")
         #expect(ProcNetTCPListeningPortParser.socketInode(fromLink: "/dev/pts/0") == nil)
         #expect(ProcNetTCPListeningPortParser.socketInode(fromLink: "anon_inode:[eventpoll]") == nil)
@@ -79,7 +79,7 @@ struct ProcNetTCPListeningPortParserLinuxTests {
     }
 
     @Test
-    func `reads process scoped TCP tables`() throws {
+    func reads_process_scoped_TCP_tables() throws {
         let fileManager = FileManager.default
         let procRoot = fileManager.temporaryDirectory
             .appendingPathComponent("codexbar-proc-\(UUID().uuidString)")

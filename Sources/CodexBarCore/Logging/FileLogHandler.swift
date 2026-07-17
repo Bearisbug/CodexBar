@@ -107,11 +107,20 @@ struct FileLogHandler: LogHandler {
         set { self.metadata[metadataKey] = newValue }
     }
 
-    func log(event: LogEvent) {
+    // swiftlint:disable:next function_parameter_count
+    func log(
+        level: Logger.Level,
+        message: Logger.Message,
+        metadata: Logger.Metadata?,
+        source _: String,
+        file _: String,
+        function _: String,
+        line _: UInt)
+    {
         guard self.sink.isWriteEnabled() else { return }
         let ts = Self.timestamp()
         var combined = self.metadata
-        if let metadata = event.metadata { combined.merge(metadata, uniquingKeysWith: { _, new in new }) }
+        if let metadata { combined.merge(metadata, uniquingKeysWith: { _, new in new }) }
         var metaText = ""
         if !combined.isEmpty {
             let pairs = combined
@@ -124,12 +133,8 @@ struct FileLogHandler: LogHandler {
                 .joined(separator: " ")
             metaText = " \(pairs)"
         }
-        let safeMessage = LogRedactor.redact("\(event.message)")
-        let lineText = "[\(ts)] [\(event.level.rawValue.uppercased())] \(self.label): \(safeMessage)\(metaText)\n"
-        _ = event.source
-        _ = event.file
-        _ = event.function
-        _ = event.line
+        let safeMessage = LogRedactor.redact("\(message)")
+        let lineText = "[\(ts)] [\(level.rawValue.uppercased())] \(self.label): \(safeMessage)\(metaText)\n"
         self.sink.write(lineText)
     }
 

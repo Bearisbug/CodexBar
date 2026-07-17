@@ -26,7 +26,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `parses O auth credentials`() throws {
+    func parses_O_auth_credentials() throws {
         let json = """
         {
           "OPENAI_API_KEY": null,
@@ -48,7 +48,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `parses legacy camel case O auth credentials`() throws {
+    func parses_legacy_camel_case_O_auth_credentials() throws {
         let json = """
         {
           "OPENAI_API_KEY": null,
@@ -70,7 +70,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `parses API key credentials`() throws {
+    func parses_API_key_credentials() throws {
         let json = """
         {
           "OPENAI_API_KEY": "sk-test"
@@ -84,7 +84,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `reset-credit token load ignores an API key beside O auth tokens`() throws {
+    func reset_credit_token_load_ignores_an_API_key_beside_O_auth_tokens() throws {
         let home = FileManager.default.temporaryDirectory
             .appendingPathComponent("codexbar-reset-credit-oauth-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
@@ -110,7 +110,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `decodes credits balance string`() throws {
+    func decodes_credits_balance_string() throws {
         let json = """
         {
           "plan_type": "pro",
@@ -136,7 +136,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `decodes prolite plan type without failing usage mapping`() throws {
+    func decodes_prolite_plan_type_without_failing_usage_mapping() throws {
         let json = """
         {
           "plan_type": "prolite",
@@ -163,7 +163,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `maps usage windows from O auth`() throws {
+    func maps_usage_windows_from_O_auth() throws {
         let json = """
         {
           "rate_limit": {
@@ -197,7 +197,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `O auth response with precise windows maps to exact confidence`() throws {
+    func O_auth_response_with_precise_windows_maps_to_exact_confidence() throws {
         let json = """
         {
           "rate_limit": {
@@ -229,7 +229,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `O auth response with malformed additional window maps to unknown confidence`() throws {
+    func O_auth_response_with_malformed_additional_window_maps_to_unknown_confidence() throws {
         let json = """
         {
           "rate_limit": {
@@ -264,7 +264,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `maps free weekly only window into secondary`() throws {
+    func maps_free_weekly_only_window_into_secondary() throws {
         let json = """
         {
           "plan_type": "free",
@@ -292,7 +292,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `keeps single session window as primary`() throws {
+    func keeps_single_session_window_as_primary() throws {
         let json = """
         {
           "rate_limit": {
@@ -319,7 +319,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `preserves unknown single window as primary`() throws {
+    func preserves_unknown_single_window_as_primary() throws {
         let json = """
         {
           "rate_limit": {
@@ -346,7 +346,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `preserves unknown secondary only window as primary`() throws {
+    func preserves_unknown_secondary_only_window_as_primary() throws {
         let json = """
         {
           "rate_limit": {
@@ -373,7 +373,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `swaps reversed weekly and unknown windows`() throws {
+    func swaps_reversed_weekly_and_unknown_windows() throws {
         let json = """
         {
           "rate_limit": {
@@ -405,7 +405,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `returns nil when O auth usage has no windows`() throws {
+    func returns_nil_when_O_auth_usage_has_no_windows() throws {
         let json = """
         {
           "rate_limit": {
@@ -425,7 +425,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `keeps valid window when secondary window is malformed`() throws {
+    func keeps_valid_window_when_secondary_window_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -459,7 +459,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `auto mode keeps weekly window when primary window is malformed`() throws {
+    func auto_mode_keeps_weekly_window_when_primary_window_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -494,7 +494,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `explicit oauth keeps weekly window when primary window is malformed`() throws {
+    func explicit_oauth_keeps_weekly_window_when_primary_window_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -529,7 +529,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `auto mode preserves reversed session window when primary window is malformed`() throws {
+    func auto_mode_preserves_reversed_session_window_when_primary_window_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -564,7 +564,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `auto mode keeps weekly window when reversed session window is malformed`() throws {
+    func auto_mode_keeps_weekly_window_when_reversed_session_window_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -599,7 +599,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `explicit oauth keeps weekly window when reversed session window is malformed`() throws {
+    func explicit_oauth_keeps_weekly_window_when_reversed_session_window_is_malformed() throws {
         let json = """
         {
           "rate_limit": {
@@ -634,7 +634,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `ignores malformed credits payload while keeping usage`() throws {
+    func ignores_malformed_credits_payload_while_keeping_usage() throws {
         let json = """
         {
           "rate_limit": {
@@ -667,7 +667,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `credits only O auth payload still returns credits result`() throws {
+    func credits_only_O_auth_payload_still_returns_credits_result() throws {
         let json = """
         {
           "rate_limit": {
@@ -697,7 +697,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `credits only O auth payload returns credits in auto mode`() throws {
+    func credits_only_O_auth_payload_returns_credits_in_auto_mode() throws {
         let json = """
         {
           "rate_limit": {
@@ -730,7 +730,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `auto mode only falls back from O auth on auth failures`() {
+    func auto_mode_only_falls_back_from_O_auth_on_auth_failures() {
         let strategy = CodexOAuthFetchStrategy()
         let context = self.makeContext(sourceMode: .auto)
 
@@ -754,7 +754,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `non 401 invalid grant refresh failure is treated as revoked`() {
+    func non_401_invalid_grant_refresh_failure_is_treated_as_revoked() {
         let data = Data(#"{"error":"invalid_grant"}"#.utf8)
         let error = CodexTokenRefresher._refreshFailureErrorForTesting(statusCode: 400, data: data)
 
@@ -767,7 +767,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `non auth refresh failure remains invalid response`() {
+    func non_auth_refresh_failure_remains_invalid_response() {
         let data = Data(#"{"error":"invalid_request"}"#.utf8)
         let error = CodexTokenRefresher._refreshFailureErrorForTesting(statusCode: 400, data: data)
 
@@ -780,7 +780,7 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `explicit O auth mode never falls back to CLI`() {
+    func explicit_O_auth_mode_never_falls_back_to_CLI() {
         let strategy = CodexOAuthFetchStrategy()
         let context = self.makeContext(sourceMode: .oauth)
 
@@ -789,21 +789,21 @@ struct CodexOAuthTests {
     }
 
     @Test
-    func `resolves chat GPT usage URL from config`() {
+    func resolves_chat_GPT_usage_URL_from_config() {
         let config = "chatgpt_base_url = \"https://chatgpt.com/backend-api/\"\n"
         let url = CodexOAuthUsageFetcher._resolveUsageURLForTesting(configContents: config)
         #expect(url.absoluteString == "https://chatgpt.com/backend-api/wham/usage")
     }
 
     @Test
-    func `resolves codex usage URL from config`() {
+    func resolves_codex_usage_URL_from_config() {
         let config = "chatgpt_base_url = \"https://api.openai.com\"\n"
         let url = CodexOAuthUsageFetcher._resolveUsageURLForTesting(configContents: config)
         #expect(url.absoluteString == "https://api.openai.com/api/codex/usage")
     }
 
     @Test
-    func `normalizes chat GPT base URL without backend API`() {
+    func normalizes_chat_GPT_base_URL_without_backend_API() {
         let config = "chatgpt_base_url = \"https://chat.openai.com\"\n"
         let url = CodexOAuthUsageFetcher._resolveUsageURLForTesting(configContents: config)
         #expect(url.absoluteString == "https://chat.openai.com/backend-api/wham/usage")

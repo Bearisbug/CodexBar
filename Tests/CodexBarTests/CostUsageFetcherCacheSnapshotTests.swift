@@ -4,7 +4,7 @@ import Testing
 
 struct CostUsageFetcherCacheSnapshotTests {
     @Test
-    func `cached codex token snapshot loads from existing cache without rescanning`() async throws {
+    func cached_codex_token_snapshot_loads_from_existing_cache_without_rescanning() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -36,7 +36,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot keeps the cache scan time as updatedAt`() async throws {
+    func cached_codex_token_snapshot_keeps_the_cache_scan_time_as_updatedAt() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -73,7 +73,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot keeps the oldest scan time when pi sessions merge`() async throws {
+    func cached_codex_token_snapshot_keeps_the_oldest_scan_time_when_pi_sessions_merge() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -122,7 +122,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot keeps pi scan time when only pi sessions exist`() async throws {
+    func cached_codex_token_snapshot_keeps_pi_scan_time_when_only_pi_sessions_exist() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -159,7 +159,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot keeps native scan time when pi cache lacks one`() async throws {
+    func cached_codex_token_snapshot_keeps_native_scan_time_when_pi_cache_lacks_one() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -208,7 +208,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot refuses expanded or managed scopes`() async throws {
+    func cached_codex_token_snapshot_refuses_expanded_or_managed_scopes() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -244,7 +244,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot omits projects until metadata migration`() async throws {
+    func cached_codex_token_snapshot_omits_projects_until_metadata_migration() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -284,7 +284,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot refuses mismatched roots fingerprint`() async throws {
+    func cached_codex_token_snapshot_refuses_mismatched_roots_fingerprint() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -318,7 +318,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot merges cached pi sessions`() async throws {
+    func cached_codex_token_snapshot_merges_cached_pi_sessions() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -356,7 +356,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot loads cached pi sessions without native codex cache`() async throws {
+    func cached_codex_token_snapshot_loads_cached_pi_sessions_without_native_codex_cache() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 
@@ -386,7 +386,7 @@ struct CostUsageFetcherCacheSnapshotTests {
     }
 
     @Test
-    func `cached codex token snapshot still loads pi sessions when native cache roots mismatch`() async throws {
+    func cached_codex_token_snapshot_still_loads_pi_sessions_when_native_cache_roots_mismatch() async throws {
         let env = try CostUsageTestEnvironment()
         defer { env.cleanup() }
 

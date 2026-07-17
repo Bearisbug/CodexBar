@@ -24,7 +24,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `scanner sums nested regular files and skips symlink targets`() throws {
+    func scanner_sums_nested_regular_files_and_skips_symlink_targets() throws {
         let root = try Self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -50,7 +50,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `scanner does not follow symlinked candidate roots`() throws {
+    func scanner_does_not_follow_symlinked_candidate_roots() throws {
         let root = try Self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -68,7 +68,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `scanner records missing paths without failing`() throws {
+    func scanner_records_missing_paths_without_failing() throws {
         let root = try Self.makeTemporaryDirectory()
         let missing = root.appendingPathComponent("missing")
         defer { try? FileManager.default.removeItem(at: root) }
@@ -81,7 +81,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `codex path catalog uses CODEX_HOME and managed homes`() {
+    func codex_path_catalog_uses_CODEX_HOME_and_managed_homes() {
         let managed = ManagedCodexAccount(
             id: UUID(),
             email: "user@example.com",
@@ -99,7 +99,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `codex path catalog falls back to default home`() {
+    func codex_path_catalog_falls_back_to_default_home() {
         let paths = ProviderStoragePathCatalog.candidatePaths(for: .codex, environment: [:])
         let expected = FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent(".codex", isDirectory: true)
@@ -109,7 +109,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `cursor path catalog includes application data and caches`() {
+    func cursor_path_catalog_includes_application_data_and_caches() {
         let home = FileManager.default.homeDirectoryForCurrentUser
         let paths = ProviderStoragePathCatalog.candidatePaths(for: .cursor, environment: [:])
 
@@ -130,7 +130,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `claude recommendations use documented cleanup categories`() {
+    func claude_recommendations_use_documented_cleanup_categories() {
         let root = "/Users/test/.claude"
         let footprint = ProviderStorageFootprint(
             provider: .claude,
@@ -158,7 +158,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `codex recommendations stay under known homes and exclude auth and config`() {
+    func codex_recommendations_stay_under_known_homes_and_exclude_auth_and_config() {
         let root = "/Users/test/.codex"
         let footprint = ProviderStorageFootprint(
             provider: .codex,
@@ -193,7 +193,7 @@ struct ProviderStorageFootprintTests {
     }
 
     @Test
-    func `unknown provider storage returns no cleanup recommendations`() {
+    func unknown_provider_storage_returns_no_cleanup_recommendations() {
         let footprint = ProviderStorageFootprint(
             provider: .gemini,
             totalBytes: 10,
@@ -210,7 +210,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `overview row carries storage text outside provider detail model`() throws {
+    func overview_row_carries_storage_text_outside_provider_detail_model() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.claude])
         let snapshot = UsageSnapshot(
@@ -251,7 +251,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `storage detail view exposes cleanup recommendations while overview remains number only`() throws {
+    func storage_detail_view_exposes_cleanup_recommendations_while_overview_remains_number_only() throws {
         let root = "/Users/test/.claude"
         let footprint = ProviderStorageFootprint(
             provider: .claude,
@@ -292,7 +292,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `storage detail view exposes copyable exact paths`() {
+    func storage_detail_view_exposes_copyable_exact_paths() {
         let root = "/Users/test/.claude"
         let footprint = ProviderStorageFootprint(
             provider: .claude,
@@ -313,7 +313,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `manual storage refresh updates deleted provider data`() async throws {
+    func manual_storage_refresh_updates_deleted_provider_data() async throws {
         let home = try Self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -353,7 +353,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `repeated identical storage refresh does not republish observable footprints`() async throws {
+    func repeated_identical_storage_refresh_does_not_republish_observable_footprints() async throws {
         let home = try Self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -402,7 +402,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `storage refresh is opt in and clears stale footprints when disabled`() async throws {
+    func storage_refresh_is_opt_in_and_clears_stale_footprints_when_disabled() async throws {
         let home = try Self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -443,7 +443,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `forced scheduled storage refresh does not restart identical in flight scan`() throws {
+    func forced_scheduled_storage_refresh_does_not_restart_identical_in_flight_scan() throws {
         let home = try Self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: home) }
 
@@ -482,7 +482,7 @@ struct ProviderStorageFootprintTests {
 
     @Test
     @MainActor
-    func `scheduled storage refresh notices managed Codex home changes`() async throws {
+    func scheduled_storage_refresh_notices_managed_Codex_home_changes() async throws {
         let home = try Self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: home) }
 

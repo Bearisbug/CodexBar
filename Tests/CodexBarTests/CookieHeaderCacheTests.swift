@@ -9,7 +9,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `stores and loads entry`() {
+    func stores_and_loads_entry() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -30,7 +30,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `conditional mutation does not overwrite or clear a newer entry`() {
+    func conditional_mutation_does_not_overwrite_or_clear_a_newer_entry() {
         self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -60,7 +60,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `conditional clear failure still permits replacing the same entry`() {
+    func conditional_clear_failure_still_permits_replacing_the_same_entry() {
         self.withIsolatedCookieCache {
             CookieHeaderCache.store(
                 provider: .claude,
@@ -86,7 +86,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `conditional mutation recognizes a legacy entry after migration failure`() {
+    func conditional_mutation_recognizes_a_legacy_entry_after_migration_failure() {
         self.withIsolatedCookieCache {
             let legacy = CookieHeaderCache.Entry(
                 cookieHeader: "sessionKey=sk-ant-legacy",
@@ -114,7 +114,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `stores separate codex entries per managed account scope`() {
+    func stores_separate_codex_entries_per_managed_account_scope() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -145,7 +145,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `profile home scopes isolate same email sessions without exposing paths`() {
+    func profile_home_scopes_isolate_same_email_sessions_without_exposing_paths() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -175,7 +175,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `provider global scope remains available without managed account`() {
+    func provider_global_scope_remains_available_without_managed_account() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -192,7 +192,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `claude cookie scopes isolate browser cache from managed accounts`() {
+    func claude_cookie_scopes_isolate_browser_cache_from_managed_accounts() {
         self.withIsolatedCookieCache {
             let accountA = UUID()
             let accountB = UUID()
@@ -233,7 +233,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `claude unreadable managed store sentinel is isolated from account cookies`() {
+    func claude_unreadable_managed_store_sentinel_is_isolated_from_account_cookies() {
         self.withIsolatedCookieCache {
             let accountID = UUID()
 
@@ -270,7 +270,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `claude clear all scopes does not remove other provider cookie caches`() {
+    func claude_clear_all_scopes_does_not_remove_other_provider_cookie_caches() {
         self.withIsolatedCookieCache {
             let claudeAccount = UUID()
             let codexAccount = UUID()
@@ -305,7 +305,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `migrates legacy file to keychain`() {
+    func migrates_legacy_file_to_keychain() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -338,7 +338,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `serialized load migrates legacy file to keychain`() {
+    func serialized_load_migrates_legacy_file_to_keychain() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -366,7 +366,7 @@ struct CookieHeaderCacheTests {
 
     #if os(macOS)
     @Test
-    func `temporary keychain unavailability returns nil without migrating legacy file`() {
+    func temporary_keychain_unavailability_returns_nil_without_migrating_legacy_file() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -402,7 +402,7 @@ struct CookieHeaderCacheTests {
     #endif
 
     @Test
-    func `invalid keychain cache is cleared`() {
+    func invalid_keychain_cache_is_cleared() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -426,7 +426,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `clear all scopes removes global scoped invalid and legacy cookie entries`() {
+    func clear_all_scopes_removes_global_scoped_invalid_and_legacy_cookie_entries() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -463,7 +463,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `loadForDisplay memoizes keychain lookups`() {
+    func loadForDisplay_memoizes_keychain_lookups() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -482,7 +482,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `loadForDisplay memoizes missing entries`() {
+    func loadForDisplay_memoizes_missing_entries() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -502,7 +502,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `loadForDisplay migrates legacy cache asynchronously`() async throws {
+    func loadForDisplay_migrates_legacy_cache_asynchronously() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -536,7 +536,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `delayed legacy migration cannot restore a cleared cache`() {
+    func delayed_legacy_migration_cannot_restore_a_cleared_cache() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -562,7 +562,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `legacy URL override supports concurrent teardown reads`() {
+    func legacy_URL_override_supports_concurrent_teardown_reads() {
         let legacyBases = [
             FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true),
             FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true),
@@ -587,7 +587,7 @@ struct CookieHeaderCacheTests {
 
     #if os(macOS)
     @Test
-    func `loadForDisplay throttles temporary keychain unavailability then retries`() async throws {
+    func loadForDisplay_throttles_temporary_keychain_unavailability_then_retries() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -621,7 +621,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `temporary first display read returns a concurrent store`() {
+    func temporary_first_display_read_returns_a_concurrent_store() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -636,7 +636,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `failed keychain mutations preserve the display snapshot`() {
+    func failed_keychain_mutations_preserve_the_display_snapshot() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -660,7 +660,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `legacy removal invalidates a snapshot after failed keychain clear`() {
+    func legacy_removal_invalidates_a_snapshot_after_failed_keychain_clear() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -696,7 +696,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `clear all reports keychain enumeration failure`() {
+    func clear_all_reports_keychain_enumeration_failure() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -708,7 +708,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `clear reports legacy file deletion failure`() {
+    func clear_reports_legacy_file_deletion_failure() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 
@@ -735,7 +735,7 @@ struct CookieHeaderCacheTests {
     #endif
 
     @Test
-    func `store and clear update the display snapshot immediately`() {
+    func store_and_clear_update_the_display_snapshot_immediately() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -753,7 +753,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `stale refresh cannot overwrite a newer store`() {
+    func stale_refresh_cannot_overwrite_a_newer_store() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -778,7 +778,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `stale refresh cannot resurrect a cleared snapshot`() {
+    func stale_refresh_cannot_resurrect_a_cleared_snapshot() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -802,7 +802,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `stale refresh cannot survive clear all`() {
+    func stale_refresh_cannot_survive_clear_all() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -825,7 +825,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `clear all invalidates an in flight first display population`() {
+    func clear_all_invalidates_an_in_flight_first_display_population() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -854,7 +854,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `stale display snapshot revalidates off the calling path`() async throws {
+    func stale_display_snapshot_revalidates_off_the_calling_path() async throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
         CookieHeaderCache.resetDisplayCacheForTesting()
@@ -892,7 +892,7 @@ struct CookieHeaderCacheTests {
     }
 
     @Test
-    func `clear all removes every provider cookie key without decoding entries`() {
+    func clear_all_removes_every_provider_cookie_key_without_decoding_entries() {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }
 

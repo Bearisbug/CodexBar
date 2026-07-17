@@ -5,7 +5,7 @@ import Testing
 
 struct CrofMenuCardTests {
     @Test
-    func `model shows request count and avoids duplicate credits section`() throws {
+    func model_shows_request_count_and_avoids_duplicate_credits_section() throws {
         let now = Date()
         let metadata = try #require(ProviderDefaults.metadata[.crof])
         let snapshot = CrofUsageSnapshot(

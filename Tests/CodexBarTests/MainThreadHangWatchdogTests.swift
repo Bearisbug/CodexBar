@@ -7,7 +7,7 @@ import Testing
 struct MainThreadHangWatchdogTests {
     @MainActor
     @Test
-    func `breadcrumb tracks nested activity`() {
+    func breadcrumb_tracks_nested_activity() {
         #expect(MainThreadActivityBreadcrumb.current == nil)
         MainThreadActivityBreadcrumb.push("outer")
         MainThreadActivityBreadcrumb.push("inner")
@@ -19,7 +19,7 @@ struct MainThreadHangWatchdogTests {
     }
 
     @Test
-    func `watchdog reports a breadcrumb for a delayed main thread response`() throws {
+    func watchdog_reports_a_breadcrumb_for_a_delayed_main_thread_response() throws {
         let watchdog = MainThreadHangWatchdog(
             pingInterval: 0.01,
             hangThreshold: 0.05,
@@ -41,7 +41,7 @@ struct MainThreadHangWatchdogTests {
     }
 
     @Test
-    func `watchdog polling loop reports a delayed ping response`() {
+    func watchdog_polling_loop_reports_a_delayed_ping_response() {
         let pingScheduled = DispatchSemaphore(value: 0)
         let hangDetected = DispatchSemaphore(value: 0)
         let reported = DispatchSemaphore(value: 0)
@@ -72,7 +72,7 @@ struct MainThreadHangWatchdogTests {
     }
 
     @Test
-    func `sample capture cannot inflate reported hang duration`() throws {
+    func sample_capture_cannot_inflate_reported_hang_duration() throws {
         let sampleRequested = OSAllocatedBox(false)
         let watchdog = MainThreadHangWatchdog(
             pingInterval: 0.01,
@@ -102,7 +102,7 @@ struct MainThreadHangWatchdogTests {
     }
 
     @Test
-    func `failed sample capture is attempted once per hang`() {
+    func failed_sample_capture_is_attempted_once_per_hang() {
         let attempts = OSAllocatedBox(0)
         let watchdog = MainThreadHangWatchdog(
             pingInterval: 0.01,
@@ -120,7 +120,7 @@ struct MainThreadHangWatchdogTests {
     }
 
     @Test
-    func `missed sample window does not consume cooldown`() {
+    func missed_sample_window_does_not_consume_cooldown() {
         let attempts = OSAllocatedBox(0)
         let watchdog = MainThreadHangWatchdog(
             pingInterval: 0.01,
@@ -140,7 +140,7 @@ struct MainThreadHangWatchdogTests {
     }
 
     @Test
-    func `cooldown blocked hang samples when cooldown expires`() {
+    func cooldown_blocked_hang_samples_when_cooldown_expires() {
         let attempts = OSAllocatedBox(0)
         let watchdog = MainThreadHangWatchdog(
             pingInterval: 0.01,
