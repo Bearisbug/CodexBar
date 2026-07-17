@@ -1214,6 +1214,25 @@ extension KiroStatusProbeTests {
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         try script.write(to: cliURL, atomically: true, encoding: .utf8)
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: cliURL.path)
+        // macOS scans freshly written executables on their first exec (syspolicyd),
+        // which can take >1s and would land inside tight probe timing windows.
+        // Warm the script up so tests time only the probe. The scan happens at exec,
+        // so the warm-up process is killed after a short bounded wait — some fixture
+        // scripts deliberately hang on unexpected arguments.
+        let warmup = Process()
+        warmup.executableURL = cliURL
+        warmup.arguments = ["syspolicyd-warmup"]
+        warmup.standardOutput = FileHandle.nullDevice
+        warmup.standardError = FileHandle.nullDevice
+        try? warmup.run()
+        let warmupDeadline = Date().addingTimeInterval(5)
+        while warmup.isRunning, Date() < warmupDeadline {
+            usleep(20000)
+        }
+        if warmup.isRunning {
+            warmup.terminate()
+            kill(warmup.processIdentifier, SIGKILL)
+        }
         return cliURL
     }
 
