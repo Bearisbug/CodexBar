@@ -445,6 +445,9 @@ extension StatusItemController {
                 display: context.tokenAccountDisplay,
                 width: context.menuWidth)
             self.lastTokenAccountMenuDisplay = context.tokenAccountDisplay
+            if case let .provider(shownProvider) = contentSelection {
+                self.addClaudeNativeAccountItemsIfNeeded(to: menu, provider: shownProvider)
+            }
             let menuContext = MenuCardContext(
                 currentProvider: context.currentProvider,
                 selectedProvider: context.selectedProvider,

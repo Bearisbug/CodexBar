@@ -531,11 +531,18 @@ public enum KeychainCacheStore {
     }
 
     private static func cacheAccessControl() -> SecAccess? {
-        let trustedPaths = self.trustedApplicationPathsForCacheAccess()
-        guard !trustedPaths.isEmpty else { return nil }
+        self.accessControl(
+            label: self.cacheLabel,
+            trustedApplicationPaths: self.trustedApplicationPathsForCacheAccess())
+    }
+
+    /// Builds a SecAccess trusting the given application paths (internal so other
+    /// keychain writers, e.g. the Claude account switcher, share the same mechanism).
+    static func accessControl(label: String, trustedApplicationPaths: [String]) -> SecAccess? {
+        guard !trustedApplicationPaths.isEmpty else { return nil }
 
         var trustedApplications: [SecTrustedApplication] = []
-        for path in trustedPaths {
+        for path in trustedApplicationPaths {
             let (status, application) = self.createTrustedApplication(path: path)
             if status == errSecSuccess, let application {
                 trustedApplications.append(application)
@@ -545,7 +552,7 @@ public enum KeychainCacheStore {
         }
         guard !trustedApplications.isEmpty else { return nil }
 
-        let (status, access) = self.createAccessControl(trustedApplications: trustedApplications)
+        let (status, access) = self.createAccessControl(label: label, trustedApplications: trustedApplications)
         if status != errSecSuccess {
             self.log.error("Keychain cache access control creation failed: \(status)")
             return nil
@@ -573,13 +580,16 @@ public enum KeychainCacheStore {
         return (status, application)
     }
 
-    private static func createAccessControl(trustedApplications: [SecTrustedApplication]) -> (OSStatus, SecAccess?) {
+    private static func createAccessControl(
+        label: String,
+        trustedApplications: [SecTrustedApplication]) -> (OSStatus, SecAccess?)
+    {
         guard let symbol = self.securitySymbol(named: "SecAccessCreate") else {
             return (errSecInternalComponent, nil)
         }
         let function = unsafeBitCast(symbol, to: SecAccessCreateFunction.self)
         var access: SecAccess?
-        let status = function(self.cacheLabel as CFString, trustedApplications as CFArray, &access)
+        let status = function(label as CFString, trustedApplications as CFArray, &access)
         return (status, access)
     }
 

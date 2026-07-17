@@ -60,8 +60,18 @@ struct ProvidersPane: View {
             onRefresh: {
                 self.triggerRefresh(for: self.provider)
             },
-            showsSupplementarySettingsContent: self.codexAccountsSectionState(for: self.provider) != nil,
+            showsSupplementarySettingsContent: self.codexAccountsSectionState(for: self.provider) != nil
+                || self.provider == .claude,
             supplementarySettingsContent: {
+                if self.provider == .claude {
+                    ClaudeAccountsSectionView(
+                        settings: self.settings,
+                        refreshClaude: {
+                            await ProviderInteractionContext.$current.withValue(.userInitiated) {
+                                await self.store.refreshProvider(.claude, allowDisabled: true)
+                            }
+                        })
+                }
                 if let state = self.codexAccountsSectionState(for: self.provider) {
                     CodexAccountsSectionView(
                         state: state,

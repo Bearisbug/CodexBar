@@ -117,8 +117,10 @@ Admin API key setup:
 
 ## claude-swap accounts (opt-in)
 
-The accepted multi-account design in
-[claude-multi-account-and-status-items.md](claude-multi-account-and-status-items.md).
+Fork note: the native multi-account design (with Clash proxy binding) in
+[claude-native-multi-account-clash.md](claude-native-multi-account-clash.md) supersedes the retired upstream
+claude-swap-first decision doc. The claude-swap adapter below remains available and unchanged; while it is enabled,
+the native account switcher stays hidden (see ADR-005 in the fork design doc).
 
 - Setup: Preferences → Providers → Claude → "Read accounts from claude-swap", then set the path to the
   [`cswap`](https://github.com/realiti4/claude-swap) executable (for example `~/.local/bin/cswap`).

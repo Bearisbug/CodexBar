@@ -23,9 +23,11 @@ public enum ClaudeOAuthCredentialsStore {
     // Can be overridden via environment variable if Anthropic ever changes it.
     public static let defaultOAuthClientID = "9d1c250a-e61b-44d9-88ed-5944d1962f5e"
     public static let environmentClientIDKey = "CODEXBAR_CLAUDE_OAUTH_CLIENT_ID"
-    private static let tokenRefreshEndpoint = "https://platform.claude.com/v1/oauth/token"
+    /// Internal (not private): the native account switcher's side-effect-free token
+    /// refresh (ClaudeAccountTokenRefresher) reuses the same endpoint and client id.
+    static let tokenRefreshEndpoint = "https://platform.claude.com/v1/oauth/token"
 
-    private static var oauthClientID: String {
+    static var oauthClientID: String {
         ProcessInfo.processInfo.environment[self.environmentClientIDKey]?
             .trimmingCharacters(in: .whitespacesAndNewlines)
             ?? self.defaultOAuthClientID

@@ -3,7 +3,7 @@ import Foundation
 
 /// Strictly parsed result of `cswap --list --json` (schema v1).
 ///
-/// Only the fields allow-listed in `docs/claude-multi-account-and-status-items.md`
+/// Only the fields allow-listed in `docs/claude.md` (claude-swap accounts section)
 /// are decoded: slot number, display email, active state, usage status, and the
 /// 5-hour/7-day windows (percent + reset timestamp). Everything else in the
 /// payload is ignored; unknown schema versions and partial top-level shapes are

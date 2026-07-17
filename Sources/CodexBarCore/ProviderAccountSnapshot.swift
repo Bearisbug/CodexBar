@@ -5,7 +5,7 @@ import Foundation
 /// `source` names the adapter (for example `claude-swap`) and `opaqueID` is the
 /// source-issued identifier (for example a numeric slot). Identity never derives
 /// from emails or credential material, per
-/// `docs/claude-multi-account-and-status-items.md`.
+/// `docs/claude.md` (claude-swap accounts section).
 public struct ProviderAccountIdentity: Hashable, Sendable {
     public let source: String
     public let opaqueID: String

@@ -19,7 +19,7 @@ public enum ClaudeSwapAccountReaderError: LocalizedError, Sendable {
 ///
 /// Executes only the fixed list and explicit switch argument arrays (never a
 /// shell or config-defined passthrough arguments), per the contracts in
-/// `docs/claude-multi-account-and-status-items.md`. CodexBar never reads
+/// `docs/claude.md` (claude-swap accounts section). CodexBar never reads
 /// claude-swap or Claude Code credential storage; the subprocess is solely
 /// responsible for its own credential access.
 public enum ClaudeSwapAccountReader {

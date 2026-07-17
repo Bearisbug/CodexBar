@@ -10,6 +10,7 @@ public enum LogCategories {
     public static let augmentKeepalive = "augment-keepalive"
     public static let bedrockUsage = "bedrock-usage"
     public static let browserCookieGate = "browser-cookie-gate"
+    public static let claudeAccounts = "claude-accounts"
     public static let claudeCLI = "claude-cli"
     public static let claudeProbe = "claude-probe"
     public static let claudeUsage = "claude-usage"
