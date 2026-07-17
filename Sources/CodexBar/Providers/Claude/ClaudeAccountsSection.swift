@@ -60,6 +60,11 @@ struct ClaudeAccountsSectionView: View {
                     Task { await self.captureCurrentAccount() }
                 }
                 .disabled(self.isBusy)
+                Button("Login new account…") {
+                    Task { await self.loginNewAccount() }
+                }
+                .disabled(self.isBusy)
+                .help("Runs `claude auth login` (browser sign-in), then captures the new account")
                 if self.canImportFromCCSwitcher {
                     Button("Import from CCSwitcher…") {
                         Task { await self.importFromCCSwitcher() }
@@ -275,6 +280,15 @@ struct ClaudeAccountsSectionView: View {
             self.clashCurrentNode = nil
             self.clashUnreachableDetail = error.localizedDescription
         }
+    }
+
+    private func loginNewAccount() async {
+        await self.runBusy {
+            let account = try await self.service.loginNewAccount()
+            self.showNotice("Signed in and captured \(account.displayTitle).", isError: false)
+            await self.refreshClaude()
+        }
+        await self.refreshClashStatus()
     }
 
     private func captureCurrentAccount() async {

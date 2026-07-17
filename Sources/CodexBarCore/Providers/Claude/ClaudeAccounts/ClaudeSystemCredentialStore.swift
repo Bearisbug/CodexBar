@@ -1,7 +1,4 @@
 import Foundation
-#if os(macOS)
-import Security
-#endif
 
 /// The live system credential position: the `Claude Code-credentials` keychain item
 /// plus the `oauthAccount` block inside `~/.claude.json`.
@@ -50,9 +47,9 @@ public protocol ClaudeSystemCredentialAccessing: Sendable {
     func write(credentialsBlob: String, oauthAccountJSON: Data) async throws
 }
 
-/// Real implementation: reads via `/usr/bin/security` (silent for items the security
-/// tool or Claude CLI created), writes via SecItem with a pre-authorized ACL (ADR-004),
-/// plus an atomic `~/.claude.json` rewrite that preserves every other key in the file.
+/// Real implementation backed by `/usr/bin/security` for both reads and writes
+/// (matching CCSwitcher and the Claude CLI's item ownership, see ADR-004), plus an
+/// atomic `~/.claude.json` rewrite that preserves every other key in the file.
 public struct ClaudeSystemCredentialStore: ClaudeSystemCredentialAccessing {
     public typealias SecurityRunner = @Sendable (_ arguments: [String], _ toleratesFailure: Bool) async throws
         -> String
@@ -101,51 +98,31 @@ public struct ClaudeSystemCredentialStore: ClaudeSystemCredentialAccessing {
         try self.readOAuthAccountObject()["emailAddress"] as? String
     }
 
+    /// Writes through the `security` CLI so the recreated item is owned by the security
+    /// tool — exactly the ownership the Claude CLI and CCSwitcher expect, keeping their
+    /// reads prompt-free. CodexBar itself never reads the recreated item directly: the
+    /// switcher seeds the OAuth cache with the payload it just wrote (see ADR-004).
     public func write(credentialsBlob: String, oauthAccountJSON: Data) async throws {
-        try self.writeKeychainItem(credentialsBlob: credentialsBlob)
+        // `security` has no in-place update for generic passwords: delete (tolerating
+        // a missing item) then add. `-U` keeps the add idempotent under races.
+        _ = try? await self.runSecurity([
+            "delete-generic-password",
+            "-s", Self.keychainService,
+            "-a", self.keychainAccountName,
+        ], true)
+        do {
+            _ = try await self.runSecurity([
+                "add-generic-password",
+                "-s", Self.keychainService,
+                "-a", self.keychainAccountName,
+                "-w", credentialsBlob,
+                "-U",
+            ], false)
+        } catch {
+            throw ClaudeSystemCredentialError.keychainWriteFailed(detail: error.localizedDescription)
+        }
         try self.writeOAuthAccount(oauthAccountJSON: oauthAccountJSON)
     }
-
-    /// Recreates the item with a pre-authorized ACL: CodexBar (app bundle, executable,
-    /// bundled CLI) reads it silently for usage fetching, and `/usr/bin/security` keeps
-    /// the Claude CLI (and CCSwitcher) reading silently. Recreating without an ACL —
-    /// the previous `security` CLI delete+add approach — wiped every "Always Allow"
-    /// grant on each switch and re-prompted the user endlessly.
-    private func writeKeychainItem(credentialsBlob: String) throws {
-        #if os(macOS)
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: Self.keychainService,
-            kSecAttrAccount as String: self.keychainAccountName,
-        ]
-        // Deleting does not require item-ACL authorization, so this never prompts.
-        _ = KeychainSecurity.delete(query as CFDictionary)
-
-        var addQuery = query
-        addQuery[kSecValueData as String] = Data(credentialsBlob.utf8)
-        addQuery[kSecAttrLabel as String] = Self.keychainService
-        if let access = Self.claudeCredentialAccessControl() {
-            addQuery[kSecAttrAccess as String] = access
-        }
-        let status = KeychainSecurity.add(addQuery as CFDictionary, nil)
-        guard status == errSecSuccess else {
-            throw ClaudeSystemCredentialError.keychainWriteFailed(detail: "OSStatus \(status)")
-        }
-        #else
-        throw ClaudeSystemCredentialError.keychainWriteFailed(detail: "unsupported platform")
-        #endif
-    }
-
-    #if os(macOS)
-    private static func claudeCredentialAccessControl() -> SecAccess? {
-        var paths = KeychainCacheStore.trustedApplicationPathsForCacheAccess()
-        // The Claude CLI (and CCSwitcher) access this item through the security tool.
-        paths.append("/usr/bin/security")
-        return KeychainCacheStore.accessControl(
-            label: Self.keychainService,
-            trustedApplicationPaths: paths)
-    }
-    #endif
 
     // MARK: - ~/.claude.json plumbing
 

@@ -233,7 +233,7 @@ private struct ServiceHarness {
     let log: EventLog
     let validatedTokens: EventLog
     let refreshedTokens: EventLog
-    let cacheInvalidations: EventLog
+    let seededBlobs: EventLog
 
     init(
         accounts: [ClaudeManagedAccount],
@@ -244,12 +244,13 @@ private struct ServiceHarness {
         importSource: FakeImportSource = FakeImportSource(accounts: [], backups: [:]),
         validationError: ClaudeOAuthFetchError? = nil,
         validationOutcomes: [ClaudeOAuthFetchError?]? = nil,
-        refreshResult: Result<ClaudeRefreshedTokens, ClaudeAccountTokenRefreshError>? = nil)
+        refreshResult: Result<ClaudeRefreshedTokens, ClaudeAccountTokenRefreshError>? = nil,
+        loginAction: (@Sendable (FakeSystemCredentials) async throws -> Void)? = nil)
     {
         let log = EventLog()
         let validatedTokens = EventLog()
         let refreshedTokens = EventLog()
-        let cacheInvalidations = EventLog()
+        let seededBlobs = EventLog()
         let store = InMemoryAccountStore(Fixtures.accountSet(accounts))
         let backupStore = InMemoryBackupStore(backupsByID)
         let credentials = FakeSystemCredentials(current: current, log: log)
@@ -277,7 +278,13 @@ private struct ServiceHarness {
                 }
                 return try refreshResult.get()
             },
-            invalidateOAuthCache: { cacheInvalidations.record("invalidated") },
+            runClaudeLogin: {
+                guard let loginAction else {
+                    throw ClaudeAccountLoginRunnerError.cliNotFound
+                }
+                try await loginAction(credentials)
+            },
+            seedOAuthCache: { blob in seededBlobs.record(blob) },
             now: { Date(timeIntervalSince1970: 1000) })
         self.store = store
         self.backups = backupStore
@@ -286,7 +293,7 @@ private struct ServiceHarness {
         self.log = log
         self.validatedTokens = validatedTokens
         self.refreshedTokens = refreshedTokens
-        self.cacheInvalidations = cacheInvalidations
+        self.seededBlobs = seededBlobs
     }
 }
 
@@ -505,6 +512,49 @@ struct ClaudeAccountServiceCaptureTests {
     }
 }
 
+// MARK: - Login new account (REQ-009)
+
+struct ClaudeAccountServiceLoginTests {
+    @Test
+    func login_backs_up_the_current_account_then_captures_the_new_identity() async throws {
+        let existing = ClaudeManagedAccount(email: "a@example.com", isActive: true)
+        let harness = ServiceHarness(
+            accounts: [existing],
+            backupsByID: [existing.id: Fixtures.backup(email: "a@example.com", token: "stale")],
+            current: Fixtures.credentials(email: "a@example.com", token: "fresh-a"),
+            loginAction: { credentials in
+                credentials.current = Fixtures.credentials(email: "new@example.com", token: "tok-new")
+                credentials.identityEmail = "new@example.com"
+            })
+
+        let account = try await harness.service.loginNewAccount()
+
+        #expect(account.email == "new@example.com")
+        #expect(account.isActive)
+        let set = try harness.store.load()
+        #expect(set.accounts.count == 2)
+        #expect(set.activeAccount?.id == account.id)
+        // The signed-in account's backup was refreshed before the login overwrote it.
+        #expect(harness.backups.load(accountID: existing.id)?.credentialsBlob.contains("fresh-a") == true)
+        #expect(harness.backups.load(accountID: account.id)?.credentialsBlob.contains("tok-new") == true)
+    }
+
+    @Test
+    func missing_claude_cli_is_reported_without_touching_accounts() async throws {
+        let existing = ClaudeManagedAccount(email: "a@example.com", isActive: true)
+        let harness = ServiceHarness(
+            accounts: [existing],
+            backupsByID: [:],
+            current: Fixtures.credentials(email: "a@example.com", token: "tok-a"))
+
+        await #expect(throws: ClaudeAccountServiceError.claudeCLIMissing) {
+            try await harness.service.loginNewAccount()
+        }
+        let set = try harness.store.load()
+        #expect(set.accounts.count == 1)
+    }
+}
+
 // MARK: - Switch (REQ-002 / REQ-004)
 
 struct ClaudeAccountServiceSwitchTests {
@@ -530,7 +580,8 @@ struct ClaudeAccountServiceSwitchTests {
         #expect(!harness.log.events.contains { $0.hasPrefix("clash-") })
         #expect(harness.log.events.contains("write:b@example.com"))
         #expect(harness.validatedTokens.events == ["tok-b"])
-        #expect(harness.cacheInvalidations.events == ["invalidated"])
+        #expect(harness.seededBlobs.events.count == 1)
+        #expect(harness.seededBlobs.events.first?.contains("tok-b") == true)
         let set = try harness.store.load()
         #expect(set.activeAccount?.id == target.id)
         #expect(set.account(id: target.id)?.lastUsed != nil)
@@ -584,7 +635,7 @@ struct ClaudeAccountServiceSwitchTests {
     }
 
     @Test
-    func validation_failure_rolls_back_credentials_and_proxy() async throws {
+    func definitive_credential_death_rolls_back_credentials_and_proxy() async throws {
         let (active, target) = Self.twoAccounts(bindTarget: true)
         let harness = ServiceHarness(
             accounts: [active, target],
@@ -593,7 +644,8 @@ struct ClaudeAccountServiceSwitchTests {
                 target.id: Fixtures.backup(email: "b@example.com", token: "tok-b"),
             ],
             current: Fixtures.credentials(email: "a@example.com", token: "tok-a"),
-            validationError: .unauthorized)
+            validationError: .unauthorized,
+            refreshResult: .failure(.rejected(status: 400, detail: "invalid_grant")))
 
         do {
             try await harness.service.switchTo(accountID: target.id)
@@ -686,7 +738,7 @@ struct ClaudeAccountServiceSwitchTests {
                 gate.record("validating")
                 try await Task.sleep(nanoseconds: 300_000_000)
             },
-            invalidateOAuthCache: {},
+            seedOAuthCache: { _ in },
             now: { Date(timeIntervalSince1970: 1000) })
 
         async let first: Void = service.switchTo(accountID: target.id)
@@ -755,12 +807,13 @@ struct ClaudeAccountServiceTokenRefreshTests {
     }
 
     @Test
-    func failed_refresh_of_an_expired_backup_aborts_before_credentials_are_touched() async throws {
+    func rejected_refresh_of_an_expired_backup_aborts_before_credentials_are_touched() async throws {
         let (active, target) = Self.accounts()
         let harness = ServiceHarness(
             accounts: [active, target],
             backupsByID: [target.id: Fixtures.backup(email: "b@example.com", token: "stale-tok", expiresAtMs: 1)],
-            current: Fixtures.credentials(email: "a@example.com", token: "tok-a"))
+            current: Fixtures.credentials(email: "a@example.com", token: "tok-a"),
+            refreshResult: .failure(.rejected(status: 400, detail: "invalid_grant")))
 
         do {
             try await harness.service.switchTo(accountID: target.id)
@@ -774,6 +827,79 @@ struct ClaudeAccountServiceTokenRefreshTests {
         #expect(!harness.log.events.contains { $0.hasPrefix("write") })
         let set = try harness.store.load()
         #expect(set.activeAccount?.id == active.id)
+    }
+
+    @Test
+    func unreachable_refresh_of_an_expired_backup_still_switches_with_the_stale_token() async throws {
+        let (active, target) = Self.accounts()
+        let harness = ServiceHarness(
+            accounts: [active, target],
+            backupsByID: [target.id: Fixtures.backup(email: "b@example.com", token: "stale-tok", expiresAtMs: 1)],
+            current: Fixtures.credentials(email: "a@example.com", token: "tok-a"))
+
+        try await harness.service.switchTo(accountID: target.id)
+
+        #expect(harness.log.events.contains("write:b@example.com"))
+        let set = try harness.store.load()
+        #expect(set.activeAccount?.id == target.id)
+    }
+}
+
+// MARK: - Advisory validation (REQ-002 / design v1.6)
+
+struct ClaudeAccountServiceAdvisoryValidationTests {
+    private static func accounts() -> (active: ClaudeManagedAccount, target: ClaudeManagedAccount) {
+        (
+            ClaudeManagedAccount(email: "a@example.com", isActive: true),
+            ClaudeManagedAccount(email: "b@example.com"))
+    }
+
+    @Test
+    func rate_limited_usage_does_not_block_the_switch() async throws {
+        let (active, target) = Self.accounts()
+        let harness = ServiceHarness(
+            accounts: [active, target],
+            backupsByID: [target.id: Fixtures.backup(email: "b@example.com", token: "tok-b")],
+            current: Fixtures.credentials(email: "a@example.com", token: "tok-a"),
+            validationError: .rateLimited(retryAfter: nil))
+
+        try await harness.service.switchTo(accountID: target.id)
+
+        #expect(harness.refreshedTokens.events.isEmpty)
+        #expect(harness.credentials.current?.emailAddress == "b@example.com")
+        #expect(harness.seededBlobs.events.count == 1)
+        let set = try harness.store.load()
+        #expect(set.activeAccount?.id == target.id)
+    }
+
+    @Test
+    func network_failure_during_validation_does_not_block_the_switch() async throws {
+        let (active, target) = Self.accounts()
+        let harness = ServiceHarness(
+            accounts: [active, target],
+            backupsByID: [target.id: Fixtures.backup(email: "b@example.com", token: "tok-b")],
+            current: Fixtures.credentials(email: "a@example.com", token: "tok-a"),
+            validationError: .networkError(URLError(.notConnectedToInternet)))
+
+        try await harness.service.switchTo(accountID: target.id)
+
+        let set = try harness.store.load()
+        #expect(set.activeAccount?.id == target.id)
+    }
+
+    @Test
+    func server_error_during_validation_does_not_block_the_switch() async throws {
+        let (active, target) = Self.accounts()
+        let harness = ServiceHarness(
+            accounts: [active, target],
+            backupsByID: [target.id: Fixtures.backup(email: "b@example.com", token: "tok-b")],
+            current: Fixtures.credentials(email: "a@example.com", token: "tok-a"),
+            validationError: .serverError(403, nil))
+
+        try await harness.service.switchTo(accountID: target.id)
+
+        let set = try harness.store.load()
+        #expect(set.activeAccount?.id == target.id)
     }
 }
 

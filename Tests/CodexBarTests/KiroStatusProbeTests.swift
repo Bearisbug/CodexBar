@@ -1221,6 +1221,7 @@ extension KiroStatusProbeTests {
         // scripts deliberately hang on unexpected arguments.
         let warmup = Process()
         warmup.executableURL = cliURL
+        warmup.currentDirectoryURL = root
         warmup.arguments = ["syspolicyd-warmup"]
         warmup.standardOutput = FileHandle.nullDevice
         warmup.standardError = FileHandle.nullDevice

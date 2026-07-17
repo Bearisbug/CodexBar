@@ -658,6 +658,13 @@ public enum ClaudeOAuthCredentialsStore {
             }
         }
 
+        func seedCacheWithClaudeKeychainPayload(_ data: Data) {
+            self.context.run {
+                ClaudeOAuthCredentialsStore.invalidatePromptAttemptOutcome()
+                _ = try? self.recordClaudeKeychainData(data, allowCacheKeychainWrite: true)
+            }
+        }
+
         func hasCachedCredentials(environment: [String: String]) -> Bool {
             self.context.run {
                 func isRefreshableOrValid(_ record: ClaudeOAuthCredentialRecord) -> Bool {
@@ -1658,6 +1665,14 @@ public enum ClaudeOAuthCredentialsStore {
 
     public static func hasClaudeKeychainCredentialsWithoutPrompt() -> Bool {
         Repository(context: self.currentCollaboratorContext()).hasClaudeKeychainCredentialsWithoutPrompt()
+    }
+
+    /// Seeds the caches with a Claude CLI keychain payload the caller already holds
+    /// (the account switcher, right after writing the credential position). The next
+    /// usage fetch then reads the cache instead of the Claude keychain item, so no
+    /// keychain prompt fires. Ownership stays with the CLI (refresh is delegated).
+    public static func seedCacheWithClaudeKeychainPayload(_ data: Data) {
+        Repository(context: self.currentCollaboratorContext()).seedCacheWithClaudeKeychainPayload(data)
     }
 
     private static func hasClaudeKeychainItemWithoutPrompt() -> Bool {

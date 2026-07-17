@@ -25,6 +25,8 @@ public enum ClaudeAccountServiceError: LocalizedError, Equatable, Sendable {
     case clashNodeMissing(group: String, node: String)
     case captureFailed(detail: String)
     case captureInvalid
+    case claudeCLIMissing
+    case loginFailed(detail: String)
     case switchWriteFailed(detail: String, rolledBack: Bool)
     case switchValidateFailed(detail: String, rolledBack: Bool)
     case importSourceMissing
@@ -51,6 +53,11 @@ public enum ClaudeAccountServiceError: LocalizedError, Equatable, Sendable {
         case .captureInvalid:
             "The current Claude keychain item has no claudeAiOauth credentials. "
                 + "Run `claude /login` to repair it, then retry."
+        case .claudeCLIMissing:
+            ClaudeAccountLoginRunnerError.cliNotFound.errorDescription
+        case let .loginFailed(detail):
+            "Signing in a new account failed: \(detail) "
+                + "The previous account's backup was refreshed beforehand and is unaffected."
         case let .switchWriteFailed(detail, rolledBack):
             Self.appendRollbackHint(
                 "Writing the target credentials failed: \(detail)",
@@ -92,7 +99,8 @@ public actor ClaudeAccountService {
     private let makeClashClient: @Sendable (_ socketPath: String) -> any ClashProxyControlling
     private let validateAccessToken: AccessTokenValidator
     private let refreshTokens: TokenRefresher
-    private let invalidateOAuthCache: @Sendable () -> Void
+    private let runClaudeLogin: @Sendable () async throws -> Void
+    private let seedOAuthCache: @Sendable (_ credentialsBlob: String) -> Void
     private let now: @Sendable () -> Date
     private var transactionInProgress = false
 
@@ -108,8 +116,11 @@ public actor ClaudeAccountService {
         },
         validateAccessToken: AccessTokenValidator? = nil,
         refreshTokens: TokenRefresher? = nil,
-        invalidateOAuthCache: @Sendable @escaping () -> Void = {
-            ClaudeOAuthCredentialsStore.invalidateCache()
+        runClaudeLogin: @Sendable @escaping () async throws -> Void = {
+            try await ClaudeAccountLoginRunner.runLogin()
+        },
+        seedOAuthCache: @Sendable @escaping (_ credentialsBlob: String) -> Void = { blob in
+            ClaudeOAuthCredentialsStore.seedCacheWithClaudeKeychainPayload(Data(blob.utf8))
         },
         now: @Sendable @escaping () -> Date = { Date() })
     {
@@ -124,7 +135,8 @@ public actor ClaudeAccountService {
         self.refreshTokens = refreshTokens ?? { refreshToken in
             try await ClaudeAccountTokenRefresher.refresh(refreshToken: refreshToken)
         }
-        self.invalidateOAuthCache = invalidateOAuthCache
+        self.runClaudeLogin = runClaudeLogin
+        self.seedOAuthCache = seedOAuthCache
         self.now = now
     }
 
@@ -180,8 +192,45 @@ public actor ClaudeAccountService {
     public func captureCurrentAccount() async throws -> ClaudeManagedAccount {
         try self.beginTransaction()
         defer { self.endTransaction() }
-        let txID = Self.newTransactionID()
+        return try await self.captureCurrentAccountLocked(txID: Self.newTransactionID())
+    }
 
+    /// Signs in a brand-new account through `claude auth login` (browser OAuth) and
+    /// captures it, CCSwitcher-style (REQ-009). The signed-in account's backup is
+    /// refreshed first because the login overwrites the system credential position.
+    @discardableResult
+    public func loginNewAccount() async throws -> ClaudeManagedAccount {
+        try self.beginTransaction()
+        defer { self.endTransaction() }
+        let txID = Self.newTransactionID()
+        Self.log.info("[\(txID)] login-new-account started")
+
+        if let current = try? await self.systemCredentials.readCurrent(),
+           Self.blobHasClaudeAiOauth(current.credentialsBlob),
+           let email = current.emailAddress,
+           let existing = (try? self.store.load())?.account(email: email)
+        {
+            self.backups.store(
+                ClaudeCredentialBackup(
+                    credentialsBlob: current.credentialsBlob,
+                    oauthAccountJSON: current.oauthAccountJSON,
+                    capturedAt: self.now()),
+                accountID: existing.id)
+            Self.log.info("[\(txID)] pre-login backup refreshed for \(existing.id.uuidString)")
+        }
+
+        do {
+            try await self.runClaudeLogin()
+        } catch ClaudeAccountLoginRunnerError.cliNotFound {
+            throw ClaudeAccountServiceError.claudeCLIMissing
+        } catch {
+            Self.log.error("[\(txID)] claude auth login failed")
+            throw ClaudeAccountServiceError.loginFailed(detail: error.localizedDescription)
+        }
+        return try await self.captureCurrentAccountLocked(txID: txID)
+    }
+
+    private func captureCurrentAccountLocked(txID: String) async throws -> ClaudeManagedAccount {
         let current = try await self.readCurrentForCapture(txID: txID)
         guard Self.blobHasClaudeAiOauth(current.credentialsBlob) else {
             Self.log.error("[\(txID)] capture rejected: keychain item has no claudeAiOauth")
@@ -272,12 +321,20 @@ public actor ClaudeAccountService {
                     refreshToken: refreshToken,
                     accountID: target.id,
                     txID: txID)
+            } catch let error as ClaudeAccountTokenRefreshError {
+                if case .rejected = error {
+                    // Dead refresh token: the account needs a re-login; credentials untouched.
+                    await self.restoreProxy(proxyRollback, txID: txID)
+                    Self.log.error("[\(txID)] pre-write token refresh rejected")
+                    throw ClaudeAccountServiceError.switchValidateFailed(
+                        detail: error.localizedDescription,
+                        rolledBack: true)
+                }
+                // Refresh endpoint unreachable: proceed with the stale token — the
+                // Claude CLI refreshes on its own once the network is back.
+                Self.log.info("[\(txID)] pre-write token refresh unreachable; switching with stale token")
             } catch {
-                await self.restoreProxy(proxyRollback, txID: txID)
-                Self.log.error("[\(txID)] pre-write token refresh failed")
-                throw ClaudeAccountServiceError.switchValidateFailed(
-                    detail: error.localizedDescription,
-                    rolledBack: true)
+                Self.log.info("[\(txID)] pre-write token refresh failed; switching with stale token")
             }
         }
 
@@ -295,35 +352,19 @@ public actor ClaudeAccountService {
                 rolledBack: rolledBack)
         }
 
-        // Validate via the OAuth usage endpoint (ADR-003); a first-try 401 gets one
-        // refresh-and-retry before the transaction is declared failed (API-004).
+        // Validate via the OAuth usage endpoint (ADR-003). Validation is advisory:
+        // only a definitive credential death (401 with no refresh token, a rejected
+        // refresh, or a 401 after refreshing) rolls the switch back. Rate limits,
+        // scope 403s, server errors, and offline states never block a switch —
+        // the credential swap itself is already complete (API-004, design v1.6).
         do {
-            guard let fields = Self.credentialFields(fromCredentialsBlob: activeBackup.credentialsBlob) else {
-                throw ClaudeAccountServiceError.captureInvalid
-            }
-            do {
-                try await self.validateAccessToken(fields.accessToken)
-            } catch let error as ClaudeOAuthFetchError {
-                guard case .unauthorized = error, let refreshToken = fields.refreshToken else { throw error }
-                Self.log.info("[\(txID)] usage returned 401; refreshing token and retrying once")
-                activeBackup = try await self.refreshedBackup(
-                    activeBackup,
-                    refreshToken: refreshToken,
-                    accountID: target.id,
-                    txID: txID)
-                try await self.systemCredentials.write(
-                    credentialsBlob: activeBackup.credentialsBlob,
-                    oauthAccountJSON: activeBackup.oauthAccountJSON)
-                guard let retryToken = Self.accessToken(fromCredentialsBlob: activeBackup.credentialsBlob)
-                else {
-                    throw ClaudeAccountServiceError.captureInvalid
-                }
-                try await self.validateAccessToken(retryToken)
-            }
+            activeBackup = try await self.validateSwitchedCredentials(
+                activeBackup,
+                accountID: target.id,
+                txID: txID)
         } catch {
             let rolledBack = await self.rollbackCredentials(to: current, txID: txID)
             await self.restoreProxy(proxyRollback, txID: txID)
-            self.invalidateOAuthCache()
             Self.log.error("[\(txID)] switch validation failed (rolledBack=\(rolledBack))")
             throw ClaudeAccountServiceError.switchValidateFailed(
                 detail: error.localizedDescription,
@@ -335,8 +376,69 @@ public actor ClaudeAccountService {
         set.accounts = set.accounts.map { $0.id == updatedTarget.id ? updatedTarget : $0 }
         set.setActiveAccount(id: updatedTarget.id)
         try self.persist(set)
-        self.invalidateOAuthCache()
+        // Seed the OAuth cache with the payload just written so the next usage fetch
+        // reads the cache instead of the Claude keychain item (no keychain prompt).
+        self.seedOAuthCache(activeBackup.credentialsBlob)
         Self.log.info("[\(txID)] switch completed → \(updatedTarget.id.uuidString)")
+    }
+
+    /// Runs the advisory post-switch validation. Returns the (possibly refreshed)
+    /// backup on success or acceptable-degradation outcomes; throws only when the
+    /// target credentials are definitively dead.
+    private func validateSwitchedCredentials(
+        _ backup: ClaudeCredentialBackup,
+        accountID: UUID,
+        txID: String) async throws -> ClaudeCredentialBackup
+    {
+        guard let fields = Self.credentialFields(fromCredentialsBlob: backup.credentialsBlob) else {
+            throw ClaudeAccountServiceError.captureInvalid
+        }
+        do {
+            try await self.validateAccessToken(fields.accessToken)
+            return backup
+        } catch let error as ClaudeOAuthFetchError {
+            guard case .unauthorized = error else {
+                Self.log.info("[\(txID)] usage validation inconclusive; switch proceeds unverified")
+                return backup
+            }
+            guard let refreshToken = fields.refreshToken else {
+                throw error
+            }
+            Self.log.info("[\(txID)] usage returned 401; refreshing token and retrying once")
+            let refreshed: ClaudeCredentialBackup
+            do {
+                refreshed = try await self.refreshedBackup(
+                    backup,
+                    refreshToken: refreshToken,
+                    accountID: accountID,
+                    txID: txID)
+            } catch let refreshError as ClaudeAccountTokenRefreshError {
+                if case .rejected = refreshError {
+                    // The refresh token itself is dead: this account needs a re-login.
+                    throw refreshError
+                }
+                Self.log.info("[\(txID)] token refresh unreachable; switch proceeds unverified")
+                return backup
+            }
+            try await self.systemCredentials.write(
+                credentialsBlob: refreshed.credentialsBlob,
+                oauthAccountJSON: refreshed.oauthAccountJSON)
+            guard let retryToken = Self.accessToken(fromCredentialsBlob: refreshed.credentialsBlob) else {
+                throw ClaudeAccountServiceError.captureInvalid
+            }
+            do {
+                try await self.validateAccessToken(retryToken)
+            } catch ClaudeOAuthFetchError.unauthorized {
+                throw ClaudeOAuthFetchError.unauthorized
+            } catch {
+                Self.log.info("[\(txID)] post-refresh validation inconclusive; switch proceeds")
+            }
+            return refreshed
+        } catch {
+            // Custom validators may throw other error types; usage checks stay advisory.
+            Self.log.info("[\(txID)] usage validation inconclusive; switch proceeds unverified")
+            return backup
+        }
     }
 
     // MARK: - Import (REQ-005)

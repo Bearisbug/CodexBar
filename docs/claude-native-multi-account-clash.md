@@ -30,6 +30,9 @@ read_when:
 | 2026-07-17 | v1.3 | §23 上线前检查单登记首轮结果（自动化项过，人工项待执行） | Bearisbug |
 | 2026-07-17 | v1.4 | 实测缺陷修正：备份 access token 过期导致切换校验 401 误判回滚（CCSwitcher 导入件必现）。新增 API-004 token 刷新，切换事务在过期/401 时先刷新并重写凭据位与备份（§8/§11/§12/§14/§17/§19） | Bearisbug |
 | 2026-07-17 | v1.5 | 实测缺陷修正：security CLI delete+add 重建条目清空 ACL，「始终允许」失效导致每次切换弹钥匙串授权。ADR-004 修订为 SecItem 重建 + 预授权 ACL（信任 CodexBar 与 /usr/bin/security），切换零弹窗（§11/§12/ADR-004） | Bearisbug |
+| 2026-07-17 | v1.6 | 实测双缺陷修正回退 v1.5：① ACL 方案对 /usr/bin/security 的信任未生效，反使 Claude CLI/CCSwitcher 弹窗——写入回退 security CLI，CodexBar 免弹窗改为切换后种子自身 OAuth 缓存；② usage 校验降为 advisory——限流/403/网络失败未校验放行，仅确定性 401（刷新被拒/重试仍 401）才回滚（§11/§12/§14/§17/ADR-004/§19/§28） | Bearisbug |
+| 2026-07-17 | v1.7 | 范围扩展（用户要求）：新增 REQ-009 登录新账号（CCSwitcher 同款 app 内 `claude auth login` 流程），原非目标条目移除（§2/§5/§13/§14/§17/§19） | Bearisbug |
+| 2026-07-18 | v1.8 | 菜单形态修正（用户反馈）：NSMenu 行改为分段切换器按钮条，活跃账号高亮直接展示当前账号，点击即切（§13） | Bearisbug |
 
 ## 2. 背景 / 目标 / 非目标
 
@@ -41,7 +44,6 @@ read_when:
   - Clash 之外的代理软件（Surge/sing-box 等）与 HTTP external-controller 接入方式；
   - 管理 Clash 配置本身（订阅、规则、组定义——只做「组内选节点」）；
   - per-account 菜单栏图标（上游 Phase 2 概念，不做）；
-  - app 内发起新账号 OAuth 登录（新账号靠 `claude /login` 后「添加当前账号」收录）；
   - 与 CCSwitcher 双向同步（导入是一次性读取，之后两 app 数据各自独立）；
   - `codexbar` CLI 子命令支持（本功能仅菜单栏 app）。
 
@@ -83,6 +85,7 @@ N/A — 画像:个人工具，无埋点与指标体系；「做完」以 §19 �
 | REQ-006 | 菜单账号切换器：原生账号 ≥2 时 Claude 菜单显示切换器（复用现有多账号布局），点击非活跃账号触发切换 | §13 PAGE_MENU | P1 |
 | REQ-007 | 设置 Accounts 区：账号列表（别名/邮箱/订阅/活跃标记）、改别名、删账号、Clash 连接配置与状态行 | §13 PAGE_PREF | P1 |
 | REQ-008 | 隐私与安全：凭据只存钥匙串；日志不含 token 与邮箱（账号以 UUID 指代）；邮箱展示遵循 Hide Personal Info | §19 场景 + §9 PII 列 | P0 |
+| REQ-009 | 登录新账号（CCSwitcher 同款）：先备份当前账号凭据 → 起 `claude auth login` 子进程（浏览器 OAuth，等待自然退出）→ 复用收录逻辑按邮箱去重/建号并标活跃 | 无对外 API，见 §13 PAGE_PREF「Login new account」边 + §19 | P1 |
 
 ## 6. 总体架构
 
@@ -205,8 +208,8 @@ stateDiagram-v2
   capturing --> failed : 当前凭据捕获失败 [钥匙串读取为空 或 oauthAccount 缺失]
   writing --> validating : 目标凭据写入完成 [SecItem add 成功 且 json 原子写回成功]
   writing --> rollingBack : 目标凭据写入失败 [SecItem add 失败 或 json 写回失败]
-  validating --> completed : 校验通过 [usage=200(必要时先经刷新) 且解析成功]
-  validating --> rollingBack : 校验失败 [刷新与重试后 usage 仍非 200 或 超时到期]
+  validating --> completed : 校验通过或非授权类失败放行 [usage=200 或 失败非401]
+  validating --> rollingBack : 凭据确定性失效 [401 且 (无refreshToken 或 刷新被拒 或 重试仍401)]
   rollingBack --> failed : 回滚完成 [已尝试恢复凭据与节点]
   completed --> [*]
   failed --> [*]
@@ -224,8 +227,8 @@ stateDiagram-v2
 | capturing → failed | 当前凭据捕获失败 | 钥匙串读取为空 ‖ oauthAccount 缺失 | 若已切代理则还原 `now` 节点；报 `ERR-CAPTURE` | 系统 | 内部任务 `switch.capture` |
 | writing → validating | 目标凭据写入完成 | SecItem add 返回 errSecSuccess 且 json 原子写回成功 | 条目重建时附预授权 ACL（ADR-004） | 系统 | 内部任务 `switch.write` |
 | writing → rollingBack | 目标凭据写入失败 | SecItem add 返回非 errSecSuccess ‖ json 写回失败 | — | 系统 | 内部任务 `switch.write` |
-| validating → completed | 校验通过 | usage=200（必要时先经刷新） 且 解析成功 | 备份 token 过期或 usage 首试 401 时先经 `API-004` 刷新并重写凭据位+备份；更新 `isActive`/`lastUsed`；清 CodexBar Claude OAuth 内存+钥匙串缓存；触发用量刷新 | 系统 | `API-003` + `API-004` |
-| validating → rollingBack | 校验失败 | 刷新与重试后 usage 仍≠200 ‖ 刷新失败 ‖ 超时到期 | — | 系统 | `API-003` / `API-004` |
+| validating → completed | 校验通过或非授权类失败放行 | usage=200 ‖ 失败非 401（限流/403/网络/服务端，未校验放行） | 备份过期或首试 401 时先经 `API-004` 刷新并重写凭据位+备份；更新 `isActive`/`lastUsed`；以写入的凭据种子 OAuth 缓存（避免直读钥匙串条目，ADR-004）；触发用量刷新 | 系统 | `API-003` + `API-004` |
+| validating → rollingBack | 凭据确定性失效 | usage=401 且（无 refreshToken ‖ 刷新被拒绝 ‖ 刷新后重试仍 401） | — | 系统 | `API-003` / `API-004` |
 | rollingBack → failed | 回滚完成 | 已尝试恢复凭据与节点 | 写回原账号凭据；若切过代理则还原节点；报 `ERR-SWITCH-VALIDATE` 或 `ERR-SWITCH-WRITE` | 系统 | 内部任务 `switch.rollback` |
 
 ## 12. 关键流程时序
@@ -256,17 +259,17 @@ sequenceDiagram
   end
   CB->>KC: 写目标凭据（SecItem 重建 + 预授权 ACL）+ 原子写回 oauthAccount
   CB->>AN: GET /api/oauth/usage（API-003，Bearer 目标 token）
-  alt 校验通过
-    AN-->>CB: 200 用量
-    CB->>CB: 更新 isActive、清 OAuth 缓存、刷新菜单用量
+  alt 校验通过或非授权类失败（限流/403/网络：未校验放行）
+    AN-->>CB: 200 用量（或非 401 失败）
+    CB->>CB: 更新 isActive、以新凭据种子 OAuth 缓存、刷新菜单用量
     CB-->>U: 切换完成（菜单显示目标账号用量）
   else 首试 401（token 失效）
     AN-->>CB: 401
     CB->>AN: POST /v1/oauth/token（API-004）刷新一次
     CB->>KC: 用新 token 重写凭据位（SecItem + ACL）+ 备份
     CB->>AN: 重试 GET /api/oauth/usage（API-003）
-  else 刷新后仍失败/403/超时
-    AN-->>CB: 401/403/超时
+  else 凭据确定性失效（401 且刷新被拒/重试仍 401）
+    AN-->>CB: 401
     CB->>KC: 回滚原账号凭据
     CB->>CV: 还原原节点（API-002）
     CB-->>U: ERR-SWITCH-VALIDATE（已回滚，状态与切换前一致）
@@ -302,6 +305,7 @@ flowchart LR
   PAGE_MENU[PAGE_MENU_CLAUDE\nClaude 菜单：用量卡片 + 原生账号切换器（≥2 账号时显示）] -->|点击非活跃账号| SWITCH[切换事务 见 §11]
   PAGE_PREF[PAGE_PREF_CLAUDE_ACCOUNTS\n设置 → Providers → Claude → Accounts 区] -->|Switch 按钮| SWITCH
   PAGE_PREF -->|添加当前账号| CAPTURE[收录 REQ-001]
+  PAGE_PREF -->|Login new account| LOGIN[登录新账号 REQ-009\n起 claude auth login → 浏览器 OAuth → 复用收录]
   PAGE_PREF -->|Import from CCSwitcher…| IMPORT[导入 见 §12/§25]
   IMPORT -->|读 CCSwitcher 钥匙串| OSPROMPT((系统钥匙串\n授权弹窗))
   SWITCH -->|completed| PAGE_MENU
@@ -309,8 +313,8 @@ flowchart LR
   PAGE_PREF -->|每行节点下拉 API-001 拉取| PAGE_PREF
 ```
 
-- `PAGE_MENU_CLAUDE`：账号切换以**原生 NSMenu 行**呈现——「Claude Accounts」小节标题 + 每账号一行（活跃账号打勾且不可点，无备份账号置灰标 needs capture，点击非活跃行触发切换事务）。不复用 segmented/stacked 自绘切换器：复用需伪造 token 账号模型或复制约 360 行自绘控件且与其快照/缓存语义强耦合，收益不成比例（实现期设计修正，见变更记录 v1.2）。claude-swap 适配器启用时原生账号行隐藏（ADR-005）。账号 <2 个时菜单无任何新增元素。
-- `PAGE_PREF_CLAUDE_ACCOUNTS`：照 `PreferencesCodexAccountsSection` 先例挂进 Claude provider 详情页。行内容：别名（可编辑）、邮箱（Hide Personal Info 时遮蔽）、订阅徽标、活跃点、Clash 节点下拉（「不绑定」+ 实时节点列表）、删除。区尾：添加当前账号、Import from CCSwitcher、Clash 连接设置（socket 路径、默认组、连接状态 + 刷新）。
+- `PAGE_MENU_CLAUDE`（v1.8）：账号切换为**分段切换器**（`ClaudeNativeAccountSwitcherView`，仿 TokenAccountSwitcherView 的紧凑按钮条）——每账号一枚按钮显示别名（无别名显示邮箱、遵循 Hide Personal Info），**活跃账号高亮**（同时回答「当前账号是谁」），点击非活跃按钮直接切换，无备份按钮置灰。v1.2 曾选原生 NSMenu 行（实测用户反馈不直观且要求面板内快捷切换）；标签级复用成本远低于当初评估的整套快照/缓存耦合，故改回分段形态。claude-swap 适配器启用时隐藏（ADR-005）。账号 <2 个时菜单无任何新增元素。渲染在单图标与合并图标两种模式下均有无头测试覆盖。
+- `PAGE_PREF_CLAUDE_ACCOUNTS`：照 `PreferencesCodexAccountsSection` 先例挂进 Claude provider 详情页。行内容：别名（可编辑）、邮箱（Hide Personal Info 时遮蔽）、订阅徽标、活跃点、Clash 节点下拉（「不绑定」+ 实时节点列表）、删除。区尾：添加当前账号、Login new account（REQ-009，登录期间按钮置忙）、Import from CCSwitcher、Clash 连接设置（socket 路径、默认组、连接状态 + 刷新）。
 - 空态：无账号时 Accounts 区只显示「添加当前账号」与导入按钮；Clash 不可达时节点下拉禁用并显示 `ERR-CLASH-UNREACHABLE` 状态行。
 
 ## 14. 错误处理与错误码
@@ -325,9 +329,11 @@ flowchart LR
 | `ERR-CAPTURE` | 切换第 5/6 行、收录 | 当前系统凭据不可读（钥匙串空 / `~/.claude.json` 无 oauthAccount） | 提示先跑一次 `claude` 登录；若已切代理则节点已还原 |
 | `ERR-CAPTURE-INVALID` | 收录 | 钥匙串条目无 `claudeAiOauth`（如仅 mcpOAuth） | 拒绝收录；提示用 `claude /login` 修复凭据 |
 | `ERR-SWITCH-WRITE` | 写入失败 | security 写入或 json 写回失败 | 自动回滚后提示；附事务 UUID |
-| `ERR-SWITCH-VALIDATE` | `API-003` 非 200/超时（含 `API-004` 刷新后仍失败） | 目标凭据校验失败（refresh token 亦失效或无网络） | 自动回滚后提示「已回滚到原账号」；建议目标账号重新登录收录 |
+| `ERR-SWITCH-VALIDATE` | usage 401 且（无 refreshToken ‖ `API-004` 刷新被拒绝 ‖ 刷新后重试仍 401） | 目标凭据确定性失效 | 自动回滚后提示「已回滚到原账号」；该账号需 `claude /login` 重登后重新收录。注：限流/403/网络/服务端类 usage 失败不在此列——切换照常完成（未校验放行） |
 | `ERR-SWITCH-IN-PROGRESS` | 状态机守卫 | 已有切换在进行 | 忽略点击并轻提示 |
 | `ERR-BACKUP-MISSING` | 切换入口 | 目标账号无凭据备份 | 该账号按钮置灰标「需收录」，不进入切换事务 |
+| `ERR-LOGIN-CLI-MISSING` | 登录新账号 | 未找到 `claude` CLI 可执行文件 | 提示安装 Claude Code CLI |
+| `ERR-LOGIN-FAILED` | 登录新账号 | `claude auth login` 非零退出或登录后凭据不可读 | 提示重试；当前账号凭据已提前备份，不受影响 |
 | `ERR-IMPORT-SOURCE` | 导入 | plist 不存在/无 Claude 账号 | 提示未检测到 CCSwitcher 数据 |
 | `ERR-IMPORT-DENIED` | 导入 | 用户拒绝钥匙串授权 | 提示可重试；仅导入元数据则账号标「需收录」 |
 
@@ -369,9 +375,10 @@ flowchart LR
 | `/usr/bin/curl` | unix socket HTTP 载体 | macOS 自带 | 随上行 3s | Clash 全部调用不可用 | 无（系统组件，视为恒可用） |
 | `/usr/bin/security` | 读写钥匙串 `Claude Code-credentials` | macOS 自带 | 5s | 切换失败，自动回滚 | 无 |
 | `~/.claude.json` | oauthAccount 读写 | — | — | 文件缺失/无 oauthAccount 时中止（`ERR-CAPTURE`） | 提示先跑一次 `claude` |
-| Anthropic `/api/oauth/usage` | 切换后校验（`API-003`） | 复用现有 provider 依赖 | 10s / 401 触发一次刷新重试 | 校验失败 → 自动回滚 | 无离线通道（保守策略，开放问题见 §28） |
-| Anthropic `platform.claude.com/v1/oauth/token` | 备份 token 刷新（`API-004`） | 与 Claude CLI 续期同源 | 30s / 不重试 | 刷新失败 → 切换回滚，提示重新收录 | 无 |
+| Anthropic `/api/oauth/usage` | 切换后校验（`API-003`，advisory） | 复用现有 provider 依赖 | 10s / 401 触发一次刷新重试 | 仅确定性 401 → 回滚 | 限流/403/网络失败未校验放行，切换照常完成 |
+| Anthropic `platform.claude.com/v1/oauth/token` | 备份 token 刷新（`API-004`） | 与 Claude CLI 续期同源 | 30s / 不重试 | 刷新被拒绝（invalid_grant）→ 回滚，提示重新收录 | 端点不可达 → 带旧 token 放行，CLI 事后自行续期 |
 | CCSwitcher plist + 钥匙串备份条目 | 一次性导入源（只读） | — | — | 导入失败/授权被拒 | 手动重试；或逐账号「添加当前账号」重新收录 |
+| `claude` CLI 可执行文件 | 登录新账号（`auth login` 子进程，REQ-009） | 外部安装 | 无超时（浏览器流程等待自然退出） | 登录不可用（`ERR-LOGIN-CLI-MISSING`） | 终端手动 `claude /login` 后「添加当前账号」 |
 
 内部后台任务：N/A — 全部动作由用户显式触发，无定时器、无队列 worker。
 
@@ -392,11 +399,11 @@ flowchart LR
   - Decision：解析目标 `credentialsBlob` 的 `claudeAiOauth.accessToken`，直接调 usage 端点校验，同时顺带拿到首屏用量。
   - Alternatives：`claude auth status` 子进程（慢、依赖 CLI 在场、输出格式外部所有）。
   - Consequences：+ 快、无 CLI 依赖；− 校验的是 token 可用性而非 CLI 完整登录态（可接受：交换物本来就是 token 本身）。
-- **`ADR-004`（v1.5 修订）系统凭据位写入走 SecItem 重建 + 预授权 ACL；读取走 `/usr/bin/security`** — Status: Accepted
+- **`ADR-004`（v1.6 再修订）系统凭据位读写都走 `/usr/bin/security`；CodexBar 以缓存种子避免直读** — Status: Accepted
   - Context：初版照搬 CCSwitcher 用 `security` CLI delete+add 重建条目，实测发现重建即清空条目 ACL——用户点过的「始终允许」随旧条目销毁，CodexBar 每次切换后刷新用量直接读该条目时都会再弹钥匙串授权框。CCSwitcher 无此问题是因为它与 Claude CLI 都经 `/usr/bin/security`（条目创建者）读写，从不用 app 进程直接读。
-  - Decision：写入改为 `KeychainSecurity.delete` + `KeychainSecurity.add`，创建时附 SecAccess 预授权 ACL（信任 CodexBar app bundle/可执行文件/内置 CLI + `/usr/bin/security`，复用 `KeychainCacheStore` 的 ACL 机制）；读取保持 `security find-generic-password`（对 security 工具创建的条目静默）。
-  - Alternatives：`security` CLI delete+add（ACL 清零，弹窗风暴，已废弃）；SecItemUpdate 原位更新（外来条目会触发修改授权且保留外来 ACL，CodexBar 读取仍弹窗）；只改文件凭据（用户是钥匙串形态）。
-  - Consequences：+ 切换全程零钥匙串弹窗（CodexBar 与 Claude CLI 均在信任列表）；+ 开发者证书签名下 ACL 跨重建持久；− Claude Code 自身回写条目后其 ACL 归 Claude 所有，CodexBar 下一次直接读取可能一次性提示（由既有 Keychain prompt policy 治理）。
+  - Decision（v1.6）：读写都回到 `security` CLI——条目归 security 工具所有，Claude CLI 与 CCSwitcher 的读取保持静默；CodexBar 自身的免弹窗改为**缓存种子**：切换成功后把刚写入的凭据经 `seedCacheWithClaudeKeychainPayload` 写进自己的 OAuth 缓存（owner=claudeCLI，刷新仍委托 CLI），后续用量抓取读缓存、根本不碰钥匙串条目。
+  - Alternatives：v1.5 的 SecItem + 预授权 ACL——实测失败：对 `/usr/bin/security` 的 SecTrustedApplication 信任未生效，条目变成仅 CodexBar 可静默读，反把 Claude CLI 与 CCSwitcher 全部逼出弹窗，已回退；SecItemUpdate 原位更新（外来条目触发修改授权且保留外来 ACL）；只改文件凭据（用户是钥匙串形态）。
+  - Consequences：+ Claude CLI / CCSwitcher 读取行为与 CCSwitcher 时代完全一致（零弹窗）；+ CodexBar 用量抓取走缓存零弹窗；− 缓存被外部事件清空后 OAuth 路径直读条目仍可能提示一次（由既有 Keychain prompt policy 治理）。
 - **`ADR-005` claude-swap 适配器启用时隐藏原生切换器** — Status: Accepted
   - Context：菜单同屏出现两套 Claude 多账号源会造成双事实源与误点。
   - Decision：`claudeSwapEnabled == true` 时不渲染原生账号切换器与菜单卡片切换入口（设置区仍可管理原生账号）；claude-swap 现有行为零改动。
@@ -418,6 +425,12 @@ flowchart LR
   When 用户在设置 Accounts 区点击「添加当前账号」
   Then 列表新增一个以 oauthAccount.emailAddress 为邮箱的账号，标记为活跃，且钥匙串出现其备份条目
 
+场景: 登录新账号 (REQ-009)
+  Given 列表已有活跃账号 A 且 `claude` CLI 可用
+  When 用户点击「Login new account」并在浏览器完成新账号 OAuth
+  Then A 的备份在登录前已刷新
+  And 新账号按邮箱去重后入列并标记为活跃（同邮箱则仅刷新备份）
+
 场景: 收录去重 (REQ-001)
   Given 列表已存在邮箱 X 的账号
   And 当前系统凭据位属于邮箱 X
@@ -437,9 +450,14 @@ flowchart LR
   Then 切换先经 API-004 换取新 token，系统凭据位与 B 的备份均更新为新 token
   And usage 校验以新 token 通过，B 成为活跃账号
 
+场景: 限流或网络故障不阻塞切换 (REQ-002)
+  Given 账号 B 的备份有效但 usage 接口当前被限流或无网络
+  When 用户切换到 B
+  Then 切换照常完成、B 成为活跃账号（用量待接口恢复后显示）
+
 场景: 校验失败自动回滚 (REQ-002)
-  Given 账号 B 的备份 access token 与 refresh token 均已失效
-  When 用户切换到 B 且 usage 返回 401、API-004 刷新亦失败
+  Given 账号 B 的备份 access token 已失效且 refresh token 被 API-004 拒绝（invalid_grant）
+  When 用户切换到 B 且 usage 返回 401
   Then 钥匙串条目与 oauthAccount 恢复为原账号内容
   And 若 B 绑定的节点已切换则 Clash 还原到切换前节点
   And 界面提示 ERR-SWITCH-VALIDATE 且原账号仍为活跃
@@ -559,4 +577,4 @@ N/A — 画像:个人工具；日常使用即验证，问题走 issue/后续会�
 | 风险 | `~/.claude.json` 与运行中的 Claude Code 进程并发写：本事务原子写 + 后写为准，竞态窗口毫秒级；最坏情况 oauthAccount 与钥匙串短暂不一致，下次切换的 capture 阶段会暴露并可重切修复 | — | 无 |
 | 风险 | Claude Code 2.1.x 钥匙串条目可能仅含 `mcpOAuth`（上游 #1844）；收录时强制校验 `claudeAiOauth` 存在（`ERR-CAPTURE-INVALID`） | — | 无 |
 | 假设 | 用户 Claude Code 为钥匙串凭据形态（macOS 默认）；文件形态 `~/.claude/.credentials.json` 不支持切换，检测到时提示（§15 兼容行） | 已与用户确认 | 已拍板 |
-| Open Question | 无网络时校验必失败导致切换必回滚；是否需要「离线跳过校验」开关？当前从简不做，需要时再加 | Bearisbug | 遇到真实场景时 |
+| 已关闭 | ~~无网络时校验必失败导致切换必回滚~~ — v1.6 起校验为 advisory：非授权类失败（限流/403/网络）未校验放行，切换照常完成 | Bearisbug | 已解决（v1.6） |
