@@ -666,6 +666,94 @@ struct ClaudeOAuthCredentialsStoreTests {
     }
 
     @Test
+    func seed_aligns_claude_keychain_fingerprint_so_freshness_sync_skips_item_read() throws {
+        let service = "com.steipete.codexbar.cache.tests.\(UUID().uuidString)"
+        try KeychainCacheStore.withServiceOverrideForTesting(service) {
+            try KeychainAccessGate.withTaskOverrideForTesting(false) {
+                KeychainCacheStore.setTestStoreForTesting(true)
+                defer { KeychainCacheStore.setTestStoreForTesting(false) }
+
+                ClaudeOAuthKeychainAccessGate.resetForTesting()
+                defer { ClaudeOAuthKeychainAccessGate.resetForTesting() }
+
+                ClaudeOAuthCredentialsStore.invalidateCache()
+                ClaudeOAuthCredentialsStore._resetCredentialsFileTrackingForTesting()
+                defer {
+                    ClaudeOAuthCredentialsStore.invalidateCache()
+                    ClaudeOAuthCredentialsStore._resetCredentialsFileTrackingForTesting()
+                    ClaudeOAuthCredentialsStore._resetClaudeKeychainChangeTrackingForTesting()
+                }
+
+                let tempDir = FileManager.default.temporaryDirectory
+                    .appendingPathComponent(UUID().uuidString, isDirectory: true)
+                try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+                let fileURL = tempDir.appendingPathComponent("credentials.json")
+
+                try ClaudeOAuthCredentialsStore.withCredentialsURLOverrideForTesting(fileURL) {
+                    ClaudeOAuthCredentialsStore._resetClaudeKeychainChangeTrackingForTesting()
+
+                    // Stale fingerprint from before the account switch rewrote the item.
+                    let fingerprintStore = ClaudeOAuthCredentialsStore.ClaudeKeychainFingerprintStore()
+                    fingerprintStore.fingerprint = ClaudeOAuthCredentialsStore.ClaudeKeychainFingerprint(
+                        modifiedAt: 1,
+                        createdAt: 1,
+                        persistentRefHash: "ref-before-switch")
+                    let rewrittenFingerprint = ClaudeOAuthCredentialsStore.ClaudeKeychainFingerprint(
+                        modifiedAt: 2,
+                        createdAt: 2,
+                        persistentRefHash: "ref-after-switch")
+
+                    let seededData = self.makeCredentialsData(
+                        accessToken: "seeded-token",
+                        expiresAt: Date(timeIntervalSinceNow: 3600))
+                    // Distinct keychain payload: a freshness-sync re-read would surface it,
+                    // so the loads below prove the recreated item is never touched.
+                    let keychainData = self.makeCredentialsData(
+                        accessToken: "keychain-token",
+                        expiresAt: Date(timeIntervalSinceNow: 3600))
+
+                    // Seeding runs inside the switch transaction (background context,
+                    // default prompt policy): alignment must not depend on prompt gates.
+                    try ClaudeOAuthKeychainPromptPreference.withTaskOverrideForTesting(.onlyOnUserAction) {
+                        try ProviderInteractionContext.$current.withValue(.background) {
+                            try ClaudeOAuthCredentialsStore.withClaudeKeychainFingerprintStoreOverrideForTesting(
+                                fingerprintStore)
+                            {
+                                try ClaudeOAuthCredentialsStore.withClaudeKeychainOverridesForTesting(
+                                    data: keychainData,
+                                    fingerprint: rewrittenFingerprint)
+                                {
+                                    ClaudeOAuthCredentialsStore.seedCacheWithClaudeKeychainPayload(seededData)
+                                }
+                            }
+                        }
+                    }
+                    #expect(fingerprintStore.fingerprint == rewrittenFingerprint)
+
+                    ClaudeOAuthCredentialsStore._resetClaudeKeychainChangeThrottleForTesting()
+
+                    let creds = try ProviderInteractionContext.$current.withValue(.userInitiated) {
+                        try ClaudeOAuthCredentialsStore.withClaudeKeychainFingerprintStoreOverrideForTesting(
+                            fingerprintStore)
+                        {
+                            try ClaudeOAuthKeychainAccessGate.withShouldAllowPromptOverrideForTesting(true) {
+                                try ClaudeOAuthCredentialsStore.withClaudeKeychainOverridesForTesting(
+                                    data: keychainData,
+                                    fingerprint: rewrittenFingerprint)
+                                {
+                                    try ClaudeOAuthCredentialsStore.load(environment: [:], allowKeychainPrompt: false)
+                                }
+                            }
+                        }
+                    }
+                    #expect(creds.accessToken == "seeded-token")
+                    #expect(fingerprintStore.fingerprint == rewrittenFingerprint)
+                }
+            }
+        }
+    }
+
+    @Test
     func does_not_sync_when_claude_keychain_fingerprint_unchanged() throws {
         KeychainCacheStore.setTestStoreForTesting(true)
         defer { KeychainCacheStore.setTestStoreForTesting(false) }

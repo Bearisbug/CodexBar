@@ -64,6 +64,28 @@ final class StatusMenuClaudeNativeAccountsTests: XCTestCase {
         XCTAssertEqual(switcher._test_activeTitle(), "Main")
     }
 
+    func test_nativeSwitcherKeepsActiveSegmentEnabled() throws {
+        StatusItemController.menuCardRenderingEnabled = false
+        StatusItemController.setMenuRefreshEnabledForTesting(false)
+        StatusItemController.claudeNativeAccountSetOverrideForTesting = Self.accountSet([
+            ClaudeManagedAccount(email: "a@example.com", customLabel: "Main", isActive: true),
+            ClaudeManagedAccount(email: "b@example.com", customLabel: "Backup"),
+        ])
+        let settings = self.makeSettings()
+        let (controller, _) = self.makeController(settings: settings)
+        defer { controller.releaseStatusItemsForTesting() }
+
+        let menu = controller.makeMenu(for: .claude)
+        controller.menuWillOpen(menu)
+
+        let switcher = try XCTUnwrap(
+            menu.items.compactMap { $0.view as? ClaudeNativeAccountSwitcherView }.first)
+        // The active segment must stay enabled — a disabled NSButton dims its title,
+        // washing out the accent highlight. "Backup" has no keychain credential backup
+        // in the test environment, so it renders disabled.
+        XCTAssertEqual(switcher._test_buttonEnabledFlags(), [true, false])
+    }
+
     func test_nativeSwitcherRendersInMergedIconsMode() throws {
         StatusItemController.menuCardRenderingEnabled = false
         StatusItemController.setMenuRefreshEnabledForTesting(false)
@@ -87,6 +109,40 @@ final class StatusMenuClaudeNativeAccountsTests: XCTestCase {
         controller.mergedMenu = menu
         controller.menuWillOpen(menu)
         defer { controller.menuDidClose(menu) }
+
+        let switcher = try XCTUnwrap(
+            menu.items.compactMap { $0.view as? ClaudeNativeAccountSwitcherView }.first)
+        XCTAssertEqual(switcher._test_activeTitle(), "Main")
+    }
+
+    func test_nativeSwitcherSurvivesSmartUpdateInMergedMode() throws {
+        StatusItemController.menuCardRenderingEnabled = false
+        StatusItemController.setMenuRefreshEnabledForTesting(false)
+        StatusItemController.claudeNativeAccountSetOverrideForTesting = Self.accountSet([
+            ClaudeManagedAccount(email: "a@example.com", customLabel: "Main", isActive: true),
+            ClaudeManagedAccount(email: "b@example.com", customLabel: "Backup"),
+        ])
+        let settings = self.makeSettings()
+        settings.mergeIcons = true
+        let registry = ProviderRegistry.shared
+        for provider in [UsageProvider.claude, .codex] {
+            guard let metadata = registry.metadata[provider] else { continue }
+            settings.setProviderEnabled(provider: provider, metadata: metadata, enabled: true)
+        }
+        settings.mergedMenuLastSelectedWasOverview = false
+        let (controller, _) = self.makeController(settings: settings)
+        defer { controller.releaseStatusItemsForTesting() }
+        controller.selectedMenuProvider = .claude
+
+        let menu = try XCTUnwrap(controller.makeMenu() as? StatusItemMenu)
+        controller.mergedMenu = menu
+        controller.menuWillOpen(menu)
+        defer { controller.menuDidClose(menu) }
+        XCTAssertNotNil(menu.items.compactMap { $0.view as? ClaudeNativeAccountSwitcherView }.first)
+
+        // A data tick on the open menu takes the smart-update path, which must
+        // keep rebuilding the native switcher (it used to drop it).
+        controller.populateMenu(menu, provider: nil)
 
         let switcher = try XCTUnwrap(
             menu.items.compactMap { $0.view as? ClaudeNativeAccountSwitcherView }.first)

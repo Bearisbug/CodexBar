@@ -94,7 +94,9 @@ final class ClaudeNativeAccountSwitcherView: NSView {
                 button.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
                 button.wantsLayer = true
                 button.layer?.cornerRadius = 6
-                button.isEnabled = segment.canSwitch && !segment.isActive
+                // The active segment stays enabled: a disabled NSButton dims its title,
+                // washing out the accent highlight (handleSelect ignores active clicks).
+                button.isEnabled = segment.isActive || segment.canSwitch
                 row.addArrangedSubview(button)
                 self.buttons.append(button)
                 globalIndex += 1
@@ -143,6 +145,10 @@ final class ClaudeNativeAccountSwitcherView: NSView {
     func _test_activeTitle() -> String? {
         self.segments.first(where: \.isActive)?.title
     }
+
+    func _test_buttonEnabledFlags() -> [Bool] {
+        self.buttons.map(\.isEnabled)
+    }
     #endif
 }
 
@@ -153,7 +159,12 @@ extension StatusItemController {
     nonisolated(unsafe) static var claudeNativeAccountSetOverrideForTesting: ClaudeManagedAccountSet?
     #endif
 
-    func addClaudeNativeAccountSwitcherIfNeeded(to menu: NSMenu, provider: UsageProvider, width: CGFloat) {
+    func addClaudeNativeAccountSwitcherIfNeeded(
+        to menu: NSMenu,
+        provider: UsageProvider,
+        width: CGFloat,
+        captureMenu: NSMenu? = nil)
+    {
         guard provider == .claude else { return }
         // ADR-005: while the claude-swap adapter is enabled it owns Claude multi-account UI.
         guard !self.settings.claudeSwapEnabled else { return }
@@ -167,13 +178,16 @@ extension StatusItemController {
                 isActive: account.isActive,
                 canSwitch: backups.load(accountID: account.id) != nil)
         }
+        // Rows may be built into a detached scratch menu; interaction closures must
+        // capture the live menu they will end up serving.
+        let interactionMenu = captureMenu ?? menu
         let view = ClaudeNativeAccountSwitcherView(
             segments: segments,
             width: width,
-            onSelect: { [weak self, weak menu] accountID in
+            onSelect: { [weak self, weak interactionMenu] accountID in
                 guard let self else { return }
-                self.advanceMenuInteraction(for: menu)
-                self.switchClaudeNativeAccount(accountID: accountID, menu: menu)
+                self.advanceMenuInteraction(for: interactionMenu)
+                self.switchClaudeNativeAccount(accountID: accountID, menu: interactionMenu)
             })
         let item = NSMenuItem()
         item.view = view

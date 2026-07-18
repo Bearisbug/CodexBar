@@ -119,6 +119,13 @@ extension StatusItemController {
             width: context.menuWidth,
             captureMenu: captureMenu)
         self.lastTokenAccountMenuDisplay = context.tokenAccountDisplay
+        if case let .provider(shownProvider) = context.switcherSelection {
+            self.addClaudeNativeAccountSwitcherIfNeeded(
+                to: target,
+                provider: shownProvider,
+                width: context.menuWidth,
+                captureMenu: captureMenu)
+        }
 
         let menuContext = MenuCardContext(
             currentProvider: context.currentProvider,

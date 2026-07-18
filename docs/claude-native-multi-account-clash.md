@@ -33,6 +33,7 @@ read_when:
 | 2026-07-17 | v1.6 | 实测双缺陷修正回退 v1.5：① ACL 方案对 /usr/bin/security 的信任未生效，反使 Claude CLI/CCSwitcher 弹窗——写入回退 security CLI，CodexBar 免弹窗改为切换后种子自身 OAuth 缓存；② usage 校验降为 advisory——限流/403/网络失败未校验放行，仅确定性 401（刷新被拒/重试仍 401）才回滚（§11/§12/§14/§17/ADR-004/§19/§28） | Bearisbug |
 | 2026-07-17 | v1.7 | 范围扩展（用户要求）：新增 REQ-009 登录新账号（CCSwitcher 同款 app 内 `claude auth login` 流程），原非目标条目移除（§2/§5/§13/§14/§17/§19） | Bearisbug |
 | 2026-07-18 | v1.8 | 菜单形态修正（用户反馈）：NSMenu 行改为分段切换器按钮条，活跃账号高亮直接展示当前账号，点击即切（§13） | Bearisbug |
+| 2026-07-18 | v1.9 | 实测三缺陷修正：① 缓存种子漏对齐钥匙串变更指纹——OAuth freshness 同步把切换自身的重建当外部变更去直读条目，每次切换仍弹授权框，种子现同步对齐指纹（§11/ADR-004）；② 活跃分段按钮为 disabled 态被系统压暗、观感如整条置灰——活跃按钮保持 enabled（点击无操作）（§13）；③ OAuth 用量快照无身份字段、切换后卡片邮箱空白——快照邮箱缺失时回填活跃原生账号邮箱（§13） | Bearisbug |
 
 ## 2. 背景 / 目标 / 非目标
 
@@ -227,7 +228,7 @@ stateDiagram-v2
 | capturing → failed | 当前凭据捕获失败 | 钥匙串读取为空 ‖ oauthAccount 缺失 | 若已切代理则还原 `now` 节点；报 `ERR-CAPTURE` | 系统 | 内部任务 `switch.capture` |
 | writing → validating | 目标凭据写入完成 | SecItem add 返回 errSecSuccess 且 json 原子写回成功 | 条目重建时附预授权 ACL（ADR-004） | 系统 | 内部任务 `switch.write` |
 | writing → rollingBack | 目标凭据写入失败 | SecItem add 返回非 errSecSuccess ‖ json 写回失败 | — | 系统 | 内部任务 `switch.write` |
-| validating → completed | 校验通过或非授权类失败放行 | usage=200 ‖ 失败非 401（限流/403/网络/服务端，未校验放行） | 备份过期或首试 401 时先经 `API-004` 刷新并重写凭据位+备份；更新 `isActive`/`lastUsed`；以写入的凭据种子 OAuth 缓存（避免直读钥匙串条目，ADR-004）；触发用量刷新 | 系统 | `API-003` + `API-004` |
+| validating → completed | 校验通过或非授权类失败放行 | usage=200 ‖ 失败非 401（限流/403/网络/服务端，未校验放行） | 备份过期或首试 401 时先经 `API-004` 刷新并重写凭据位+备份；更新 `isActive`/`lastUsed`；以写入的凭据种子 OAuth 缓存并对齐钥匙串变更指纹（避免直读与 freshness 同步重读钥匙串条目，ADR-004）；触发用量刷新 | 系统 | `API-003` + `API-004` |
 | validating → rollingBack | 凭据确定性失效 | usage=401 且（无 refreshToken ‖ 刷新被拒绝 ‖ 刷新后重试仍 401） | — | 系统 | `API-003` / `API-004` |
 | rollingBack → failed | 回滚完成 | 已尝试恢复凭据与节点 | 写回原账号凭据；若切过代理则还原节点；报 `ERR-SWITCH-VALIDATE` 或 `ERR-SWITCH-WRITE` | 系统 | 内部任务 `switch.rollback` |
 
@@ -313,7 +314,7 @@ flowchart LR
   PAGE_PREF -->|每行节点下拉 API-001 拉取| PAGE_PREF
 ```
 
-- `PAGE_MENU_CLAUDE`（v1.8）：账号切换为**分段切换器**（`ClaudeNativeAccountSwitcherView`，仿 TokenAccountSwitcherView 的紧凑按钮条）——每账号一枚按钮显示别名（无别名显示邮箱、遵循 Hide Personal Info），**活跃账号高亮**（同时回答「当前账号是谁」），点击非活跃按钮直接切换，无备份按钮置灰。v1.2 曾选原生 NSMenu 行（实测用户反馈不直观且要求面板内快捷切换）；标签级复用成本远低于当初评估的整套快照/缓存耦合，故改回分段形态。claude-swap 适配器启用时隐藏（ADR-005）。账号 <2 个时菜单无任何新增元素。渲染在单图标与合并图标两种模式下均有无头测试覆盖。
+- `PAGE_MENU_CLAUDE`（v1.8）：账号切换为**分段切换器**（`ClaudeNativeAccountSwitcherView`，仿 TokenAccountSwitcherView 的紧凑按钮条）——每账号一枚按钮显示别名（无别名显示邮箱、遵循 Hide Personal Info），**活跃账号高亮**（同时回答「当前账号是谁」），点击非活跃按钮直接切换，无备份按钮置灰。v1.2 曾选原生 NSMenu 行（实测用户反馈不直观且要求面板内快捷切换）；标签级复用成本远低于当初评估的整套快照/缓存耦合，故改回分段形态。claude-swap 适配器启用时隐藏（ADR-005）。账号 <2 个时菜单无任何新增元素。渲染在单图标与合并图标两种模式下均有无头测试覆盖。v1.9 补充两点：① 活跃按钮保持 enabled（点击无操作）——disabled 态会被 AppKit 压暗标题，实测高亮文字发灰、整条切换器观感如禁用；② Claude 用量卡片的身份邮箱在快照缺失时（OAuth 用量端点不含身份字段）回填活跃原生账号邮箱，保证切换后卡片右侧能回答「当前是谁」，展示仍遵循 Hide Personal Info，未启用本功能（无账号文件）时行为不变。
 - `PAGE_PREF_CLAUDE_ACCOUNTS`：照 `PreferencesCodexAccountsSection` 先例挂进 Claude provider 详情页。行内容：别名（可编辑）、邮箱（Hide Personal Info 时遮蔽）、订阅徽标、活跃点、Clash 节点下拉（「不绑定」+ 实时节点列表）、删除。区尾：添加当前账号、Login new account（REQ-009，登录期间按钮置忙）、Import from CCSwitcher、Clash 连接设置（socket 路径、默认组、连接状态 + 刷新）。
 - 空态：无账号时 Accounts 区只显示「添加当前账号」与导入按钮；Clash 不可达时节点下拉禁用并显示 `ERR-CLASH-UNREACHABLE` 状态行。
 
@@ -402,6 +403,7 @@ flowchart LR
 - **`ADR-004`（v1.6 再修订）系统凭据位读写都走 `/usr/bin/security`；CodexBar 以缓存种子避免直读** — Status: Accepted
   - Context：初版照搬 CCSwitcher 用 `security` CLI delete+add 重建条目，实测发现重建即清空条目 ACL——用户点过的「始终允许」随旧条目销毁，CodexBar 每次切换后刷新用量直接读该条目时都会再弹钥匙串授权框。CCSwitcher 无此问题是因为它与 Claude CLI 都经 `/usr/bin/security`（条目创建者）读写，从不用 app 进程直接读。
   - Decision（v1.6）：读写都回到 `security` CLI——条目归 security 工具所有，Claude CLI 与 CCSwitcher 的读取保持静默；CodexBar 自身的免弹窗改为**缓存种子**：切换成功后把刚写入的凭据经 `seedCacheWithClaudeKeychainPayload` 写进自己的 OAuth 缓存（owner=claudeCLI，刷新仍委托 CLI），后续用量抓取读缓存、根本不碰钥匙串条目。
+  - Decision（v1.9 补全）：种子必须**同步对齐钥匙串变更指纹**。实测发现 OAuth 管线在缓存命中后仍有一步 freshness 同步：比对条目属性指纹（mdat/persistentRef），不一致就去重读条目密文——切换的 delete+add 必然产生新指纹，于是自家写入被当成外部变更，重建条目（ACL 已空）的密文读取再度触发授权框，「始终允许」因绑定旧条目而永远失效。种子现以免弹窗属性探测取当前指纹并存储（绕过 prompt policy 门控——属性读取不含密文、不会出 UI），freshness 同步据此判定无变更、不再触碰条目。
   - Alternatives：v1.5 的 SecItem + 预授权 ACL——实测失败：对 `/usr/bin/security` 的 SecTrustedApplication 信任未生效，条目变成仅 CodexBar 可静默读，反把 Claude CLI 与 CCSwitcher 全部逼出弹窗，已回退；SecItemUpdate 原位更新（外来条目触发修改授权且保留外来 ACL）；只改文件凭据（用户是钥匙串形态）。
   - Consequences：+ Claude CLI / CCSwitcher 读取行为与 CCSwitcher 时代完全一致（零弹窗）；+ CodexBar 用量抓取走缓存零弹窗；− 缓存被外部事件清空后 OAuth 路径直读条目仍可能提示一次（由既有 Keychain prompt policy 治理）。
 - **`ADR-005` claude-swap 适配器启用时隐藏原生切换器** — Status: Accepted

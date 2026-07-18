@@ -31,6 +31,16 @@ private final class SwitcherRefreshManualGate {
 @MainActor
 @Suite(.serialized)
 struct StatusMenuSwitcherRefreshTests {
+    init() {
+        // Fork isolation: these upstream row-reconciliation tests assert on the merged
+        // menu's row skeleton, which the native Claude account switcher (rendered when
+        // the dev machine's real managed-claude-accounts.json has ≥2 accounts) would
+        // change. Pin an empty account set; switcher suites set their own override.
+        StatusItemController.claudeNativeAccountSetOverrideForTesting = ClaudeManagedAccountSet(
+            version: FileClaudeManagedAccountStore.currentVersion,
+            accounts: [])
+    }
+
     @Test
     func native_switcher_action_preserves_off_tab_switches_after_button_state_toggles() {
         var selections: [ProviderSwitcherSelection] = []

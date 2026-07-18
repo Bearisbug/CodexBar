@@ -983,6 +983,26 @@ extension ClaudeUsageFetcher {
         return metadata
     }
 
+    #if DEBUG
+    /// Test seam: point the native-account identity fallback at a fixture file
+    /// (a nonexistent path simulates the feature being unused on this machine).
+    nonisolated(unsafe) static var nativeAccountsFileURLOverrideForTesting: URL?
+    #endif
+
+    /// The OAuth usage payload carries no identity fields, so right after a native
+    /// account switch the menu card could not answer "which account is this". Fall
+    /// back to the active native account's email (fork REQ-006, design §13 v1.9);
+    /// nil (one failed stat) when the multi-account feature is unused.
+    private static func nativeActiveClaudeAccountEmail() -> String? {
+        var store = FileClaudeManagedAccountStore()
+        #if DEBUG
+        if let url = self.nativeAccountsFileURLOverrideForTesting {
+            store = FileClaudeManagedAccountStore(fileURL: url)
+        }
+        #endif
+        return (try? store.load())?.activeAccount?.email
+    }
+
     private static func mapOAuthUsage(
         _ usage: OAuthUsageResponse,
         credentials: ClaudeOAuthCredentials,
@@ -994,6 +1014,7 @@ extension ClaudeUsageFetcher {
     {
         let oauthHistoryOwnerIdentifier = ClaudeOAuthCredentials.normalizedHistoryOwnerIdentifier(
             oauthHistoryOwnerIdentifier) ?? credentials.historyOwnerIdentifier
+        let accountEmail = self.nativeActiveClaudeAccountEmail()
 
         func makeWindow(_ window: OAuthUsageWindow?, windowMinutes: Int?) -> RateWindow? {
             guard let window,
@@ -1032,7 +1053,7 @@ extension ClaudeUsageFetcher {
                     extraRateWindows: Self.oauthExtraRateWindows(from: usage),
                     providerCost: providerCost,
                     updatedAt: Date(),
-                    accountEmail: nil,
+                    accountEmail: accountEmail,
                     accountOrganization: nil,
                     loginMethod: loginMethod,
                     rawText: nil,
@@ -1058,7 +1079,7 @@ extension ClaudeUsageFetcher {
             extraRateWindows: extraRateWindows,
             providerCost: providerCost,
             updatedAt: Date(),
-            accountEmail: nil,
+            accountEmail: accountEmail,
             accountOrganization: nil,
             loginMethod: loginMethod,
             rawText: nil,

@@ -129,6 +129,42 @@ struct ClaudeOAuthTests {
     }
 
     @Test
+    func maps_O_auth_usage_email_from_active_native_account() throws {
+        let tempDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+        let fileURL = tempDir.appendingPathComponent("managed-claude-accounts.json")
+        try FileClaudeManagedAccountStore(fileURL: fileURL).store(ClaudeManagedAccountSet(
+            version: FileClaudeManagedAccountStore.currentVersion,
+            accounts: [
+                ClaudeManagedAccount(email: "idle@example.com"),
+                ClaudeManagedAccount(email: "active@example.com", isActive: true),
+            ]))
+        ClaudeUsageFetcher.nativeAccountsFileURLOverrideForTesting = fileURL
+        defer { ClaudeUsageFetcher.nativeAccountsFileURLOverrideForTesting = nil }
+
+        let json = """
+        { "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" } }
+        """
+        let snap = try ClaudeUsageFetcher._mapOAuthUsageForTesting(Data(json.utf8))
+        #expect(snap.accountEmail == "active@example.com")
+    }
+
+    @Test
+    func maps_O_auth_usage_email_nil_when_native_accounts_absent() throws {
+        ClaudeUsageFetcher.nativeAccountsFileURLOverrideForTesting = URL(
+            fileURLWithPath: "/nonexistent/\(UUID().uuidString)/managed-claude-accounts.json")
+        defer { ClaudeUsageFetcher.nativeAccountsFileURLOverrideForTesting = nil }
+
+        let json = """
+        { "five_hour": { "utilization": 12.5, "resets_at": "2025-12-25T12:00:00.000Z" } }
+        """
+        let snap = try ClaudeUsageFetcher._mapOAuthUsageForTesting(Data(json.utf8))
+        #expect(snap.accountEmail == nil)
+    }
+
+    @Test
     func ignores_merged_O_auth_design_usage_window() throws {
         let json = """
         {

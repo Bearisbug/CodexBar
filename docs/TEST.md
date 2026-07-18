@@ -21,6 +21,8 @@
 | 2026-07-17 | 随设计 v1.6：校验降为 advisory——废弃 TC-004，新增 TC-016（断网切换未校验放行）；TC-003 弹窗预期依据改为缓存种子机制（写入回退 security CLI） | Bearisbug |
 | 2026-07-17 | 随设计 v1.7：新增 TC-017（登录新账号，REQ-009） | Bearisbug |
 | 2026-07-18 | 随设计 v1.8：TC-010/TC-015 预期改为分段切换器（活跃高亮、无备份置灰）；显隐与合并模式渲染已由无头测试覆盖 | Bearisbug |
+| 2026-07-18 | 缺陷回归：TC-010 新增步骤 4（菜单保持打开跨一次数据刷新，切换器不消失）——smart update 重建路径曾丢弃原生切换器，已由无头测试 `test_nativeSwitcherSurvivesSmartUpdateInMergedMode` 覆盖 | Bearisbug |
+| 2026-07-18 | 随设计 v1.9：TC-010 步骤 1 预期补「活跃按钮文字不压暗」、新增步骤 5（卡片邮箱跟随活跃账号）；TC-003 弹窗预期不变但实现补全（OAuth 缓存种子同步对齐钥匙串指纹），复测应全程零弹窗。无头覆盖：`seed_aligns_claude_keychain_fingerprint_so_freshness_sync_skips_item_read`、`test_nativeSwitcherKeepsActiveSegmentEnabled`、`maps_O_auth_usage_email_from_active_native_account` | Bearisbug |
 
 ## 2. 测试范围 / 不测什么
 
@@ -175,9 +177,11 @@
 
 | # | 操作 | 预期 |
 | --- | --- | --- |
-| 1 | 打开 Claude 菜单 | 顶部出现账号分段切换器（每账号一枚按钮显示别名），活跃账号高亮 |
+| 1 | 打开 Claude 菜单 | 顶部出现账号分段切换器（每账号一枚按钮显示别名），活跃账号高亮且文字不压暗（enabled 态，白字清晰；回归项：曾因 disabled 被系统压灰） |
 | 2 | 编辑 JSON 只留 1 个账号，重启 app 后开菜单 | 账号小节不出现，菜单与改动前基线一致 |
 | 3 | 恢复 2 账号，设置里启用「Read accounts from claude-swap」（路径随意填），重开菜单 | 原生账号行隐藏（ADR-005）；关闭该开关后恢复显示 |
+| 4 | 保持 Claude 菜单打开，等待或触发一次数据刷新（约 1 分钟内的自动 tick 即可） | 切换器持续存在、不闪失（回归项：smart update 重建曾丢弃它；无头测试 `test_nativeSwitcherSurvivesSmartUpdateInMergedMode` 覆盖同场景） |
+| 5 | 看 Claude 用量卡片头部右侧（OAuth 用量源） | 显示活跃账号邮箱（Hide Personal Info 开启时遮蔽）；切换账号后邮箱跟随变化，不再空白 |
 
 后置：关闭 claude-swap 开关；清理合成种子。
 
@@ -264,6 +268,8 @@
 | 轮次 | 日期 | 被测版本 | 执行者 | 范围 | 结果 |
 | --- | --- | --- | --- | --- | --- |
 | RUN-001 | 2026-07-17 | b7920f1a + 未提交工作区（本功能全部变更） | AI(Claude Code) | 全量 | 待人工 15 · 阻塞 0（环境冷启动通过；自动化套件 58/58 组全绿另见交付说明） |
+| RUN-002 | 2026-07-18 | 48cb4e63 + 未提交工作区（smart update 丢弃原生切换器修复） | AI(Claude Code) | 局部（TC-010；冒烟级 TC-001/003/005/006/008 需真实凭据仍待人工） | 自动化 4/4 绿（含新增无头用例复现步骤 4 场景）；打包 app 重启成功，TC-010 步骤 4 实机观察待人工 |
+| RUN-003 | 2026-07-18 | 48cb4e63 + 未提交工作区（v1.9 三缺陷修复：切换弹窗/活跃按钮压暗/卡片邮箱空白） | AI(Claude Code) | 局部（TC-003 弹窗预期 + TC-010 步骤 1/5；冒烟级人工项同前待人工） | 三个新增无头用例绿 + 受影响套件全绿；实机复测待人工 |
 
 明细（仅登非「通过」项）：
 
@@ -271,6 +277,10 @@
 | --- | --- | --- | --- | --- |
 | RUN-001 | TC-001~TC-009 | 待人工 | 需真实 Claude 凭据、系统钥匙串授权弹窗、Clash Verge 实机操作，AI 按红线不触碰真实凭据 | 交用户按用例执行（人工收口轮） |
 | RUN-001 | TC-010~TC-015 | 待人工 | 菜单栏/设置窗口 UI 观察项，无人值守自动化点击不可靠；AI 已验证的替代证据：打包 app 启动并持续存活 ≥3 分钟、无账号文件时功能休眠（App Support 无 managed-claude-accounts.json、日志无 claude-accounts 条目，即 TC-014 步骤 2 的「与基线一致」侧证） | 交用户按用例执行（人工收口轮） |
+| RUN-002 | TC-010 | 待人工 | 用户实机曾复现步骤 4 缺陷（旧 10:10 打包产物未含修复）；无头测试 `test_nativeSwitcherSurvivesSmartUpdateInMergedMode` 通过（开菜单→数据 tick 走 smart update→切换器仍在）；11:15 已重新打包并启动带修复版本 | 交用户开菜单跨一次刷新确认切换器不消失 |
+| RUN-003 | TC-003 | 待人工 | 用户实机复现「每次切换都弹钥匙串授权、始终允许不生效」；根因：切换 delete+add 重建条目销毁 ACL 授权 + OAuth freshness 同步把自家写入当外部变更去重读条目密文（ACL 转储佐证：条目 11:23 重建、CodexBar 被用户手点进 applications 列表）；修复：种子同步对齐钥匙串指纹，无头测试 `seed_aligns_claude_keychain_fingerprint_so_freshness_sync_skips_item_read` 通过 | 交用户实机切换确认全程零弹窗 |
+| RUN-003 | TC-010 | 待人工 | 用户实机复现步骤 1「活跃按钮压暗如禁用」与步骤 5「卡片邮箱空白」；无头测试 `test_nativeSwitcherKeepsActiveSegmentEnabled`、`maps_O_auth_usage_email_from_active_native_account` 通过 | 交用户实机确认高亮清晰、邮箱跟随切换 |
+| RUN-003 | （套件基建） | 已修复 | 全量轮暴露环境泄漏：上游 `StatusMenuSwitcherRefreshTests` 未隔离原生账号集，开发机存在真实 managed-claude-accounts.json（≥2 账号）时切换器被渲染进合并菜单、行骨架变化致 `merged_provider_switch_updates_live_tab_rows_in_place` 失败——套件 init 固定空账号集后 15/15 过，与本轮功能修复无关 | 无 |
 
 ## 7. 遗留问题
 

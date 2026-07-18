@@ -662,6 +662,17 @@ public enum ClaudeOAuthCredentialsStore {
             self.context.run {
                 ClaudeOAuthCredentialsStore.invalidatePromptAttemptOutcome()
                 _ = try? self.recordClaudeKeychainData(data, allowCacheKeychainWrite: true)
+                // The seeded payload IS the Claude keychain item's current content (the
+                // account switch wrote both), but its delete+add rewrite minted a fresh
+                // fingerprint. Align the stored fingerprint so the freshness sync doesn't
+                // treat our own write as an external change and re-read the recreated item,
+                // whose fresh ACL trusts nobody yet (OS auth prompt on every switch).
+                // Attribute-only probe: bypassing the prompt policy can never surface UI.
+                if case let .value(fingerprint) = ClaudeOAuthCredentialsStore
+                    .probeClaudeKeychainFingerprintWithoutPrompt(enforcePromptPolicy: false)
+                {
+                    ClaudeOAuthCredentialsStore.saveClaudeKeychainFingerprint(fingerprint)
+                }
             }
         }
 
@@ -1777,7 +1788,8 @@ public enum ClaudeOAuthCredentialsStore {
         }
     }
 
-    private static func probeClaudeKeychainFingerprintWithoutPrompt()
+    private static func probeClaudeKeychainFingerprintWithoutPrompt(
+        enforcePromptPolicy: Bool = true)
     -> ClaudeKeychainProbe<ClaudeKeychainFingerprint?> {
         let mode = ClaudeOAuthKeychainPromptPreference.current()
         #if DEBUG
@@ -1788,16 +1800,22 @@ public enum ClaudeOAuthCredentialsStore {
             return .value(override)
         }
         #endif
-        guard self.shouldAllowClaudeCodeKeychainAccess(mode: mode, allowKeychainPrompt: false)
-        else { return .unavailable }
-        if self.isPromptPolicyApplicable,
-           ProviderInteractionContext.current == .background,
-           !ClaudeOAuthKeychainAccessGate.shouldAllowPrompt()
-        {
-            return .unavailable
+        if enforcePromptPolicy {
+            guard self.shouldAllowClaudeCodeKeychainAccess(mode: mode, allowKeychainPrompt: false)
+            else { return .unavailable }
+            if self.isPromptPolicyApplicable,
+               ProviderInteractionContext.current == .background,
+               !ClaudeOAuthKeychainAccessGate.shouldAllowPrompt()
+            {
+                return .unavailable
+            }
+        } else {
+            guard self.keychainAccessAllowed else { return .unavailable }
         }
         #if os(macOS)
-        let candidatesProbe = self.claudeKeychainCandidatesProbeWithoutPrompt(promptMode: mode)
+        let candidatesProbe = self.claudeKeychainCandidatesProbeWithoutPrompt(
+            promptMode: mode,
+            enforcePromptPolicy: enforcePromptPolicy)
         let newest: ClaudeKeychainCandidate?
         switch candidatesProbe {
         case .unavailable:
@@ -1806,7 +1824,10 @@ public enum ClaudeOAuthCredentialsStore {
             if let first = candidates.first {
                 newest = first
             } else {
-                switch self.claudeKeychainLegacyCandidateProbeWithoutPrompt(promptMode: mode) {
+                switch self.claudeKeychainLegacyCandidateProbeWithoutPrompt(
+                    promptMode: mode,
+                    enforcePromptPolicy: enforcePromptPolicy)
+                {
                 case .unavailable:
                     return .unavailable
                 case let .value(candidate):
