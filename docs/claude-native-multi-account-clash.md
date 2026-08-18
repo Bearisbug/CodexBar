@@ -34,6 +34,7 @@ read_when:
 | 2026-07-17 | v1.7 | 范围扩展（用户要求）：新增 REQ-009 登录新账号（CCSwitcher 同款 app 内 `claude auth login` 流程），原非目标条目移除（§2/§5/§13/§14/§17/§19） | Bearisbug |
 | 2026-07-18 | v1.8 | 菜单形态修正（用户反馈）：NSMenu 行改为分段切换器按钮条，活跃账号高亮直接展示当前账号，点击即切（§13） | Bearisbug |
 | 2026-07-18 | v1.9 | 实测三缺陷修正：① 缓存种子漏对齐钥匙串变更指纹——OAuth freshness 同步把切换自身的重建当外部变更去直读条目，每次切换仍弹授权框，种子现同步对齐指纹（§11/ADR-004）；② 活跃分段按钮为 disabled 态被系统压暗、观感如整条置灰——活跃按钮保持 enabled（点击无操作）（§13）；③ OAuth 用量快照无身份字段、切换后卡片邮箱空白——快照邮箱缺失时回填活跃原生账号邮箱（§13） | Bearisbug |
+| 2026-08-10 | v1.10 | 实测缺陷修正（REQ-009 登录不可用）：claude CLI 2.1.226 起登录改为「浏览器取 code → 粘贴回 CLI」的交互流程（授权 redirect 指向 platform.claude.com，不再是本地回调），无终端子进程读 stdin 必失败——GUI app 继承的已关闭 stdin 令 CLI 报 `Socket is closed` 退出 1。改为 PTY 会话 + 应用内粘贴 code + 由 app 用隐私窗口打开授权链接（避开浏览器既有登录态复用旧账号）；新增 ADR-006，§13/§14/§19 同步 | Bearisbug |
 
 ## 2. 背景 / 目标 / 非目标
 
@@ -86,7 +87,7 @@ N/A — 画像:个人工具，无埋点与指标体系；「做完」以 §19 �
 | REQ-006 | 菜单账号切换器：原生账号 ≥2 时 Claude 菜单显示切换器（复用现有多账号布局），点击非活跃账号触发切换 | §13 PAGE_MENU | P1 |
 | REQ-007 | 设置 Accounts 区：账号列表（别名/邮箱/订阅/活跃标记）、改别名、删账号、Clash 连接配置与状态行 | §13 PAGE_PREF | P1 |
 | REQ-008 | 隐私与安全：凭据只存钥匙串；日志不含 token 与邮箱（账号以 UUID 指代）；邮箱展示遵循 Hide Personal Info | §19 场景 + §9 PII 列 | P0 |
-| REQ-009 | 登录新账号（CCSwitcher 同款）：先备份当前账号凭据 → 起 `claude auth login` 子进程（浏览器 OAuth，等待自然退出）→ 复用收录逻辑按邮箱去重/建号并标活跃 | 无对外 API，见 §13 PAGE_PREF「Login new account」边 + §19 | P1 |
+| REQ-009 | 登录新账号：先备份当前账号凭据 → PTY 起 `claude auth login` → app 用隐私窗口打开其授权链接 → 用户把浏览器给的 code 粘回弹窗、写回 PTY（ADR-006）→ 复用收录逻辑按邮箱去重/建号并标活跃 | 无对外 API，见 §13 PAGE_PREF「Login new account」边 + §19 | P1 |
 
 ## 6. 总体架构
 
@@ -306,7 +307,7 @@ flowchart LR
   PAGE_MENU[PAGE_MENU_CLAUDE\nClaude 菜单：用量卡片 + 原生账号切换器（≥2 账号时显示）] -->|点击非活跃账号| SWITCH[切换事务 见 §11]
   PAGE_PREF[PAGE_PREF_CLAUDE_ACCOUNTS\n设置 → Providers → Claude → Accounts 区] -->|Switch 按钮| SWITCH
   PAGE_PREF -->|添加当前账号| CAPTURE[收录 REQ-001]
-  PAGE_PREF -->|Login new account| LOGIN[登录新账号 REQ-009\n起 claude auth login → 浏览器 OAuth → 复用收录]
+  PAGE_PREF -->|Login new account| LOGIN[登录新账号 REQ-009\nPTY 起 claude auth login → 隐私窗口授权 → 粘贴 code → 复用收录]
   PAGE_PREF -->|Import from CCSwitcher…| IMPORT[导入 见 §12/§25]
   IMPORT -->|读 CCSwitcher 钥匙串| OSPROMPT((系统钥匙串\n授权弹窗))
   SWITCH -->|completed| PAGE_MENU
@@ -315,7 +316,7 @@ flowchart LR
 ```
 
 - `PAGE_MENU_CLAUDE`（v1.8）：账号切换为**分段切换器**（`ClaudeNativeAccountSwitcherView`，仿 TokenAccountSwitcherView 的紧凑按钮条）——每账号一枚按钮显示别名（无别名显示邮箱、遵循 Hide Personal Info），**活跃账号高亮**（同时回答「当前账号是谁」），点击非活跃按钮直接切换，无备份按钮置灰。v1.2 曾选原生 NSMenu 行（实测用户反馈不直观且要求面板内快捷切换）；标签级复用成本远低于当初评估的整套快照/缓存耦合，故改回分段形态。claude-swap 适配器启用时隐藏（ADR-005）。账号 <2 个时菜单无任何新增元素。渲染在单图标与合并图标两种模式下均有无头测试覆盖。v1.9 补充两点：① 活跃按钮保持 enabled（点击无操作）——disabled 态会被 AppKit 压暗标题，实测高亮文字发灰、整条切换器观感如禁用；② Claude 用量卡片的身份邮箱在快照缺失时（OAuth 用量端点不含身份字段）回填活跃原生账号邮箱，保证切换后卡片右侧能回答「当前是谁」，展示仍遵循 Hide Personal Info，未启用本功能（无账号文件）时行为不变。
-- `PAGE_PREF_CLAUDE_ACCOUNTS`：照 `PreferencesCodexAccountsSection` 先例挂进 Claude provider 详情页。行内容：别名（可编辑）、邮箱（Hide Personal Info 时遮蔽）、订阅徽标、活跃点、Clash 节点下拉（「不绑定」+ 实时节点列表）、删除。区尾：添加当前账号、Login new account（REQ-009，登录期间按钮置忙）、Import from CCSwitcher、Clash 连接设置（socket 路径、默认组、连接状态 + 刷新）。
+- `PAGE_PREF_CLAUDE_ACCOUNTS`：照 `PreferencesCodexAccountsSection` 先例挂进 Claude provider 详情页。行内容：别名（可编辑）、邮箱（Hide Personal Info 时遮蔽）、订阅徽标、活跃点、Clash 节点下拉（「不绑定」+ 实时节点列表）、删除。区尾：添加当前账号、Login new account（REQ-009，登录期间按钮置忙；点击后弹出登录弹窗：授权链接（可复制、可重开隐私窗口）+ code 粘贴框 + 取消/Sign in，取消即终止 CLI 会话）、Import from CCSwitcher、Clash 连接设置（socket 路径、默认组、连接状态 + 刷新）。
 - 空态：无账号时 Accounts 区只显示「添加当前账号」与导入按钮；Clash 不可达时节点下拉禁用并显示 `ERR-CLASH-UNREACHABLE` 状态行。
 
 ## 14. 错误处理与错误码
@@ -334,7 +335,9 @@ flowchart LR
 | `ERR-SWITCH-IN-PROGRESS` | 状态机守卫 | 已有切换在进行 | 忽略点击并轻提示 |
 | `ERR-BACKUP-MISSING` | 切换入口 | 目标账号无凭据备份 | 该账号按钮置灰标「需收录」，不进入切换事务 |
 | `ERR-LOGIN-CLI-MISSING` | 登录新账号 | 未找到 `claude` CLI 可执行文件 | 提示安装 Claude Code CLI |
-| `ERR-LOGIN-FAILED` | 登录新账号 | `claude auth login` 非零退出或登录后凭据不可读 | 提示重试；当前账号凭据已提前备份，不受影响 |
+| `ERR-LOGIN-FAILED` | 登录新账号 | `claude auth login` 非零退出（含 code 无效）或登录后凭据不可读 | 提示重试（附 CLI 失败行）；当前账号凭据已提前备份，不受影响 |
+| `ERR-LOGIN-NO-LINK` | 登录新账号 | 45s 内未从 PTY 解析到授权链接（CLI 交互形态变更或启动失败） | 提示改用终端 `claude auth login` 后「添加当前账号」 |
+| `ERR-LOGIN-CANCELLED` | 登录新账号 | 用户关闭登录弹窗 | 静默终止 CLI 会话，不留残留进程 |
 | `ERR-IMPORT-SOURCE` | 导入 | plist 不存在/无 Claude 账号 | 提示未检测到 CCSwitcher 数据 |
 | `ERR-IMPORT-DENIED` | 导入 | 用户拒绝钥匙串授权 | 提示可重试；仅导入元数据则账号标「需收录」 |
 
@@ -379,7 +382,7 @@ flowchart LR
 | Anthropic `/api/oauth/usage` | 切换后校验（`API-003`，advisory） | 复用现有 provider 依赖 | 10s / 401 触发一次刷新重试 | 仅确定性 401 → 回滚 | 限流/403/网络失败未校验放行，切换照常完成 |
 | Anthropic `platform.claude.com/v1/oauth/token` | 备份 token 刷新（`API-004`） | 与 Claude CLI 续期同源 | 30s / 不重试 | 刷新被拒绝（invalid_grant）→ 回滚，提示重新收录 | 端点不可达 → 带旧 token 放行，CLI 事后自行续期 |
 | CCSwitcher plist + 钥匙串备份条目 | 一次性导入源（只读） | — | — | 导入失败/授权被拒 | 手动重试；或逐账号「添加当前账号」重新收录 |
-| `claude` CLI 可执行文件 | 登录新账号（`auth login` 子进程，REQ-009） | 外部安装 | 无超时（浏览器流程等待自然退出） | 登录不可用（`ERR-LOGIN-CLI-MISSING`） | 终端手动 `claude /login` 后「添加当前账号」 |
+| `claude` CLI 可执行文件 | 登录新账号（PTY 内 `auth login`，REQ-009） | 外部安装 | 授权链接 45s；粘贴 code 后完成 120s | 登录不可用（`ERR-LOGIN-CLI-MISSING`/`ERR-LOGIN-NO-LINK`） | 终端手动 `claude auth login` 后「添加当前账号」 |
 
 内部后台任务：N/A — 全部动作由用户显式触发，无定时器、无队列 worker。
 
@@ -406,6 +409,11 @@ flowchart LR
   - Decision（v1.9 补全）：种子必须**同步对齐钥匙串变更指纹**。实测发现 OAuth 管线在缓存命中后仍有一步 freshness 同步：比对条目属性指纹（mdat/persistentRef），不一致就去重读条目密文——切换的 delete+add 必然产生新指纹，于是自家写入被当成外部变更，重建条目（ACL 已空）的密文读取再度触发授权框，「始终允许」因绑定旧条目而永远失效。种子现以免弹窗属性探测取当前指纹并存储（绕过 prompt policy 门控——属性读取不含密文、不会出 UI），freshness 同步据此判定无变更、不再触碰条目。
   - Alternatives：v1.5 的 SecItem + 预授权 ACL——实测失败：对 `/usr/bin/security` 的 SecTrustedApplication 信任未生效，条目变成仅 CodexBar 可静默读，反把 Claude CLI 与 CCSwitcher 全部逼出弹窗，已回退；SecItemUpdate 原位更新（外来条目触发修改授权且保留外来 ACL）；只改文件凭据（用户是钥匙串形态）。
   - Consequences：+ Claude CLI / CCSwitcher 读取行为与 CCSwitcher 时代完全一致（零弹窗）；+ CodexBar 用量抓取走缓存零弹窗；− 缓存被外部事件清空后 OAuth 路径直读条目仍可能提示一次（由既有 Keychain prompt policy 治理）。
+- **`ADR-006`（v1.10）登录新账号走 PTY + 应用内粘贴 code + 隐私窗口** — Status: Accepted
+  - Context：REQ-009 初版照搬 CCSwitcher 的 `claude auth login` 普通子进程调用。实测（CLI 2.1.226）该流程已变为交互式：授权 URL 的 `redirect_uri` 指向 `https://platform.claude.com/oauth/code/callback`（不再是本地回调端口），CLI 最后停在 `Paste code here if prompted >` 等 stdin 输入。三种 stdin 形态（/dev/null、完全关闭、真 PTY）实测均为该模式，故无终端子进程无法完成；GUI app 继承的已关闭 stdin 令 CLI 抛 `Socket is closed` 并退出 1。CCSwitcher 同款实现在此 CLI 版本上同样失效——非对齐问题，是 CLI 变更。
+  - Decision：`ClaudeAccountLoginSession` 用 openpty 起 `claude auth login`，两段式 API——`start()` 解析并交出授权链接（容忍 ANSI 与 OSC 8 超链接），`submitCode(_:)` 把用户粘贴的 code 写回 PTY 并等 CLI 自然退出；随后仍由既有 `captureCurrentAccountLocked` 收录。启动时置 `BROWSER=/usr/bin/true` 抑制 CLI 自开浏览器，改由 app 用 **Chromium 隐私窗口**（Edge `--inprivate` → Chrome `--incognito` → 回退默认浏览器）打开链接：授权页会复用浏览器既有 claude.com 登录态，不隔离就只能把当前账号再授权一遍、加不进新账号。服务层事务顺序（先刷新旧账号备份 → 登录 → 收录）零改动，仅替换注入的 login runner；核心层默认 runner 直接抛 `interactiveLoginUnavailable`，杜绝退回无终端子进程。
+  - Alternatives：开真实终端窗口让用户粘贴（多一个窗口来回切，且浏览器登录态问题依旧要 app 介入）；自行实现 OAuth（要自管 client_id/PKCE 与凭据写入，重复 CLI 职责且易随其变更而失效）；沿用旧实现只改错误文案（功能仍缺失）。
+  - Consequences：+ 登录全程在 app 内完成，新账号不会被浏览器既有会话顶掉；+ 事务与收录逻辑复用既有路径；− 依赖 CLI 的提示词形态（若 CLI 再改交互形态需同步调整，解析失败时 45s 超时并报 `authorizationURLMissing`）；− 仅 Chromium 系可程序化开隐私窗口，Safari-only 环境回退默认浏览器并在弹窗内提示手动用隐私窗口。
 - **`ADR-005` claude-swap 适配器启用时隐藏原生切换器** — Status: Accepted
   - Context：菜单同屏出现两套 Claude 多账号源会造成双事实源与误点。
   - Decision：`claudeSwapEnabled == true` 时不渲染原生账号切换器与菜单卡片切换入口（设置区仍可管理原生账号）；claude-swap 现有行为零改动。
@@ -429,7 +437,7 @@ flowchart LR
 
 场景: 登录新账号 (REQ-009)
   Given 列表已有活跃账号 A 且 `claude` CLI 可用
-  When 用户点击「Login new account」并在浏览器完成新账号 OAuth
+  When 用户点击「Login new account」，在隐私窗口完成新账号 OAuth 并把 code 粘回弹窗
   Then A 的备份在登录前已刷新
   And 新账号按邮箱去重后入列并标记为活跃（同邮箱则仅刷新备份）
 

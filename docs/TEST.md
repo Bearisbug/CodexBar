@@ -23,6 +23,7 @@
 | 2026-07-18 | 随设计 v1.8：TC-010/TC-015 预期改为分段切换器（活跃高亮、无备份置灰）；显隐与合并模式渲染已由无头测试覆盖 | Bearisbug |
 | 2026-07-18 | 缺陷回归：TC-010 新增步骤 4（菜单保持打开跨一次数据刷新，切换器不消失）——smart update 重建路径曾丢弃原生切换器，已由无头测试 `test_nativeSwitcherSurvivesSmartUpdateInMergedMode` 覆盖 | Bearisbug |
 | 2026-07-18 | 随设计 v1.9：TC-010 步骤 1 预期补「活跃按钮文字不压暗」、新增步骤 5（卡片邮箱跟随活跃账号）；TC-003 弹窗预期不变但实现补全（OAuth 缓存种子同步对齐钥匙串指纹），复测应全程零弹窗。无头覆盖：`seed_aligns_claude_keychain_fingerprint_so_freshness_sync_skips_item_read`、`test_nativeSwitcherKeepsActiveSegmentEnabled`、`maps_O_auth_usage_email_from_active_native_account` | Bearisbug |
+| 2026-08-10 | 随设计 v1.10：TC-017 按 ADR-006 重写（PTY + 隐私窗口 + 粘贴 code），新增取消与错误分支步骤；解析逻辑由无头套件 `ClaudeAccountLoginSessionTests` 覆盖 | Bearisbug |
 
 ## 2. 测试范围 / 不测什么
 
@@ -244,13 +245,15 @@
 
 #### `TC-017` 登录新账号 — 对应 `REQ-009` · 级别: 回归 · 执行者: 人工
 
-前置：`claude` CLI 可用；列表已有活跃账号 A（有备份）；手头有另一个可登录的 Claude 账号。
+前置：`claude` CLI 可用；列表已有活跃账号 A（有备份）；手头有另一个可登录的 Claude 账号；浏览器当前已登录账号 A（构造「登录态复用」风险场景）。
 
 | # | 操作 | 预期 |
 | --- | --- | --- |
-| 1 | Accounts 区点击「Login new account…」 | 浏览器打开 Claude OAuth 登录页；按钮区进入忙碌态 |
-| 2 | 在浏览器完成新账号登录 | 列表新增该账号并标活跃；提示「Signed in and captured …」 |
+| 1 | Accounts 区点击「Login new account…」 | 弹出登录弹窗，显示授权链接；**隐私窗口**（Edge/Chrome）自动打开 Claude 登录页且**未沿用账号 A 的登录态**（要求重新登录）；按钮区进入忙碌态；无 `Socket is closed` 报错 |
+| 2 | 在隐私窗口用新账号完成登录，复制页面给出的 code 粘贴进弹窗 → Sign in | 弹窗关闭；列表新增该账号并标活跃；提示「Signed in and captured …」 |
 | 3 | 点击原账号 A 的 Switch | 可正常切回（A 的备份在登录前已刷新） |
+| 4 | 再次点击「Login new account…」，弹窗直接点取消 | 弹窗关闭并提示已取消；`ps` 中无残留 `claude auth login` 进程；账号列表不变 |
+| 5 | 再次登录，在 code 框输入无效字符串提交 | 提示登录失败并附 CLI 失败行；账号列表不变；账号 A 凭据不受影响 |
 
 后置：无。
 
@@ -270,6 +273,7 @@
 | RUN-001 | 2026-07-17 | b7920f1a + 未提交工作区（本功能全部变更） | AI(Claude Code) | 全量 | 待人工 15 · 阻塞 0（环境冷启动通过；自动化套件 58/58 组全绿另见交付说明） |
 | RUN-002 | 2026-07-18 | 48cb4e63 + 未提交工作区（smart update 丢弃原生切换器修复） | AI(Claude Code) | 局部（TC-010；冒烟级 TC-001/003/005/006/008 需真实凭据仍待人工） | 自动化 4/4 绿（含新增无头用例复现步骤 4 场景）；打包 app 重启成功，TC-010 步骤 4 实机观察待人工 |
 | RUN-003 | 2026-07-18 | 48cb4e63 + 未提交工作区（v1.9 三缺陷修复：切换弹窗/活跃按钮压暗/卡片邮箱空白） | AI(Claude Code) | 局部（TC-003 弹窗预期 + TC-010 步骤 1/5；冒烟级人工项同前待人工） | 三个新增无头用例绿 + 受影响套件全绿；实机复测待人工 |
+| RUN-004 | 2026-08-10 | a4d638ee + 未提交工作区（REQ-009 登录改 PTY + 隐私窗口 + 粘贴 code） | AI(Claude Code) | 局部（TC-017；冒烟级人工项同前待人工） | 无头 43/43 绿（含新增 `ClaudeAccountLoginSessionTests` 5 例）；TC-017 需真实第二账号，实机待人工 |
 
 明细（仅登非「通过」项）：
 
@@ -280,6 +284,7 @@
 | RUN-002 | TC-010 | 待人工 | 用户实机曾复现步骤 4 缺陷（旧 10:10 打包产物未含修复）；无头测试 `test_nativeSwitcherSurvivesSmartUpdateInMergedMode` 通过（开菜单→数据 tick 走 smart update→切换器仍在）；11:15 已重新打包并启动带修复版本 | 交用户开菜单跨一次刷新确认切换器不消失 |
 | RUN-003 | TC-003 | 待人工 | 用户实机复现「每次切换都弹钥匙串授权、始终允许不生效」；根因：切换 delete+add 重建条目销毁 ACL 授权 + OAuth freshness 同步把自家写入当外部变更去重读条目密文（ACL 转储佐证：条目 11:23 重建、CodexBar 被用户手点进 applications 列表）；修复：种子同步对齐钥匙串指纹，无头测试 `seed_aligns_claude_keychain_fingerprint_so_freshness_sync_skips_item_read` 通过 | 交用户实机切换确认全程零弹窗 |
 | RUN-003 | TC-010 | 待人工 | 用户实机复现步骤 1「活跃按钮压暗如禁用」与步骤 5「卡片邮箱空白」；无头测试 `test_nativeSwitcherKeepsActiveSegmentEnabled`、`maps_O_auth_usage_email_from_active_native_account` 通过 | 交用户实机确认高亮清晰、邮箱跟随切换 |
+| RUN-004 | TC-017 | 待人工 | 用户实机报「Signing in a new account failed: Command failed (1): Login failed: Socket is closed」；根因实证：CLI 2.1.226 登录已改为交互式粘贴 code 流程（stdin=/dev/null、stdin 关闭、真 PTY 三种形态实测均为 `redirect_uri=platform.claude.com` + `Paste code here if prompted >`），无终端子进程读已关闭 stdin 必失败，CCSwitcher 同款实现在此 CLI 版本同样失效；修复为 PTY 会话 + 应用内粘贴 code + 隐私窗口打开授权链接 | 交用户按重写后的 TC-017 实测（需第二个可登录账号） |
 | RUN-003 | （套件基建） | 已修复 | 全量轮暴露环境泄漏：上游 `StatusMenuSwitcherRefreshTests` 未隔离原生账号集，开发机存在真实 managed-claude-accounts.json（≥2 账号）时切换器被渲染进合并菜单、行骨架变化致 `merged_provider_switch_updates_live_tab_rows_in_place` 失败——套件 init 固定空账号集后 15/15 过，与本轮功能修复无关 | 无 |
 
 ## 7. 遗留问题

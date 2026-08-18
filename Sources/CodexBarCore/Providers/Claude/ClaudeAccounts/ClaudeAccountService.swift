@@ -116,8 +116,10 @@ public actor ClaudeAccountService {
         },
         validateAccessToken: AccessTokenValidator? = nil,
         refreshTokens: TokenRefresher? = nil,
+        // The CLI's sign-in is an interactive paste-the-code flow (ADR-006), so the
+        // app injects a runner that surfaces the link and collects the code.
         runClaudeLogin: @Sendable @escaping () async throws -> Void = {
-            try await ClaudeAccountLoginRunner.runLogin()
+            throw ClaudeAccountLoginRunnerError.interactiveLoginUnavailable
         },
         seedOAuthCache: @Sendable @escaping (_ credentialsBlob: String) -> Void = { blob in
             ClaudeOAuthCredentialsStore.seedCacheWithClaudeKeychainPayload(Data(blob.utf8))

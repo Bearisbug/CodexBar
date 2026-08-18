@@ -7,7 +7,10 @@ import SwiftUI
 /// exclusive (design doc §16).
 @MainActor
 enum ClaudeAccountServiceHolder {
-    static let shared = ClaudeAccountService()
+    static let shared = ClaudeAccountService(
+        // ADR-006: the CLI's sign-in needs a PTY plus the pasted code, so the app
+        // drives it through the sheet instead of a headless subprocess.
+        runClaudeLogin: { try await ClaudeAccountLoginPresenter.shared.runInteractiveLogin() })
 }
 
 /// Native Claude multi-account management section in the Claude provider pane.
@@ -33,6 +36,11 @@ struct ClaudeAccountsSectionView: View {
     @State private var isBusy = false
     @State private var pendingRemoval: ClaudeManagedAccount?
     @State private var canImportFromCCSwitcher = false
+    @State private var loginCodeDraft = ""
+
+    private var loginPresenter: ClaudeAccountLoginPresenter {
+        ClaudeAccountLoginPresenter.shared
+    }
 
     private var service: ClaudeAccountService {
         ClaudeAccountServiceHolder.shared
@@ -111,6 +119,66 @@ struct ClaudeAccountsSectionView: View {
                         + "CCSwitcher data is not touched.")
                 }
             })
+        .sheet(
+            isPresented: Binding(
+                get: { self.loginPresenter.isAwaitingCode },
+                set: { if !$0 { self.loginPresenter.cancel() } }),
+            content: { self.loginCodeSheet })
+    }
+
+    // MARK: - Login sheet (REQ-009)
+
+    private var loginCodeSheet: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Sign in to the new account")
+                .font(.headline)
+            Text(self.loginPresenter.openedPrivately
+                ? "A private browser window opened the Claude sign-in page. Sign in with the account "
+                + "you want to add, then paste the code it gives you."
+                : "Open the sign-in link below, ideally in a private window so your current account "
+                + "is not reused, then paste the code it gives you.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if let url = self.loginPresenter.authorizationURL {
+                Text(url.absoluteString)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+                    .truncationMode(.middle)
+                    .textSelection(.enabled)
+            }
+
+            HStack(spacing: 8) {
+                Button("Reopen private window") { self.loginPresenter.reopenAuthorizationURL() }
+                Button("Copy link") { self.loginPresenter.copyAuthorizationURL() }
+            }
+
+            TextField("Paste code here", text: self.$loginCodeDraft)
+                .textFieldStyle(.roundedBorder)
+                .onSubmit { self.submitLoginCode() }
+
+            HStack {
+                Spacer()
+                Button(L("cancel"), role: .cancel) {
+                    self.loginCodeDraft = ""
+                    self.loginPresenter.cancel()
+                }
+                Button("Sign in") { self.submitLoginCode() }
+                    .keyboardShortcut(.defaultAction)
+                    .disabled(self.loginCodeDraft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+        }
+        .padding(16)
+        .frame(width: 420)
+    }
+
+    private func submitLoginCode() {
+        let code = self.loginCodeDraft.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !code.isEmpty else { return }
+        self.loginCodeDraft = ""
+        self.loginPresenter.submit(code: code)
     }
 
     // MARK: - Rows
@@ -283,12 +351,26 @@ struct ClaudeAccountsSectionView: View {
     }
 
     private func loginNewAccount() async {
-        await self.runBusy {
+        self.isBusy = true
+        self.notice = nil
+        do {
             let account = try await self.service.loginNewAccount()
             self.showNotice("Signed in and captured \(account.displayTitle).", isError: false)
             await self.refreshClaude()
+        } catch {
+            // Dismissing the sheet is a normal exit, not a failure to shout about.
+            self.showNotice(
+                Self.isLoginCancellation(error) ? "Sign-in cancelled." : error.localizedDescription,
+                isError: !Self.isLoginCancellation(error))
         }
+        self.isBusy = false
+        await self.reloadAccounts()
         await self.refreshClashStatus()
+    }
+
+    private static func isLoginCancellation(_ error: any Error) -> Bool {
+        guard case let .loginFailed(detail) = error as? ClaudeAccountServiceError else { return false }
+        return detail.contains(ClaudeAccountLoginRunnerError.cancelled.localizedDescription)
     }
 
     private func captureCurrentAccount() async {
