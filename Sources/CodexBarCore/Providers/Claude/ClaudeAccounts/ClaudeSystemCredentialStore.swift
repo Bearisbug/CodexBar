@@ -98,18 +98,14 @@ public struct ClaudeSystemCredentialStore: ClaudeSystemCredentialAccessing {
         try self.readOAuthAccountObject()["emailAddress"] as? String
     }
 
-    /// Writes through the `security` CLI so the recreated item is owned by the security
-    /// tool — exactly the ownership the Claude CLI and CCSwitcher expect, keeping their
-    /// reads prompt-free. CodexBar itself never reads the recreated item directly: the
-    /// switcher seeds the OAuth cache with the payload it just wrote (see ADR-004).
+    /// Writes through the `security` CLI so the item stays owned by the security tool —
+    /// exactly the ownership the Claude CLI and CCSwitcher expect, keeping their reads
+    /// prompt-free. The write updates the item in place, so its ACL survives the switch.
     public func write(credentialsBlob: String, oauthAccountJSON: Data) async throws {
-        // `security` has no in-place update for generic passwords: delete (tolerating
-        // a missing item) then add. `-U` keeps the add idempotent under races.
-        _ = try? await self.runSecurity([
-            "delete-generic-password",
-            "-s", Self.keychainService,
-            "-a", self.keychainAccountName,
-        ], true)
+        // `-U` updates an existing generic password in place: `cdat` is preserved and only
+        // `mdat` advances. Deleting the item first would destroy its ACL — including any
+        // "Always Allow" the user granted — so every switch would re-prompt for keychain
+        // access. `-U` also creates the item when it is missing, so no delete is needed.
         do {
             _ = try await self.runSecurity([
                 "add-generic-password",

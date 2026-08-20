@@ -17,8 +17,11 @@ public enum ClaudeOAuthKeychainReadStrategyPreference {
         if let taskOverride { return taskOverride }
         #endif
         if let raw = userDefaults.string(forKey: self.userDefaultsKey) {
-            let strategy = ClaudeOAuthKeychainReadStrategy(rawValue: raw) ?? .securityFramework
-            return strategy == .securityCLIExperimental ? .securityFramework : strategy
+            // Fork: honor securityCLIExperimental instead of coercing it back. Ad-hoc builds have
+            // no TeamIdentifier, so "Always Allow" can never add them to the item's partition list
+            // and an in-process SecItem read re-prompts forever. `/usr/bin/security` is already in
+            // both the trusted-application list and the `apple-tool:` partition, so it reads silently.
+            return ClaudeOAuthKeychainReadStrategy(rawValue: raw) ?? .securityFramework
         }
         return .securityFramework
     }

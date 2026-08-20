@@ -468,8 +468,8 @@ extension SettingsStore {
             guard let raw = self.defaultsState.claudeOAuthKeychainReadStrategyRaw else {
                 return .securityFramework
             }
-            let strategy = ClaudeOAuthKeychainReadStrategy(rawValue: raw) ?? .securityFramework
-            return strategy == .securityCLIExperimental ? .securityFramework : strategy
+            // Fork: honor securityCLIExperimental (see ClaudeOAuthKeychainReadStrategy.current()).
+            return ClaudeOAuthKeychainReadStrategy(rawValue: raw) ?? .securityFramework
         }
         set {
             self.defaultsState.claudeOAuthKeychainReadStrategyRaw = newValue.rawValue
@@ -481,7 +481,8 @@ extension SettingsStore {
     var claudeOAuthPromptFreeCredentialsEnabled: Bool {
         get { self.claudeOAuthKeychainPromptMode == .never }
         set {
-            self.claudeOAuthKeychainReadStrategy = .securityFramework
+            // Fork: upstream reset the read strategy here, which would silently undo the
+            // security-CLI reader this build depends on. Leave the strategy alone.
             if newValue {
                 self.claudeOAuthKeychainPromptMode = .never
             } else if self.claudeOAuthKeychainPromptMode == .never {

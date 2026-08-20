@@ -593,16 +593,11 @@ extension SettingsStore {
     private static func loadClaudeOAuthKeychainReadStrategyRaw(userDefaults: UserDefaults) -> String? {
         let key = "claudeOAuthKeychainReadStrategy"
         guard let raw = userDefaults.string(forKey: key) else { return nil }
-        guard let strategy = ClaudeOAuthKeychainReadStrategy(rawValue: raw) else { return raw }
-        guard strategy == .securityCLIExperimental else { return raw }
-
-        let migrated = ClaudeOAuthKeychainReadStrategy.securityFramework.rawValue
-        userDefaults.set(migrated, forKey: key)
-        let promptModeKey = "claudeOAuthKeychainPromptMode"
-        if userDefaults.string(forKey: promptModeKey) == nil {
-            userDefaults.set(ClaudeOAuthKeychainPromptMode.never.rawValue, forKey: promptModeKey)
-        }
-        return migrated
+        // Fork: upstream retired the security-CLI reader by migrating the stored preference back to
+        // securityFramework on every launch. Ad-hoc builds need the CLI reader (no TeamIdentifier =
+        // no partition-list entry = an in-process read prompts forever), so keep what is stored.
+        guard ClaudeOAuthKeychainReadStrategy(rawValue: raw) != nil else { return raw }
+        return raw
     }
 
     private static func loadConfettiOnResetDefaults(userDefaults: UserDefaults) -> (session: Bool, weekly: Bool) {

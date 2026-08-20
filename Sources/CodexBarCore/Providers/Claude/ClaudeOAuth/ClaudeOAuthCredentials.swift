@@ -662,17 +662,6 @@ public enum ClaudeOAuthCredentialsStore {
             self.context.run {
                 ClaudeOAuthCredentialsStore.invalidatePromptAttemptOutcome()
                 _ = try? self.recordClaudeKeychainData(data, allowCacheKeychainWrite: true)
-                // The seeded payload IS the Claude keychain item's current content (the
-                // account switch wrote both), but its delete+add rewrite minted a fresh
-                // fingerprint. Align the stored fingerprint so the freshness sync doesn't
-                // treat our own write as an external change and re-read the recreated item,
-                // whose fresh ACL trusts nobody yet (OS auth prompt on every switch).
-                // Attribute-only probe: bypassing the prompt policy can never surface UI.
-                if case let .value(fingerprint) = ClaudeOAuthCredentialsStore
-                    .probeClaudeKeychainFingerprintWithoutPrompt(enforcePromptPolicy: false)
-                {
-                    ClaudeOAuthCredentialsStore.saveClaudeKeychainFingerprint(fingerprint)
-                }
             }
         }
 
@@ -2202,6 +2191,14 @@ public enum ClaudeOAuthCredentialsStore {
     {
         guard self.shouldAllowClaudeCodeKeychainAccess(mode: promptMode, allowKeychainPrompt: allowKeychainPrompt)
         else { return nil }
+        // Fork: KeychainNoUIQuery cannot suppress the legacy Keychain ACL dialog for file-based
+        // items, and this call reads the secret itself — so an ad-hoc-signed process prompts here
+        // regardless of the selected read strategy. Route through `/usr/bin/security`, which is
+        // already in the item's trusted-application list and its `apple-tool:` partition.
+        if self.shouldPreferSecurityCLIKeychainRead() {
+            return self.readRawClaudeKeychainPayloadViaSecurityCLIIfEnabled(
+                interaction: allowKeychainPrompt ? .userInitiated : .background)
+        }
         self.log.debug(
             "Claude keychain data read start",
             metadata: [
@@ -2265,6 +2262,11 @@ public enum ClaudeOAuthCredentialsStore {
     {
         guard self.shouldAllowClaudeCodeKeychainAccess(mode: promptMode, allowKeychainPrompt: allowKeychainPrompt)
         else { return nil }
+        // Fork: same legacy-ACL-dialog problem as loadClaudeKeychainData — prefer the CLI reader.
+        if self.shouldPreferSecurityCLIKeychainRead() {
+            return self.readRawClaudeKeychainPayloadViaSecurityCLIIfEnabled(
+                interaction: allowKeychainPrompt ? .userInitiated : .background)
+        }
         self.log.debug(
             "Claude keychain legacy data read start",
             metadata: [
